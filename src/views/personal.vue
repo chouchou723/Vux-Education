@@ -19,7 +19,7 @@
           <span slot="title" style="color:#595959;">我的订单</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/order.png">
       </cell>
-       <cell is-link >
+       <cell is-link link="/myPoints">
             <span slot="title" style="color:#595959;">我的积分</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/coin.png">
       </cell>

@@ -9,6 +9,9 @@ const myLesson = () => import('@/views/myLesson')
 const myOrder = () => import('@/views/myOrder') 
 const paying = () => import('@/views/paying') 
 const payResult = () => import('@/views/payResult') 
+const confirmOrder = () => import('@/views/confirmOrder') 
+const myPoints = () => import('@/views/myPoints') 
+const buyPoints = () => import('@/views/buyPoints') 
 
 export default new Router({
   routes: [
@@ -40,6 +43,11 @@ export default new Router({
       component: myOrder
     },
     {
+      path: '/confirmOrder',
+      name: 'confirmOrder',
+      component: confirmOrder
+    },
+    {
       path: '/paying',
       name: 'paying',
       component: paying
@@ -47,6 +55,14 @@ export default new Router({
       path: '/payResult',
       name: 'payResult',
       component: payResult
+    },{
+      path: '/myPoints',
+      name: 'myPoints',
+      component: myPoints
+    },{
+      path: '/buyPoints',
+      name: 'buyPoints',
+      component: buyPoints
     }
   ]
 })

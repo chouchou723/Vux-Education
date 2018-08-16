@@ -1,32 +1,29 @@
 <template>
-  <div class="myPaying">
-       <group title="付款信息">
-      <cell >
-        <span slot="title" ><span style="vertical-align:middle;">支付金额</span></span>
-        <span style="color:#fb6601">123元</span>
+  <div class="confirmOrder">
+       <group title="消费信息">
+            <cell >
+                <div slot="title" >
+                    <div style="font-size:16px">支付金额</div>
+                    <div style="font-size:12px;color:#999999">24节课</div>
+                    </div>
+                <span style="color:#fb6601">123元</span>
 
-      </cell>
+            </cell>
+            <cell title="数量">
+                <inline-x-number v-model="value" style="display:block;" :min="1" width="50px" button-style="round"></inline-x-number>
+            </cell>
+            <x-switch :title="getT()" prevent-default v-model="value2" @on-click="onClick">
+            </x-switch>
     </group>
-    <group title="付款方式">
-      <cell >
-         <img slot="icon" src="../assets/wechatPay.png" alt="" class="payImg">
-        <div slot="title" class="payTitle">
-            <div style="margin-bottom:.1rem">微信支付</div>
-            <div style="color:#999999;font-size:.3rem;">推荐安装微信5.0及以上版本使用</div>
-        </div>
-       <img src="../assets/payCheck.png" alt="" class="paycheck">
-
-      </cell>
-    </group>
-    <div class="payButton">
-     <x-button type="primary" action-type="button" @click.native="payOrder">立即付款</x-button>
-
+    <div class="confirmFooter">
+        <span class="footerSpan">还需支付:<span style="color:#fb6804;margin-left:.2rem">880元</span></span>
+        <span class="footerSpanC" @click="gotoPay">提交订单</span>
     </div>
   </div>
 </template>
 
 <script>
-import {Group,Cell,XButton    } from 'vux'
+import {Group,Cell,XButton,InlineXNumber,XSwitch   } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 import {
@@ -34,7 +31,7 @@ import {
 } from 'vuex';
 export default {
   components: {
-  Group,Cell,XButton 
+  Group,Cell,XButton,InlineXNumber,XSwitch
   },
   data () {
     return {
@@ -42,13 +39,26 @@ export default {
       // with hot-reload because the reloaded component
       // preserves its current state and we are modifying
       // its initial state.
-      value:'',
+      value:1,
+      value2:true,
+      tip:require('@/assets/tip.png'),
     }
   },
   methods:{
     ...mapActions([
                 'setMyF'
             ]),
+            gotoPay(){
+                this.$router.push('/paying')
+            },
+            getT(){
+                let score = 20000;
+                return` <div style="width:7rem;">
+                <span>积分:</span> <span style="font-size:12px;color:#999999;margin-right:.2rem">可用${score}积分,抵扣${score/10}元</span><img src=${this.tip} width="13" style="vertical-align:middle" /></div>`
+            },
+            onClick(){
+                this.value2? this.value2= false:this.value2=true;
+            },
             payOrder(){
                 console.log(1);
                 this.$router.push('/payResult')
@@ -80,26 +90,34 @@ export default {
 </script>
 
 <style lang="less">
-.myPaying {
+.confirmOrder {
 .weui-cells__title{
     margin-top: 0;
     padding-top:.2rem; 
     padding-bottom:.2rem;
     font-size: .4rem;
 }
-.payImg{
-    width: 1rem;
+.confirmFooter{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1.4rem;
+    display: flex;
 }
-.payTitle{
-margin-left: .5rem;
+.footerSpan{
+    text-align: center;
+    line-height: 1.4rem;
+    flex: 0 0 40%;
+    font-size: 16px;
 }
-.paycheck{
-    width: .8rem;
-}
-.payButton{
-    width: 90%;
-    margin:1rem auto 0;
-
+.footerSpanC{
+    text-align: center;
+   line-height: 1.4rem;
+    flex:auto;
+    background: #04be02;
+    font-size: 18px;
+    color: white;
 }
 }
 </style>

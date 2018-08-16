@@ -1,7 +1,9 @@
 <template>
     <div class="wrapper">
         <view-box ref="viewBox">
+             <transition name="fade">
             <router-view></router-view>
+             </transition>
             <v-bottom slot="bottom"></v-bottom>
         </view-box>
     </div>
@@ -25,4 +27,5 @@ import { ViewBox } from 'vux'
     height: 100%;
     /* overflow: hidden; */
 }
+
 </style>

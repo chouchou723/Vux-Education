@@ -1,11 +1,8 @@
 <template>
   <div class="myPaying">
-       <group title="付款信息">
-      <cell >
-        <span slot="title" ><span style="vertical-align:middle;">支付金额</span></span>
-        <span style="color:#fb6601">123元</span>
-
-      </cell>
+       <group title="充值金额">
+       <x-input title="￥"  type="number" mask="9999999999999" v-model="value" :show-clear='false' :max="13"></x-input>
+       <span class="transferPoint">{{value?value*10:0}}积分</span>
     </group>
     <group title="付款方式">
       <cell >
@@ -19,14 +16,14 @@
       </cell>
     </group>
     <div class="payButton">
-     <x-button type="primary" action-type="button" @click.native="payOrder">立即付款</x-button>
+     <x-button :type="value==0?'':'primary'" action-type="button" @click.native="payOrder" :disabled="value==0">立即充值</x-button>
 
     </div>
   </div>
 </template>
 
 <script>
-import {Group,Cell,XButton    } from 'vux'
+import {Group,Cell,XButton,XInput    } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 import {
@@ -34,7 +31,7 @@ import {
 } from 'vuex';
 export default {
   components: {
-  Group,Cell,XButton 
+  Group,Cell,XButton ,XInput
   },
   data () {
     return {
@@ -43,6 +40,8 @@ export default {
       // preserves its current state and we are modifying
       // its initial state.
       value:'',
+      false:false,
+      maxV:12
     }
   },
   methods:{
@@ -81,10 +80,16 @@ export default {
 
 <style lang="less">
 .myPaying {
+    .weui-input{
+        color: #fb6804;
+    }
+    .weui-btn_disabled{
+        color: grey;
+    }
 .weui-cells__title{
     margin-top: 0;
     padding-top:.2rem; 
-    padding-bottom:.2rem;
+    padding-bottom:.1rem;
     font-size: .4rem;
 }
 .payImg{
@@ -100,6 +105,13 @@ margin-left: .5rem;
     width: 90%;
     margin:1rem auto 0;
 
+}
+.transferPoint{
+    position: absolute;
+    right: 5%;
+    top: 27%;
+    font-size: 16px;
+    color: #999999;
 }
 }
 </style>

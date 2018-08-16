@@ -1,63 +1,36 @@
 <template>
-  <div class="payResult">
-      <div class="iconBg">
-          <img src="../assets/buySuccess.png" alt="" class="buySuccess" v-if="buyStatus">
-          <img src="../assets/buyFail.png" alt="" class="buySuccess" v-else>
-          <div class="buySuccessFont" v-if="buyStatus&&type=='buy'">购买成功</div>
-          <div class="buySuccessFont" v-if="!buyStatus&&type=='buy'">购买失败</div>
-           <div class="buySuccessFont" v-if="buyStatus&&type=='coin'">充值成功</div>
-          <div class="buySuccessFont" v-if="!buyStatus&&type=='coin'">充值失败</div>
-      </div>
-       <group style="margin-top:-0.2rem"  v-if="type=='buy'" :class="buyStatus?'buyBgS':'buyBg'">
-            <cell-box is-link >
-                
-                <div class="lessonListAll">
-                    <div class="lessonTitleC">
-                        <div class="lessonTitleNo">订单号:K283</div>
-                    </div>
-                <div class="lessonTitle">
-
-                    <img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" width="75" height="75" alt="">
-                    <div class="lessonDetail">
-                        <div class="lessonList">
-                            <div class="lessonName">{{item.name}}</div>
-                        </div>
-                        <div class="lessonContent">{{item.content}}</div>
-                        <div class="lessonPrice">{{item.price}}元</div>
-                    </div>
-                </div>
-                </div>
-            <!-- anything -->
-            </cell-box>
-        </group>
-        <div :class="buyStatus?'coinBgS':'coinBg'" v-if="type=='coin'">
-            <div class="coinTitle">
-                <div>
-                2018-03-11 10:52:01
-                </div>
-                <div style="color:#04be02" v-if="buyStatus">
-                    +20000积分
-                </div>
-                </div>
-            <div class="coinContent">
-                <div>
-
-                充值20000积分
-                </div>
-                <div style="color:#999999" v-if="buyStatus">
-                    剩余20000分
-                </div>
-                </div>
+  <div class="myPoints">
+      <group title="总余额">
+      <cell >
+        <div slot="title" class="payTitle">
+            <div style="margin-bottom:.1rem">积分:<span style="color:#fb6804;margin-left:.2rem">20000</span></div>
+            <div style="color:#999999;font-size:.3rem;">积分充值规则: 1元=10积分</div>
         </div>
-     <div class="payButton">
-     <x-button type="primary" action-type="button" @click.native="goTo">{{buyStatus?'我知道了':'继续支付'}}</x-button>
+        <x-button mini type="primary" @click.native="gotoBuyP">充值</x-button>
 
-    </div>
+      </cell>
+    </group>
+     <group title="积分明细">
+      <cell v-for="(item,index) in pointDetail" :key="index">
+            <div class="coinBg" slot="title">
+                <div class="coinTitle">
+                    <div>{{item.date}}</div>
+                    <div :style="item.point>0?'color:#04be02':'color:#f76260'">{{item.point>0?'+'+item.point:item.point}}积分</div>
+                    </div>
+                <div class="coinContent">
+                    <div>{{item.content}}
+                    </div>
+                    <div style="color:#999999" >剩余{{item.remain}}分
+                    </div>
+                    </div>
+            </div>
+      </cell>
+    </group>
   </div>
 </template>
 
 <script>
-import {XButton,Group,CellBox    } from 'vux'
+import {XButton,Group,CellBox,Cell    } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 import {
@@ -65,7 +38,7 @@ import {
 } from 'vuex';
 export default {
   components: {
-  XButton ,Group,CellBox
+  XButton ,Group,CellBox,Cell
   },
   data () {
     return {
@@ -74,15 +47,25 @@ export default {
       // preserves its current state and we are modifying
       // its initial state.
       value:'',
-      buyStatus:false,
-      type:'coin',//coin
-      item:{id:1,ishot:true,name:'创意绘画单课',total:8,hasJoin:5,content:'1节课-2课时|4-8岁儿童|满5人开课',price:120,status:'待上课'}
+      pointDetail:[{date:'2018-03-11 10:52:01',point:20000,content:'充值20000积分',remain:20000},
+      {date:'2018-03-11 10:52:01',content:'订单D282,消耗10000积分',point:-10000,remain:0},
+      {date:'2018-03-11 10:52:01',content:'订单D282,消耗10000积分',point:-10000,remain:0},
+      {date:'2018-03-11 10:52:01',content:'订单D282,消耗10000积分',point:-10000,remain:0},
+      {date:'2018-03-11 10:52:01',content:'订单D282,消耗10000积分',point:-10000,remain:0},
+      {date:'2018-03-11 10:52:01',content:'订单D282,消耗10000积分',point:-10000,remain:0},
+      {date:'2018-03-11 10:52:01',content:'订单D282,消耗10000积分',point:-10000,remain:0},
+      {date:'2018-03-11 10:52:01',content:'订单D282,消耗10000积分',point:-10000,remain:0},
+      {date:'2018-03-11 10:52:01',content:'订单D282,消耗10000积分',point:-10000,remain:0},
+      {date:'2018-03-11 10:52:01',content:'订单D282,消耗10000积分',point:-10000,remain:0},],
     }
   },
   methods:{
     ...mapActions([
                 'setMyF'
             ]),
+            gotoBuyP(){
+                 this.$router.push('/buyPoints')
+            },
             goTo(){
                 console.log(1);
                 if(this.buyStatus){
@@ -120,7 +103,13 @@ export default {
 </script>
 
 <style lang="less">
-.payResult{
+.myPoints{
+    .weui-cells__title{
+    margin-top: 0;
+    padding-top:.2rem; 
+    padding-bottom:.2rem;
+    font-size: .4rem;
+}
 .iconBg{
     width: 100%;
     height: 5rem;
@@ -232,32 +221,12 @@ export default {
     width: 90%;
     margin:.7rem auto 0;
 }
-.coinBg,.coinBgS{
-    width: 100%;
-    height: 2rem;
-    background-color: #fff;
-    margin-top: .5rem;
-    padding: .3rem .7rem;
+.coinBg{
+    width: 9rem;
+    // height: 2rem;
+    padding: 0 .2rem;
     position: relative;
     box-sizing: border-box;
-}
-.coinBg::after{
-    content:'';
-    position: absolute;
-    top:0;
-    left: 0;
-    width: .15rem;
-    height: 100%;
-    background-color: #f76260;
-}
-.coinBgS::after{
-    content:'';
-    position: absolute;
-    top:0;
-    left: 0;
-    width: .15rem;
-    height: 100%;
-    background-color: #04be02;
 }
 .coinTitle{
     font-size: 13px;
