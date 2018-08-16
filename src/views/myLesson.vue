@@ -1,87 +1,29 @@
 <template>
-  <div class="lecture">
-      <search
-      v-model="value"
-      position="absolute"
-      auto-scroll-to-top
-      @on-cancel="onCancel"
-      @on-submit="onSubmit"
-      ref="search"></search>
-       <tab  custom-bar-width="40px">
-      <tab-item >兴趣体验</tab-item>
-      <tab-item  selected>系统学习</tab-item>
-    </tab>
-    <div class="chooseDiv">
-        <div class="chooseTitle" :style="!chooseT?'':'color:#04BE02'" @click="chooseSelect('time')">上课时间
-            <img src="../assets/tri.png" alt="" style="width:.25rem;margin-left:.1rem" v-if="!chooseT">
-            <img src="../assets/triS.png" alt="" style="width:.25rem;margin-left:.1rem" v-else>
-        </div>
-        <div class="chooseTitle" :style="!chooseA?'':'color:#04BE02'" @click="chooseSelect('add')">上课地点
-            <img src="../assets/tri.png" alt="" style="width:.25rem;margin-left:.1rem" v-if="!chooseA">
-            <img src="../assets/triS.png" alt="" style="width:.25rem;margin-left:.1rem" v-else></div>
-        <div class="chooseTitle" :style="!chooseS?'':'color:#04BE02'" @click="chooseSelect('select')">筛选条件
-            <img src="../assets/tri.png" alt="" style="width:.25rem;margin-left:.1rem" v-if="!chooseS">
-            <img src="../assets/triS.png" alt="" style="width:.25rem;margin-left:.1rem" v-else></div>
-        <div class="modalTime" v-if="chooseT">
-            {{nowTime}}
-        </div>
-        <!-- 选择地点 -->
-         <div class="modalAdd" v-if="chooseA">
-           <div class="addList">
-               <div v-for="(item,index) in addList" :key="index" :class="chooseItemList.includes(item.id)?'selectItem':'addItem'" @click="chooseItem(item.id)">{{item.name}}</div>
-           </div>
-           <div class='addfooter'>
-               <div style="color:grey" @click="cancelAddSelect">取消</div>
-               <div  @click="confirmAddSelect">确定</div>
-           </div>
-        </div>
-        <!-- 筛选条件 -->
-         <div class="modalSelect" v-if="chooseS">
-              
-             <div class="selectTwo">
-                    <div class="selectTwoFirst">
-                    <div :class="['selectKind',typeKind==index?'typeChoose':'']" v-for="(item,index) in typekind" :key="index" @click="changeType(index)">
-                        {{item}}
-                    </div>
-                    </div>
-                    <div class="addListS">
-                        <div v-for="(item,index) in selectList" :key="index" :class="chooseItemList.includes(item.id)?'selectItem':'addItem'" @click="chooseItem(item.id)">{{item.name}}</div>
-                    </div>
-             </div>
-           <div class='addfooter'>
-               <div style="color:grey" @click="cancelsSelect">取消</div>
-               <div  @click="confirmsSelect">确定</div>
-           </div>
-            
-        </div>
-      
-    </div>
+  <div class="myLesson">
     <!-- 列表 -->
-    <group style="margin-top:-0.2rem">
-    <cell-box is-link v-for="(item,index) in lessonList" :key="index">
-        <div class="lessonList">
+    <group style="margin-top:-0.2rem" class="groupC" v-for="(item,index) in lessonList" :key="index">
+    <cell-box is-link >
+        
+        <div class="lessonListAll">
+            <div class="lessonTitleC">
+                <div class="lessonTitleNo">课程号:K283</div>
+                <div class="lessonTitleStatus" :style="item.status=='待上课'?'color:#f76967':'color:#04be02'">{{item.status}}</div>
+            </div>
+        <div class="lessonTitle">
+
             <img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" width="65" height="65" alt="">
             <div class="lessonDetail">
                 <div class="lessonList">
-                    <div class="hot" v-if="item.ishot">热门</div>
                     <div class="lessonName">{{item.name}}</div>
-                    <div class="lessonStatus">{{item.total}}人-已报{{item.hasJoin}}人</div>
                 </div>
                 <div class="lessonContent">{{item.content}}</div>
                 <div class="lessonPrice">{{item.price}}元</div>
             </div>
         </div>
+        </div>
       <!-- anything -->
     </cell-box>
   </group>
-    <group class="modalG" v-if="chooseT">
-        <datetime v-model="value7"  @on-confirm="changeDate" :show="chooseT" @on-cancel="chooseSelect('time')">
-        </datetime>
-    </group>
-    <!-- 蒙版 -->
-    <div class="normalModal" v-if="chooseA||chooseS">
-
-    </div>
   </div>
 </template>
 
@@ -110,14 +52,8 @@ export default {
       chooseS:false,
       typeKind:0,
       chooseItemList:[],
-      nowTime:`${new Date().getFullYear()}年${new Date().getMonth()+1}月${new Date().getDate()}日`,
-      selectList:[],
-      addList:[{id:'1',name:'世博园场馆'},{id:'2',name:'东方明珠'},{id:'3',name:'世博园场馆'},{id:'23',name:'东方明珠'},{id:'12',name:'世博园场馆'},{id:'22',name:'东方明珠'},{id:'33',name:'世博园场馆'},{id:'231',name:'东方明珠'},{id:'112',name:'世博园场馆'},{id:'232',name:'东方明珠'}],
-      selectList0:[{id:'1',name:'少儿'},{id:'2',name:'动漫'}],
-      selectList1:[{id:'1',name:'1-3岁'},{id:'2',name:'4-6岁'},{id:'3',name:'世博园场馆'},{id:'23',name:'东方明珠'},{id:'11',name:'世博园场馆'},{id:'22',name:'东方明珠'}],
-    typekind:['课程种类','适用对象',],
-    lessonList:[{id:1,ishot:true,name:'创意绘画单课',total:8,hasJoin:5,content:'1节课-2课时|4-8岁儿童|满5人开课',price:120},
-    {id:2,ishot:false,name:'创意绘画单课',total:8,hasJoin:5,content:'1节课-2课时|4-8岁儿童|满5人开课',price:120},
+    lessonList:[{id:1,ishot:true,name:'创意绘画单课',total:8,hasJoin:5,content:'1节课-2课时|4-8岁儿童|满5人开课',price:120,status:'待上课'},
+    {id:2,ishot:false,name:'创意绘画单课',total:8,hasJoin:5,content:'1节课-2课时|4-8岁儿童|满5人开课',price:120,status:'上课中'},
     {id:2,ishot:false,name:'创意绘画单课',total:8,hasJoin:5,content:'1节课-2课时|4-8岁儿童|满5人开课',price:120},
     {id:2,ishot:false,name:'创意绘画单课',total:8,hasJoin:5,content:'1节课-2课时|4-8岁儿童|满5人开课',price:120},
     {id:2,ishot:false,name:'创意绘画单课',total:8,hasJoin:5,content:'1节课-2课时|4-8岁儿童|满5人开课',price:120},
@@ -198,14 +134,16 @@ export default {
 </script>
 
 <style lang="less">
-.lecture{
-    .chooseDiv{
+.myLesson{
+
+
+.chooseDiv{
     width: 100%;
     display: flex;
     position: relative;
 }
 .chooseTitle{
-    font-size: 12px;
+    font-size: .2rem;
     flex: auto;
     padding: .4rem .3rem;
     background: white;
@@ -217,7 +155,7 @@ export default {
 .modalTime{
     width: 100%;
     position: absolute;
-    bottom:-1.3rem;
+    bottom:-1.4rem;
     height: 1rem;
     background-color: white;
     display: flex;
@@ -228,7 +166,7 @@ export default {
 .modalAdd{
      width: 100%;
     position: absolute;
-    top:1.6rem;
+    top:1.7rem;
     min-height: 3rem;
     background-color: white;
     display: flex;
@@ -246,7 +184,7 @@ export default {
     min-height: 2rem;
 }
 .addItem{
-    padding: 0 0.2rem;
+    padding: 0 .2rem;
     height: .7rem;
     line-height: .7rem;
     border: 1px solid gainsboro;
@@ -254,9 +192,7 @@ export default {
     margin-bottom: .2rem;
 }
 .selectItem{
-     padding: 0 0.2rem;
-     height: .7rem;
-      line-height: .7rem;
+     padding: .2rem;
     border: 1px solid #04be02;
     background-color: #04be02;
     color: white;
@@ -273,7 +209,7 @@ export default {
 .modalSelect{
       width: 100%;
     position: absolute;
-    top:1.6rem;
+    top:1.7rem;
     /* min-height: 5rem; */
     background-color: white;
     display: flex;
@@ -284,26 +220,21 @@ export default {
 }
 .selectTwo{
     display: flex;
-    padding: 0 .3rem .3rem 0;
+    padding: 0 .3rem .3rem;
 
 }
 .selectTwoFirst{
-    flex: 0 0 2.5rem; 
+    flex: 0 0 1.5rem; 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    // padding:0 .4rem 0 0;
+    padding:0 .4rem 0 .2rem;
     border-right: 1px solid gainsboro;
     min-height: 3rem;
 }
 .selectKind{
-    // padding: .3rem .1rem .3rem .3rem;
-    // flex:auto;
-    width: 100%;
-    text-align: center;
-    height: 1.2rem;
-    line-height: 1.2rem;
+    padding: .3rem .1rem .3rem;
 }
 .addListS{
     display: flex;
@@ -325,7 +256,7 @@ export default {
     height: 100%;
     background: #04be02;
     top:0rem;
-    left:0;
+    left:-0.5rem;
 }
 .normalModal{
     width: 100%;
@@ -338,6 +269,26 @@ export default {
 .modalG{
     position: absolute;
     bottom:-1.4rem;
+}
+.lessonListAll{
+     width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.lessonTitle{
+     display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: .2rem 0 0;
+}
+.lessonTitleC{
+     display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: .1rem 0 .3rem;
+    border-bottom: 1px solid gainsboro;
+    position: relative;
 }
 .lessonList{
     width: 100%;
@@ -353,22 +304,14 @@ export default {
     padding-left: .4rem;
 }
 .hot{
-    font-size: 12px;
+    font-size: .16rem;
     padding: 0 .1rem;
     background-color: #f76260;
     color: white;
     border-radius: .07rem;
-    margin-right:.2rem;
 }
 .lessonName{
     padding: 0 .2rem 0 0;
-}
-.lessonStatus{
-    font-size: 12px;
-    color: #fa9b9a;
-    border: 1px solid #fa9b9a;
-    border-radius: .3rem;
-    padding: 0 .2rem;
 }
 .lessonContent{
      font-size: 12px;
@@ -377,5 +320,33 @@ export default {
 .lessonPrice{
     color: #fb6804;
 }
+
+.lessonTitleStatus{
+    font-size: .4rem;
 }
+ .weui-cell_access.vux-cell-box:after{
+    width: .3rem;
+    height: .3rem;
+    top:65%;
+}
+.lessonTitleNo{
+    color: #8a8e93;
+    font-size: .4rem;
+    position: relative;
+}
+.groupC{
+    position: relative;
+}
+.groupC::before{
+    content:'';
+    position: absolute;
+    width: .15rem;
+    height: 1.2rem;
+    background: #04be02;
+    top:0;
+    left:0;
+    z-index: 1;
+}
+}
+
 </style>

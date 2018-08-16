@@ -6,7 +6,7 @@
         <img slot="icon-active" src="../assets/bi1s.png">
         <span slot="label">我要选课</span>
       </tabbar-item>
-      <tabbar-item  @on-item-click="saveIndex"  link="/index">
+      <tabbar-item  @on-item-click="saveIndex"  link="/myLesson">
         <!-- <img slot="icon" src="../assets/demo/icon_nav_msg.png"> -->
          <img slot="icon" src="../assets/bi2.png">
         <img slot="icon-active" src="../assets/bi2s.png">

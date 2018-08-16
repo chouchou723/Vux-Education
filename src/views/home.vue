@@ -2,7 +2,7 @@
     <div class="wrapper">
         <view-box ref="viewBox">
             <router-view></router-view>
-            <v-bottom ></v-bottom>
+            <v-bottom slot="bottom"></v-bottom>
         </view-box>
     </div>
 </template>
@@ -23,6 +23,6 @@ import { ViewBox } from 'vux'
 .wrapper{
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 </style>

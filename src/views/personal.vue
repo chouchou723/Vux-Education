@@ -15,7 +15,7 @@
           </div>
       </div>
        <group>
-      <cell is-link >
+      <cell is-link link="/myOrder">
           <span slot="title" style="color:#595959;">我的订单</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/order.png">
       </cell>
@@ -125,12 +125,15 @@ export default {
     margin-right: 3.2%;
 }
 .personalDetail{
-    padding: 1.5% 0;
+    padding: .2rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .personalName{
     font-size: .48rem;
     color: white;
-    margin-bottom: .3rem;
+    /* margin-bottom: .3rem; */
 }
 .personalLesson{
     color: white;
