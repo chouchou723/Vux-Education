@@ -3,6 +3,7 @@
       <div class="personalBg">
           <div class="personalInfo">
               <img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" alt="" class="personalImg">
+              <img src="../assets/sex1.png" alt="" class="sexPos">
               <div class="personalDetail">
                   <div class="personalName">张佳乐</div>
                   <div class="personalLesson">
@@ -23,21 +24,21 @@
             <span slot="title" style="color:#595959;">我的积分</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/coin.png">
       </cell>
-       <cell is-link>
+       <cell is-link link="/purchaseHistory">
             <span slot="title" style="color:#595959;">消费记录</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/fn.png">
       </cell>
       </group>
        <group>
-       <cell is-link>
+       <cell is-link link="/myInfo">
             <span slot="title" style="color:#595959;">我的资料</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/myinfo.png">
       </cell>
-       <cell is-link>
+       <cell is-link link="/myPic">
             <span slot="title" style="color:#595959;">我的作品</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/mylec.png">
       </cell>
-       <cell is-link>
+       <cell is-link link="/myFav">
             <span slot="title" style="color:#595959;">我的收藏</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/fav.png">
       </cell>
@@ -47,7 +48,7 @@
             <span slot="title" style="color:#595959;">常见问题</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/que.png">
       </cell>
-       <cell is-link>
+       <cell is-link link="/feedback">
             <span slot="title" style="color:#595959;">意见反馈</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/feedback.png">
       </cell>
@@ -116,6 +117,13 @@ export default {
     width: 100%;
     padding: 0 5.1%;
     display: flex;
+    position: relative;
+}
+.sexPos{
+    position: absolute;
+    top:1.5rem;
+    left: 2rem;
+    width: .5rem;
 }
 .personalImg{
     width: 1.973333rem;

@@ -1,5 +1,6 @@
 <template>
   <div class="myPoints">
+       <view-box ref="viewBox">
       <group title="总余额">
       <cell >
         <div slot="title" class="payTitle">
@@ -26,11 +27,12 @@
             </div>
       </cell>
     </group>
+       </view-box>
   </div>
 </template>
 
 <script>
-import {XButton,Group,CellBox,Cell    } from 'vux'
+import {XButton,Group,CellBox,Cell,ViewBox   } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 import {
@@ -38,7 +40,7 @@ import {
 } from 'vuex';
 export default {
   components: {
-  XButton ,Group,CellBox,Cell
+  XButton ,Group,CellBox,Cell,ViewBox
   },
   data () {
     return {
@@ -104,6 +106,7 @@ export default {
 
 <style lang="less">
 .myPoints{
+    height: 100%;
     .weui-cells__title{
     margin-top: 0;
     padding-top:.2rem; 

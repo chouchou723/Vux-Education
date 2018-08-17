@@ -1,7 +1,7 @@
 <template>
   <div class="myPaying">
        <group title="充值金额">
-       <x-input title="￥"  type="number" mask="9999999999999" v-model="value" :show-clear='false' :max="13"></x-input>
+       <x-input title="￥"  type="tel" mask="9999999999999" v-model="value" :show-clear='false' :max="13"></x-input>
        <span class="transferPoint">{{value?value*10:0}}积分</span>
     </group>
     <group title="付款方式">

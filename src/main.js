@@ -7,6 +7,7 @@ import router from './router';
 import App from './App'
 import 'lib-flexible/flexible.js'
 import store from './vuex/store'
+
 import { WechatPlugin } from 'vux'
 Vue.use(WechatPlugin)
 // console.log(Vue.wechat)
