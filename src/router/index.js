@@ -26,6 +26,7 @@ const commentDetail = () => import('@/views/commentDetail')
 const classSituation = () => import('@/views/classSituation') 
 const classSituationDetail = () => import('@/views/classSituationDetail') 
 const classTeacher = () => import('@/views/classTeacher') 
+const doComment = () => import('@/views/doComment') 
 
 export default new Router({
   routes: [
@@ -133,6 +134,10 @@ export default new Router({
       path: '/classTeacher',
       name: 'classTeacher',
       component: classTeacher
+    },{
+      path: '/doComment',
+      name: 'doComment',
+      component: doComment
     }
   ]
 })

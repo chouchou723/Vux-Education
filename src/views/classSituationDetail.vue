@@ -22,27 +22,33 @@
                 </cell>
                 <cell  primary="content" value-align="left" >
                     <div class="detailImg6">
-                        <div v-for="(item,index) in pics" :key="index" class="detailImg">
-                        <span class="detailNo">{{index+1}}</span>
-                        <img :src="item.src" alt="" class="img6">
+                        <div v-for="(item,index) in pics" :key="index" :class="item.src?'detailImg':''" @click="show(index)">
+                        <span class="detailNo" v-if="item.src">{{index+1}}</span>
+                        <div :style="`background:url(${item.src}) no-repeat center/cover; width: 2.9rem;height: 2.9rem;`"></div>
                         </div>
                     </div>
                 </cell>
+                <div v-transfer-dom>
+      <previewer :list="pics" ref="previewer"></previewer>
+    </div>
     </group>
       </view-box>
   </div>
 </template>
 
 <script>
-import {XButton,Group,Cell,ViewBox  } from 'vux'
+import {XButton,Group,Cell,ViewBox,Previewer, TransferDom  } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 import {
     mapActions,mapGetters
 } from 'vuex';
 export default {
+    directives: {
+    TransferDom
+  },
   components: {
-  XButton ,Group,Cell,ViewBox
+  XButton ,Group,Cell,ViewBox,Previewer
   },
   data () {
     return {
@@ -54,12 +60,31 @@ export default {
       buyStatus:false,
       type:'coin',//coin
       lessonL:50,
-          pics:[{src:require('../assets/ff.png')},{src:require('../assets/aa.jpg')},
-          {src:require('../assets/bb.png')},{src:require('../assets/cc.jpg')},{src:require('../assets/dd.png')},{src:require('../assets/ee.png')},],
+    pics:[{src:require('../assets/ff.png')},{src:require('../assets/aa.jpg')},
+          {src:require('../assets/bb.png')},{src:require('../assets/cc.jpg')},{src:require('../assets/dd.png')},{src:require('../assets/ee.png')},
+          {src:require('../assets/ff.png')},{src:require('../assets/aa.jpg')},{}],
+        options: {
+        getThumbBoundsFn (index) {
+          // find thumbnail element
+          let thumbnail = document.querySelectorAll('.previewer-demo-img')[index]
+          // get window scroll Y
+          let pageYScroll = window.pageYOffset || document.documentElement.scrollTop
+          // optionally get horizontal scroll
+          // get position of element relative to viewport
+          let rect = thumbnail.getBoundingClientRect()
+          // w = width
+          return {x: rect.left, y: rect.top + pageYScroll, w: rect.width}
+          // Good guide on how to get element coordinates:
+          // http://javascript.info/tutorial/coordinates
+        }
+      }
 
     }
   },
   methods:{
+      show (index) {
+      this.$refs.previewer.show(index)
+    },
     ...mapActions([
                 'setMyF'
             ]),
