@@ -59,7 +59,7 @@
     <!-- 列表 -->
     <group style="margin-top:-0.2rem">
          <loading :show="show2" text=""></loading>
-    <cell-box is-link v-for="(item,index) in lessonList" :key="index">
+    <cell-box is-link v-for="(item,index) in lessonList" :key="index" :link="`/courseDetails/?id=${item.id}`">
         <div class="lessonList">
             <img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" width="65" height="65" alt="">
             <div class="lessonDetail">

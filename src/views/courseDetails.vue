@@ -45,7 +45,7 @@
 			</group>
 			<group class="courseBox">
 			    <cell class="tit" title="授课老师"></cell>		    
-			    <cell-box is-link>
+			    <cell-box is-link link="/classTeacher">
 		        	<div class="teacher">
 		        		<div class="pho"><img src="../assets/pho.jpg" alt=""></div>
 		        		<div class="info">
@@ -69,7 +69,7 @@
 			</group>
 			<group class="courseBox">
 			    <cell class="tit" title="课程评价">
-			    	<div class="moreEval">更多评价（288条）</div>
+			    	<div class="moreEval" @click="gotoMoveComment">更多评价（288条）</div>
 			    </cell>		   
 			    <CellBox>
 			    	<div class="assess">
@@ -109,7 +109,7 @@
 		        <img slot="icon" src="../assets/bi4.png">
 		        <span slot="label">客服电话</span>
 		    </tabbar-item>
-	    	<tabbar-item class="buy" link="/courseBuy">
+	    	<tabbar-item class="buy" link="/confirmOrder">
 	    		<span slot="label">购买课程</span>
 	    	</tabbar-item>
 	    </tabbar>
@@ -143,7 +143,12 @@ export default{
 		}
 	},
 	methods: {
-		
+		gotoMoveComment(){
+			this.$router.push('/totalComment')
+		}
+	},
+	mounted () {
+		 document.querySelector(".tabBar2 .call").setAttribute('href','tel:4001720748');
 	}
 }
 </script>
@@ -151,8 +156,9 @@ export default{
 <style lang="less">
 p { padding:0; margin:0; }
 .myOrder{
-	background: #F4F4F4;
-}
+	// background: #F4F4F4;
+	height: 100%;
+
 .courseBanner {
 	width:100%;
 	height:5.333333rem;
@@ -389,6 +395,7 @@ p { padding:0; margin:0; }
 	.call {
 		flex: 1;
 		background: #F9F9F9;
+		
 	}
 	.buy {		
 		flex:3;
@@ -397,5 +404,9 @@ p { padding:0; margin:0; }
 			color: #fff;
 		}
 	}
+}
+.weui-tabbar__item.weui-bar__item_on .weui-tabbar__label{
+	color: #999999;
+}
 }
 </style>
