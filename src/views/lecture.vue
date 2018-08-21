@@ -1,17 +1,19 @@
 <template>
   <div class="lecture">
+      <view-box ref="viewBox">
       <search
+      slot="header"
       v-model="value"
       position="absolute"
       auto-scroll-to-top
       @on-cancel="onCancel"
       @on-submit="onSubmit"
       ref="search"></search>
-       <tab  custom-bar-width="40px">
+       <tab  custom-bar-width="40px" slot="header">
       <tab-item >兴趣体验</tab-item>
       <tab-item  selected>系统学习</tab-item>
     </tab>
-    <div class="chooseDiv">
+    <div class="chooseDiv" slot="header">
         <div class="chooseTitle" :style="!chooseT?'':'color:#04BE02'" @click="chooseSelect('time')">上课时间
             <img src="../assets/tri.png" alt="" style="width:.25rem;margin-left:.1rem" v-if="!chooseT">
             <img src="../assets/triS.png" alt="" style="width:.25rem;margin-left:.1rem" v-else>
@@ -83,16 +85,17 @@
     <div class="normalModal" v-if="chooseA||chooseS">
 
     </div>
+      </view-box>
   </div>
 </template>
 
 <script>
-import {Group,Tab, TabItem,Cell, Search,Datetime,CellBox,Loading   } from 'vux'
+import {ViewBox,Group,Tab, TabItem,Cell, Search,Datetime,CellBox,Loading   } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 export default {
   components: {
-  Group, Tab, TabItem,Cell,Search ,Datetime,CellBox ,Loading
+  ViewBox,Group, Tab, TabItem,Cell,Search ,Datetime,CellBox ,Loading
   },
   data () {
     return {
@@ -191,6 +194,7 @@ export default {
 
 <style lang="less">
 .lecture{
+    height: 100%;
     .chooseDiv{
     width: 100%;
     display: flex;

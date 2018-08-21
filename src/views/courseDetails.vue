@@ -108,8 +108,7 @@
 			    	</div>
 			    </CellBox>
 			</group>
-		</view-box>
-		<tabbar class="tabBar2">
+		<tabbar class="tabBar2" slot="bottom">
 		    <tabbar-item class="call">
 		        <img slot="icon" src="../assets/bi4.png">
 		        <span slot="label">客服电话</span>
@@ -119,11 +118,12 @@
 	    	</tabbar-item>
 	    </tabbar>
 	    
+		</view-box>
 	</div>
 </template>
 
 <script>
-import {ViewBox, Group, Cell,CellBox,Tabbar,TabbarItem,,TransferDomDirective as TransferDom,Rater} from 'vux'
+import {ViewBox, Group, Cell,CellBox,Tabbar,TabbarItem,TransferDomDirective as TransferDom,Rater} from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 
@@ -138,7 +138,7 @@ export default{
 	    CellBox,
 	    Tabbar,
     	TabbarItem,
-    	Rater,
+    	Rater
 	},
 	data(){
 		return {			
