@@ -1,5 +1,5 @@
 <template>
-	<div class="myOrder">
+	<div class="courseInfo">
 		<view-box ref="viewBox">
 			<group class="courseBox2">
 			    <cell class="tit" title="课程信息"></cell>
@@ -80,7 +80,10 @@
 			    <CellBox>
 			    	<div class="introduce">
 				    	<p>该旨在培养学龄前儿童对美术绘画的兴趣，增强色彩认知，快乐学习。</p>
-				    	<video width="100%" height="200px" src="http://www.w3school.com.cn/i/movie.ogg" controls="controls"></video>
+				    	<video :poster="videoPoster" preload='auto' ref="video" width="100%" height="200px"
+						 x5-video-player-type="h5" x5-video-player-fullscreen="true" src="http://yun.it7090.com/video/XHLaunchAd/video01.mp4"></video>
+						 <img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM">
+						 <div class="playModal" v-if="showM"></div>
 				    	<img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" alt="">
 			    	</div>
 			    </CellBox>
@@ -88,7 +91,7 @@
 			</group>
 			<group class="courseBox">
 			    <cell class="tit" title="课程评价">
-			    	<div class="moreEval">更多评价（288条）</div>
+			    	<div class="moreEval" @click="gotoMoveComment">更多评价（288条）</div>
 			    </cell>		   
 			    <CellBox>
 			    	<div class="assess">
@@ -100,7 +103,7 @@
 						    </div>
 			    			<div class="rater">
 			    				<span>总体</span>
-						        <rater v-model="data42" active-color="#FFBE00" :font-size="15" disabled></rater>
+						        <img src="../assets/star.png" alt="" v-for="(item,index) in data42" :key="index+'a'" class="star"><img src="../assets/starg.png" alt="" v-for="(item,index) in (5-data42)" :key="index+'b'" v-if="item" class="star">
 						    </div>
 			    			<p>我参加了周六上午的国画课，小朋友年纪小，希望从小培养，上课过程很开心！</p>
 			    			<div class="imgList">
@@ -145,11 +148,33 @@ export default {
 	},
 	data(){
 		return {
-			data42: 5,
+			data42: 3,
+			videoPoster:require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
 		}
 	},
-	watch: {
-		
+	methods: {
+		gotoMoveComment(){
+			this.$router.push('/totalComment')
+		},
+		playVideo(){
+			// this.showM = false;
+			this.$refs.video.play();
+		},
+	},
+	mounted () {
+		 window.onresize = function(){
+			this.$refs.video.style.width = window.innerWidth + "px"; 
+			this.$refs.video.style.height = window.innerHeight + "px"; 
+		}
+	},
+	computed:{
+		showM(){
+			if(this.$refs.video&&this.$refs.video.paused){
+				return false
+			}else{
+				return true
+			}
+		}
 	}
 }
 </script>
@@ -159,8 +184,8 @@ p {
 	margin:0;
 	padding:0;
 }
-.myOrder{
-	background: #F4F4F4;
+.courseInfo{
+	height: 100%;
 }
 .weui-tab__panel {
 	padding:0 !important;
@@ -215,9 +240,27 @@ p {
 			font-size: 0.346666rem;
 			.con {
 				line-height: 2em;	
-			}		
+			}
+			.more {
+				font-size: 0.293333rem;
+				color: #1AAD19;
+				width:100%;
+				display: flex;
+				align-items: center;
+				justify-content:center;
+				i {
+					display: inline-block;
+					margin:0 3px;
+					width:0.213333rem;
+					height: 0.133333rem;
+					background: url(../assets/triS.png) no-repeat;
+					background-size: 100% 100%;
+					transform-origin:center center;
+					transform: rotate(180deg);
+				}
+			}	
 		}		
-	}
+	}	
 	.teacher {
 		display: flex;
 		align-items: center;	
@@ -248,6 +291,7 @@ p {
 		}
 	}
 	.introduce {
+		position: relative;
 		p {
 			margin:5px 0;
 		}
@@ -259,7 +303,25 @@ p {
 			display: block;
 			margin:5px 0;
 		}
-	}
+		.playModal{
+			width: 100%;
+			height: 200px;
+			position: absolute;
+			top:1.35rem;
+			left:0;
+			background: rgba(0,0,0,0.4)
+		}
+		.playIcon{
+			width: 2rem;
+			height: 2rem;
+			position: absolute;
+			top:3rem;
+			left:0;
+			right: 0;
+			margin: auto;
+			z-index: 1;
+		}
+	}	
 	.assess {
 		display: flex;
 		.pho {
@@ -285,6 +347,11 @@ p {
 				color: #7F8389;
 				font-size: 0.293333rem;
 				margin:0.133333rem 0;
+			}
+			.star{
+				width: 12px;
+		        height: 12px;
+		        margin-right:.1rem;
 			}
 			.imgList {
 				display: flex;
