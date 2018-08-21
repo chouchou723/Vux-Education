@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../vuex/store'
 Vue.use(Router)
 // const test = () => import('@/views/test') 
 const home = () => import('@/views/home') 
@@ -29,7 +30,7 @@ const classTeacher = () => import('@/views/classTeacher')
 const doComment = () => import('@/views/doComment') 
 const totalComment = () => import('@/views/totalComment')
 
-export default new Router({
+const router = new Router({
   routes: [
     {path:'/',
     redirect: '/index'
@@ -141,3 +142,12 @@ export default new Router({
     }
   ]
 })
+router.beforeEach(function (to, from, next) {
+  store.commit('updateLoadingStatus', {isLoading: true})
+  next()
+})
+
+router.afterEach(function (to) {
+  store.commit('updateLoadingStatus', {isLoading: false})
+})
+export default router

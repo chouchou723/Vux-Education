@@ -58,6 +58,7 @@
     </div>
     <!-- 列表 -->
     <group style="margin-top:-0.2rem">
+         <loading :show="show2" text=""></loading>
     <cell-box is-link v-for="(item,index) in lessonList" :key="index">
         <div class="lessonList">
             <img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" width="65" height="65" alt="">
@@ -86,12 +87,12 @@
 </template>
 
 <script>
-import {Group,Tab, TabItem,Cell, Search,Datetime,CellBox   } from 'vux'
+import {Group,Tab, TabItem,Cell, Search,Datetime,CellBox,Loading   } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 export default {
   components: {
-  Group, Tab, TabItem,Cell,Search ,Datetime,CellBox 
+  Group, Tab, TabItem,Cell,Search ,Datetime,CellBox ,Loading
   },
   data () {
     return {
@@ -102,6 +103,7 @@ export default {
       value:'',
       value7:'',
       false:false,
+      show2:false,
       chooseT:false,
       chooseA:false,
       chooseS:false,
