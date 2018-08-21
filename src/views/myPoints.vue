@@ -32,15 +32,12 @@
 </template>
 
 <script>
-import {XButton,Group,CellBox,Cell,ViewBox   } from 'vux'
+import {XButton,Group,Cell,ViewBox   } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
-import {
-    mapActions,mapGetters
-} from 'vuex';
 export default {
   components: {
-  XButton ,Group,CellBox,Cell,ViewBox
+  XButton ,Group,Cell,ViewBox
   },
   data () {
     return {
@@ -62,9 +59,6 @@ export default {
     }
   },
   methods:{
-    ...mapActions([
-                'setMyF'
-            ]),
             gotoBuyP(){
                  this.$router.push('/buyPoints')
             },
@@ -90,16 +84,11 @@ export default {
             }
   },
   created(){
-      this.selectList = this.selectList0;
     // console.log(this.getMyF,apiHost.API_ROOT)
   },
   mounted(){
   },
   computed: {
-        ...mapGetters([
-            'getMyF'
-            // ...
-        ])
     },
 }
 </script>
@@ -113,116 +102,8 @@ export default {
     padding-bottom:.2rem;
     font-size: .4rem;
 }
-.iconBg{
-    width: 100%;
-    height: 5rem;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.buySuccess{
-    width: 2rem;
-}
-.buySuccessFont{
-    font-size: 17px;
-    margin-top: .5rem;
-}
-.lessonListAll{
-     width: 100%;
-    display: flex;
-    flex-direction: column;
-}
-.lessonTitle{
-     display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: .3rem 0 .2rem;
-}
-.lessonTitleC{
-     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: .1rem 0 .3rem;
-    border-bottom: 1px solid gainsboro;
-}
-.lessonList{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding: .1rem 0;
-}
-.lessonDetail{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding-left: .4rem;
-}
-.hot{
-    font-size: .16rem;
-    padding: 0 .1rem;
-    background-color: #f76260;
-    color: white;
-    border-radius: .07rem;
-}
-.lessonName{
-    padding: 0 .2rem 0 0;
-}
-.lessonStatus{
-    font-size: .16rem;
-    color: #fa9b9a;
-    border: 1px solid #fa9b9a;
-    border-radius: .3rem;
-    padding: 0 .2rem;
-}
-.lessonContent{
-     font-size: .16rem;
-     color: #b6b6b6;
-     padding:.15rem 0;
-}
-.lessonPrice{
-    color: #fb6804;
-}
-.lessonTitleNo{
-    color: #8a8e93;
-    font-size: .4rem;
-    position: relative;
-}
-.lessonTitleStatus{
-    font-size: .4rem;
-}
  .weui-cell_access.vux-cell-box:after{
     display: none;
-}
-.buyBgS,.buyBg{
-    position: relative;
-}
-.buyBgS::before{
-    content:'';
-    position: absolute;
-    width: .15rem;
-    height: 1.2rem;
-    background: #04be02;
-    top:0;
-    left:0;
-    z-index: 1;
-}
-.buyBg::before{
-    content:'';
-    position: absolute;
-    width: .15rem;
-    height: 1.2rem;
-    background: #f76260;
-    top:0;
-    left:0;
-    z-index: 1;
-}
-.payButton{
-    width: 90%;
-    margin:.7rem auto 0;
 }
 .coinBg{
     width: 9rem;

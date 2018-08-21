@@ -2,7 +2,7 @@
   <div class="myCell">
       
     <group title=" " label-width="4.5em" label-margin-right="2em">
-      <x-input  mask="99999999999" type='tel' v-model="value"></x-input>
+      <x-input  mask="99999999999" placeholder="请输入手机号码" type='tel' v-model="value"></x-input>
     </group>
     <div class="footerBtn">
      <x-button type="primary" action-type="button" :disabled="value.length==0">确定</x-button>
@@ -12,21 +12,14 @@
 </template>
 
 <script>
-  import { XButton, Group, Cell, XInput, Selector, PopupPicker, Datetime, XNumber, ChinaAddressData, XAddress, XTextarea, XSwitch } from 'vux'
+  import { XButton, Group, XInput } from 'vux'
 
   export default {
     components: {
       Group,
       XButton,
-      Cell,
-      XInput,
-      Selector,
-      PopupPicker,
-      XAddress,
-      Datetime,
-      XNumber,
-      XTextarea,
-      XSwitch
+      XInput
+      
     },
     data () {
       return {

@@ -89,9 +89,6 @@
 import {Group,Tab, TabItem,Cell, Search,Datetime,CellBox   } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
-import {
-    mapActions,mapGetters
-} from 'vuex';
 export default {
   components: {
   Group, Tab, TabItem,Cell,Search ,Datetime,CellBox 
@@ -130,9 +127,6 @@ export default {
     }
   },
   methods:{
-    ...mapActions([
-                'setMyF'
-            ]),
             changeType(type){
                 this.typeKind = type;
                 this.selectList = this['selectList'+type]
@@ -189,10 +183,6 @@ export default {
   mounted(){
   },
   computed: {
-        ...mapGetters([
-            'getMyF'
-            // ...
-        ])
     },
 }
 </script>

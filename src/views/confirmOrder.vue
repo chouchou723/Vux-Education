@@ -23,15 +23,12 @@
 </template>
 
 <script>
-import {Group,Cell,XButton,InlineXNumber,XSwitch   } from 'vux'
+import {Group,Cell,InlineXNumber,XSwitch   } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
-import {
-    mapActions,mapGetters
-} from 'vuex';
 export default {
   components: {
-  Group,Cell,XButton,InlineXNumber,XSwitch
+  Group,Cell,InlineXNumber,XSwitch
   },
   data () {
     return {
@@ -45,9 +42,6 @@ export default {
     }
   },
   methods:{
-    ...mapActions([
-                'setMyF'
-            ]),
             gotoPay(){
                 this.$router.push('/paying')
             },
@@ -75,49 +69,44 @@ export default {
             }
   },
   created(){
-      this.selectList = this.selectList0;
     // console.log(this.getMyF,apiHost.API_ROOT)
   },
   mounted(){
   },
   computed: {
-        ...mapGetters([
-            'getMyF'
-            // ...
-        ])
     },
 }
 </script>
 
 <style lang="less">
 .confirmOrder {
-.weui-cells__title{
-    margin-top: 0;
-    padding-top:.2rem; 
-    padding-bottom:.2rem;
-    font-size: .4rem;
-}
-.confirmFooter{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 1.4rem;
-    display: flex;
-}
-.footerSpan{
-    text-align: center;
+    .weui-cells__title{
+        margin-top: 0;
+        padding-top:.2rem; 
+        padding-bottom:.2rem;
+        font-size: .4rem;
+    }
+    .confirmFooter{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1.4rem;
+        display: flex;
+    }
+    .footerSpan{
+        text-align: center;
+        line-height: 1.4rem;
+        flex: 0 0 40%;
+        font-size: 16px;
+    }
+    .footerSpanC{
+        text-align: center;
     line-height: 1.4rem;
-    flex: 0 0 40%;
-    font-size: 16px;
-}
-.footerSpanC{
-    text-align: center;
-   line-height: 1.4rem;
-    flex:auto;
-    background: #04be02;
-    font-size: 18px;
-    color: white;
-}
+        flex:auto;
+        background: #04be02;
+        font-size: 18px;
+        color: white;
+    }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%">
+  <div class="picDetail">
       <!-- swiper1 -->
       <div class="picTitle">
           <div class="picDate">2018年10月10日 17:25</div>
@@ -62,6 +62,9 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 </script>
 
 <style lang="less" scoped>
+.picDetail{
+  height: 100%;
+}
   .swiper-container {
     background-color: white;
   }

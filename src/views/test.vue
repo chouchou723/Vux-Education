@@ -3,7 +3,6 @@
      <group>
     <calendar title="开课日期" v-model="value" class='fz3'></calendar>
   </group>
- <OpSelect :name="name" :op="ops" style="width:33%"></OpSelect>
   <div class="ss">
 
   </div>
@@ -21,7 +20,6 @@
 
 <script>
 import {Calendar,Group,Datetime,InlineCalendar,Selector   } from 'vux'
-import OpSelect from '../components/OpSelect'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 import {
@@ -29,7 +27,7 @@ import {
 } from 'vuex';
 export default {
   components: {
-    Calendar, Group, Datetime, InlineCalendar, Selector ,OpSelect
+    Calendar, Group, Datetime, InlineCalendar, Selector 
   },
   data () {
     return {

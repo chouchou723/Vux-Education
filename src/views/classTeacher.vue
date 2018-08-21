@@ -20,50 +20,50 @@
           </div>
       </div>
       <group >
-            <cell style="font-size:16px;">
+            <cell class="fz15">
                 <div slot="title" style="color:#999999"><span>擅长</span>
                     <span v-for="(item,index) in goodAt" :key="index" class="goodAt">{{item}}</span></div>
             </cell>
         </group>
       <group >
-            <cell style="font-size:16px;">
+            <cell class="fz15">
                 <div slot="title" style="color:#999999">个人介绍</div>
             </cell>
-            <cell style="font-size:15px;" primary="content" value-align="left">
-                <div style="color:black;line-height:1.5">本节课很好,孩子表现很主动,了解了创意的基础知识,对创意绘画有了更深的认识</div>
+            <cell class="fz15" primary="content" value-align="left">
+                <div style="color:black;line-height:1.5;padding:3px 0">本节课很好,孩子表现很主动,了解了创意的基础知识,对创意绘画有了更深的认识</div>
             </cell>
         </group>
          <group >
-            <cell style="font-size:16px;">
+            <cell class="fz15">
                 <div slot="title" style="color:#999999">教育经历</div>
             </cell>
-            <cell style="font-size:15px;" primary="content" value-align="left">
+            <cell class="fz15" primary="content" value-align="left">
                 <div style="color:#999999;margin-bottom:.2rem">2017/08-2018/09</div>
                 <div style="color:black;">上海大学, 本科, 艺术专业</div>
             </cell>
-             <cell style="font-size:15px;" primary="content" value-align="left">
+             <cell class="fz15" primary="content" value-align="left">
                 <div style="color:#999999;margin-bottom:.2rem">2017/08-2018/09</div>
                 <div style="color:black;">上海大学, 本科, 艺术专业</div>
             </cell>
         </group>
         <group >
-            <cell style="font-size:16px;">
+            <cell class="fz15">
                 <div slot="title" style="color:#999999">教育经验</div>
             </cell>
-            <cell style="font-size:15px;" primary="content" value-align="left">
+            <cell class="fz15" primary="content" value-align="left">
                 <div style="color:#999999;margin-bottom:.2rem">2017/08-2018/09</div>
                 <div style="color:black;">本节课很好,孩子表现很主动,了解了创意的基专业,本节课很好,孩子表现很主动,了解了创意的基</div>
             </cell>
-             <cell style="font-size:15px;" primary="content" value-align="left">
+             <cell class="fz15" primary="content" value-align="left">
                 <div style="color:#999999;margin-bottom:.2rem">2017/08-2018/09</div>
                 <div style="color:black;">上本节课很好,孩子表现很主动,了解了创意的基,本节课很好,孩子表现很主动,了解了创意的基业</div>
             </cell>
         </group>
          <group >
-            <cell style="font-size:16px;">
+            <cell class="fz15">
                 <div slot="title" style="color:#999999">证书展示</div>
             </cell>
-            <cell style="font-size:15px;" primary="content" value-align="left">
+            <cell class="fz15" primary="content" value-align="left">
                 <swiper :options="swiperOption" class="swiperOption">
                         <swiper-slide class="slide-1" v-for="(item,index) in pics" :key="index">
                             <img :src="item.src" alt="" class="slideImg">
@@ -77,25 +77,21 @@
 </template>
 
 <script>
-import {Calendar,Group,Datetime,InlineCalendar,Selector,Cell ,ViewBox   } from 'vux'
+import {Group,Cell ,ViewBox   } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 import 'swiper/dist/css/swiper.css'
 
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
-import {
-    mapActions,mapGetters
-} from 'vuex';
 export default {
   components: {
-    Calendar, Group, Datetime, InlineCalendar, Selector ,Cell,ViewBox,swiper, swiperSlide
+    Group,Cell,ViewBox,swiper, swiperSlide
   },
   data () {
     return {
         swiperOption: {
           pagination: {
-            el: '.swiper-pagination',
-            
+            el: '.swiper-pagination', 
           },
           loop:true
         },
@@ -116,9 +112,6 @@ export default {
     }
   },
   methods:{
-    ...mapActions([
-                'setMyF'
-            ]),
   },
   created(){
     // console.log(this.getMyF,apiHost.API_ROOT)
@@ -126,10 +119,6 @@ export default {
   mounted(){
   },
   computed: {
-        ...mapGetters([
-            'getMyF'
-            // ...
-        ])
     },
 }
 </script>
@@ -219,16 +208,21 @@ export default {
       display: inline-block;
     //   width: 59px;
     padding: 0 5px;
-      height: 24px;
-      line-height: 24px;
+      height: 22px;
+      line-height: 22px;
       text-align: center;
       color: #04BE02;
       border:1px solid #04BE02;
       border-radius: 3px;
+      margin-left: .2rem;
       margin-right: .1rem;
+
   }
   #vux_view_box_body{
       padding-bottom: 0;
+  }
+  .fz15{
+      font-size: 15px;
   }
 }
 </style>

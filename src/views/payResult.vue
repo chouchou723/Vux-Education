@@ -60,9 +60,6 @@
 import {XButton,Group,CellBox    } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
-import {
-    mapActions,mapGetters
-} from 'vuex';
 export default {
   components: {
   XButton ,Group,CellBox
@@ -80,9 +77,6 @@ export default {
     }
   },
   methods:{
-    ...mapActions([
-                'setMyF'
-            ]),
             goTo(){
                 console.log(1);
                 if(this.buyStatus){
@@ -105,16 +99,11 @@ export default {
             }
   },
   created(){
-      this.selectList = this.selectList0;
     // console.log(this.getMyF,apiHost.API_ROOT)
   },
   mounted(){
   },
   computed: {
-        ...mapGetters([
-            'getMyF'
-            // ...
-        ])
     },
 }
 </script>
@@ -169,22 +158,8 @@ export default {
     align-items: flex-start;
     padding-left: .4rem;
 }
-.hot{
-    font-size: .16rem;
-    padding: 0 .1rem;
-    background-color: #f76260;
-    color: white;
-    border-radius: .07rem;
-}
 .lessonName{
     padding: 0 .2rem 0 0;
-}
-.lessonStatus{
-    font-size: .16rem;
-    color: #fa9b9a;
-    border: 1px solid #fa9b9a;
-    border-radius: .3rem;
-    padding: 0 .2rem;
 }
 .lessonContent{
      font-size: .16rem;
@@ -198,9 +173,6 @@ export default {
     color: #8a8e93;
     font-size: .4rem;
     position: relative;
-}
-.lessonTitleStatus{
-    font-size: .4rem;
 }
  .weui-cell_access.vux-cell-box:after{
     display: none;

@@ -1,5 +1,5 @@
 <template>
-  <div class="myPaying">
+  <div class="buyPoints">
        <group title="充值金额">
        <x-input title="￥"  type="tel" mask="9999999999999" v-model="value" :show-clear='false' :max="13"></x-input>
        <span class="transferPoint">{{value?value*10:0}}积分</span>
@@ -26,9 +26,6 @@
 import {Group,Cell,XButton,XInput    } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
-import {
-    mapActions,mapGetters
-} from 'vuex';
 export default {
   components: {
   Group,Cell,XButton ,XInput
@@ -45,9 +42,6 @@ export default {
     }
   },
   methods:{
-    ...mapActions([
-                'setMyF'
-            ]),
             payOrder(){
                 console.log(1);
                 this.$router.push('/payResult')
@@ -64,54 +58,49 @@ export default {
             }
   },
   created(){
-      this.selectList = this.selectList0;
     // console.log(this.getMyF,apiHost.API_ROOT)
   },
   mounted(){
   },
   computed: {
-        ...mapGetters([
-            'getMyF'
-            // ...
-        ])
     },
 }
 </script>
 
 <style lang="less">
-.myPaying {
+.buyPoints {
     .weui-input{
         color: #fb6804;
     }
     .weui-btn_disabled{
         color: grey;
     }
-.weui-cells__title{
-    margin-top: 0;
-    padding-top:.2rem; 
-    padding-bottom:.1rem;
-    font-size: .4rem;
-}
-.payImg{
-    width: 1rem;
-}
-.payTitle{
-margin-left: .5rem;
-}
-.paycheck{
-    width: .8rem;
-}
-.payButton{
-    width: 90%;
-    margin:1rem auto 0;
+    .weui-cells__title{
+        margin-top: 0;
+        padding-top:.2rem; 
+        padding-bottom:.1rem;
+        font-size: .4rem;
+    }
+    .payImg{
+        width: 1rem;
+    }
+    .payTitle{
+    margin-left: .5rem;
+    }
+    .paycheck{
+        width: .8rem;
+    }
+    .payButton{
+        width: 90%;
+        margin:1rem auto 0;
 
-}
-.transferPoint{
-    position: absolute;
-    right: 5%;
-    top: 27%;
-    font-size: 16px;
-    color: #999999;
-}
+    }
+    .transferPoint{
+        position: absolute;
+        right: 5%;
+        top: 27%;
+        font-size: 16px;
+        color: #999999;
+    }
 }
 </style>
