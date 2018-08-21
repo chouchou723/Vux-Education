@@ -7,6 +7,7 @@ Vue.use(Vuex)
 const state = {
     // count: 0,
     myF:'123',
+    isLoading: false
     
 }
 
@@ -15,6 +16,9 @@ const mutations = {
     SENDMYF(state,data){
         state.myF = data;
     },
+    updateLoadingStatus (state, payload) {
+        state.isLoading = payload.isLoading
+      }
     // SENDRESOURCEID(state,uid){
     //     state.u_id = uid.u_id;
     //     state.u_status = uid.u_status;

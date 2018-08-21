@@ -31,10 +31,13 @@
                             @remove="onRemove"
                         >
                         </vux-upload >
-                        <div class="moreImg" v-if="comment.number>3">
+                        <div class="allPic" v-if="comment.number>3">
+			    					<i class="picMin"></i>8
+			    				</div>
+                        <!-- <div class="moreImg" v-if="comment.number>3">
                             <img src="../assets/picicon.png" class="picIcon" alt="">
                             <span style="color:white;font-size:12px">8</span>
-                        </div>
+                        </div> -->
                     <div class="commentName">
                         <span style="color:#7F8389;font-size:12px">
                             浏览 3300
@@ -198,23 +201,27 @@ onRemove(){},
         width: 93%;
         margin: 4% 0 0 0;
     }
-    .moreImg{
-        width: 1rem;
-        height: .533333rem;
-        background: #000000;
-        opacity: 0.5;
-        border-radius: .666667rem;
-        position: absolute;
-        bottom: 1.1rem;
-        right:0.8rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-sizing: border-box;
-        padding: 0 0.15rem;
-    }
-    .picIcon{
-        width: .4rem;
+    .allPic {
+					position: absolute;
+					bottom: 1.1rem;
+                    right:0.7rem;
+					width:1rem;
+					height: 0.533333rem;
+					line-height: 0.533333rem;
+					background-color:rgba(0,0,0,0.6);
+					border-radius: 0.533333rem;
+                    color: #fff;
+                    font-size: 12px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    box-sizing: border-box;
+                    padding: 0 0.17rem;
+					.picMin {
+						width: 0.293333rem;
+						height: 0.293333rem;
+						background: url(../assets/picMin.png) no-repeat 100%/cover;
+                    }
     }
 }
 </style>

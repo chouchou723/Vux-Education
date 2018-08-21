@@ -3,7 +3,7 @@
        <group title="消费信息">
             <cell >
                 <div slot="title" >
-                    <div style="font-size:16px">支付金额</div>
+                    <div style="font-size:16px">创意绘画课程</div>
                     <div style="font-size:12px;color:#999999">24节课</div>
                     </div>
                 <span style="color:#fb6601">123元</span>

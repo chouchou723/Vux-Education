@@ -1,5 +1,5 @@
 <template>
-	<div class="myOrder">
+	<div class="courseDetail">
 		<view-box ref="viewBox">
 			<div class="banner">
 				<img src="../assets/banner.jpg" alt="" class="courseBanner">
@@ -45,7 +45,7 @@
 			</group>
 			<group class="courseBox">
 			    <cell class="tit" title="授课老师"></cell>		    
-			    <cell-box is-link>
+			    <cell-box is-link link="/classTeacher">
 		        	<div class="teacher">
 		        		<div class="pho"><img src="../assets/pho.jpg" alt=""></div>
 		        		<div class="info">
@@ -61,7 +61,10 @@
 			    <CellBox>
 			    	<div class="introduce">
 				    	<p>该旨在培养学龄前儿童对美术绘画的兴趣，增强色彩认知，快乐学习。</p>
-				    	<video width="100%" height="200px" src="http://www.w3school.com.cn/i/movie.ogg" controls="controls"></video>
+				    	<video :poster="videoPoster" preload='auto' ref="video" width="100%" height="200px"
+						 x5-video-player-type="h5" x5-video-player-fullscreen="true" src="http://yun.it7090.com/video/XHLaunchAd/video01.mp4"></video>
+						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM">
+						<div class="playModal" v-if="showM"></div>
 				    	<img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" alt="">
 			    	</div>
 			    </CellBox>
@@ -69,7 +72,7 @@
 			</group>
 			<group class="courseBox">
 			    <cell class="tit" title="课程评价">
-			    	<div class="moreEval">更多评价（288条）</div>
+			    	<div class="moreEval" @click="gotoMoveComment">更多评价（288条）</div>
 			    </cell>		   
 			    <CellBox>
 			    	<div class="assess">
@@ -80,8 +83,10 @@
 						    	<div class="data">4月17日 </div>
 						    </div>
 			    			<div class="rater">
-			    				<span>总体</span>
-						        <rater v-model="data42" active-color="#FFBE00" :font-size="15" disabled></rater>
+			    				<span style="vertical-align: top;">总体</span>
+                    <img src="../assets/star.png" alt="" v-for="(item,index) in data42" :key="index+'a'" class="star"><img src="../assets/starg.png" alt="" v-for="(item,index) in (5-data42)" :key="index+'b'" v-if="item" class="star">
+								
+						        <!-- <rater v-model="data42" active-color="#FFBE00" :font-size="15" disabled></rater> -->
 						    </div>
 			    			<p>我参加了周六上午的国画课，小朋友年纪小，希望从小培养，上课过程很开心！</p>
 			    			<div class="imgList">
@@ -103,22 +108,22 @@
 			    	</div>
 			    </CellBox>
 			</group>
-		</view-box>
-		<tabbar class="tabBar2">
+		<tabbar class="tabBar2" slot="bottom">
 		    <tabbar-item class="call">
 		        <img slot="icon" src="../assets/bi4.png">
 		        <span slot="label">客服电话</span>
 		    </tabbar-item>
-	    	<tabbar-item class="buy" link="/courseBuy">
+	    	<tabbar-item class="buy" link="/confirmOrder">
 	    		<span slot="label">购买课程</span>
 	    	</tabbar-item>
 	    </tabbar>
 	    
+		</view-box>
 	</div>
 </template>
 
 <script>
-import {ViewBox, Group, Cell,CellBox,Tabbar,TabbarItem,Confirm,TransferDomDirective as TransferDom,Rater, Range} from 'vux'
+import {ViewBox, Group, Cell,CellBox,Tabbar,TabbarItem,TransferDomDirective as TransferDom,Rater} from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 
@@ -133,26 +138,49 @@ export default{
 	    CellBox,
 	    Tabbar,
     	TabbarItem,
-    	Confirm,
-    	Rater, 
-    	Range
+    	Rater
 	},
 	data(){
 		return {			
-			data42: 5,
+			data42: 4,
+			videoPoster:require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
+			// showM:true,
 		}
 	},
 	methods: {
-		
+		gotoMoveComment(){
+			this.$router.push('/totalComment')
+		},
+		playVideo(){
+			// this.showM = false;
+			this.$refs.video.play();
+		},
+	},
+	mounted () {
+		 document.querySelector(".tabBar2 .call").setAttribute('href','tel:4001720748');
+		 window.onresize = function(){
+							this.$refs.video.style.width = window.innerWidth + "px"; 
+							this.$refs.video.style.height = window.innerHeight + "px"; 
+							}
+	},
+	computed:{
+		showM(){
+			if(this.$refs.video&&this.$refs.video.paused){
+				return false
+			}else{
+				return true
+			}
+		}
 	}
 }
 </script>
 
 <style lang="less">
 p { padding:0; margin:0; }
-.myOrder{
-	background: #F4F4F4;
-}
+.courseDetail{
+	// background: #F4F4F4;
+	height: 100%;
+
 .courseBanner {
 	width:100%;
 	height:5.333333rem;
@@ -278,16 +306,37 @@ p { padding:0; margin:0; }
 		}
 	}
 	.introduce {
+		position: relative;
 		p {
 			margin:5px 0;
 		}
 		video {
 			margin:5px 0;
+			// object-fit: cover;
+    		// object-position: center center
 		}
 		img { 
 			max-width: 100%;
 			display: block;
 			margin:5px 0;
+		}
+		.playModal{
+			width: 100%;
+			height: 200px;
+			position: absolute;
+			top:1.35rem;
+			left:0;
+			background: rgba(0,0,0,0.4)
+		}
+		.playIcon{
+			width: 2rem;
+			height: 2rem;
+			position: absolute;
+			top:3rem;
+			left:0;
+			right: 0;
+			margin: auto;
+			z-index: 1;
 		}
 	}
 	.assess {
@@ -315,6 +364,11 @@ p { padding:0; margin:0; }
 				color: #7F8389;
 				font-size: 0.293333rem;
 				margin:0.133333rem 0;
+			}
+			.star{
+				width: 12px;
+        height: 12px;
+        margin-right:.1rem;
 			}
 			.imgList {
 				display: flex;
@@ -389,6 +443,7 @@ p { padding:0; margin:0; }
 	.call {
 		flex: 1;
 		background: #F9F9F9;
+		
 	}
 	.buy {		
 		flex:3;
@@ -397,5 +452,9 @@ p { padding:0; margin:0; }
 			color: #fff;
 		}
 	}
+}
+.weui-tabbar__item.weui-bar__item_on .weui-tabbar__label{
+	color: #999999;
+}
 }
 </style>
