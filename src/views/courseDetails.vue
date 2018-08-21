@@ -1,5 +1,5 @@
 <template>
-	<div class="myOrder">
+	<div class="courseDetail">
 		<view-box ref="viewBox">
 			<div class="banner">
 				<img src="../assets/banner.jpg" alt="" class="courseBanner">
@@ -61,10 +61,8 @@
 			    <CellBox>
 			    	<div class="introduce">
 				    	<p>该旨在培养学龄前儿童对美术绘画的兴趣，增强色彩认知，快乐学习。</p>
-				    	<video preload='auto' ref="video" width="100%" height="200px"
-						x5-video-player-type="h5" x5-video-player-fullscreen="true" 
-						 src="http://yun.it7090.com/video/XHLaunchAd/video01.mp4" :poster="videoPoster">
-						</video>
+				    	<video :poster="videoPoster" preload='auto' ref="video" width="100%" height="200px"
+						 x5-video-player-type="h5" x5-video-player-fullscreen="true" src="http://yun.it7090.com/video/XHLaunchAd/video01.mp4"></video>
 						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM">
 						<div class="playModal" v-if="showM"></div>
 				    	<img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" alt="">
@@ -160,10 +158,9 @@ export default{
 	},
 	mounted () {
 		 document.querySelector(".tabBar2 .call").setAttribute('href','tel:4001720748');
-		let video = this.$refs.video;
 		 window.onresize = function(){
-							video.style.width = window.innerWidth + "px"; 
-							video.style.height = window.innerHeight + "px"; 
+							this.$refs.video.style.width = window.innerWidth + "px"; 
+							this.$refs.video.style.height = window.innerHeight + "px"; 
 							}
 	},
 	computed:{
@@ -180,7 +177,7 @@ export default{
 
 <style lang="less">
 p { padding:0; margin:0; }
-.myOrder{
+.courseDetail{
 	// background: #F4F4F4;
 	height: 100%;
 
