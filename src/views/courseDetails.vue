@@ -210,6 +210,9 @@ p { padding:0; margin:0; }
 			color: #F76260;
 		}
 	}
+	.weui-cells {
+		margin-top:.77em;
+	}
 	.vux-cell-box {
 		overflow: hidden;
 		font-size: 0.346666rem;
