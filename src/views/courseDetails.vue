@@ -61,7 +61,12 @@
 			    <CellBox>
 			    	<div class="introduce">
 				    	<p>该旨在培养学龄前儿童对美术绘画的兴趣，增强色彩认知，快乐学习。</p>
-				    	<video width="100%" height="200px" src="http://www.w3school.com.cn/i/movie.ogg" controls="controls"></video>
+				    	<video preload='auto' ref="video" width="100%" height="200px"
+						x5-video-player-type="h5" x5-video-player-fullscreen="true" 
+						 src="http://yun.it7090.com/video/XHLaunchAd/video01.mp4" :poster="videoPoster">
+						</video>
+						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM">
+						<div class="playModal" v-if="showM"></div>
 				    	<img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" alt="">
 			    	</div>
 			    </CellBox>
@@ -140,15 +145,43 @@ export default{
 	data(){
 		return {			
 			data42: 5,
+			videoPoster:'',
+			// showM:true,
 		}
 	},
 	methods: {
 		gotoMoveComment(){
 			this.$router.push('/totalComment')
-		}
+		},
+		playVideo(){
+			// this.showM = false;
+			this.$refs.video.play();
+		},
 	},
 	mounted () {
 		 document.querySelector(".tabBar2 .call").setAttribute('href','tel:4001720748');
+		let video = this.$refs.video;
+		 window.onresize = function(){
+							video.style.width = window.innerWidth + "px"; 
+							video.style.height = window.innerHeight + "px"; 
+							}
+		video.addEventListener('loadeddata',()=>{
+			let canvas = document.createElement("canvas");
+			let scale = 1;
+			canvas.width = video.videoWidth * scale;
+			canvas.height = video.videoHeight * scale;
+			canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+			this.videoPoster = canvas.toDataURL("image/png"); // 设置图片src
+		})
+	},
+	computed:{
+		showM(){
+			if(this.$refs.video&&this.$refs.video.paused){
+				return false
+			}else{
+				return true
+			}
+		}
 	}
 }
 </script>
@@ -284,16 +317,37 @@ p { padding:0; margin:0; }
 		}
 	}
 	.introduce {
+		position: relative;
 		p {
 			margin:5px 0;
 		}
 		video {
 			margin:5px 0;
+			// object-fit: cover;
+    		// object-position: center center
 		}
 		img { 
 			max-width: 100%;
 			display: block;
 			margin:5px 0;
+		}
+		.playModal{
+			width: 100%;
+			height: 200px;
+			position: absolute;
+			top:1.35rem;
+			left:0;
+			background: rgba(0,0,0,0.4)
+		}
+		.playIcon{
+			width: 2rem;
+			height: 2rem;
+			position: absolute;
+			top:3rem;
+			left:0;
+			right: 0;
+			margin: auto;
+			z-index: 1;
 		}
 	}
 	.assess {

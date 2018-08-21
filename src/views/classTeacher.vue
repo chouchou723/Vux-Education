@@ -126,6 +126,9 @@ export default {
 <style lang="less">
 .classTeacher{
     height: 100%;
+    .vux-no-group-title{
+        margin-top:.2rem;
+    }
 .personalBg{
     width: 100%;
     height: 3.306667rem;
