@@ -6,26 +6,26 @@
             <span slot="title" style="font-size:16px">创意绘画课程</span>
       </cell>
        <cell >
-           <div slot="title">
+           <div slot="title" class="fz15">
                 <span style="margin-right:15px">总体</span>
                 <rater v-model="data3"></rater>
            </div> 
-           <div slot="title">
+           <div slot="title" class="fz15">
                 <span style="margin-right:15px">老师</span>
                 <rater v-model="data3"></rater>
            </div>
-           <div slot="title">
+           <div slot="title" class="fz15">
                 <span style="margin-right:15px">课程</span>
                 <rater v-model="data3"></rater>
            </div> 
-           <div slot="title">
+           <div slot="title" class="fz15">
                 <span style="margin-right:15px">场馆</span>
                 <rater v-model="data3"></rater>
            </div>
       </cell>
     </group>
      <group title=" ">
-     <x-textarea style="font-size:14px" :max="200" placeholder="亲,课程怎么样,老师好不好,环境如何,学习效果满意吗?" :show-counter="false" @on-focus="onEvent('focus')" @on-blur="onEvent('blur')"></x-textarea>
+     <x-textarea style="font-size:14px" :max="200" :rows="5" placeholder="亲,课程怎么样,老师好不好,环境如何,学习效果满意吗?" :show-counter="false" @on-focus="onEvent('focus')" @on-blur="onEvent('blur')"></x-textarea>
           <cell>
             <span slot="title" style="font-size:14px;color:#a5a3a3">加油! 还差15字</span>
       </cell>
@@ -71,20 +71,15 @@
 </template>
 
 <script>
-  import { XButton, Group, Cell, XInput, Selector, ViewBox, Datetime, XNumber, ChinaAddressData, XAddress, XTextarea, Rater } from 'vux'
+  import { XButton, Group, Cell,ViewBox, XTextarea, Rater } from 'vux'
 // import SimpleCropper from '@/components/SimpleCrop' 
-import VuxUpload from 'vux-upload'
+import VuxUpload from '../components/Upload'
   export default {
     components: {
       Group,
       XButton,
       Cell,
-      XInput,
-      Selector,
       ViewBox,
-      XAddress,
-      Datetime,
-      XNumber,
       XTextarea,
       Rater,
       VuxUpload,
@@ -99,6 +94,8 @@ import VuxUpload from 'vux-upload'
         //                 }, 
         // userImg: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
         varmax:9,
+        headers:{},
+        data:{},
         images:[{src: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg')},{src: require('../assets/ff.png')},{src: require('../assets/ff.png')}],
         uploadUrl:'',
         params:{},
@@ -150,17 +147,14 @@ onRemove(){},
     margin:1rem auto 0;
     text-align: center;
 }
-.plzCall{
-    padding: 15px;
-    color: #6f5f5f;
-}
-.linkA{
-    text-decoration: underline;
-    color: #3dca3c;
-    margin-left: .2rem;
-}
 .titleS{
     position: relative;
+    padding:12px 15px;
+}
+.fz15{
+    font-size: 15px;
+    display: flex;
+    align-items: center;
 }
 .titleS::after{
     content: '';
@@ -174,26 +168,9 @@ onRemove(){},
 textarea::-webkit-input-placeholder{
     color: #a5a3a3
 }
-.simpleDivImg{
-    width: 2.9rem;
-    height: 2.9rem;
- margin-bottom: .2rem;
- position: relative;
-}
 .simpleImg{
     width: 2.9rem;
     height: 2.9rem;
-}
-.simpleDel{
-    position: absolute;
-    top:-0.2rem;
-    right:-0.2rem;
-    width: .45rem;
-}
-.simpleCell .weui-cell__ft{
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
 }
 .vux-upload .vux-flexbox-item .vux-upload-bg .vux-upload-content{
     background-position: center;

@@ -24,7 +24,7 @@
 </template>
 
 <script>
-  import { XButton, Group, Cell, XInput, Selector, PopupPicker, Datetime, XNumber, ChinaAddressData, XAddress, XTextarea, XSwitch } from 'vux'
+  import { XButton, Group, Cell, XInput, XTextarea } from 'vux'
 
   export default {
     components: {
@@ -32,13 +32,8 @@
       XButton,
       Cell,
       XInput,
-      Selector,
-      PopupPicker,
-      XAddress,
-      Datetime,
-      XNumber,
       XTextarea,
-      XSwitch
+      
     },
     data () {
       return {

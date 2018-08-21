@@ -29,9 +29,6 @@
 import {Group,Cell,XButton    } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
-import {
-    mapActions,mapGetters
-} from 'vuex';
 export default {
   components: {
   Group,Cell,XButton 
@@ -46,9 +43,6 @@ export default {
     }
   },
   methods:{
-    ...mapActions([
-                'setMyF'
-            ]),
             payOrder(){
                 console.log(1);
                 this.$router.push('/payResult')
@@ -65,16 +59,11 @@ export default {
             }
   },
   created(){
-      this.selectList = this.selectList0;
     // console.log(this.getMyF,apiHost.API_ROOT)
   },
   mounted(){
   },
   computed: {
-        ...mapGetters([
-            'getMyF'
-            // ...
-        ])
     },
 }
 </script>

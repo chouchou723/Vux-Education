@@ -3,7 +3,7 @@
       
     <group title=" " label-width="4.5em" label-margin-right="2em">
       <cell title="头像" is-link>
-          <img :src="Asrc" class="myAvatar" alt="" @click.native="openFile">
+          <img :src="Asrc" class="myAvatar" alt="" @click="openFile">
            <input type="file" @change="fileChange()" style="display: none" ref="file" accept="image/png,image/jpeg,image/gif">
       </cell>
       <cell title="昵称"  is-link link="/myName?type=nickname">
@@ -31,25 +31,19 @@
 </template>
 
 <script>
-  import { XButton, Group, Cell, XInput, Selector, PopupPicker, Datetime, XNumber, ChinaAddressData, XAddress, XTextarea, XSwitch } from 'vux'
+  import { XButton, Group, Cell, Selector  } from 'vux'
 
   export default {
     components: {
       Group,
       XButton,
       Cell,
-      XInput,
       Selector,
-      PopupPicker,
-      XAddress,
-      Datetime,
-      XNumber,
-      XTextarea,
-      XSwitch
+      
     },
     data () {
       return {
-        addressData: ChinaAddressData,
+        addressData: '',
         addressValue: ['广东省', '深圳市', '南山区'],
         value1: '张三',
         value2: '女',
@@ -67,6 +61,7 @@
     },
     methods:{
         openFile(){
+            console.log(1)
                 this.$refs.file.click();
             },
             fileChange(){

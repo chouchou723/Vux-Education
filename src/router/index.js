@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
-const test = () => import('@/views/test') 
+// const test = () => import('@/views/test') 
 const home = () => import('@/views/home') 
 const personal = () => import('@/views/personal') 
 const lecture = () => import('@/views/lecture') 
@@ -27,6 +27,7 @@ const classSituation = () => import('@/views/classSituation')
 const classSituationDetail = () => import('@/views/classSituationDetail') 
 const classTeacher = () => import('@/views/classTeacher') 
 const doComment = () => import('@/views/doComment') 
+const totalComment = () => import('@/views/totalComment')
 
 export default new Router({
   routes: [
@@ -46,11 +47,6 @@ export default new Router({
         path: '/myLesson',
         component:myLesson
       }]
-    },
-    {
-      path: '/test',
-      name: 'test',
-      component: test
     },
     {
       path: '/myOrder',
@@ -138,6 +134,10 @@ export default new Router({
       path: '/doComment',
       name: 'doComment',
       component: doComment
+    },{
+      path: '/totalComment',
+      name: 'totalComment',
+      component: totalComment
     }
   ]
 })

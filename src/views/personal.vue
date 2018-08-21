@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="personal">
       <div class="personalBg">
           <div class="personalInfo">
               <img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" alt="" class="personalImg">
@@ -17,39 +17,39 @@
       </div>
        <group>
       <cell is-link link="/myOrder">
-          <span slot="title" style="color:#595959;">我的订单</span>
+          <span slot="title" class="fz15">我的订单</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/order.png">
       </cell>
        <cell is-link link="/myPoints">
-            <span slot="title" style="color:#595959;">我的积分</span>
+            <span slot="title" class="fz15">我的积分</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/coin.png">
       </cell>
        <cell is-link link="/purchaseHistory">
-            <span slot="title" style="color:#595959;">消费记录</span>
+            <span slot="title" class="fz15">消费记录</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/fn.png">
       </cell>
       </group>
        <group>
        <cell is-link link="/myInfo">
-            <span slot="title" style="color:#595959;">我的资料</span>
+            <span slot="title" class="fz15">我的资料</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/myinfo.png">
       </cell>
        <cell is-link link="/myPic">
-            <span slot="title" style="color:#595959;">我的作品</span>
+            <span slot="title" class="fz15">我的作品</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/mylec.png">
       </cell>
        <cell is-link link="/myFav">
-            <span slot="title" style="color:#595959;">我的收藏</span>
+            <span slot="title" class="fz15">我的收藏</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/fav.png">
       </cell>
       </group>
        <group>
        <cell is-link>
-            <span slot="title" style="color:#595959;">常见问题</span>
+            <span slot="title" class="fz15">常见问题</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/que.png">
       </cell>
        <cell is-link link="/feedback">
-            <span slot="title" style="color:#595959;">意见反馈</span>
+            <span slot="title" class="fz15">意见反馈</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/feedback.png">
       </cell>
     </group>
@@ -57,16 +57,12 @@
 </template>
 
 <script>
-import {Calendar,Group,Datetime,InlineCalendar,Selector,Cell    } from 'vux'
-import OpSelect from '../components/OpSelect'
+import {Group,Cell    } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
-import {
-    mapActions,mapGetters
-} from 'vuex';
 export default {
   components: {
-    Calendar, Group, Datetime, InlineCalendar, Selector ,OpSelect,Cell
+    Group ,Cell
   },
   data () {
     return {
@@ -86,9 +82,6 @@ export default {
     }
   },
   methods:{
-    ...mapActions([
-                'setMyF'
-            ]),
   },
   created(){
     // console.log(this.getMyF,apiHost.API_ROOT)
@@ -96,19 +89,19 @@ export default {
   mounted(){
   },
   computed: {
-        ...mapGetters([
-            'getMyF'
-            // ...
-        ])
     },
 }
 </script>
 
-<style>
+<style lang="less">
+.personal{
+    .weui-cell{
+        padding: 12px 15px;
+    }
 .personalBg{
     width: 100%;
     height: 3.306667rem;
-    background: url('../assets/pb.png');
+    background: url('../assets/pb.png') no-repeat center/cover;
     display: flex;
     /* justify-content: center; */
     align-items: center; 
@@ -153,5 +146,11 @@ export default {
 }
 .mgr4{
     margin-right: .4rem;
+}
+.fz15{
+    font-size: 16px;
+    color:#595959;
+    padding: 3px 0;
+}
 }
 </style>

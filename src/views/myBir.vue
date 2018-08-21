@@ -17,21 +17,16 @@
 </template>
 
 <script>
-  import { XButton, Group, Cell, XInput, DatetimeView, Popup, Datetime, TransferDom , ChinaAddressData, XAddress, XTextarea, XSwitch } from 'vux'
+  import { XButton, XInput,Group, DatetimeView, Popup, TransferDom } from 'vux'
 
   export default {
     components: {
       Group,
       XButton,
-      Cell,
-      XInput,
       DatetimeView,
       Popup,
-      XAddress,
-      Datetime,
-      TransferDom ,
-      XTextarea,
-      XSwitch
+      XInput,
+      TransferDom
     },
     directives: {
     TransferDom
@@ -67,18 +62,6 @@
     padding-top:.2rem; 
     padding-bottom:.1rem;
     font-size: .4rem;
-}
-.myAvatar{
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-.mr10{
-    margin-right: 10px;
-}
-#vux-x-input-p6eod{
-    color:#999999
 }
 .footerBtn{
     width: 90%;

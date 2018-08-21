@@ -12,21 +12,13 @@
 </template>
 
 <script>
-  import { XButton, Group, Cell, XInput, Selector, PopupPicker, Datetime, XNumber, ChinaAddressData, XAddress, XTextarea, XSwitch } from 'vux'
+  import { XButton, Group,XTextarea } from 'vux'
 
   export default {
     components: {
       Group,
       XButton,
-      Cell,
-      XInput,
-      Selector,
-      PopupPicker,
-      XAddress,
-      Datetime,
-      XNumber,
-      XTextarea,
-      XSwitch
+      XTextarea
     },
     data () {
       return {
@@ -58,18 +50,6 @@
     padding-top:.2rem; 
     padding-bottom:.1rem;
     font-size: .4rem;
-}
-.myAvatar{
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-.mr10{
-    margin-right: 10px;
-}
-#vux-selector-sv2ih{
-    color:#999999
 }
 .footerBtn{
     width: 90%;

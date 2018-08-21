@@ -14,15 +14,12 @@
 </template>
 
 <script>
-import {XButton,Group,Cell,ViewBox  } from 'vux'
+import {Group,Cell,ViewBox  } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
-import {
-    mapActions,mapGetters
-} from 'vuex';
 export default {
   components: {
-  XButton ,Group,Cell,ViewBox
+  Group,Cell,ViewBox
   },
   data () {
     return {
@@ -37,9 +34,6 @@ export default {
     }
   },
   methods:{
-    ...mapActions([
-                'setMyF'
-            ]),
             goTo(){
                 console.log(1);
                 if(this.buyStatus){
@@ -62,16 +56,11 @@ export default {
             }
   },
   created(){
-      this.selectList = this.selectList0;
     // console.log(this.getMyF,apiHost.API_ROOT)
   },
   mounted(){
   },
   computed: {
-        ...mapGetters([
-            'getMyF'
-            // ...
-        ])
     },
 }
 </script>
