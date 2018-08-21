@@ -85,8 +85,10 @@
 						    	<div class="data">4月17日 </div>
 						    </div>
 			    			<div class="rater">
-			    				<span>总体</span>
-						        <rater v-model="data42" active-color="#FFBE00" :font-size="15" disabled></rater>
+			    				<span style="vertical-align: top;">总体</span>
+                    <img src="../assets/star.png" alt="" v-for="(item,index) in data42" :key="index+'a'" class="star"><img src="../assets/starg.png" alt="" v-for="(item,index) in (5-data42)" :key="index+'b'" v-if="item" class="star">
+								
+						        <!-- <rater v-model="data42" active-color="#FFBE00" :font-size="15" disabled></rater> -->
 						    </div>
 			    			<p>我参加了周六上午的国画课，小朋友年纪小，希望从小培养，上课过程很开心！</p>
 			    			<div class="imgList">
@@ -123,7 +125,7 @@
 </template>
 
 <script>
-import {ViewBox, Group, Cell,CellBox,Tabbar,TabbarItem,Confirm,TransferDomDirective as TransferDom,Rater, Range} from 'vux'
+import {ViewBox, Group, Cell,CellBox,Tabbar,TabbarItem,,TransferDomDirective as TransferDom,Rater} from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 
@@ -138,14 +140,12 @@ export default{
 	    CellBox,
 	    Tabbar,
     	TabbarItem,
-    	Confirm,
-    	Rater, 
-    	Range
+    	Rater,
 	},
 	data(){
 		return {			
-			data42: 5,
-			videoPoster:'',
+			data42: 4,
+			videoPoster:require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
 			// showM:true,
 		}
 	},
@@ -165,14 +165,6 @@ export default{
 							video.style.width = window.innerWidth + "px"; 
 							video.style.height = window.innerHeight + "px"; 
 							}
-		video.addEventListener('loadeddata',()=>{
-			let canvas = document.createElement("canvas");
-			let scale = 1;
-			canvas.width = video.videoWidth * scale;
-			canvas.height = video.videoHeight * scale;
-			canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
-			this.videoPoster = canvas.toDataURL("image/png"); // 设置图片src
-		})
 	},
 	computed:{
 		showM(){
@@ -375,6 +367,11 @@ p { padding:0; margin:0; }
 				color: #7F8389;
 				font-size: 0.293333rem;
 				margin:0.133333rem 0;
+			}
+			.star{
+				width: 12px;
+        height: 12px;
+        margin-right:.1rem;
 			}
 			.imgList {
 				display: flex;
