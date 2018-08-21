@@ -28,6 +28,8 @@ const classSituationDetail = () => import('@/views/classSituationDetail')
 const classTeacher = () => import('@/views/classTeacher') 
 const doComment = () => import('@/views/doComment') 
 const totalComment = () => import('@/views/totalComment')
+const courseDetails = () => import('@/views/courseDetails') 
+const courseInfo = () => import('@/views/courseInfo') 
 
 export default new Router({
   routes: [
@@ -138,6 +140,14 @@ export default new Router({
       path: '/totalComment',
       name: 'totalComment',
       component: totalComment
-    }
+    },{
+      path: '/courseDetails',
+      name: 'courseDetails',
+      component: courseDetails
+	},{
+      path: '/courseInfo',
+      name: 'courseInfo',
+      component: courseInfo
+	}
   ]
 })
