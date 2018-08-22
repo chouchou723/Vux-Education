@@ -25,8 +25,8 @@
 			    <div class="calendarBox">
 				    <Calendar ref="Calendar" :sundayStart="true" :markDateMore="arr" :markDate="arr2"  agoDayHide=1530115200  v-on:changeMonth="changeDate"></Calendar>
 				    <flexbox>
-				      <flexbox-item><div class="flex-demo"><i class="circle_1"></i>已上课</div></flexbox-item>
-				      <flexbox-item><div class="flex-demo"><i class="circle_2"></i>没上课</div></flexbox-item>
+				      <flexbox-item><div class="flex-demo"><i class="circle_1"></i>已去上课</div></flexbox-item>
+				      <flexbox-item><div class="flex-demo"><i class="circle_2"></i>没去上课</div></flexbox-item>
 				      <flexbox-item><div class="flex-demo"><i class="circle_3"></i>即将上课</div></flexbox-item>
 				    </flexbox>
 			    </div>
@@ -182,7 +182,6 @@ export default {
 		}
 	},
 	created() {
-	    
 	    this.arr = [
 	      {
 	        date: this.format(new Date(), 1),
@@ -498,39 +497,7 @@ p {
 	}
 }
 .wh_container {
-	.wh_content_all {
-		background: #fff;
-		padding-bottom:0;
-		.wh_top_changge {
-			background: #09BB07;
-			li {
-				height: 1rem;
-			}
-			.wh_content_li {
-				flex: 5;
-			}
-		}		
-		.wh_content {
-			padding:0;
-			pointer-events: none;
-		}
-	}
 	.wh_content_item {
-		display: flex;
-		width:14.285714%;
-		line-height: 40px;
-		.wh_top_tag {
-			color: #000;
-		}
-		.wh_item_date {
-			width:0.506666rem;
-			height: 0.506666rem;
-			font-size: 0.293333rem;
-			color: #000;
-		}
-		.wh_isToday{
-			background: none;
-		}
 		.mark1 {
 			background: #09BB07;
 			border-radius: 50%;

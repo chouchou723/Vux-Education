@@ -20,6 +20,7 @@ li {
 }
 .wh_top_changge {
   display: flex;
+  background: #09BB07;
 }
 
 .wh_top_changge li {
@@ -30,27 +31,31 @@ li {
   flex: 1;
   justify-content: center;
   align-items: center;
-  height: 47px;
+  /* height: 47px; */
+  height: 1rem;
 }
 
 .wh_top_changge .wh_content_li {
   cursor: auto;
-  flex: 2.5;
+  /* flex: 2.5; */
+  flex: 5;
 }
 .wh_content_all {
   font-family: -apple-system, BlinkMacSystemFont, "PingFang SC",
     "Helvetica Neue", STHeiti, "Microsoft Yahei", Tahoma, Simsun, sans-serif;
-  background-color: #0fc37c;
   width: 100%;
   overflow: hidden;
-  padding-bottom: 8px;
+  background: #fff;
+		padding-bottom:0;
 }
 
 .wh_content {
   display: flex;
   flex-wrap: wrap;
-  padding: 0 3% 0 3%;
+  /* padding: 0 3% 0 3%; */
   width: 100%;
+  padding:0;
+pointer-events: none;
 }
 
 .wh_content:first-child .wh_content_item_tag,
@@ -69,6 +74,9 @@ wh_content_item_tag {
 }
 .wh_content_item {
   height: 40px;
+  display: flex;
+    width:14.285714%;
+    line-height: 40px;
 }
 
 .wh_top_tag {
@@ -79,16 +87,21 @@ wh_content_item_tag {
   display: flex;
   justify-content: center;
   align-items: center;
+  color:#7F8389
 }
 
 .wh_item_date {
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
+  /* width: 40px;
+  height: 40px; */
+  /* line-height: 40px; */
   margin: auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  	width:0.6rem;
+			height: 0.6rem;
+			font-size: 14px;
+			color: #000;
 }
 
 .wh_jiantou1 {
@@ -122,10 +135,6 @@ wh_content_item_tag {
 }
 .wh_content_item .wh_want_dayhide {
   color: #bfbfbf;
-}
-.wh_content_item .wh_isToday {
-  background: yellow;
-  border-radius: 100px;
 }
 .wh_content_item .wh_chose_day {
   background: green;
@@ -196,9 +205,9 @@ export default {
   methods: {
     intStart() {
       if (this.sundayStart) {
-        this.textTop = ['日', '一', '二', '三', '四', '五', '六'];
+        this.textTop = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
       } else {
-        this.textTop = ['一', '二', '三', '四', '五', '六', '日'];
+        this.textTop = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
       }
       timeUtil.sundayStart = this.sundayStart;
     },
