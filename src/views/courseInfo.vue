@@ -8,7 +8,7 @@
 						<div class="tit">国画课程</div>
 						<div class="info">24节课，共48课时</div>
 					</div>					
-					<x-button mini plain type="primary" link="/comment">我要评价</x-button>
+					<x-button mini plain type="primary" link="/doComment">我要评价</x-button>
 				</CellBox>
 			</group>
 			<group class="courseBox">
@@ -33,13 +33,13 @@
 			</group>
 			<group class="courseBox">
 			    <cell class="tit" title="上课情况"></cell>		    
-			    <CellBox is-link>
+			    <CellBox is-link link="/classSituation">
 			    	查看每节课的签到情况和老师评语
 			    </CellBox>
 			</group>
 			<group class="courseBox">
 			    <cell class="tit" title="授课老师"></cell>		    
-			    <cell-box is-link>
+			    <cell-box is-link link="/classTeacher">
 		        	<div class="teacher">
 		        		<div class="pho"><img src="../assets/pho.jpg" alt=""></div>
 		        		<div class="info">
@@ -53,7 +53,7 @@
 			<group class="courseBox">
 			    <cell class="tit" title="课程介绍"></cell>		    
 			    <CellBox>
-			    	<div class="introduce">
+			    	<div :class="['introduce',isMoreContent?'':'lite']">
 				    	<p>该旨在培养学龄前儿童对美术绘画的兴趣，增强色彩认知，快乐学习。</p>
 				    	<video :poster="videoPoster" preload='auto' ref="video" width="100%" height="200px"
 						 x5-video-player-type="h5" x5-video-player-fullscreen="true" src="http://yun.it7090.com/video/XHLaunchAd/video01.mp4"></video>
@@ -62,7 +62,9 @@
 				    	<img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" alt="">
 			    	</div>
 			    </CellBox>
-			    <CellBox><div class="more"><span>点击查看更多</span><i class="ico_arr"></i></div></CellBox>
+			    <CellBox><div class="more"  @click="changeMoreContent"><span>{{isMoreContent?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMoreContent?'rotate90':'']"></i></div></CellBox>
+
+			    <!-- <CellBox><div class="more"><span>点击查看更多</span><i class="ico_arr"></i></div></CellBox> -->
 			</group>
 			<group class="courseBox">
 			    <cell class="tit" title="课程评价">
@@ -123,6 +125,7 @@ export default {
 	data(){
 		return {			
 			data42: 3,
+			isMoreContent:false,
 			videoPoster:require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
 			arr2: ['2018/6/23'],
 			arr: [
@@ -138,6 +141,15 @@ export default {
 		}
 	},
 	methods: {
+		changeMoreContent(){
+			if(this.isMoreContent){
+				this.isMoreContent=false;
+				this.lessonList = this.lessonListAll.slice(0,3);
+			}else{
+				this.isMoreContent=true;
+				this.lessonList = this.lessonListAll
+			}
+		},
 		gotoMoveComment(){
 			this.$router.push('/totalComment')
 		},
@@ -202,7 +214,7 @@ p {
 }
 .courseInfo{
 	height: 100%;
-}
+
 .weui-tab__panel {
 	padding:0 !important;
 }
@@ -274,6 +286,9 @@ p {
 					transform-origin:center center;
 					transform: rotate(180deg);
 				}
+				.rotate90{
+			transform: rotate(0deg);
+		}
 			}	
 		}		
 	}	
@@ -308,6 +323,20 @@ p {
 	}
 	.introduce {
 		position: relative;
+		&.lite{
+			height: 11rem;
+			position: relative;
+			overflow: hidden;
+			&::after{
+				content:'';
+			    position: absolute;
+				bottom: -10px;
+				width: 100%;
+				padding-top: 1rem;
+				background-image: -webkit-gradient(linear,left top, left bottom,from(rgba(255,255,255,0)),color-stop(70%, #fff));
+				background-image: linear-gradient(-180deg,rgba(255,255,255,0) 0%,#fff 70%);
+			}
+		}
 		p {
 			margin:5px 0;
 		}
@@ -388,18 +417,22 @@ p {
 					bottom:10px;
 					width:1rem;
 					height: 0.533333rem;
-					line-height: 0.533333rem;
 					text-align: center;
 					background-color:rgba(0,0,0,0.6);
 					border-radius: 0.533333rem;
 					color: #fff;
+					font-size: 12px;
+					display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    box-sizing: border-box;
+                    padding: 0 0.2rem;
 					.picMin {
 						display: inline-block;
 						width: 0.293333rem;
 						height: 0.293333rem;
 						background: url(../assets/picMin.png) no-repeat;
 						background-size: 100% 100%;
-						margin-right:3px;
 					}
 				}
 			}
@@ -511,5 +544,6 @@ p {
 			color: #fff;
 		}
 	}
+}
 }
 </style>
