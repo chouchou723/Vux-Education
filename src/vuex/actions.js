@@ -12,3 +12,6 @@
 export const setMyF = ({commit},data) =>{
 	commit('SENDMYF',data)
 }
+export const setMyInfo = ({commit},data) =>{
+	commit('changeInfo',data)
+}

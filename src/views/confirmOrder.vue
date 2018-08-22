@@ -6,7 +6,7 @@
                     <div style="font-size:16px">创意绘画课程</div>
                     <div style="font-size:12px;color:#999999">24节课</div>
                     </div>
-                <span style="color:#fb6601">123元</span>
+                <span style="color:#fb6601">{{123*value}}元</span>
 
             </cell>
             <cell title="数量">
@@ -16,7 +16,7 @@
             </x-switch>
     </group>
     <div class="confirmFooter">
-        <span class="footerSpan">还需支付:<span style="color:#fb6804;margin-left:.2rem">880元</span></span>
+        <span class="footerSpan">还需支付:<span style="color:#fb6804;margin-left:.2rem">{{123*value}}元</span></span>
         <span class="footerSpanC" @click="gotoPay">提交订单</span>
     </div>
   </div>
@@ -99,6 +99,7 @@ export default {
         line-height: 1.4rem;
         flex: 0 0 40%;
         font-size: 16px;
+        border-top: 1px solid gainsboro;
     }
     .footerSpanC{
         text-align: center;

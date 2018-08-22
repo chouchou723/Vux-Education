@@ -8,8 +8,9 @@ import App from './App'
 import 'lib-flexible/flexible.js'
 import store from './vuex/store'
 
-import { WechatPlugin } from 'vux'
+import { WechatPlugin,ToastPlugin } from 'vux'
 Vue.use(WechatPlugin)
+Vue.use(ToastPlugin)
 // console.log(Vue.wechat)
 
 FastClick.attach(document.body)

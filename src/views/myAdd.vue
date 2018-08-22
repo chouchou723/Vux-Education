@@ -2,10 +2,10 @@
   <div class="myAdd">
       
     <group title=" " label-width="4.5em" label-margin-right="2em">
-     <x-textarea :max="200" placeholder="请输入地址" :show-counter="false" @on-focus="onEvent('focus')" @on-blur="onEvent('blur')"></x-textarea>
+     <x-textarea :max="200" v-model="value" placeholder="请输入地址" :show-counter="false"></x-textarea>
     </group>
     <div class="footerBtn">
-     <x-button type="primary" action-type="button" :disabled="value.length==0">确定</x-button>
+     <x-button type="primary" action-type="button" :disabled="value.length==0" @click.native="confirm">确定</x-button>
 
     </div>
   </div>
@@ -13,7 +13,9 @@
 
 <script>
   import { XButton, Group,XTextarea } from 'vux'
-
+import {
+    mapActions,mapGetters
+} from 'vuex';
   export default {
     components: {
       Group,
@@ -32,15 +34,24 @@
       }
     },
     created(){
-        let type = this.$route.query.type;
-        if(type){
-            document.title = '昵称'
-        }else{
-            document.title = '姓名'
-        }
+            document.title = '地址'
+            this.value = this.getMyInfo.address
     },
     methods:{
-    }
+      ...mapActions([
+                'setMyInfo'
+            ]),
+      confirm(){
+        this.setMyInfo({address:this.value})
+        this.$router.push('/myInfo')
+      }
+    },
+    computed: {
+        ...mapGetters([
+            'getMyInfo'
+            // ...
+        ]),
+    },
   }
 </script>
 <style lang="less">

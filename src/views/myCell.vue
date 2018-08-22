@@ -2,10 +2,10 @@
   <div class="myCell">
       
     <group title=" " label-width="4.5em" label-margin-right="2em">
-      <x-input  mask="99999999999" placeholder="请输入手机号码" type='tel' v-model="value"></x-input>
+      <x-input placeholder="请输入手机号码" type='tel' v-model="value" :max="11"></x-input>
     </group>
     <div class="footerBtn">
-     <x-button type="primary" action-type="button" :disabled="value.length==0">确定</x-button>
+     <x-button type="primary" action-type="button" :disabled="value.length==0" @click.native="confirm">确定</x-button>
 
     </div>
   </div>
@@ -13,7 +13,9 @@
 
 <script>
   import { XButton, Group, XInput } from 'vux'
-
+import {
+    mapActions,mapGetters
+} from 'vuex';
   export default {
     components: {
       Group,
@@ -33,9 +35,24 @@
       }
     },
     created(){
+      document.title = '手机'
+      this.value = this.getMyInfo.cell
     },
     methods:{
-    }
+      ...mapActions([
+                'setMyInfo'
+            ]),
+      confirm(){
+        this.setMyInfo({cell:this.value})
+        this.$router.push('/myInfo')
+      }
+    },
+     computed: {
+        ...mapGetters([
+            'getMyInfo'
+            // ...
+        ]),
+    },
   }
 </script>
 <style lang="less">

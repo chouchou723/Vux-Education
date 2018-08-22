@@ -37,11 +37,12 @@ export default {
  }, 
  methods: { 
  // 初始化裁剪插件 
- init () { 
+ init () {
   let cropperImg = this.$refs['cropperImg'] 
   this.cropper = new Cropper(cropperImg, { 
   aspectRatio: 1 / 1, 
-  dragMode: 'move' 
+  dragMode: 'move',
+  viewMode:1,
   }) 
  }, 
  // 点击上传按钮 
@@ -76,20 +77,22 @@ export default {
   formData.append('img', imgData) 
 //   formData.append('signId', this.$localStorage('signId')) 
   formData.append('originalFilename', this.filename) 
-  window.$axios(this.initParam['uploadURL'], formData, {
-  method: 'post', 
-  headers: {'Content-Type': 'multipart/form-data'} 
-  }).then(res => { 
-  this.successCallback(res.data) 
-  this.cancelHandle() 
-  }) 
+   this.successCallback(imgData) //test
+  this.cancelHandle()  //test
+  // window.$axios(this.initParam['uploadURL'], formData, {//更换api
+  // method: 'post', 
+  // headers: {'Content-Type': 'multipart/form-data'} 
+  // }).then(res => {
+  // this.successCallback(res.data) 
+  // this.cancelHandle() 
+  // }) 
  } 
  } 
 } 
 </script> 
   
 <style lang="less"> 
-.v-simple-cropper { 
+.v-simple-cropper {
  .file { 
  display: none; 
  } 
@@ -104,28 +107,32 @@ export default {
  display: none; 
  .layer-header { 
   position: absolute; 
-  top: 0; 
+  bottom: 0; 
   left: 0; 
   z-index: 99999; 
-  background: #fff; 
+  background: black; 
   width: 100%; 
   height: .8rem; 
-  padding: 0 .2rem; 
+  padding: 0 .4rem; 
   box-sizing: border-box; 
  } 
  .cancel, 
  .confirm { 
   line-height: .8rem; 
-  font-size: .28rem; 
+  font-size: .5rem; 
   background: inherit; 
   border: 0; 
   outline: 0; 
   float: left; 
+  color: white;
  } 
  .confirm { 
   float: right; 
  } 
- img { 
+ .cropper-modal{
+   opacity: 1;
+ }
+ img {
   position: inherit!important; 
   border-radius: inherit!important; 
   float: inherit!important; 

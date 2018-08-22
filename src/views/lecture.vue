@@ -37,6 +37,7 @@
            </div>
            <div class='addfooter'>
                <div style="color:grey" @click="cancelAddSelect">取消</div>
+               <div style="color:red" @click="clearAddSelect">清空</div>
                <div  @click="confirmAddSelect">确定</div>
            </div>
         </div>
@@ -50,11 +51,12 @@
                     </div>
                     </div>
                     <div class="addListS">
-                        <div v-for="(item,index) in selectList" :key="index" :class="chooseItemList.includes(item.id)?'selectItem':'addItem'" @click="chooseItem(item.id)">{{item.name}}</div>
+                        <div v-for="(item,index) in selectList" :key="index" :class="chooseListSelect[typeKind].includes(item.id)?'selectItem':'addItem'" @click="chooseItemSelect(item.id)">{{item.name}}</div>
                     </div>
              </div>
            <div class='addfooter'>
                <div style="color:grey" @click="cancelsSelect">取消</div>
+               <div style="color:red" @click="clearsSelect">清空</div>
                <div  @click="confirmsSelect">确定</div>
            </div>
             
@@ -82,11 +84,11 @@
     </cell-box>
   </group>
     <group class="modalG" v-if="chooseT">
-        <datetime v-model="value7"  @on-confirm="changeDate" :show="chooseT" @on-cancel="chooseSelect('time')">
+        <datetime v-model="value7" clear-text="清空" @on-confirm="changeDate" @on-clear="clearDate" :show="chooseT" @on-cancel="chooseSelect('time')">
         </datetime>
     </group>
     <!-- 蒙版 -->
-    <div class="normalModal" v-if="chooseA||chooseS">
+    <div class="normalModal" v-if="chooseA||chooseS" @click="closeSelect">
 
     </div>
   </div>
@@ -114,12 +116,16 @@ export default {
       chooseA:false,
       chooseS:false,
       typeKind:0,
+      typeKindBackup:0,
       chooseItemList:[],
-      nowTime:`${new Date().getFullYear()}年${new Date().getMonth()+1}月${new Date().getDate()}日`,
-      selectList:[],
+      isConfirm:false,
+      nowTime:'',//`${new Date().getFullYear()}年${new Date().getMonth()+1}月${new Date().getDate()}日`,
       addList:[{id:'1',name:'世博园场馆'},{id:'2',name:'东方明珠'},{id:'3',name:'世博园场馆'},{id:'23',name:'东方明珠'},{id:'12',name:'世博园场馆'},{id:'22',name:'东方明珠'},{id:'33',name:'世博园场馆'},{id:'231',name:'东方明珠'},{id:'112',name:'世博园场馆'},{id:'232',name:'东方明珠'}],
+      selectList:[],
       selectList0:[{id:'1',name:'少儿'},{id:'2',name:'动漫'}],
-      selectList1:[{id:'1',name:'1-3岁'},{id:'2',name:'4-6岁'},{id:'3',name:'世博园场馆'},{id:'23',name:'东方明珠'},{id:'11',name:'世博园场馆'},{id:'22',name:'东方明珠'}],
+      selectList1:[{id:'1',name:'1-3岁'},{id:'2',name:'4-6岁'},],
+      chooseListSelect:{0:[],1:[]},
+      chooseListSelectBackUp:{0:[],1:[]},
     typekind:['课程种类','适用对象',],
     lessonList:[{id:1,ishot:true,name:'创意绘画单课',total:8,hasJoin:5,content:'1节课-2课时|4-8岁儿童|满5人开课',price:120},
     {id:2,ishot:false,name:'创意绘画单课',total:8,hasJoin:5,content:'1节课-2课时|4-8岁儿童|满5人开课',price:120},
@@ -135,21 +141,45 @@ export default {
     }
   },
   methods:{
+      chooseItemSelect(id){
+          if( this.chooseListSelect[this.typeKind].includes(id)){
+                    this.chooseListSelect[this.typeKind] = this.chooseListSelect[this.typeKind].filter(item=>{
+                        return item != id;
+                    })
+                }else{   
+                   this.chooseListSelect[this.typeKind].push(id)
+                }
+                console.log(this.chooseListSelectBackUp)
+      },
             changeType(type){
                 this.typeKind = type;
                 this.selectList = this['selectList'+type]
             },
             cancelAddSelect(){
-                this.chooseSelect('add')
+                this.chooseA= false
+                 this.isConfirm = false;
+            },
+            clearAddSelect(){
+                this.chooseItemList=[];
             },
             confirmAddSelect(){
-                 this.chooseSelect('add')
+                this.isConfirm = true;
+                 this.chooseA= false
             },
              cancelsSelect(){
-                this.chooseSelect('select')
+                this.chooseS= false
+            },
+            clearsSelect(){
+                this.chooseListSelect[this.typeKind]=[];
             },
             confirmsSelect(){
-                 this.chooseSelect('select')
+                this.chooseS= false;
+                this.chooseListSelectBackUp = JSON.parse(JSON.stringify(this.chooseListSelect))
+                this.typeKindBackup = this.typeKind;
+            },
+            closeSelect(){
+                this.chooseA= false;
+                this.chooseS= false
             },
             chooseItem(id){
                 if( this.chooseItemList.includes(id)){
@@ -165,6 +195,11 @@ export default {
                 this.chooseSelect('time')
                 // console.log(value)
             },
+            clearDate(){
+                this.nowTime = '';
+                this.value7 = new Date().toLocaleDateString().replace('/','-')
+                this.chooseSelect('time')
+            },
             onSubmit(){},
             onCancel(){},
             chooseSelect(type){
@@ -172,20 +207,25 @@ export default {
                     this.chooseA = false;
                     this.chooseS = false;
                     this.chooseT? this.chooseT= false: this.chooseT= true;
+                    setTimeout(()=>{
+                        this.chooseT && (document.querySelector(".vux-datetime-clear").style.cssText +="color:red")
+                    },1)
                 }else if(type=='add'){
                      this.chooseT = false;
                      this.chooseS = false;
-                     this.chooseItemList=[];
+                     !this.isConfirm&&(this.chooseItemList=[])
                     this.chooseA? this.chooseA= false: this.chooseA= true;
                 }else{
                     this.chooseT = false;
                      this.chooseA = false;
+                     this.chooseListSelect = JSON.parse(JSON.stringify(this.chooseListSelectBackUp))
+                     this.typeKind = this.typeKindBackup;
                     this.chooseS? this.chooseS= false: this.chooseS= true;
                 }
             },
   },
   created(){
-      this.selectList = this.selectList0;
+      this.changeType(0)
     // console.log(this.getMyF,apiHost.API_ROOT)
   },
   mounted(){
@@ -325,6 +365,7 @@ export default {
     top:0rem;
     left:0;
 }
+
 .normalModal{
     width: 100%;
     position: absolute;

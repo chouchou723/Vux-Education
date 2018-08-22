@@ -2,10 +2,10 @@
   <div class="myName">
       
     <group title=" " label-width="4.5em" label-margin-right="2em">
-      <x-input :max="20" :is-type='nickname' v-model="value"></x-input>
+      <x-input :max="20" :is-type='nickname' v-model="value" :placeholder="type?'请输入昵称':'请输入姓名'"></x-input>
     </group>
     <div class="footerBtn">
-     <x-button type="primary" action-type="button" :disabled="value.length==0">确定</x-button>
+     <x-button type="primary" action-type="button" :disabled="value.length==0" @click.native="confireName">确定</x-button>
 
     </div>
   </div>
@@ -13,7 +13,9 @@
 
 <script>
   import { XButton, Group,XInput } from 'vux'
-
+import {
+    mapActions,mapGetters
+} from 'vuex';
   export default {
     components: {
       Group,
@@ -29,18 +31,38 @@
           msg: '不能输入符号'
         }
       },
+      type:'',
       }
     },
     created(){
-        let type = this.$route.query.type;
-        if(type){
+        this.type = this.$route.query.type;
+        if( this.type){
             document.title = '昵称'
+          this.value = this.getMyInfo.nickname
         }else{
-            document.title = '姓名'
+          document.title = '姓名'
+          this.value = this.getMyInfo.name
         }
     },
     methods:{
-    }
+       ...mapActions([
+                'setMyInfo'
+            ]),
+      confireName(){
+        if( this.type){
+          this.setMyInfo({nickname: this.value})
+        }else{
+          this.setMyInfo({name: this.value})
+        }
+        this.$router.push('/myInfo')
+      },
+    },
+    computed: {
+        ...mapGetters([
+            'getMyInfo'
+            // ...
+        ]),
+    },
   }
 </script>
 <style lang="less">

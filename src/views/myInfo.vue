@@ -3,28 +3,31 @@
       
     <group title=" " label-width="4.5em" label-margin-right="2em">
       <cell title="头像" is-link>
-          <img :src="Asrc" class="myAvatar" alt="" @click="openFile">
-           <input type="file" @change="fileChange()" style="display: none" ref="file" accept="image/png,image/jpeg,image/gif">
+           <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper">
+                <img :src="this.getMyInfo.img" @touchend="upload"  class="myAvatar">
+          </simple-cropper>
+          <!-- <img :src="this.getMyInfo.img" class="myAvatar" alt="" @touchend="openFile"> -->
+           <!-- <input type="file" @change="fileChange()" style="display: none" ref="file" accept="image/png,image/jpeg,image/gif"> -->
       </cell>
       <cell title="昵称"  is-link link="/myName?type=nickname">
-          <div class="mr10">张佳乐</div>
+          <div class="mr10">{{this.getMyInfo.nickname}}</div>
       </cell>
        <cell title="姓名"  is-link link="/myName">
-          <div class="mr10">张佳乐</div>
+          <div class="mr10">{{this.getMyInfo.name}}</div>
       </cell>
-      <selector title="性别" :options="['男', '女']" v-model="value2"  direction="rtl"></selector>
+      <selector title="性别" :options="['男', '女']" v-model="value2"  direction="rtl" @on-change="onChange"></selector>
        <cell title="生日"  is-link link="/myBir">
-          <div class="mr10">1995年10月10日</div>
+          <div class="mr10">{{this.getMyInfo.birthday}}</div>
       </cell>
        <cell title="地址"  is-link link="/myAdd">
-          <div class="mr10">上海市世博园</div>
+          <div class="mr10">{{this.getMyInfo.address}}</div>
       </cell>
        <cell title="手机"  is-link link="/myCell">
-          <div class="mr10">15444449586</div>
+          <div class="mr10">{{this.getMyInfo.cell}}</div>
       </cell>
     </group>
     <div class="footerBtn">
-     <x-button type="primary" action-type="button">保存</x-button>
+     <x-button type="primary" action-type="button" @click.native="saveInfo" :show-loading="isloading" :disabled="isloading">保存</x-button>
 
     </div>
   </div>
@@ -32,49 +35,84 @@
 
 <script>
   import { XButton, Group, Cell, Selector  } from 'vux'
-
+import SimpleCropper from '@/components/SimpleCrop' 
+    import {
+        mapActions,mapGetters
+    } from 'vuex';
   export default {
     components: {
       Group,
       XButton,
       Cell,
       Selector,
-      
+      SimpleCropper
     },
     data () {
       return {
-        addressData: '',
-        addressValue: ['广东省', '深圳市', '南山区'],
-        value1: '张三',
-        value2: '女',
-        value3: '',
-        value7: '',
-        value8: '',
-        value4: '',
-        time1: '2017-06-01',
-        value5: ['男'],
-        value6: [],
-        list: [['男', '女']],
-        numberValue: 0,
-        Asrc:require('@/assets/0e3a716cf47f1eb695e5b62597dec807.jpg')
+        Asrc:'',
+        value2:'',
+        isloading:false,
+          uploadParam: {
+                        fileType: 'recruit', // 其他上传参数 
+                        uploadURL: this.$dataURL + 'uploadAction/qcloudImg', // 上传地址 
+                        scale: 4 // 相对手机屏幕放大的倍数: 4倍 
+                        }, 
+        userImg: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
       }
     },
     methods:{
+        ...mapActions([
+                'setMyInfo'
+            ]),
         openFile(){
-            console.log(1)
-                this.$refs.file.click();
+            this.$refs.file.click();
             },
-            fileChange(){
-
-                 var reads= new FileReader();
-        let f= this.$refs.file.files[0];
-        reads.readAsDataURL(f);
-        reads.onload= (e)=> {
-            this.Asrc=e.target.result;
-                // console.log(e.target.result)
-        };
-            }
-    }
+        fileChange(){
+                var reads= new FileReader();
+                let f= this.$refs.file.files[0];
+                reads.readAsDataURL(f);
+                reads.onload= (e)=> {
+                    this.setMyInfo({img:e.target.result})
+                        // this.Asrc=e.target.result;
+                            // console.log(e.target.result)
+                    };
+        },
+        onChange(){
+            this.setMyInfo({sex:this.value2})
+        },
+        saveInfo(){
+            this.isloading = true;
+            console.log(this.getMyInfo)
+            this.$vux.toast.show({
+                                text: '保存成功'
+                                })
+            localStorage.setItem('info',JSON.stringify(this.getMyInfo))
+            setTimeout(()=>{
+            this.isloading = false;
+            },1000)
+        },
+        upload () {
+        this.$refs['cropper'].upload() 
+        }, 
+        // 上传头像成功回调 
+        uploadHandle (data) {
+            this.setMyInfo({img:data })
+        if (data.state === 'SUCCESS') { 
+            // this.userImg  = data
+        } 
+        }
+    },
+    computed: {
+        ...mapGetters([
+            'getMyInfo'
+            // ...
+        ]),
+    },
+    created(){
+        console.log(this.getMyInfo)
+        this.value2 = this.getMyInfo.sex
+        this.Asrc = this.getMyInfo.img
+    },
   }
 </script>
 <style lang="less">

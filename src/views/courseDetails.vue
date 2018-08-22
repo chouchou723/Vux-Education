@@ -9,8 +9,8 @@
 					<div class="tit">创意绘画单课</div>
 					<div class="price">2880元</div>
 				</div>
-				<div class="favorite">
-					<i class="ico_favorite"></i>
+				<div :class="['favorite',isFav?'selected':'']">
+					<i class="ico_favorite" @click="changeFav"></i>
 					<span>收藏</span>
 				</div>
 			</div>
@@ -34,10 +34,8 @@
 			</group>
 			<group class="courseBox">
 			    <cell class="tit" title="课程时间"></cell>		    
-			    <CellBox>第1节课：2018年4月28日，周六，上午10:00 - 12:00</CellBox>
-			    <CellBox>第2节课：2018年4月28日，周六，上午10:00 - 12:00</CellBox>
-			    <CellBox>第3节课：2018年4月28日，周六，上午10:00 - 12:00</CellBox>
-			    <CellBox><div class="more"><span>点击查看更多</span><i class="ico_arr"></i></div></CellBox>
+			    <CellBox v-for="(item,index) in lessonList" :key="'lesson'+index">{{item}}</CellBox>
+			    <CellBox><div class="more"  @click="changeMore"><span>{{isMore?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMore?'rotate90':'']"></i></div></CellBox>
 			</group>
 			<group class="courseBox">
 			    <cell class="tit" title="适用对象"></cell>		    
@@ -59,7 +57,7 @@
 			<group class="courseBox">
 			    <cell class="tit" title="课程介绍"></cell>		    
 			    <CellBox>
-			    	<div class="introduce">
+			    	<div :class="['introduce',isMoreContent?'':'lite']">
 				    	<p>该旨在培养学龄前儿童对美术绘画的兴趣，增强色彩认知，快乐学习。</p>
 				    	<video :poster="videoPoster" preload='auto' ref="video" width="100%" height="200px"
 						 x5-video-player-type="h5" x5-video-player-fullscreen="true" src="http://yun.it7090.com/video/XHLaunchAd/video01.mp4"></video>
@@ -68,7 +66,7 @@
 				    	<img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" alt="">
 			    	</div>
 			    </CellBox>
-			    <CellBox><div class="more"><span>点击查看更多</span><i class="ico_arr"></i></div></CellBox>
+			    <CellBox><div class="more"  @click="changeMoreContent"><span>{{isMoreContent?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMoreContent?'rotate90':'']"></i></div></CellBox>
 			</group>
 			<group class="courseBox">
 			    <cell class="tit" title="课程评价">
@@ -117,13 +115,13 @@
 	    		<span slot="label">购买课程</span>
 	    	</tabbar-item>
 	    </tabbar>
-	    
+	      <toast v-model="show7" type="text" :text="toastWord" position='middle'></toast>
 		</view-box>
 	</div>
 </template>
 
 <script>
-import {ViewBox, Group, Cell,CellBox,Tabbar,TabbarItem,TransferDomDirective as TransferDom,Rater} from 'vux'
+import {ViewBox, Group, Cell,CellBox,Tabbar,TabbarItem,TransferDomDirective as TransferDom,Toast } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 
@@ -138,12 +136,21 @@ export default{
 	    CellBox,
 	    Tabbar,
     	TabbarItem,
-    	Rater
+    	Toast 
 	},
 	data(){
 		return {			
 			data42: 4,
 			videoPoster:require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
+			isFav:false,
+			show7:false,
+			toastWord:'',
+			lessonList:[],
+			lessonListAll:['第1节课：2018年4月28日，周六，上午10:00 - 12:00','第1节课：2018年4月28日，周六，上午10:00 - 12:00',
+			'第1节课：2018年4月28日，周六，上午10:00 - 12:00','第1节课：2018年4月28日，周六，上午10:00 - 12:00',
+			'第1节课：2018年4月28日，周六，上午10:00 - 12:00'],
+			isMore:false,
+			isMoreContent:false,
 			// showM:true,
 		}
 	},
@@ -155,6 +162,37 @@ export default{
 			// this.showM = false;
 			this.$refs.video.play();
 		},
+		changeFav(){
+			if(this.isFav){
+				this.isFav=false;
+				this.toastWord = '取消收藏'
+			}else{
+				this.isFav=true;
+				this.toastWord = '收藏成功'
+			}
+				this.show7 = true;
+		},
+		changeMore(){
+			if(this.isMore){
+				this.isMore=false;
+				this.lessonList = this.lessonListAll.slice(0,3);
+			}else{
+				this.isMore=true;
+				this.lessonList = this.lessonListAll
+			}
+		},
+		changeMoreContent(){
+			if(this.isMoreContent){
+				this.isMoreContent=false;
+				this.lessonList = this.lessonListAll.slice(0,3);
+			}else{
+				this.isMoreContent=true;
+				this.lessonList = this.lessonListAll
+			}
+		},
+	},
+	created(){
+		this.lessonList = this.lessonListAll.slice(0,3);
 	},
 	mounted () {
 		 document.querySelector(".tabBar2 .call").setAttribute('href','tel:4001720748');
@@ -275,6 +313,9 @@ p { padding:0; margin:0; }
 			transform-origin:center center;
 			transform: rotate(180deg);
 		}
+		.rotate90{
+			transform: rotate(0deg);
+		}
 	}
 	.teacher {
 		display: flex;
@@ -307,6 +348,21 @@ p { padding:0; margin:0; }
 	}
 	.introduce {
 		position: relative;
+		&.lite{
+			height: 11rem;
+			position: relative;
+			overflow: hidden;
+			&::after{
+				content:'';
+			    position: absolute;
+				bottom: -10px;
+				width: 100%;
+				padding-top: 1rem;
+				background-image: -webkit-gradient(linear,left top, left bottom,from(rgba(255,255,255,0)),color-stop(70%, #fff));
+				background-image: linear-gradient(-180deg,rgba(255,255,255,0) 0%,#fff 70%);
+			}
+		}
+		
 		p {
 			margin:5px 0;
 		}
@@ -389,18 +445,22 @@ p { padding:0; margin:0; }
 					bottom:10px;
 					width:1rem;
 					height: 0.533333rem;
-					line-height: 0.533333rem;
 					text-align: center;
 					background-color:rgba(0,0,0,0.6);
 					border-radius: 0.533333rem;
 					color: #fff;
+					font-size: 12px;
+					display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    box-sizing: border-box;
+                    padding: 0 0.2rem;
 					.picMin {
 						display: inline-block;
 						width: 0.293333rem;
 						height: 0.293333rem;
 						background: url(../assets/picMin.png) no-repeat;
 						background-size: 100% 100%;
-						margin-right:3px;
 					}
 				}
 			}
@@ -450,6 +510,9 @@ p { padding:0; margin:0; }
 		line-height:0.706666rem;
 		span {
 			color: #fff;
+		}
+		.weui-tabbar__label{
+			padding-top:2px;
 		}
 	}
 }
