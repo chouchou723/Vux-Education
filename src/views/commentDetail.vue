@@ -282,7 +282,7 @@ z-index: 100;
 }
 .footerBtn{
     background: #1AAD19;
-    font-size: 19px;
+    font-size: 18px;
     color: white;
     line-height: 1.306667rem;
     text-align: center;

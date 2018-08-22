@@ -2,7 +2,7 @@
   <div class="totalComment">
        <view-box ref="viewBox">
     <group v-for="(comment,index) in commentlist" :key="comment+index" :class="index===0?'firstGroup':''">
-       <cell >
+       <cell link="/commentDetail">
            <div  slot="title" class="commentTitle">
                <img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" alt="" class="simpleImg">
                 <div class="commentContent">
@@ -200,6 +200,9 @@ onRemove(){},
     .vux-upload .vux-flexbox-item .vux-upload-bg{
         width: 93%;
         margin: 4% 0 0 0;
+    }
+    .weui-cell_access .weui-cell__ft:after{
+        display: none;
     }
     .allPic {
 					position: absolute;
