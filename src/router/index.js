@@ -30,7 +30,7 @@ const classTeacher = () => import('@/views/classTeacher')
 const doComment = () => import('@/views/doComment') 
 const totalComment = () => import('@/views/totalComment')
 const courseDetails = () => import('@/views/courseDetails') 
-// const courseInfo = () => import('@/views/courseInfo') 
+const courseInfo = () => import('@/views/courseInfo') 
 
 const router = new Router({
   routes: [
@@ -145,12 +145,12 @@ const router = new Router({
       path: '/courseDetails',
       name: 'courseDetails',
       component: courseDetails
-  },
-  // {
-  //     path: '/courseInfo',
-  //     name: 'courseInfo',
-  //     component: courseInfo
-	// }
+    },
+      {
+	  path: '/courseInfo',
+	  name: 'courseInfo',
+	  component: courseInfo
+	}
   ]
 })
 router.beforeEach(function (to, from, next) {
