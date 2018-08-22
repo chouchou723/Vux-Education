@@ -21,40 +21,15 @@
 			    </CellBox>
 			</group>
 			<group class="courseBox">
-			    <cell class="tit" title="课程日历"></cell>		    
-			    <CellBox>
-			    	<inline-calendar
-					  ref="calendar"
-					  @on-change="onChange"
-					  @on-view-change="onViewChange"
-					  class="inline-calendar-demo"
-					  :show.sync="show"
-					  v-model="value"
-					  start-date="2016-04-01"
-					  end-date="2018-05-30"
-					  :range="range"
-					  :show-last-month="showLastMonth"
-					  :show-next-month="showNextMonth"
-					  :highlight-weekend="highlightWeekend"
-					  :return-six-rows="return6Rows"
-					  :hide-header="hideHeader"
-					  :hide-week-list="hideWeekList"
-					  :replace-text-list="replaceTextList"
-					  :weeks-list="weeksList"
-					  :render-function="buildSlotFn"
-					  :disable-past="disablePast"
-					  :disable-future="disableFuture"
-					  :disable-weekend="disableWeekend"
-					  :disable-date-function="disableDateFunction">
-					  </inline-calendar>
-			    </CellBox>
-			    <CellBox>
-			    	<flexbox>
+			    <cell class="tit" title="课程日历"></cell>
+			    <div class="calendarBox">
+				    <Calendar ref="Calendar" :sundayStart="true" :markDateMore="arr" :markDate="arr2" v-on:isToday="clickToday" agoDayHide=1530115200 v-on:choseDay="clickDay" v-on:changeMonth="changeDate"></Calendar>
+				    <flexbox>
 				      <flexbox-item><div class="flex-demo"><i class="circle_1"></i>已上课</div></flexbox-item>
 				      <flexbox-item><div class="flex-demo"><i class="circle_2"></i>没上课</div></flexbox-item>
 				      <flexbox-item><div class="flex-demo"><i class="circle_3"></i>即将上课</div></flexbox-item>
 				    </flexbox>
-			    </CellBox>
+			    </div>
 			</group>
 			<group class="courseBox">
 			    <cell class="tit" title="上课情况"></cell>		    
@@ -130,26 +105,36 @@
 </template>
 
 <script>
-import {XButton,InlineCalendar,Flexbox,FlexboxItem,ViewBox, Group, Cell,CellBox,Rater,Range} from 'vux'
+import {XButton,Flexbox,FlexboxItem,ViewBox, Group, Cell,CellBox} from 'vux'
 import {pushHimOnWall} from '../api/api'
+import Calendar from 'vue-calendar-component';
 import apiHost from '../../config/prod.env'
 export default {
 	components: {
 		XButton,
-		InlineCalendar,
+		Calendar,
 		Flexbox, 
 		FlexboxItem,
 	    ViewBox,
 	    Group,
 	    Cell,
-	    CellBox,
-	    Rater,
-	    Range
+	    CellBox
 	},
 	data(){
-		return {
+		return {			
 			data42: 3,
 			videoPoster:require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
+			arr2: ['2018/6/23'],
+			arr: [
+		        {
+		          date: '2018/6/1',
+		          className: 'mark1'
+		        },
+		        {
+		          date: '2018/6/13',
+		          className: 'mark2'
+		        }
+		    ]
 		}
 	},
 	methods: {
@@ -160,6 +145,17 @@ export default {
 			// this.showM = false;
 			this.$refs.video.play();
 		},
+		clickDay(data) {
+	      console.log('选中了', data); //选中某天
+	      this.$toast('选中了' + data);
+	    },
+	    clickToday(data) {
+	      console.log('跳到了本月今天', data); //跳到了本月
+	    },
+	    changeDate(data) {
+	      this.$toast('切换到的月份为' + data);
+	      console.log('左右点击切换月份', data); //左右点击切换月份
+	    },
 	},
 	mounted () {
 		 window.onresize = function(){
@@ -175,6 +171,26 @@ export default {
 				return true
 			}
 		}
+	},
+	created() {
+	    function format(date, index) {
+	      date = new Date(date);
+	      return `${date.getFullYear()}-${date.getMonth() + 1}-${index}`;
+	    }
+	    this.arr = [
+	      {
+	        date: format(new Date(), 1),
+	        className: 'mark1'
+	      },
+	      {
+	        date: format(new Date(), 1),
+	        className: 'mark1'
+	      },
+	      {
+	        date: format(new Date(), 13),
+	        className: 'mark2'
+	      }
+	    ];
 	}
 }
 </script>
@@ -421,32 +437,79 @@ p {
 		}
 	}
 }
-.vux-flexbox {
-	color: #7F8389;
-	font-size: 0.293333rem;
-	.circle_1 {
-		display: inline-block;
-		width:0.28rem;
-		height: 0.28rem;
-		border-radius: 50%;
-		margin:0 10px;
-		background: #09BB07;		
+.calendarBox {
+	padding:0 15px;
+	.vux-flexbox {
+		color: #7F8389;
+		font-size: 0.293333rem;
+		border-top: 1px solid #E5E5E5;
+		padding:15px 0;
+		.circle_1 {
+			display: inline-block;
+			width:0.28rem;
+			height: 0.28rem;
+			border-radius: 50%;
+			margin:0 10px;
+			background: #09BB07;		
+		}
+		.circle_2 {
+			display: inline-block;
+			width:0.28rem;
+			height: 0.28rem;
+			border-radius: 50%;
+			margin:0 10px;
+			background: #F76260;
+		}
+		.circle_3 {
+			display: inline-block;
+			width:0.28rem;
+			height: 0.28rem;
+			border-radius: 50%;
+			margin:0 10px;
+			background: #D8D8D8;
+		}
 	}
-	.circle_2 {
-		display: inline-block;
-		width:0.28rem;
-		height: 0.28rem;
-		border-radius: 50%;
-		margin:0 10px;
-		background: #F76260;
+}
+.wh_container {
+	.wh_content_all {
+		background: #fff;
+		padding-bottom:0;
+		.wh_top_changge {
+			background: #09BB07;
+			li {
+				height: 1rem;
+			}
+			.wh_content_li {
+				flex: 5;
+			}
+		}		
+		.wh_content {
+			padding:0;
+		}
 	}
-	.circle_3 {
-		display: inline-block;
-		width:0.28rem;
-		height: 0.28rem;
-		border-radius: 50%;
-		margin:0 10px;
-		background: #D8D8D8;
+	.wh_content_item {
+		display: flex;
+		width:14.285714%;
+		line-height: 40px;
+		.wh_top_tag {
+			color: #000;
+		}
+		.wh_item_date {
+			width:0.506666rem;
+			height: 0.506666rem;
+			font-size: 0.293333rem;
+			color: #000;
+		}
+		.mark1 {
+			background: #09BB07;
+			border-radius: 50%;
+			color: #fff;
+		}
+		.mark2 {
+			background: #D8D8D8;
+			border-radius: 50%;
+			color: #fff;
+		}
 	}
 }
 </style>

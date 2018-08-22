@@ -145,12 +145,12 @@ const router = new Router({
       path: '/courseDetails',
       name: 'courseDetails',
       component: courseDetails
-  },
-     {
-         path: '/courseInfo',
-         name: 'courseInfo',
-         component: courseInfo
-	 }
+    },
+      {
+	  path: '/courseInfo',
+	  name: 'courseInfo',
+	  component: courseInfo
+	}
   ]
 })
 router.beforeEach(function (to, from, next) {
