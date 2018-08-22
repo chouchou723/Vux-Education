@@ -23,7 +23,7 @@
 			<group class="courseBox">
 			    <cell class="tit" title="课程日历"></cell>
 			    <div class="calendarBox">
-				    <Calendar ref="Calendar" :sundayStart="true" :markDateMore="arr" :markDate="arr2" v-on:isToday="clickToday" agoDayHide=1530115200 v-on:choseDay="clickDay" v-on:changeMonth="changeDate"></Calendar>
+				    <Calendar ref="Calendar" :sundayStart="true" :markDateMore="arr" :markDate="arr2"  agoDayHide=1530115200  v-on:changeMonth="changeDate"></Calendar>
 				    <flexbox>
 				      <flexbox-item><div class="flex-demo"><i class="circle_1"></i>已上课</div></flexbox-item>
 				      <flexbox-item><div class="flex-demo"><i class="circle_2"></i>没上课</div></flexbox-item>
@@ -129,17 +129,8 @@ export default {
 			data42: 3,
 			isMoreContent:false,
 			videoPoster:require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
-			arr2: ['2018/6/23'],
-			arr: [
-		        {
-		          date: '2018/6/1',
-		          className: 'mark1'
-		        },
-		        {
-		          date: '2018/6/13',
-		          className: 'mark2'
-		        }
-		    ]
+			arr2: [],
+			arr: []
 		}
 	},
 	methods: {
@@ -160,16 +151,20 @@ export default {
 			this.$refs.video.play();
 		},
 		clickDay(data) {
-	      console.log('选中了', data); //选中某天
-	      this.$toast('选中了' + data);
+	    //   console.log('选中了', data); //选中某天
+	    //   this.$toast('选中了' + data);
 	    },
 	    clickToday(data) {
 	      console.log('跳到了本月今天', data); //跳到了本月
 	    },
 	    changeDate(data) {
-	      this.$toast('切换到的月份为' + data);
+	    //   this.$toast('切换到的月份为' + data);
 	      console.log('左右点击切换月份', data); //左右点击切换月份
-	    },
+		},
+		format(date, index) {
+	      date = new Date(date);
+	      return `${date.getFullYear()}-${date.getMonth() + 1}-${index}`;
+	    }
 	},
 	mounted () {
 		 window.onresize = function(){
@@ -187,22 +182,19 @@ export default {
 		}
 	},
 	created() {
-	    function format(date, index) {
-	      date = new Date(date);
-	      return `${date.getFullYear()}-${date.getMonth() + 1}-${index}`;
-	    }
+	    
 	    this.arr = [
 	      {
-	        date: format(new Date(), 1),
+	        date: this.format(new Date(), 1),
 	        className: 'mark1'
 	      },
 	      {
-	        date: format(new Date(), 1),
-	        className: 'mark1'
-	      },
-	      {
-	        date: format(new Date(), 13),
+	        date: this.format(new Date(), 13),
 	        className: 'mark2'
+		  },
+		   {
+	        date: this.format(new Date(), 3),
+	        className: 'mark3'
 	      }
 	    ];
 	}
@@ -520,6 +512,7 @@ p {
 		}		
 		.wh_content {
 			padding:0;
+			pointer-events: none;
 		}
 	}
 	.wh_content_item {
@@ -535,6 +528,9 @@ p {
 			font-size: 0.293333rem;
 			color: #000;
 		}
+		.wh_isToday{
+			background: none;
+		}
 		.mark1 {
 			background: #09BB07;
 			border-radius: 50%;
@@ -544,6 +540,11 @@ p {
 			background: #D8D8D8;
 			border-radius: 50%;
 			color: #fff;
+		}
+		.mark3 {
+			background: #F76260;
+			border-radius: 50%;
+			color: white;
 		}
 	}
 }
