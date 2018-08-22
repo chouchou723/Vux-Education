@@ -111,7 +111,7 @@
 <script>
 import {XButton,Flexbox,FlexboxItem,ViewBox, Group, Cell,CellBox} from 'vux'
 import {pushHimOnWall} from '../api/api'
-import Calendar from '../components/calendar.vue';
+import Calendar from '../components/calendar';
 import apiHost from '../../config/prod.env'
 export default {
 	components: {

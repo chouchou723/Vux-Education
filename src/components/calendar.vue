@@ -171,7 +171,7 @@ wh_content_item_tag {
   </section>
 </template>
 <script>
-import timeUtil from './calendar.js';
+import timeUtil from '../utils/calendar';
 export default {
   data() {
     return {
