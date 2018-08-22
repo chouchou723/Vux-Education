@@ -2,7 +2,7 @@
   <div class="myLesson">
     <!-- 列表 -->
     <group style="margin-top:-0.2rem" class="groupC" v-for="(item,index) in lessonList" :key="index">
-    <cell-box is-link >
+    <cell-box is-link link="/courseInfo">
         
         <div class="lessonListAll">
             <div class="lessonTitleC">

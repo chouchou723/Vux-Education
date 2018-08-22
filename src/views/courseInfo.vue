@@ -62,9 +62,11 @@
 				    	<img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" alt="">
 			    	</div>
 			    </CellBox>
-			    <CellBox><div class="more"  @click="changeMoreContent"><span>{{isMoreContent?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMoreContent?'rotate90':'']"></i></div></CellBox>
-
-			    <!-- <CellBox><div class="more"><span>点击查看更多</span><i class="ico_arr"></i></div></CellBox> -->
+			    <CellBox>
+					<div class="more"  @click="changeMoreContent">
+						<span>{{isMoreContent?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMoreContent?'rotate90':'']"></i>
+					</div>
+				</CellBox>
 			</group>
 			<group class="courseBox">
 			    <cell class="tit" title="课程评价">
@@ -109,7 +111,7 @@
 <script>
 import {XButton,Flexbox,FlexboxItem,ViewBox, Group, Cell,CellBox} from 'vux'
 import {pushHimOnWall} from '../api/api'
-import Calendar from 'vue-calendar-component';
+import Calendar from '../components/calendar.vue';
 import apiHost from '../../config/prod.env'
 export default {
 	components: {
