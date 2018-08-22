@@ -1,19 +1,22 @@
 <template>
   <div class="lecture">
-      <view-box ref="viewBox">
+      <sticky
+        scroll-box="vux_view_box_body"
+        ref="sticky"
+        :offset="0"
+        :check-sticky-support="false">
       <search
-      slot="header"
       v-model="value"
       position="absolute"
       auto-scroll-to-top
       @on-cancel="onCancel"
       @on-submit="onSubmit"
       ref="search"></search>
-       <tab  custom-bar-width="40px" slot="header">
+       <tab  custom-bar-width="40px">
       <tab-item >兴趣体验</tab-item>
       <tab-item  selected>系统学习</tab-item>
     </tab>
-    <div class="chooseDiv" slot="header">
+    <div class="chooseDiv">
         <div class="chooseTitle" :style="!chooseT?'':'color:#04BE02'" @click="chooseSelect('time')">上课时间
             <img src="../assets/tri.png" alt="" style="width:.25rem;margin-left:.1rem" v-if="!chooseT">
             <img src="../assets/triS.png" alt="" style="width:.25rem;margin-left:.1rem" v-else>
@@ -58,6 +61,7 @@
         </div>
       
     </div>
+      </sticky>
     <!-- 列表 -->
     <group style="margin-top:-0.2rem">
          <loading :show="show2" text=""></loading>
@@ -85,17 +89,16 @@
     <div class="normalModal" v-if="chooseA||chooseS">
 
     </div>
-      </view-box>
   </div>
 </template>
 
 <script>
-import {ViewBox,Group,Tab, TabItem,Cell, Search,Datetime,CellBox,Loading   } from 'vux'
+import {Group,Tab, TabItem,Cell, Search,Datetime,CellBox,Loading,Sticky   } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 export default {
   components: {
-  ViewBox,Group, Tab, TabItem,Cell,Search ,Datetime,CellBox ,Loading
+  Group, Tab, TabItem,Cell,Search ,Datetime,CellBox ,Loading,Sticky
   },
   data () {
     return {
@@ -194,7 +197,6 @@ export default {
 
 <style lang="less">
 .lecture{
-    height: 100%;
     .chooseDiv{
     width: 100%;
     display: flex;
