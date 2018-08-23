@@ -11,56 +11,34 @@
       auto-scroll-to-top
       @on-cancel="onCancel"
       @on-submit="onSubmit"
-      ref="search"></search>
-       <tab  custom-bar-width="40px">
+      ref="search"
+      @touchmove.native="touchmove"></search>
+       <tab  custom-bar-width="40px" @touchmove.native="touchmove">
       <tab-item >兴趣体验</tab-item>
       <tab-item  selected>系统学习</tab-item>
     </tab>
-    <div class="chooseDiv">
-        <div class="chooseTitle" :style="!chooseT?'':'color:#04BE02'" @click="chooseSelect('time')">上课时间
-            <img src="../assets/tri.png" alt="" style="width:.25rem;margin-left:.1rem" v-if="!chooseT">
+    <div class="chooseDiv" @touchmove="touchmove">
+        <div class="chooseTitle" :style="chooseIndex!==1?'':'color:#04BE02'" @click="chooseSelect('time')">上课时间
+            <img src="../assets/tri.png" alt="" style="width:.25rem;margin-left:.1rem" v-if="chooseIndex!==1">
             <img src="../assets/triS.png" alt="" style="width:.25rem;margin-left:.1rem" v-else>
         </div>
-        <div class="chooseTitle" :style="!chooseA?'':'color:#04BE02'" @click="chooseSelect('add')">上课地点
-            <img src="../assets/tri.png" alt="" style="width:.25rem;margin-left:.1rem" v-if="!chooseA">
+        <div class="chooseTitle" :style="chooseIndex!==2?'':'color:#04BE02'" @click="chooseSelect('add')">上课地点
+            <img src="../assets/tri.png" alt="" style="width:.25rem;margin-left:.1rem" v-if="chooseIndex!==2">
             <img src="../assets/triS.png" alt="" style="width:.25rem;margin-left:.1rem" v-else></div>
-        <div class="chooseTitle" :style="!chooseS?'':'color:#04BE02'" @click="chooseSelect('select')">筛选条件
-            <img src="../assets/tri.png" alt="" style="width:.25rem;margin-left:.1rem" v-if="!chooseS">
+        <div class="chooseTitle" :style="chooseIndex!==3?'':'color:#04BE02'" @click="chooseSelect('select')">筛选条件
+            <img src="../assets/tri.png" alt="" style="width:.25rem;margin-left:.1rem" v-if="chooseIndex!==3">
             <img src="../assets/triS.png" alt="" style="width:.25rem;margin-left:.1rem" v-else></div>
-        <div class="modalTime" v-if="chooseT">
+        <div class="modalTime" v-if="chooseIndex===1">
             {{nowTime}}
         </div>
         <!-- 选择地点 -->
-         <div class="modalAdd" v-if="chooseA">
-           <div class="addList">
-               <div v-for="(item,index) in addList" :key="index" :class="chooseItemList.includes(item.id)?'selectItem':'addItem'" @click="chooseItem(item.id)">{{item.name}}</div>
-           </div>
-           <div class='addfooter'>
-               <div style="color:grey" @click="cancelAddSelect">取消</div>
-               <div style="color:red" @click="clearAddSelect">清空</div>
-               <div  @click="confirmAddSelect">确定</div>
-           </div>
-        </div>
+        <!-- <div v-transfer-dom>
+         
+        </div> -->
         <!-- 筛选条件 -->
-         <div class="modalSelect" v-if="chooseS">
-              
-             <div class="selectTwo">
-                    <div class="selectTwoFirst">
-                    <div :class="['selectKind',typeKind==index?'typeChoose':'']" v-for="(item,index) in typekind" :key="index" @click="changeType(index)">
-                        {{item}}
-                    </div>
-                    </div>
-                    <div class="addListS">
-                        <div v-for="(item,index) in selectList" :key="index" :class="chooseListSelect[typeKind].includes(item.id)?'selectItem':'addItem'" @click="chooseItemSelect(item.id)">{{item.name}}</div>
-                    </div>
-             </div>
-           <div class='addfooter'>
-               <div style="color:grey" @click="cancelsSelect">取消</div>
-               <div style="color:red" @click="clearsSelect">清空</div>
-               <div  @click="confirmsSelect">确定</div>
-           </div>
-            
-        </div>
+        <!-- <div v-transfer-dom>
+        
+        </div> -->
       
     </div>
       </sticky>
@@ -83,22 +61,58 @@
       <!-- anything -->
     </cell-box>
   </group>
-    <group class="modalG" v-if="chooseT">
-        <datetime v-model="value7" clear-text="清空" @on-confirm="changeDate" @on-clear="clearDate" :show="chooseT" @on-cancel="chooseSelect('time')">
+    <group class="modalG" v-if="chooseIndex===1">
+        <datetime v-model="value7" clear-text="清空" @on-confirm="changeDate" @on-clear="clearDate" :show="chooseIndex===1" @on-cancel="cancelSelect">
         </datetime>
     </group>
     <!-- 蒙版 -->
-    <div class="normalModal" v-if="chooseA||chooseS" @click="closeSelect">
+    <div v-transfer-dom>
+    <div  class="LecturenormalModal" v-if="chooseIndex===2||chooseIndex===3" @click="cancelSelectModal" @touchmove="touchmove">
+        <div class="LecturemodalAdd" v-if="chooseIndex===2">
+             <div style="width:100%;height:.34rem;background:#F4F4F4;border-bottom:1px solid #D9D9D9"></div>
+           <div class="LectureaddList">
+               <div v-for="(item,index) in addList" :key="index" :class="chooseItemList.includes(item.id)?'LectureselectItem':'LectureaddItem'" @click="chooseItem(item.id)">{{item.name}}</div>
+           </div>
+           <div class='Lectureaddfooter'>
+               <div style="color:grey" @click="cancelSelect">取消</div>
+               <div style="color:red" @click="clearAddSelect">清空</div>
+               <div  @click="confirmAddSelect">确定</div>
+           </div>
+        </div>
+        <!-- 筛选条件 -->
+         <div class="LecturemodalSelect" v-if="chooseIndex===3">
+             <div style="width:100%;height:.34rem;background:#F4F4F4;border-bottom:1px solid #D9D9D9"></div>
+              
+             <div class="LectureselectTwo">
+                    <div class="LectureselectTwoFirst">
+                    <div :class="['LectureselectKind',typeKind==index?'LecturetypeChoose':'']" v-for="(item,index) in typekind" :key="index" @click="changeType(index)">
+                        {{item}}
+                    </div>
+                    </div>
+                    <div class="LectureaddListS">
+                        <div v-for="(item,index) in selectList" :key="index" :class="chooseListSelect[typeKind].includes(item.id)?'LectureselectItem':'LectureaddItem'" @click="chooseItemSelect(item.id)">{{item.name}}</div>
+                    </div>
+             </div>
+           <div class='Lectureaddfooter'>
+               <div style="color:grey" @click="cancelSelect">取消</div>
+               <div style="color:red" @click="clearsSelect">清空</div>
+               <div  @click="confirmsSelect">确定</div>
+           </div>
+         </div>
+    </div>
 
     </div>
   </div>
 </template>
 
 <script>
-import {Group,Tab, TabItem,Cell, Search,Datetime,CellBox,Loading,Sticky   } from 'vux'
+import {Group,Tab, TabItem,Cell, Search,Datetime,CellBox,Loading,Sticky, TransferDom    } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 export default {
+    directives: {
+    TransferDom
+  },
   components: {
   Group, Tab, TabItem,Cell,Search ,Datetime,CellBox ,Loading,Sticky
   },
@@ -112,17 +126,21 @@ export default {
       value7:'',
       false:false,
       show2:false,
+      chooseIndex:0,
       chooseT:false,
       chooseA:false,
       chooseS:false,
       typeKind:0,
       typeKindBackup:0,
       chooseItemList:[],
-      isConfirm:false,
+      chooseItemListBackup:[],
       nowTime:'',//`${new Date().getFullYear()}年${new Date().getMonth()+1}月${new Date().getDate()}日`,
       addList:[{id:'1',name:'世博园场馆'},{id:'2',name:'东方明珠'},{id:'3',name:'世博园场馆'},{id:'23',name:'东方明珠'},{id:'12',name:'世博园场馆'},{id:'22',name:'东方明珠'},{id:'33',name:'世博园场馆'},{id:'231',name:'东方明珠'},{id:'112',name:'世博园场馆'},{id:'232',name:'东方明珠'}],
       selectList:[],
-      selectList0:[{id:'1',name:'少儿'},{id:'2',name:'动漫'}],
+      selectList0:[{id:'1',name:'少儿'},{id:'2',name:'动漫'},
+      {id:'1',name:'少儿'},{id:'2',name:'动漫'},
+      {id:'1',name:'少儿'},{id:'2',name:'动漫'},{id:'1',name:'少纷纷儿'},{id:'2',name:'动漫'},{id:'1',name:'少儿'},{id:'2',name:'动漫'}
+      ,{id:'1',name:'少纷纷儿'},{id:'2',name:'动纷纷漫'},{id:'1',name:'少纷纷儿'},{id:'2',name:'动漫'}],
       selectList1:[{id:'1',name:'1-3岁'},{id:'2',name:'4-6岁'},],
       chooseListSelect:{0:[],1:[]},
       chooseListSelectBackUp:{0:[],1:[]},
@@ -141,45 +159,42 @@ export default {
     }
   },
   methods:{
-      chooseItemSelect(id){
-          if( this.chooseListSelect[this.typeKind].includes(id)){
-                    this.chooseListSelect[this.typeKind] = this.chooseListSelect[this.typeKind].filter(item=>{
-                        return item != id;
-                    })
-                }else{   
-                   this.chooseListSelect[this.typeKind].push(id)
-                }
-                console.log(this.chooseListSelectBackUp)
-      },
+            chooseItemSelect(id){
+                if( this.chooseListSelect[this.typeKind].includes(id)){
+                            this.chooseListSelect[this.typeKind] = this.chooseListSelect[this.typeKind].filter(item=>{
+                                return item != id;
+                            })
+                        }else{   
+                        this.chooseListSelect[this.typeKind].push(id)
+                        }
+                        // console.log(this.chooseListSelectBackUp)
+            },
             changeType(type){
                 this.typeKind = type;
                 this.selectList = this['selectList'+type]
             },
-            cancelAddSelect(){
-                this.chooseA= false
-                 this.isConfirm = false;
+            cancelSelect(){
+                    this.chooseIndex =0;
+            },
+            cancelSelectModal($e){
+                if($e.target.className ==='LecturenormalModal'){
+                    this.chooseIndex =0;
+                }
             },
             clearAddSelect(){
                 this.chooseItemList=[];
             },
-            confirmAddSelect(){
-                this.isConfirm = true;
-                 this.chooseA= false
-            },
-             cancelsSelect(){
-                this.chooseS= false
-            },
             clearsSelect(){
                 this.chooseListSelect[this.typeKind]=[];
             },
+            confirmAddSelect(){
+                this.chooseItemListBackup=JSON.parse(JSON.stringify(this.chooseItemList));
+                this.chooseIndex =0;
+            },
             confirmsSelect(){
-                this.chooseS= false;
+                this.chooseIndex =0;
                 this.chooseListSelectBackUp = JSON.parse(JSON.stringify(this.chooseListSelect))
                 this.typeKindBackup = this.typeKind;
-            },
-            closeSelect(){
-                this.chooseA= false;
-                this.chooseS= false
             },
             chooseItem(id){
                 if( this.chooseItemList.includes(id)){
@@ -204,25 +219,25 @@ export default {
             onCancel(){},
             chooseSelect(type){
                 if(type=='time'){
-                    this.chooseA = false;
-                    this.chooseS = false;
-                    this.chooseT? this.chooseT= false: this.chooseT= true;
+                    console.log(this.chooseIndex)
+                    this.chooseIndex===1? this.chooseIndex=0:this.chooseIndex=1
                     setTimeout(()=>{
                         this.chooseT && (document.querySelector(".vux-datetime-clear").style.cssText +="color:red")
                     },1)
                 }else if(type=='add'){
-                     this.chooseT = false;
-                     this.chooseS = false;
-                     !this.isConfirm&&(this.chooseItemList=[])
-                    this.chooseA? this.chooseA= false: this.chooseA= true;
+                     this.chooseIndex===2? this.chooseIndex=0:this.chooseIndex=2
+                     this.chooseItemList = JSON.parse(JSON.stringify(this.chooseItemListBackup))
                 }else{
-                    this.chooseT = false;
-                     this.chooseA = false;
+                    this.chooseIndex===3? this.chooseIndex=0:this.chooseIndex=3
                      this.chooseListSelect = JSON.parse(JSON.stringify(this.chooseListSelectBackUp))
                      this.typeKind = this.typeKindBackup;
-                    this.chooseS? this.chooseS= false: this.chooseS= true;
                 }
             },
+            touchmove($event){
+                if(this.chooseIndex===2||this.chooseIndex===3){
+                    $event.preventDefault()
+                }
+            }
   },
   created(){
       this.changeType(0)
@@ -237,53 +252,119 @@ export default {
 
 <style lang="less">
 .lecture{
+    height: 100%;
     .chooseDiv{
     width: 100%;
     display: flex;
     position: relative;
+    }
+    .chooseTitle{
+        font-size: 12px;
+        flex: auto;
+        padding: .4rem .3rem;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+    .modalTime{
+        width: 100%;
+        position: absolute;
+        bottom:-1.3rem;
+        height: 1rem;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        padding-left:.7rem;
+        z-index: 1;
+    }
+
+
+
+
+    .modalG{
+        position: absolute;
+        bottom:-1.4rem;
+    }
+    .lessonList{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: .1rem 0;
+    }
+    .lessonDetail{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding-left: .4rem;
+    }
+    .hot{
+        font-size: 12px;
+        padding: 0 .1rem;
+        background-color: #f76260;
+        color: white;
+        border-radius: .07rem;
+        margin-right:.2rem;
+    }
+    .lessonName{
+        padding: 0 .2rem 0 0;
+    }
+    .lessonStatus{
+        font-size: 12px;
+        color: #fa9b9a;
+        border: 1px solid #fa9b9a;
+        border-radius: .3rem;
+        padding: 0 .2rem;
+    }
+    .lessonContent{
+        font-size: 12px;
+        color: #b6b6b6;
+    }
+    .lessonPrice{
+        color: #fb6804;
+    }
 }
-.chooseTitle{
-    font-size: 12px;
-    flex: auto;
-    padding: .4rem .3rem;
-    background: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-.modalTime{
+.LecturenormalModal{
+    // width: 100%;
+    // position: absolute;
+    // bottom:0;
+    // height: 100%;
+    // background-color: rgba(0,0,0,0.5);
+    // z-index: 600;
+    position: fixed;
     width: 100%;
-    position: absolute;
-    bottom:-1.3rem;
-    height: 1rem;
-    background-color: white;
-    display: flex;
-    align-items: center;
-    padding-left:.7rem;
-    z-index: 1;
+    height: 20rem;
+    left: 0px;
+    top:3.6rem;
+    // opacity: 0.5;
+    -webkit-transition: opacity 0.2s ease-in;
+    transition: opacity 0.2s ease-in;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 501;
 }
-.modalAdd{
+.LecturemodalAdd{
      width: 100%;
-    position: absolute;
-    top:1.6rem;
+    // position: absolute;
+    // top:3.6rem;
     min-height: 3rem;
     background-color: white;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding:.3rem 0 0;
-    z-index: 1001;
+    // z-index: 1001;
+    overflow: hidden;
 }
-.addList{
+.LectureaddList{
     /* width: 100%; */
     display: flex;
-    padding:0 .7rem .3rem;
+    padding:0.3rem .7rem;
     justify-content: flex-start;
     flex-wrap: wrap;
     min-height: 2rem;
 }
-.addItem{
+.LectureaddItem{
     padding: 0 0.2rem;
     height: .7rem;
     line-height: .7rem;
@@ -291,7 +372,7 @@ export default {
     margin-right: .2rem;
     margin-bottom: .2rem;
 }
-.selectItem{
+.LectureselectItem{
      padding: 0 0.2rem;
      height: .7rem;
       line-height: .7rem;
@@ -301,31 +382,31 @@ export default {
     margin-right: .2rem;
     margin-bottom: .2rem;
 }
-.addfooter{
+.Lectureaddfooter{
     display: flex;
     justify-content: space-between;
     padding:0.3rem .7rem;
     font-size: .4rem;
     border-top: 1px solid gainsboro;
 }
-.modalSelect{
+.LecturemodalSelect{
       width: 100%;
-    position: absolute;
-    top:1.6rem;
+    // position: absolute;
+    // top:3.6rem;
     /* min-height: 5rem; */
     background-color: white;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    z-index: 1001;
+    // z-index: 1001;
     /* padding:.3rem 0 0; */
 }
-.selectTwo{
+.LectureselectTwo{
     display: flex;
     padding: 0 .3rem .3rem 0;
 
 }
-.selectTwoFirst{
+.LectureselectTwoFirst{
     flex: 0 0 2.5rem; 
     display: flex;
     flex-direction: column;
@@ -335,7 +416,7 @@ export default {
     border-right: 1px solid gainsboro;
     min-height: 3rem;
 }
-.selectKind{
+.LectureselectKind{
     // padding: .3rem .1rem .3rem .3rem;
     // flex:auto;
     width: 100%;
@@ -343,7 +424,7 @@ export default {
     height: 1.2rem;
     line-height: 1.2rem;
 }
-.addListS{
+.LectureaddListS{
     display: flex;
     padding:.3rem 0 0 .4rem;
     justify-content: flex-start;
@@ -352,11 +433,11 @@ export default {
     align-items: flex-start;
     align-self: flex-start;
 }
-.typeChoose{
+.LecturetypeChoose{
     color: #04be02;
     position: relative;
 }
-.typeChoose::after{
+.LecturetypeChoose::after{
     content: '';
     position: absolute;
     width: .15rem;
@@ -364,57 +445,5 @@ export default {
     background: #04be02;
     top:0rem;
     left:0;
-}
-
-.normalModal{
-    width: 100%;
-    position: absolute;
-    bottom:0;
-    height: 10rem;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 1000;
-}
-.modalG{
-    position: absolute;
-    bottom:-1.4rem;
-}
-.lessonList{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding: .1rem 0;
-}
-.lessonDetail{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding-left: .4rem;
-}
-.hot{
-    font-size: 12px;
-    padding: 0 .1rem;
-    background-color: #f76260;
-    color: white;
-    border-radius: .07rem;
-    margin-right:.2rem;
-}
-.lessonName{
-    padding: 0 .2rem 0 0;
-}
-.lessonStatus{
-    font-size: 12px;
-    color: #fa9b9a;
-    border: 1px solid #fa9b9a;
-    border-radius: .3rem;
-    padding: 0 .2rem;
-}
-.lessonContent{
-     font-size: 12px;
-     color: #b6b6b6;
-}
-.lessonPrice{
-    color: #fb6804;
-}
 }
 </style>

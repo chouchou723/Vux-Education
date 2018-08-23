@@ -8,24 +8,25 @@
        <cell >
            <div slot="title" class="fz15">
                 <span style="margin-right:15px">总体</span>
-                <rater v-model="data3"></rater>
+                <Rt :rank="data1" @reduceRank="reduceRank" numb="data1"></Rt>
+                <!-- <rater v-model="data3"></rater> -->
            </div> 
            <div slot="title" class="fz15">
                 <span style="margin-right:15px">老师</span>
-                <rater v-model="data3"></rater>
+                <Rt :rank="data2" @reduceRank="reduceRank" numb="data2"></Rt>               
            </div>
            <div slot="title" class="fz15">
                 <span style="margin-right:15px">课程</span>
-                <rater v-model="data3"></rater>
+                <Rt :rank="data3" @reduceRank="reduceRank" numb="data3"></Rt>              
            </div> 
            <div slot="title" class="fz15">
                 <span style="margin-right:15px">场馆</span>
-                <rater v-model="data3"></rater>
+                <Rt :rank="data4" @reduceRank="reduceRank" numb="data4"></Rt>              
            </div>
       </cell>
     </group>
      <group title=" ">
-     <x-textarea style="font-size:14px" :max="200" :rows="5" placeholder="亲,课程怎么样,老师好不好,环境如何,学习效果满意吗?" :show-counter="false" @on-focus="onEvent('focus')" @on-blur="onEvent('blur')"></x-textarea>
+     <x-textarea style="font-size:14px" :max="200" :rows="5" placeholder="亲,课程怎么样,老师好不好,环境如何,学习效果满意吗?" :show-counter="false" ></x-textarea>
           <cell>
             <span slot="title" style="font-size:14px;color:#a5a3a3">加油! 还差15字</span>
       </cell>
@@ -72,6 +73,7 @@
 
 <script>
   import { XButton, Group, Cell,ViewBox, XTextarea, Rater } from 'vux'
+  import Rt from '../components/Rater'
 // import SimpleCropper from '@/components/SimpleCrop' 
 import VuxUpload from '../components/Upload'
   export default {
@@ -83,6 +85,7 @@ import VuxUpload from '../components/Upload'
       XTextarea,
       Rater,
       VuxUpload,
+      Rt
     //   SimpleCropper
     },
     data () {
@@ -99,7 +102,10 @@ import VuxUpload from '../components/Upload'
         images:[{src: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg')},{src: require('../assets/ff.png')},{src: require('../assets/ff.png')}],
         uploadUrl:'',
         params:{},
+          data1:5,
+          data2:5,
           data3:5,
+          data4:5,
         value: '',
         nickname: function (value) {
         return {
@@ -118,6 +124,13 @@ import VuxUpload from '../components/Upload'
         }
     },
     methods:{
+        reduceRank(d){
+            if(d.type=='reduce'){
+                this[d.numb] = d.id+1;
+            }else{
+                this[d.numb] +=(d.id+1)
+            }
+        },
 //         upload () {
 //   this.$refs['cropper'].upload() 
 //  }, 
@@ -129,7 +142,10 @@ import VuxUpload from '../components/Upload'
 //  }
 onSuccess(){},
 onError(){},
-onRemove(){},
+onRemove(d){
+    this.images.splice(d,1)
+    console.log(d)
+},
     }
   }
 </script>
@@ -154,7 +170,8 @@ onRemove(){},
 .fz15{
     font-size: 15px;
     display: flex;
-    align-items: center;
+    align-items: stretch;
+    padding: 4px;
 }
 .titleS::after{
     content: '';
