@@ -62,12 +62,13 @@
     </cell-box>
   </group>
     <group class="modalG" v-if="chooseIndex===1">
-        <datetime v-model="value7" clear-text="清空" @on-confirm="changeDate" @on-clear="clearDate" :show="chooseIndex===1" @on-cancel="cancelSelect">
+        <datetime v-model="value7" clear-text="重置" @on-confirm="changeDate" @on-clear="clearDate" :show="chooseIndex===1" @on-cancel="cancelSelect">
         </datetime>
     </group>
     <!-- 蒙版 -->
     <div v-transfer-dom>
     <div  class="LecturenormalModal" v-if="chooseIndex===2||chooseIndex===3" @click="cancelSelectModal" @touchmove="touchmove">
+        <!-- 地点筛选 -->
         <div class="LecturemodalAdd" v-if="chooseIndex===2">
              <div style="width:100%;height:.34rem;background:#F4F4F4;border-bottom:1px solid #D9D9D9"></div>
            <div class="LectureaddList">
@@ -75,7 +76,7 @@
            </div>
            <div class='Lectureaddfooter'>
                <div style="color:grey" @click="cancelSelect">取消</div>
-               <div style="color:red" @click="clearAddSelect">清空</div>
+               <div style="color:#04BE02" @click="clearAddSelect">重置</div>
                <div  @click="confirmAddSelect">确定</div>
            </div>
         </div>
@@ -95,7 +96,7 @@
              </div>
            <div class='Lectureaddfooter'>
                <div style="color:grey" @click="cancelSelect">取消</div>
-               <div style="color:red" @click="clearsSelect">清空</div>
+               <div style="color:#04BE02" @click="clearsSelect">重置</div>
                <div  @click="confirmsSelect">确定</div>
            </div>
          </div>
@@ -183,9 +184,11 @@ export default {
             },
             clearAddSelect(){
                 this.chooseItemList=[];
+                 this.chooseIndex =0;
             },
             clearsSelect(){
                 this.chooseListSelect[this.typeKind]=[];
+                this.chooseIndex =0;
             },
             confirmAddSelect(){
                 this.chooseItemListBackup=JSON.parse(JSON.stringify(this.chooseItemList));
@@ -219,11 +222,7 @@ export default {
             onCancel(){},
             chooseSelect(type){
                 if(type=='time'){
-                    console.log(this.chooseIndex)
                     this.chooseIndex===1? this.chooseIndex=0:this.chooseIndex=1
-                    setTimeout(()=>{
-                        this.chooseT && (document.querySelector(".vux-datetime-clear").style.cssText +="color:red")
-                    },1)
                 }else if(type=='add'){
                      this.chooseIndex===2? this.chooseIndex=0:this.chooseIndex=2
                      this.chooseItemList = JSON.parse(JSON.stringify(this.chooseItemListBackup))
