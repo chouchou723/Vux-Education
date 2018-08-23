@@ -11,11 +11,12 @@
       auto-scroll-to-top
       @on-cancel="onCancel"
       @on-submit="onSubmit"
+      @on-focus="onFocus"
       ref="search"
       @touchmove.native="touchmove"></search>
        <tab  custom-bar-width="40px" @touchmove.native="touchmove">
-      <tab-item >兴趣体验</tab-item>
-      <tab-item  selected>系统学习</tab-item>
+      <tab-item @on-item-click="changeLesson">兴趣体验</tab-item>
+      <tab-item  @on-item-click="changeLesson" selected>系统学习</tab-item>
     </tab>
     <div class="chooseDiv" @touchmove="touchmove">
         <div class="chooseTitle" :style="chooseIndex!==1?'':'color:#04BE02'" @click="chooseSelect('time')">上课时间
@@ -31,14 +32,6 @@
         <div class="modalTime" v-if="chooseIndex===1">
             {{nowTime}}
         </div>
-        <!-- 选择地点 -->
-        <!-- <div v-transfer-dom>
-         
-        </div> -->
-        <!-- 筛选条件 -->
-        <!-- <div v-transfer-dom>
-        
-        </div> -->
       
     </div>
       </sticky>
@@ -128,9 +121,6 @@ export default {
       false:false,
       show2:false,
       chooseIndex:0,
-      chooseT:false,
-      chooseA:false,
-      chooseS:false,
       typeKind:0,
       typeKindBackup:0,
       chooseItemList:[],
@@ -160,83 +150,89 @@ export default {
     }
   },
   methods:{
-            chooseItemSelect(id){
-                if( this.chooseListSelect[this.typeKind].includes(id)){
-                            this.chooseListSelect[this.typeKind] = this.chooseListSelect[this.typeKind].filter(item=>{
-                                return item != id;
-                            })
-                        }else{   
-                        this.chooseListSelect[this.typeKind].push(id)
-                        }
-                        // console.log(this.chooseListSelectBackUp)
-            },
-            changeType(type){
-                this.typeKind = type;
-                this.selectList = this['selectList'+type]
-            },
-            cancelSelect(){
-                    this.chooseIndex =0;
-            },
-            cancelSelectModal($e){
-                if($e.target.className ==='LecturenormalModal'){
-                    this.chooseIndex =0;
-                }
-            },
-            clearAddSelect(){
-                this.chooseItemList=[];
-                 this.chooseIndex =0;
-            },
-            clearsSelect(){
-                this.chooseListSelect[this.typeKind]=[];
+        changeLesson(){
+            this.chooseIndex = 0;
+      },
+        chooseItemSelect(id){
+            if( this.chooseListSelect[this.typeKind].includes(id)){
+                        this.chooseListSelect[this.typeKind] = this.chooseListSelect[this.typeKind].filter(item=>{
+                            return item != id;
+                        })
+                    }else{   
+                    this.chooseListSelect[this.typeKind].push(id)
+                    }
+                    // console.log(this.chooseListSelectBackUp)
+        },
+        changeType(type){
+            this.typeKind = type;
+            this.selectList = this['selectList'+type]
+        },
+        cancelSelect(){
                 this.chooseIndex =0;
-            },
-            confirmAddSelect(){
-                this.chooseItemListBackup=JSON.parse(JSON.stringify(this.chooseItemList));
+        },
+        cancelSelectModal($e){
+            if($e.target.className ==='LecturenormalModal'){
                 this.chooseIndex =0;
-            },
-            confirmsSelect(){
-                this.chooseIndex =0;
-                this.chooseListSelectBackUp = JSON.parse(JSON.stringify(this.chooseListSelect))
-                this.typeKindBackup = this.typeKind;
-            },
-            chooseItem(id){
-                if( this.chooseItemList.includes(id)){
-                    this.chooseItemList = this.chooseItemList.filter(item=>{
-                        return item != id;
-                    })
-                }else{   
-                   this.chooseItemList.push(id)
-                }
-            },
-            changeDate(value){
-                this.nowTime = value.split('-')[0]+'年'+value.split('-')[1]+'月'+value.split('-')[2]+'日';
-                this.chooseSelect('time')
-                // console.log(value)
-            },
-            clearDate(){
-                this.nowTime = '';
-                this.value7 = new Date().toLocaleDateString().replace('/','-')
-                this.chooseSelect('time')
-            },
-            onSubmit(){},
-            onCancel(){},
-            chooseSelect(type){
-                if(type=='time'){
-                    this.chooseIndex===1? this.chooseIndex=0:this.chooseIndex=1
-                }else if(type=='add'){
-                     this.chooseIndex===2? this.chooseIndex=0:this.chooseIndex=2
-                     this.chooseItemList = JSON.parse(JSON.stringify(this.chooseItemListBackup))
-                }else{
-                    this.chooseIndex===3? this.chooseIndex=0:this.chooseIndex=3
-                     this.chooseListSelect = JSON.parse(JSON.stringify(this.chooseListSelectBackUp))
-                     this.typeKind = this.typeKindBackup;
-                }
-            },
-            touchmove($event){
-                if(this.chooseIndex===2||this.chooseIndex===3){
-                    $event.preventDefault()
-                }
             }
+        },
+        clearAddSelect(){
+            this.chooseItemList=[];
+                this.chooseIndex =0;
+        },
+        clearsSelect(){
+            this.chooseListSelect[this.typeKind]=[];
+            this.chooseIndex =0;
+        },
+        confirmAddSelect(){
+            this.chooseItemListBackup=JSON.parse(JSON.stringify(this.chooseItemList));
+            this.chooseIndex =0;
+        },
+        confirmsSelect(){
+            this.chooseIndex =0;
+            this.chooseListSelectBackUp = JSON.parse(JSON.stringify(this.chooseListSelect))
+            this.typeKindBackup = this.typeKind;
+        },
+        chooseItem(id){
+            if( this.chooseItemList.includes(id)){
+                this.chooseItemList = this.chooseItemList.filter(item=>{
+                    return item != id;
+                })
+            }else{   
+                this.chooseItemList.push(id)
+            }
+        },
+        changeDate(value){
+            this.nowTime = value.split('-')[0]+'年'+value.split('-')[1]+'月'+value.split('-')[2]+'日';
+            this.chooseSelect('time')
+            // console.log(value)
+        },
+        clearDate(){
+            this.nowTime = '';
+            this.value7 = new Date().toLocaleDateString().replace('/','-')
+            this.chooseSelect('time')
+        },
+        onSubmit(){},
+        onCancel(){},
+        onFocus(){
+            this.chooseIndex =0;
+        },
+        chooseSelect(type){
+            if(type=='time'){
+                this.chooseIndex===1? this.chooseIndex=0:this.chooseIndex=1
+            }else if(type=='add'){
+                    this.chooseIndex===2? this.chooseIndex=0:this.chooseIndex=2
+                    this.chooseItemList = JSON.parse(JSON.stringify(this.chooseItemListBackup))
+            }else{
+                this.chooseIndex===3? this.chooseIndex=0:this.chooseIndex=3
+                    this.chooseListSelect = JSON.parse(JSON.stringify(this.chooseListSelectBackUp))
+                    this.typeKind = this.typeKindBackup;
+            }
+        },
+        touchmove($event){
+            if(this.chooseIndex===2||this.chooseIndex===3){
+                $event.preventDefault()
+            }
+        }
   },
   created(){
       this.changeType(0)
