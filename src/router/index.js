@@ -151,7 +151,11 @@ const router = new Router({
 	  name: 'courseInfo',
 	  component: courseInfo
 	}
-  ]
+  ],
+  // scrollBehavior (to, from, savedPosition) {
+  //   return { x: 0, y: 0 }
+  // }
+
 })
 router.beforeEach(function (to, from, next) {
   store.commit('updateLoadingStatus', {isLoading: true})

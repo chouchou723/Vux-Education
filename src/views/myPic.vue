@@ -1,5 +1,6 @@
 <template>
   <div class="myPic">
+      <view-box ref="viewBox">
     <!-- 列表 -->
     <group  v-for="(item,index) in lessonList" :key="index" @click.native="gotoPic">
     <cell-box >
@@ -10,23 +11,24 @@
             </div>
         <div class="lessonTitle">
             <div v-for="(pic,ind) in item.pics" :key="ind" class="picImg"> 
-            <img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" width="100" height="100" alt="">
+            <x-img :default-src="dsrc" :src="asrc" width="100" height="100" alt="" :offset="700" container="#vux_view_box_body"></x-img>
             </div>
         </div>
         </div>
       <!-- anything -->
     </cell-box>
   </group>
+      </view-box>
   </div>
 </template>
 
 <script>
-import {Group,CellBox   } from 'vux'
+import {Group,CellBox,ViewBox,XImg   } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 export default {
   components: {
-  Group,CellBox 
+  Group,CellBox,XImg,ViewBox
   },
   data () {
     return {
@@ -34,6 +36,8 @@ export default {
       // with hot-reload because the reloaded component
       // preserves its current state and we are modifying
       // its initial state.
+      dsrc:require('../assets/picload.png'),
+      asrc:require("../assets/0e3a716cf47f1eb695e5b62597dec807.jpg"),
       value:'',
       value7:'',
       false:false,
@@ -73,6 +77,7 @@ export default {
 
 <style lang="less">
 .myPic{
+    height: 100%;
 div:first-child .weui-cells{
     margin-top:0
 }

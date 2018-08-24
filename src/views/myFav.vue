@@ -2,12 +2,12 @@
   <div class="myFav">
    <view-box ref="viewBox">
     <group  style="margin-top:-0.2rem" >
-    <cell-box is-link v-for="(item,index) in lessonList" :key="index">
+    <cell-box is-link v-for="(item,index) in lessonList" :key="index" link="/courseDetails">
         
         <div class="lessonListAll">
         <div class="lessonTitle">
 
-            <img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" width="74" height="74" alt="">
+            <x-img :default-src="dsrc" :src="asrc" width="74" height="74" alt="" :offset="700" container="#vux_view_box_body"></x-img>
             <div class="lessonDetail">
                 <div class="lessonList">
                     <div class="lessonName">{{item.name}}</div>
@@ -25,12 +25,12 @@
 </template>
 
 <script>
-import {Group,CellBox ,ViewBox  } from 'vux'
+import {Group,CellBox ,ViewBox,XImg  } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 export default {
   components: {
-  Group,CellBox ,ViewBox
+  Group,CellBox ,ViewBox,XImg
   },
   data () {
     return {
@@ -38,6 +38,8 @@ export default {
       // with hot-reload because the reloaded component
       // preserves its current state and we are modifying
       // its initial state.
+      dsrc:require('../assets/picload.png'),
+      asrc:require("../assets/0e3a716cf47f1eb695e5b62597dec807.jpg"),
       value:'',
       value7:'',
       false:false,
