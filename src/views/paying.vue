@@ -3,7 +3,7 @@
        <group title="付款信息">
       <cell >
         <span slot="title" ><span style="vertical-align:middle;">支付金额</span></span>
-        <span style="color:#fb6601">123元</span>
+        <span style="color:#fb6601">{{value}}元</span>
 
       </cell>
     </group>
@@ -59,6 +59,7 @@ export default {
             }
   },
   created(){
+    this.value = this.$route.query.m;
     // console.log(this.getMyF,apiHost.API_ROOT)
   },
   mounted(){

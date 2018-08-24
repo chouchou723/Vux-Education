@@ -36,11 +36,11 @@
     </div>
       </sticky>
     <!-- 列表 -->
-    <group style="margin-top:-0.2rem">
+    <group style="margin-top:-0.2rem;padding-bottom:1.7rem" id="picContent">
          <loading :show="show2" text=""></loading>
     <cell-box is-link v-for="(item,index) in lessonList" :key="index" :link="`/courseDetails/?id=${item.id}`">
         <div class="lessonList">
-            <img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" width="65" height="65" alt="">
+            <x-img :default-src="dsrc" :src="asrc" width="65" height="65" alt="" container="#vux_view_box_body" :delay="100"></x-img>
             <div class="lessonDetail">
                 <div class="lessonList">
                     <div class="hot" v-if="item.ishot">热门</div>
@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import {Group,Tab, TabItem,Cell, Search,Datetime,CellBox,Loading,Sticky, TransferDom    } from 'vux'
+import {Group,Tab, TabItem,Cell, Search,Datetime,CellBox,Loading,Sticky, TransferDom,XImg    } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 export default {
@@ -108,7 +108,7 @@ export default {
     TransferDom
   },
   components: {
-  Group, Tab, TabItem,Cell,Search ,Datetime,CellBox ,Loading,Sticky
+  Group, Tab, TabItem,Cell,Search ,Datetime,CellBox ,Loading,Sticky,XImg
   },
   data () {
     return {
@@ -117,6 +117,8 @@ export default {
       // preserves its current state and we are modifying
       // its initial state.
       value:'',
+      dsrc:require('../assets/picload.png'),
+      asrc:require('../assets/ee.png'),
       value7:'',
       false:false,
       show2:false,
@@ -239,6 +241,7 @@ export default {
     // console.log(this.getMyF,apiHost.API_ROOT)
   },
   mounted(){
+
   },
   computed: {
     },

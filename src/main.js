@@ -12,6 +12,11 @@ import { WechatPlugin,ToastPlugin } from 'vux'
 Vue.use(WechatPlugin)
 Vue.use(ToastPlugin)
 // console.log(Vue.wechat)
+Vue.mixin({
+  mounted: function () {
+    document.getElementById("vux_view_box_body")&&(document.getElementById("vux_view_box_body").scrollTop=0)
+  },
+  })
 
 FastClick.attach(document.body)
 

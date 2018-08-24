@@ -11,7 +11,7 @@
             </div>
         <div class="lessonTitle">
 
-            <img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" width="75" height="75" alt="">
+            <x-img :default-src="dsrc" :src="asrc" width="75" height="75" alt="" :offset="700" container="#vux_view_box_body"></x-img>
             <div class="lessonDetail">
                 <div class="lessonList">
                     <div class="lessonName">{{item.name}}</div>
@@ -28,12 +28,12 @@
 </template>
 
 <script>
-import {Group,CellBox   } from 'vux'
+import {Group,CellBox,XImg  } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 export default {
   components: {
-  Group,CellBox 
+  Group,CellBox,XImg
   },
   data () {
     return {
@@ -41,6 +41,8 @@ export default {
       // with hot-reload because the reloaded component
       // preserves its current state and we are modifying
       // its initial state.
+      dsrc:require('../assets/picload.png'),
+      asrc:require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
       value:'',
       value7:'',
       false:false,

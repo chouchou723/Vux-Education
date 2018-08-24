@@ -22,6 +22,20 @@ export default {
       show2:false,
     }
   },
+  created(){
+    console.log(this.$wechat)
+    //api调接口之后配置
+     this.$wechat.config({
+    debug: true,
+    appId: '', // 必填，公众号的唯一标识
+    timestamp: '', // 必填，生成签名的时间戳
+    nonceStr: '', // 必填，生成签名的随机串
+    signature: '', // 必填，微信签名
+    jsApiList: [
+      'chooseWXPay'
+    ] // 必填，需要使用的JS接口列表
+  });
+  },
   methods:{
     touchstart($event){
       this.clientX = $event.touches[0].clientX;
@@ -51,10 +65,10 @@ export default {
   height: 100%;
   background-color: #F4F4F4;
 }
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .2s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
+// .fade-enter-active, .fade-leave-active {
+//   transition: opacity .2s;
+// }
+// .fade-enter, .fade-leave-to  {
+//   opacity: 0;
+// }
 </style>
