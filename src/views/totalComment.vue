@@ -2,7 +2,7 @@
   <div class="totalComment">
        <view-box ref="viewBox">
     <group v-for="(comment,index) in commentlist" :key="comment+index" :class="index===0?'firstGroup':''">
-       <cell link="/commentDetail">
+       <cell @click.native="gotoDetail">
            <div  slot="title" class="commentTitle">
                <img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" alt="" class="simpleImg">
                 <div class="commentContent">
@@ -16,18 +16,24 @@
                     </div>
                     <div class="commentWord"> {{comment.commentWord.slice(0,30)+'...'}}
                     </div>
-                     <div style="color:#1aad19;font-size:12px;" v-if="comment.commentWord.length>30">全文</div>
-                     <div class="imgList">
-			    				<div class="each" v-for="(item,index) in images" :key="'img'+index">
-                                    <x-img :default-src="dsrc" :src="item.src" alt="" success-class="simg" :offset="700" container="#vux_view_box_body"></x-img>
-                                </div>
-			    				<div class="allPic">
+                     <div class="allContent" v-if="comment.commentWord.length>30">全文</div>
+                     <vux-upload
+                     v-if="images.length>0"
+                            url=""
+                            :images="images"
+                            :readonly="true"
+                            :max="3"
+                            :withCredentials="false"
+                            :span="4"
+                            :preview="true"
+                            @success="onSuccess"
+                            @error="onError"
+                            @remove="onRemove"
+                        >
+                        </vux-upload >
+                        <div class="allPic" v-if="comment.number>3">
 			    					<i class="picMin"></i>8
 			    				</div>
-			    			</div>
-                        <!-- <div class="allPic" v-if="comment.number>3">
-			    					<i class="picMin"></i>8
-			    				</div> -->
                         <!-- <div class="moreImg" v-if="comment.number>3">
                             <img src="../assets/picicon.png" class="picIcon" alt="">
                             <span style="color:white;font-size:12px">8</span>
@@ -57,7 +63,7 @@
 </template>
 
 <script>
-  import {Group, Cell, ViewBox,XImg } from 'vux'
+  import {Group, Cell, ViewBox } from 'vux'
 // import SimpleCropper from '@/components/SimpleCrop' 
 // import VuxUpload from 'vux-upload'
 import VuxUpload from '../components/Upload'
@@ -67,7 +73,7 @@ import VuxUpload from '../components/Upload'
       Group,
       Cell,
       ViewBox,
-      VuxUpload,XImg
+      VuxUpload,
     //   SimpleCropper
     },
     data () {
@@ -78,15 +84,14 @@ import VuxUpload from '../components/Upload'
         //                 scale: 4 // 相对手机屏幕放大的倍数: 4倍 
         //                 }, 
         // userImg: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
-        dsrc:require('../assets/picload.png'),
         varmax:9,
         commentlist:[{number:4,name:'Kino的天空',time:'4月17日 22:05',commentWord:'我参加了周六上午的国画课，小朋友年纪小，希望从小培养，上课过程很开心！我参加了周六上午的国画课，小朋友年纪小，希望从小培养，上课过程很开心！'},
         {number:1,name:'chou的天空',time:'4月17日 22:05',commentWord:'希望从小培养，上课过程很开心！'},
         {number:2,name:'七月的天空',time:'4月17日 22:05',commentWord:'加了周六上午的国画课，小朋友年纪小，希望从小培养，上课过程,希望从小培养，上课过程很开心！'}],
         commentWord:'我参加了周六上午的国画课，小朋友年纪小，希望从小培养，上课过程很开心！我参加了周六上午的国画课，小朋友年纪小，希望从小培养，上课过程很开心！',
         rank:3,
-        images:[{src: require('../assets/ee.png')},{src: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg')}
-        ,{src: require('../assets/ff.png')}],
+        images:[{src: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg')},{src: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg')}
+        ,{src: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg')}],
         uploadUrl:'',
         params:{},
           data3:5,
@@ -119,6 +124,12 @@ import VuxUpload from '../components/Upload'
         // });
     },
     methods:{
+        gotoDetail($e){
+            console.log($e);
+            if($e.target.className!=='vux-upload-content'||$e.target.className!=="allContent"){
+                // this.$router.push('/commentDetail')
+            }
+        },
 //         upload () {
 //   this.$refs['cropper'].upload() 
 //  }, 
@@ -174,7 +185,7 @@ onRemove(){},
     }
     .commentWord{
         font-size: 14px;
-        margin:.2rem 0 0.1rem;
+        margin:.2rem 0 0;
         line-height: 1.5;
     }
     .commentWordCom{
@@ -189,40 +200,28 @@ onRemove(){},
         border-radius: 50%;
         margin-right: .4rem;
     }
+    .allContent{
+        color:#1aad19;
+        font-size:12px;
+        padding: .2rem 0 .3rem;
+    }
+    .vux-upload .vux-flexbox-item{
+        padding-top:0;
+    }
     .vux-upload .vux-flexbox-item .vux-upload-bg .vux-upload-content{
         background-position: center;
     }
     .vux-upload .vux-flexbox-item .vux-upload-bg{
         width: 93%;
-        margin: 4% 0 0 0;
+        margin: 0;
     }
     .weui-cell_access .weui-cell__ft:after{
         display: none;
     }
-    .imgList {
-				display: flex;
-				margin:0 -5px;
-				position: relative;
-				.each {					
-					width:2.2rem;
-					flex:1;
-                    margin:5px;
-                    height: 2.2rem;
-                    overflow: hidden;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-					.simg {
-						display: block;
-                        max-width: 200%;
-                        max-height: 200%;
-					}
-                }
-    }
     .allPic {
 					position: absolute;
-					bottom: 0.2rem;
-                    right:0.2rem;
+					bottom: 1.1rem;
+                    right:0.7rem;
 					width:1rem;
 					height: 0.533333rem;
 					line-height: 0.533333rem;

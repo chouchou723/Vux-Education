@@ -125,7 +125,7 @@ import VuxUpload from '../components/Upload'
         {name:'七月的天空',time:'4月17日 22:05',commentWord:'加了周六上午的国画课，小朋友年纪小，希望从小培养，上课过程,希望从小培养，上课过程很开心！'}],
         commentWord:'我参加了周六上午的国画课，小朋友年纪小，希望从小培养，上课过程很开心！我参加了周六上午的国画课，小朋友年纪小，希望从小培养，上课过程很开心！',
         rank:3,
-        images:[{src: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg')},{src: require('../assets/ff.png')},{src: require('../assets/ff.png')},
+        images:[{src: require('../assets/ee.png')},{src: require('../assets/ff.png')},{src: require('../assets/ff.png')},
         {src: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg')},{src: require('../assets/ff.png')},{src: require('../assets/ff.png')}],
         uploadUrl:'',
         params:{},
