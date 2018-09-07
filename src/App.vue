@@ -10,7 +10,7 @@
 
 <script>
 import { Loading,Alert } from 'vux'
-import { mapState } from 'vuex'
+import { mapState,mapActions } from 'vuex'
 export default {
   name: 'app',
   components: {
@@ -23,20 +23,23 @@ export default {
     }
   },
   created(){
-    console.log(this.$wechat)
-    //api调接口之后配置
-     this.$wechat.config({
-    debug: true,
-    appId: '', // 必填，公众号的唯一标识
-    timestamp: '', // 必填，生成签名的时间戳
-    nonceStr: '', // 必填，生成签名的随机串
-    signature: '', // 必填，微信签名
-    jsApiList: [
-      'chooseWXPay'
-    ] // 必填，需要使用的JS接口列表
-  });
+     let inf = {
+    img:require('@/assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
+    nickname:'张佳乐哈哈哈',
+    name:'张佳乐',
+    sex:'男',
+    birthday:'1995年9月10日',
+    address:'上海市世博园空间',
+    cell:'13444444455'
+}
+localStorage.setItem('info',JSON.stringify(inf))
+this.setMyInfo({...inf})
+ 
   },
   methods:{
+    ...mapActions([
+                'setMyInfo'
+            ]),
     touchstart($event){
       this.clientX = $event.touches[0].clientX;
     },

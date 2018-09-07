@@ -104,12 +104,7 @@ import VuxUpload from '../components/Upload'
       }
     },
     created(){
-        let type = this.$route.query.type;
-        if(type){
-            document.title = '昵称'
-        }else{
-            document.title = '姓名'
-        }
+            document.title = '所有评价'
     },
     mounted(){
            //获取页面高度
@@ -127,7 +122,7 @@ import VuxUpload from '../components/Upload'
         gotoDetail($e){
             console.log($e);
             if($e.target.className!=='vux-upload-content'||$e.target.className!=="allContent"){
-                // this.$router.push('/commentDetail')
+                this.$router.push('/commentDetail')
             }
         },
 //         upload () {
@@ -185,7 +180,7 @@ onRemove(){},
     }
     .commentWord{
         font-size: 14px;
-        margin:.2rem 0 0;
+        margin:.2rem 0;
         line-height: 1.5;
     }
     .commentWordCom{
@@ -203,7 +198,7 @@ onRemove(){},
     .allContent{
         color:#1aad19;
         font-size:12px;
-        padding: .2rem 0 .3rem;
+        padding: 0 0 .3rem;
     }
     .vux-upload .vux-flexbox-item{
         padding-top:0;

@@ -46,7 +46,7 @@ const router = new Router({
       },{
         path: '/personal',
         component:personal
-      },,{
+      },{
         path: '/myLesson',
         component:myLesson
       }]

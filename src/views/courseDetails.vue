@@ -34,7 +34,7 @@
 			</group>
 			<group class="courseBox">
 			    <cell class="tit" title="课程时间"></cell>		    
-			    <CellBox v-for="(item,index) in lessonList" :key="'lesson'+index">{{item}}</CellBox>
+			    <div v-for="(item,index) in lessonList" :key="'lesson'+index" v-if="isMore?(index>=0):(index<=2)" class="weui-cell vux-cell-box">{{item}}</div>
 			    <CellBox><div class="more"  @click="changeMore"><span>{{isMore?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMore?'rotate90':'']"></i></div></CellBox>
 			</group>
 			<group class="courseBox">
@@ -72,7 +72,7 @@
 			    <cell class="tit" title="课程评价">
 			    	<div class="moreEval" @click="gotoMoveComment">更多评价（288条）</div>
 			    </cell>		   
-			    <CellBox>
+			    <CellBox link="/commentDetail">
 			    	<div class="assess">
 			    		<div class="pho"><img src="../assets/pho.jpg" alt=""></div>
 			    		<div class="info">
@@ -146,6 +146,7 @@ export default{
 			show7:false,
 			toastWord:'',
 			lessonList:[],
+			lessonListT:[],
 			lessonListAll:['第1节课：2018年4月28日，周六，上午10:00 - 12:00','第1节课：2018年4月28日，周六，上午10:00 - 12:00',
 			'第1节课：2018年4月28日，周六，上午10:00 - 12:00','第1节课：2018年4月28日，周六，上午10:00 - 12:00',
 			'第1节课：2018年4月28日，周六，上午10:00 - 12:00'],
@@ -175,24 +176,25 @@ export default{
 		changeMore(){
 			if(this.isMore){
 				this.isMore=false;
-				this.lessonList = this.lessonListAll.slice(0,3);
+				// this.lessonList = [...this.lessonListT];
 			}else{
 				this.isMore=true;
-				this.lessonList = this.lessonListAll
+				// this.lessonList = [...this.lessonListAll]
 			}
 		},
 		changeMoreContent(){
 			if(this.isMoreContent){
 				this.isMoreContent=false;
-				this.lessonList = this.lessonListAll.slice(0,3);
+				// this.lessonList = this.lessonListAll.slice(0,3);
 			}else{
 				this.isMoreContent=true;
-				this.lessonList = this.lessonListAll
+				// this.lessonList = this.lessonListAll
 			}
 		},
 	},
 	created(){
-		this.lessonList = this.lessonListAll.slice(0,3);
+		// this.lessonListT = this.lessonListAll.slice(0,3);
+		this.lessonList = [...this.lessonListAll]
 	},
 	mounted () {
 		 document.querySelector(".tabBar2 .call").setAttribute('href','tel:4001720748');

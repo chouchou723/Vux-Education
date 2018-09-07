@@ -84,6 +84,7 @@ export default {
   methods:{
   },
   created(){
+      document.title="个人中心"
     // console.log(this.getMyF,apiHost.API_ROOT)
   },
   mounted(){

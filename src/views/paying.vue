@@ -46,20 +46,82 @@ export default {
             payOrder(){
                 console.log(1);
                 this.$router.push('/payResult')
-                //  this.$wechat.chooseWXPay({
-                //                             timestamp: 0, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-                //                             nonceStr: '', // 支付签名随机串，不长于 32 位
-                //                             package: '', // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
-                //                             signType: '', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                //                             paySign: '', // 支付签名
-                //                             success: function (res) {
-                //                             // 支付成功后的回调函数
-                //                             }
-                //                             });
-            }
+                // let order = {
+                //     shopCart: this.shopCart,
+                //     adr_id: this.receiver.id,
+                //     create_time: Date.parse(new Date())
+                // }
+                // this.$vux.loading.show({text: '创建订单中'})
+                // let url = location.href.split('#')[0]
+                // Client.post(url + 'create-order', order).then((response) => {
+                //     this.$vux.loading.hide()
+                //     if (response.status === 200 && response.data.status === 1) {
+                //         this.wechatPay(response.data.data)
+                //     } else {
+                //         this.$vux.alert.show({
+                //             title : '创建订单失败',
+                //             content: response.data.message
+                //         })
+                //     }
+                // }).catch((error) => {
+                //     this.$vux.loading.hide()
+                //     this.$vux.toast.show({
+                //         text: '网络错误',
+                //         type: 'cancel'
+                //     })
+                // })
+                 //   console.log(this.$wechat)
+            },
+            wechatPay(config) {
+                let $this= this
+                this.$wechat.chooseWXPay({
+                    timestamp: config.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                    nonceStr: config.nonceStr, // 支付签名随机串，不长于 32 位
+                    package: config.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                    signType: config.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+                    paySign: config.paySign, // 支付签名
+                    success: function (response) {
+                        // 支付成功后的回调函数
+                        $this.$vux.toast.show('支付成功!')
+                    },
+                    cancel: function (re) {
+                        $this.$vux.toast.show({
+                            text: '支付已取消',
+                            type: 'cancel'
+                        })
+                    }
+                });
+            },
+            wechatConfig() {
+                let url = location.href.split('#')[0]
+                Client.post(url + 'js-sdk-config', {url}).then((response) => {
+                    if (response.status === 200 && response.data.status === 1) {
+                        this.$wechat.config(JSON.parse(response.data.data))
+                        //api调接口之后配置
+                        //    this.$wechat.config({
+                        //   debug: true,
+                        //   appId: '', // 必填，公众号的唯一标识
+                        //   timestamp: '', // 必填，生成签名的时间戳
+                        //   nonceStr: '', // 必填，生成签名的随机串
+                        //   signature: '', // 必填，微信签名
+                        //   jsApiList: [
+                        //     'chooseWXPay'
+                        //   ] // 必填，需要使用的JS接口列表
+                        // });
+                    } else {
+                        this.$vux.toast.show({
+                            text: '微信参数错误',
+                            type: 'cancel'
+                        })
+                    }
+                }).catch(() => {
+                    // this.$vux.loading.hide()
+                })
+            },
   },
   created(){
     this.value = this.$route.query.m;
+    // this.wechatConfig();
     // console.log(this.getMyF,apiHost.API_ROOT)
   },
   mounted(){

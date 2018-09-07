@@ -37,10 +37,14 @@
       </sticky>
     <!-- 列表 -->
     <group style="margin-top:-0.2rem;padding-bottom:1.7rem" id="picContent">
-         <loading :show="show2" text=""></loading>
+    <scroller delegate-id="myScroller"
+     :on-refresh="refresh"
+            :on-infinite="loadMore"
+            ref='my_scroller'>
+            <!-- <div> -->
     <cell-box is-link v-for="(item,index) in lessonList" :key="index" :link="`/courseDetails/?id=${item.id}`">
         <div class="lessonList">
-            <x-img :default-src="dsrc" :src="asrc" width="65" height="65" alt="" container="#vux_view_box_body" :delay="100"></x-img>
+            <x-img :default-src="dsrc" :src="asrc" width="65" height="65" alt="" container="#picContent" :offset="700" :delay="50"></x-img>
             <div class="lessonDetail">
                 <div class="lessonList">
                     <div class="hot" v-if="item.ishot">热门</div>
@@ -53,6 +57,8 @@
         </div>
       <!-- anything -->
     </cell-box>
+    <!-- </div> -->
+    </scroller>
   </group>
     <group class="modalG" v-if="chooseIndex===1">
         <datetime v-model="value7" clear-text="重置" @on-confirm="changeDate" @on-clear="clearDate" :show="chooseIndex===1" @on-cancel="cancelSelect">
@@ -84,7 +90,7 @@
                     </div>
                     </div>
                     <div class="LectureaddListS">
-                        <div v-for="(item,index) in selectList" :key="index" :class="chooseListSelect[typeKind].includes(item.id)?'LectureselectItem':'LectureaddItem'" @click="chooseItemSelect(item.id)">{{item.name}}</div>
+                        <div v-for="(item,index) in selectList[typeKind]" :key="index" :class="chooseListSelect[typeKind].includes(item.id)?'LectureselectItem':'LectureaddItem'" @click="chooseItemSelect(item.id)">{{item.name}}</div>
                     </div>
              </div>
            <div class='Lectureaddfooter'>
@@ -103,12 +109,13 @@
 import {Group,Tab, TabItem,Cell, Search,Datetime,CellBox,Loading,Sticky, TransferDom,XImg    } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
+import Scroller from '../components/Scroller'
 export default {
     directives: {
     TransferDom
   },
   components: {
-  Group, Tab, TabItem,Cell,Search ,Datetime,CellBox ,Loading,Sticky,XImg
+  Group, Tab, TabItem,Cell,Search ,Datetime,CellBox ,Loading,Sticky,XImg,Scroller
   },
   data () {
     return {
@@ -129,15 +136,15 @@ export default {
       chooseItemListBackup:[],
       nowTime:'',//`${new Date().getFullYear()}年${new Date().getMonth()+1}月${new Date().getDate()}日`,
       addList:[{id:'1',name:'世博园场馆'},{id:'2',name:'东方明珠'},{id:'3',name:'世博园场馆'},{id:'23',name:'东方明珠'},{id:'12',name:'世博园场馆'},{id:'22',name:'东方明珠'},{id:'33',name:'世博园场馆'},{id:'231',name:'东方明珠'},{id:'112',name:'世博园场馆'},{id:'232',name:'东方明珠'}],
-      selectList:[],
-      selectList0:[{id:'1',name:'少儿'},{id:'2',name:'动漫'},
+      selectList:[[{id:'1',name:'少儿'},{id:'2',name:'动漫'},
       {id:'1',name:'少儿'},{id:'2',name:'动漫'},
       {id:'1',name:'少儿'},{id:'2',name:'动漫'},{id:'1',name:'少纷纷儿'},{id:'2',name:'动漫'},{id:'1',name:'少儿'},{id:'2',name:'动漫'}
       ,{id:'1',name:'少纷纷儿'},{id:'2',name:'动纷纷漫'},{id:'1',name:'少纷纷儿'},{id:'2',name:'动漫'}],
-      selectList1:[{id:'1',name:'1-3岁'},{id:'2',name:'4-6岁'},],
+      [{id:'1',name:'1-3岁'},{id:'2',name:'4-6岁'},]],
       chooseListSelect:{0:[],1:[]},
       chooseListSelectBackUp:{0:[],1:[]},
     typekind:['课程种类','适用对象',],
+    onFetching: false,
     lessonList:[{id:1,ishot:true,name:'创意绘画单课',total:8,hasJoin:5,content:'1节课-2课时|4-8岁儿童|满5人开课',price:120},
     {id:2,ishot:false,name:'创意绘画单课',total:8,hasJoin:5,content:'1节课-2课时|4-8岁儿童|满5人开课',price:120},
     {id:2,ishot:false,name:'创意绘画单课',total:8,hasJoin:5,content:'1节课-2课时|4-8岁儿童|满5人开课',price:120},
@@ -152,6 +159,14 @@ export default {
     }
   },
   methods:{
+      refresh(){},
+      loadMore(){
+          console.log(1)
+          setTimeout(()=>{
+
+              this.$refs.my_scroller.finishInfinite(2)
+          },2000)
+      },
         changeLesson(){
             this.chooseIndex = 0;
       },
@@ -160,14 +175,14 @@ export default {
                         this.chooseListSelect[this.typeKind] = this.chooseListSelect[this.typeKind].filter(item=>{
                             return item != id;
                         })
-                    }else{   
+            }else{   
                     this.chooseListSelect[this.typeKind].push(id)
                     }
                     // console.log(this.chooseListSelectBackUp)
         },
         changeType(type){
             this.typeKind = type;
-            this.selectList = this['selectList'+type]
+            // this.selectList = this['selectList'+type]
         },
         cancelSelect(){
                 this.chooseIndex =0;
@@ -179,7 +194,7 @@ export default {
         },
         clearAddSelect(){
             this.chooseItemList=[];
-                this.chooseIndex =0;
+            this.chooseIndex =0;
         },
         clearsSelect(){
             this.chooseListSelect[this.typeKind]=[];
@@ -219,6 +234,7 @@ export default {
             this.chooseIndex =0;
         },
         chooseSelect(type){
+            // this.typeKind = 0;
             if(type=='time'){
                 this.chooseIndex===1? this.chooseIndex=0:this.chooseIndex=1
             }else if(type=='add'){
@@ -237,7 +253,9 @@ export default {
         }
   },
   created(){
+      document.title="我要选课"
       this.changeType(0)
+     
     // console.log(this.getMyF,apiHost.API_ROOT)
   },
   mounted(){

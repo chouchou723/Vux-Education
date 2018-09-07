@@ -72,7 +72,7 @@
 			    <cell class="tit" title="课程评价">
 			    	<div class="moreEval" @click="gotoMoveComment">更多评价（288条）</div>
 			    </cell>		   
-			    <CellBox>
+			    <CellBox link="/commentDetail">
 			    	<div class="assess">
 			    		<div class="pho"><img src="../assets/pho.jpg" alt=""></div>
 			    		<div class="info">
@@ -171,6 +171,7 @@ export default {
 			this.$refs.video.style.width = window.innerWidth + "px"; 
 			this.$refs.video.style.height = window.innerHeight + "px"; 
 		}
+
 	},
 	computed:{
 		showM(){
@@ -182,6 +183,7 @@ export default {
 		}
 	},
 	created() {
+		document.title="课程信息"
 	    this.arr = [
 	      {
 	        date: this.format(new Date(), 1),
@@ -249,7 +251,7 @@ p {
 }
 .courseBox {
 	.weui-cells {
-		margin-top:.77em;
+		margin:.77em 0;
 		.tit {
 			font-size: 0.346666rem;
 			color: #7F8389;
