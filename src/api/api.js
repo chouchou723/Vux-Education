@@ -1,5 +1,9 @@
 // import axios from 'axios';
-import { AjaxPlugin } from 'vux'
+import Vue from 'vue'
+import { AjaxPlugin,ToastPlugin  } from 'vux'
+Vue.use(ToastPlugin)
+// 或者umd方式
+// 引入构建的js文件
 // import {router} from '../router';
 // axios.interceptors.request.use(config => {
 //     // element ui Loading方法
@@ -13,27 +17,47 @@ import { AjaxPlugin } from 'vux'
 //     })
 //     return Promise.reject(error)
 //    })
-// axios.interceptors.response.use(function (response) {
-//     return response;
-//   }, function (error) {
-//     // 处理统一的验证失效错误
-//     if(error.response.status==401){
-//         Message.error('您的帐号已在其他地方登录,请重新登录');
-//         router.push('/login')
-//     }else if(error.response.status==405){
-//             Message.error('请联系管理员确认您的权限')    
-//         }else if(error.response.status==500){
-//             Message.error('服务器内部错误,请联系管理员')        
-//         }else{
-//             Message.error('请联系管理员检查该问题')
-//         }   
-//     return Promise.reject(error);
-//   });
+AjaxPlugin.$http.interceptors.response.use(function (response) {
+    return response;
+}, function (error) {
+    // 处理统一的验证失效错误
+    if(error.response.status==401){
+        Vue.$vux.toast.show({
+            text: '请稍后重试'
+           })
+        // Message.error('您的帐号已在其他地方登录,请重新登录');
+        // router.push('/login')
+    }else if(error.response.status==405){
+        Vue.$vux.toast.show({
+            text: '请稍后重试'
+           })
+            // Message.error('请联系管理员确认您的权限')    
+        }else if(error.response.status==500){
+            Vue.$vux.toast.show({
+                text: '请稍后重试'
+               })
+            // Message.error('服务器内部错误,请联系管理员')        
+        }else{
+            Vue.$vux.toast.show({
+                text: '请稍后重试'
+               })
+            // Message.error('请联系管理员检查该问题')
+        }   
+    return Promise.reject(error);
+  });
 // let base ='';
 let base = 'http://eduweixin.test.artreedu.com';
 // let base = 'http://panda.dfth.com';
+// access_token  : 24680
+// login_role  :  student
+// unionId  :  ohzciv91EysSA6kUFOQ24LBsZBDw
+//微信获取token
+export const  getAT = (params) => {
+    return AjaxPlugin.$http.get(`${base}/api/auth/wechat`, { params: params }).then(res => res.data);
+};
+AjaxPlugin.$http.defaults.headers.common['Authorization'] = '24680';
 
-AjaxPlugin.$http.defaults.headers.common['Authorization'] = '123';
+
 //我要选课列表
 export const  getLessonList = (params, token) => {
     return AjaxPlugin.$http.get(`${base}/api/course`, { params: params }).then(res => res.data);
@@ -54,6 +78,10 @@ export const  doCollect = (params,token) => {
 export const  getMyLessonList = (params, token) => {
     return AjaxPlugin.$http.get(`${base}/api/course/stu`, { params: params }).then(res => res.data);
 };
+//获取课程类型
+export const  getLessonKind = (params, token) => {
+    return AjaxPlugin.$http.get(`${base}/api/course/types`, { params: params }).then(res => res.data);
+};
 //我的课程 课程详细
 export const  getMyLessonDetail = (params, token) => {
     return AjaxPlugin.$http.get(`${base}/api/course/{id}/info`, { params: params }).then(res => res.data);
@@ -63,9 +91,9 @@ export const  doComment = (params,token) => {
     // axios.defaults.headers.common['Authorization'] = token.Authorization;
     return AjaxPlugin.$http.post(`${base}/api/course/class/${params}/evaluate/stu`, params).then(res => res.data);
 };
-//我的课程 上课情况日历切换月份 暂无
+//我的课程 上课情况日历切换月份
 export const  getMyLessonDate = (params, token) => {
-    return AjaxPlugin.$http.get(`${base}/api/course/{id}/info`, { params: params }).then(res => res.data);
+    return AjaxPlugin.$http.get(`${base}/api/course/{id}/schedules`, { params: params }).then(res => res.data);
 };
 //我的课程 上课情况列表 暂无
 export const  getMyLessonSituation = (params, token) => {

@@ -6,7 +6,7 @@
         :offset="0"
         :check-sticky-support="false">
       <search
-      v-model="value"
+      v-model="searchValue"
       position="absolute"
       auto-scroll-to-top
       @on-cancel="onCancel"
@@ -15,8 +15,8 @@
       ref="search"
       @touchmove.native="touchmove"></search>
        <tab  custom-bar-width="40px" @touchmove.native="touchmove">
-      <tab-item @on-item-click="changeLesson">兴趣体验</tab-item>
-      <tab-item  @on-item-click="changeLesson" selected>系统学习</tab-item>
+      <tab-item @on-item-click="changeLesson('SINGLE')" selected>兴趣体验</tab-item>
+      <tab-item  @on-item-click="changeLesson('SUIT')" >系统学习</tab-item>
     </tab>
     <div class="chooseDiv" @touchmove="touchmove">
         <div class="chooseTitle" :style="chooseIndex!==1?'':'color:#04BE02'" @click="chooseSelect('time')">上课时间
@@ -107,7 +107,7 @@
 
 <script>
 import {Group,Tab, TabItem,Cell, Search,Datetime,CellBox,Loading,Sticky, TransferDom,XImg    } from 'vux'
-import {pushHimOnWall} from '../api/api'
+import {getLessonList} from '../api/api'
 import apiHost from '../../config/prod.env'
 import Scroller from '../components/Scroller'
 export default {
@@ -123,7 +123,10 @@ export default {
       // with hot-reload because the reloaded component
       // preserves its current state and we are modifying
       // its initial state.
-      value:'',
+      searchValue:'',
+      page:1,
+      size:15,
+      classType:'SINGLE',
       dsrc:require('../assets/picload.png'),
       asrc:require('../assets/ee.png'),
       value7:'',
@@ -136,11 +139,10 @@ export default {
       chooseItemListBackup:[],
       nowTime:'',//`${new Date().getFullYear()}年${new Date().getMonth()+1}月${new Date().getDate()}日`,
       addList:[{id:'1',name:'世博园场馆'},{id:'2',name:'东方明珠'},{id:'3',name:'世博园场馆'},{id:'23',name:'东方明珠'},{id:'12',name:'世博园场馆'},{id:'22',name:'东方明珠'},{id:'33',name:'世博园场馆'},{id:'231',name:'东方明珠'},{id:'112',name:'世博园场馆'},{id:'232',name:'东方明珠'}],
-      selectList:[[{id:'1',name:'少儿'},{id:'2',name:'动漫'},
-      {id:'1',name:'少儿'},{id:'2',name:'动漫'},
-      {id:'1',name:'少儿'},{id:'2',name:'动漫'},{id:'1',name:'少纷纷儿'},{id:'2',name:'动漫'},{id:'1',name:'少儿'},{id:'2',name:'动漫'}
-      ,{id:'1',name:'少纷纷儿'},{id:'2',name:'动纷纷漫'},{id:'1',name:'少纷纷儿'},{id:'2',name:'动漫'}],
-      [{id:'1',name:'1-3岁'},{id:'2',name:'4-6岁'},]],
+      selectList:[[{id:'CALLIGRAPHY',name:'书法'},{id:'CHINESE',name:'国画'},{id:'CREATIVE',name:'创意绘画'},{id:'SKETCH',name:'素描水彩'},
+      {id:'OIL',name:'油画'},{id:'CLAY',name:'泥塑'},{id:'FABRIC',name:'布艺'},{id:'LEATHER',name:'皮具'},{id:'FLOWER',name:'插花'},{id:'TEA',name:'茶道'}
+      ,{id:'YOGA',name:'瑜伽'},{id:'PHOTO',name:'摄影体验'}],
+      [{id:'BABY',name:'1-3岁'},{id:'CHILD',name:'3-6岁'},{id:'JUVENILE',name:'6-12岁'},{id:'TEENAGE',name:'12-18岁'},{id:'AUDIT',name:'成人'},]],
       chooseListSelect:{0:[],1:[]},
       chooseListSelectBackUp:{0:[],1:[]},
     typekind:['课程种类','适用对象',],
@@ -167,7 +169,8 @@ export default {
               this.$refs.my_scroller.finishInfinite(2)
           },2000)
       },
-        changeLesson(){
+        changeLesson(type){
+            this.classType = type;
             this.chooseIndex = 0;
       },
         chooseItemSelect(id){
@@ -200,14 +203,18 @@ export default {
             this.chooseListSelect[this.typeKind]=[];
             this.chooseIndex =0;
         },
-        confirmAddSelect(){
+        confirmAddSelect(){//确认上课地点
             this.chooseItemListBackup=JSON.parse(JSON.stringify(this.chooseItemList));
             this.chooseIndex =0;
+            this.fetchData();
         },
-        confirmsSelect(){
+        confirmsSelect(){//确认上课年龄和上课类型
             this.chooseIndex =0;
             this.chooseListSelectBackUp = JSON.parse(JSON.stringify(this.chooseListSelect))
             this.typeKindBackup = this.typeKind;
+            this.fetchData();
+
+            // console.log(this.chooseListSelectBackUp)
         },
         chooseItem(id){
             if( this.chooseItemList.includes(id)){
@@ -250,12 +257,27 @@ export default {
             if(this.chooseIndex===2||this.chooseIndex===3){
                 $event.preventDefault()
             }
-        }
+        },
+        fetchData(){
+            let para = {
+                applyAge:this.chooseListSelectBackUp[1].join(','),
+                date:this.nowTime,
+                kinds:this.chooseListSelectBackUp[0].join(','),
+                name:this.searchValue,
+                page:this.page,
+                size:this.size,
+                type:this.classType,
+                venueId:this.chooseItemListBackup.join(',')
+            }
+            getLessonList(para).then(res=>{
+                console.log(res)
+            })
+        },
   },
   created(){
       document.title="我要选课"
       this.changeType(0)
-     
+     this.fetchData();
     // console.log(this.getMyF,apiHost.API_ROOT)
   },
   mounted(){

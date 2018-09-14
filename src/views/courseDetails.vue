@@ -115,13 +115,13 @@
 	    		<span slot="label">购买课程</span>
 	    	</tabbar-item>
 	    </tabbar>
-	      <toast v-model="show7" type="text" :text="toastWord" position='middle'></toast>
+	      <!-- <toast v-model="show7" type="text" :text="toastWord" position='middle'></toast> -->
 		</view-box>
 	</div>
 </template>
 
 <script>
-import {ViewBox, Group, Cell,CellBox,Tabbar,TabbarItem,TransferDomDirective as TransferDom,Toast } from 'vux'
+import {ViewBox, Group, Cell,CellBox,Tabbar,TabbarItem,TransferDomDirective as TransferDom, } from 'vux'
 import {pushHimOnWall} from '../api/api'
 import apiHost from '../../config/prod.env'
 
@@ -135,8 +135,7 @@ export default{
 	    Cell,
 	    CellBox,
 	    Tabbar,
-    	TabbarItem,
-    	Toast 
+    	TabbarItem 
 	},
 	data(){
 		return {			
@@ -166,10 +165,20 @@ export default{
 		changeFav(){
 			if(this.isFav){
 				this.isFav=false;
-				this.toastWord = '取消收藏'
+				
+				this.$vux.toast.show({
+				text: '取消收藏',
+				type:'text',
+				position:'middle'
+				})
 			}else{
 				this.isFav=true;
-				this.toastWord = '收藏成功'
+				
+				this.$vux.toast.show({
+				text: '收藏成功',
+				type:'text',
+				position:'middle'
+				})
 			}
 				this.show7 = true;
 		},

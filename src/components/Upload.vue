@@ -4,7 +4,7 @@
       <flexbox-item :span="span" v-for="(item, index) in images" :key="index" @click.native="onPreview(index)">
         <div class="vux-upload-bg">
           <div class="vux-upload-content" :style="{ backgroundImage: `url(${item.src})` }">
-            <x-icon v-if="!readonly" type="ios-close" class="red" @click.native="onRemove(index, $event)"></x-icon>
+            <x-icon v-if="!readonly" type="ios-close" class="red" @click.native="onRemove(index, $event)" style="fill:#00a6e7"></x-icon>
           </div>
         </div>
         

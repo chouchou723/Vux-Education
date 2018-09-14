@@ -11,6 +11,7 @@
 <script>
 import { Loading,Alert } from 'vux'
 import { mapState,mapActions } from 'vuex'
+import { getAT } from './api/api'
 export default {
   name: 'app',
   components: {
@@ -34,7 +35,12 @@ export default {
 }
 localStorage.setItem('info',JSON.stringify(inf))
 this.setMyInfo({...inf})
- 
+let para = {
+  login_role:'student'
+}
+ getAT(para).then(res=>{
+   console.log(res)
+ })
   },
   methods:{
     ...mapActions([
