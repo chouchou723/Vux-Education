@@ -9,7 +9,7 @@ const router = new Router({
   routes: [
     {
       path:'/',
-      redirect: '/applyFirst'
+      redirect: '/teacherPersonal'
     },
     {
       path:'/index',

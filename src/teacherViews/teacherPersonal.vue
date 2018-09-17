@@ -18,18 +18,18 @@
             <span slot="title" class="fz15">我的资料</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/myinfo.png">
       </cell>
-      <cell is-link link="/myOrder">
+      <cell is-link link="/teacherOrder">
       
           <span slot="title" class="fz15">我的订单</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/order.png">
       </cell>
       </group>
        <group>
-        <cell is-link link="/purchaseHistory">
+        <cell is-link link="/teacherFinancial">
             <span slot="title" class="fz15">财务记录</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/fn.png">
       </cell>
-       <cell is-link link="/myPic">
+       <cell is-link link="/teacherMoneyList">
             <span slot="title" class="fz15">我的提现</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/withDraw.png">
       </cell>
@@ -39,7 +39,7 @@
             <span slot="title" class="fz15">常见问题</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/que.png">
       </cell>
-       <cell is-link link="/feedback">
+       <cell is-link link="/teacherFeedback">
             <span slot="title" class="fz15">意见反馈</span>
            <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/feedback.png">
       </cell>
@@ -93,7 +93,7 @@ export default {
 .personalBg{
     width: 100%;
     height: 3.306667rem;
-    background: url('../assets/pb.png') no-repeat center/cover;
+    background: url('../assets/teacherBg.png') no-repeat center/cover;
     display: flex;
     /* justify-content: center; */
     align-items: center; 

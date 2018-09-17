@@ -1,7 +1,7 @@
 <template>
   <div class="teacherBottom">
      <tabbar @on-index-change='indexChange' v-model="index">
-      <tabbar-item  @on-item-click="saveIndex"  link="/index">
+      <tabbar-item  @on-item-click="saveIndex"  link="/teacherClass">
         <img slot="icon" src="../assets/bi2.png">
         <img slot="icon-active" src="../assets/bi2B.png">
         <span slot="label">我的课程</span>

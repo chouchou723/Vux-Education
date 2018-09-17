@@ -102,6 +102,7 @@
     width: 100%;
     height: 100%;
     z-index: 1;
+    padding-top:10px;
   }
 
   ._v-container > ._v-content > .loading-layer > .spinner-holder,
@@ -254,7 +255,7 @@
         type: String,
         default: '#AAA'
       },
-
+      pageW:String,
       cssClass: String, // content css class
 
       minContentHeight: {
@@ -400,7 +401,8 @@
       resize() {
         let container = this.container;
         let content = this.content;
-        this.scroller.setDimensions(container.clientWidth, container.clientHeight, content.offsetWidth, content.offsetHeight);
+        console.log(this.pageW)
+        this.scroller.setDimensions(container.clientWidth, container.clientHeight, content.offsetWidth, content.offsetHeight,this.pageW);
       },
 
       finishPullToRefresh() {

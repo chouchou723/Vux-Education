@@ -364,6 +364,7 @@
 		/* {Integer} Available outer height */
 		__clientHeight: 0,
 
+		__pageW:'',
 		/* {Integer} Outer width of content */
 		__contentWidth: 0,
 
@@ -479,10 +480,10 @@
 		 * @param contentWidth {Integer ? null} Outer width of inner element
 		 * @param contentHeight {Integer ? null} Outer height of inner element
 		 */
-		setDimensions: function(clientWidth, clientHeight, contentWidth, contentHeight) {
+		setDimensions: function(clientWidth, clientHeight, contentWidth, contentHeight,pageW) {
 
 			var self = this;
-
+			self.__pageW = pageW
 			// Only update values which are defined
 			if (clientWidth === +clientWidth) {
 				self.__clientWidth = clientWidth;
@@ -1346,9 +1347,17 @@
 			if (zoomLevel == null) {
 				zoomLevel = self.__zoomLevel;
 			}
-
+			//520
+			//620
+			console.log(this)
 			self.__maxScrollLeft = Math.max((self.__contentWidth * zoomLevel) - self.__clientWidth, 0);
-			self.__maxScrollTop = Math.max((self.__contentHeight * zoomLevel)- 520, 0);
+			if(this.__pageW=='tc'){
+
+				self.__maxScrollTop = Math.max((self.__contentHeight * zoomLevel)- 620, 0);
+			}else{
+				self.__maxScrollTop = Math.max((self.__contentHeight * zoomLevel)- 520, 0);
+
+			}
 		},
 
 
@@ -1368,21 +1377,22 @@
 			var self = this;
 
 			if (self.options.paging) {
-
 				var scrollLeft = Math.max(Math.min(self.__scrollLeft, self.__maxScrollLeft), 0);
 				var scrollTop = Math.max(Math.min(self.__scrollTop, self.__maxScrollTop), 0);
 				var clientWidth = self.__clientWidth;
 				var clientHeight = self.__clientHeight;
-
+				
 				// We limit deceleration not to the min/max values of the allowed range, but to the size of the visible client area.
 				// Each page should have exactly the size of the client area.
 				self.__minDecelerationScrollLeft = Math.floor(scrollLeft / clientWidth) * clientWidth;
 				self.__minDecelerationScrollTop = Math.floor(scrollTop / clientHeight) * clientHeight;
 				self.__maxDecelerationScrollLeft = Math.ceil(scrollLeft / clientWidth) * clientWidth;
 				self.__maxDecelerationScrollTop = Math.ceil(scrollTop / clientHeight) * clientHeight;
-
+				console.log(self.__scrollTop,456)
+				
 			} else {
-
+				
+				console.log(self.__maxScrollTop,123)
 				self.__minDecelerationScrollLeft = 0;
 				self.__minDecelerationScrollTop = 0;
 				self.__maxDecelerationScrollLeft = self.__maxScrollLeft;
@@ -1441,7 +1451,7 @@
 			// Add deceleration to scroll position
 			var scrollLeft = self.__scrollLeft + self.__decelerationVelocityX;
 			var scrollTop = self.__scrollTop + self.__decelerationVelocityY;
-
+			// console.log(scrollTop,123)
 
 			//
 			// HARD LIMIT SCROLL POSITION FOR NON BOUNCING MODE

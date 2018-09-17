@@ -1,54 +1,44 @@
 <template>
-  <div class="teacherInfo">
-      
-    <group title=" " label-width="4.5em" label-margin-right="2em">
-      <cell title="头像" is-link>
-           <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper">
-                <img :src="this.getMyInfo.img" @touchend="upload"  class="myAvatar">
-          </simple-cropper>
-          <!-- <img :src="this.getMyInfo.img" class="myAvatar" alt="" @touchend="openFile"> -->
-           <!-- <input type="file" @change="fileChange()" style="display: none" ref="file" accept="image/png,image/jpeg,image/gif"> -->
-      </cell>
-       <cell title="姓名"  is-link link="/teacherName">
+  <div class="teacherDoSingleDetail">
+     <view-box ref="viewBox"> 
+    <group title="课程签到" label-width="4.5em" label-margin-right="2em">
+     
+      <!-- <cell v-for="(item,index) in studentList" :key="'ss'+index" :title="item.name"  is-link link="/myName?type=nickname">
+          <div class="mr10 colorRed">{{item.sign?item.sign:'请签到'}}</div>
+      </cell> -->
+      <selector v-for="(item,index) in studentList" :key="'ss'+index" :title="item.name" :value-map="['idValue', 'idLabel']" :options="optionsL" placeholder="请签到"
+      v-model="item.sign"  direction="rtl" @on-change="onChange" :class="['mr10',item.sign?'':'colorRed']"></selector>
+       <!-- <cell title="姓名"  is-link link="/myName">
           <div class="mr10">{{this.getMyInfo.name}}</div>
       </cell>
       <selector title="性别" :options="['男', '女']" v-model="value2"  direction="rtl" @on-change="onChange"></selector>
-      <cell title="教龄"  is-link link="/teachTime">
-          <div class="mr10">{{this.getMyInfo.name}}</div>
-      </cell>
-      <cell title="擅长"  is-link link="/mySkill">
-          <div class="mr10">{{this.getMyInfo.name}}</div>
-      </cell>
-       <cell title="生日"  is-link link="/teacherBir">
+       <cell title="生日"  is-link link="/myBir">
           <div class="mr10">{{this.getMyInfo.birthday}}</div>
       </cell>
-       <cell title="地址"  is-link link="/teacherAdd">
+       <cell title="地址"  is-link link="/myAdd">
           <div class="mr10">{{this.getMyInfo.address}}</div>
       </cell>
-       <cell title="手机"  is-link link="/teacherCell">
+       <cell title="手机"  is-link link="/myCell">
           <div class="mr10">{{this.getMyInfo.cell}}</div>
-      </cell>
+      </cell> -->
+    </group>
+     <group title="学生点评" label-width="4.5em" label-margin-right="2em">
+        <cell v-for="(item,index) in studentList" :key="'ss'+index" :title="item.name"  is-link link="/teacherCommentStudent?type=nickname">
+            <div class="mr10">{{item.comm}}</div>
+        </cell>
+    </group>
+     <group title="作品上传" label-width="4.5em" label-margin-right="2em">
+        <cell v-for="(item,index) in studentList" :key="'ss'+index" :title="item.name"  is-link link="/myName?type=nickname">
+            <div class="mr10">{{item.pic}}</div>
+        </cell>
     </group>
     <group title=" " label-width="4.5em" label-margin-right="2em">
-       <cell title="个人介绍"  is-link link="/myIntro">
-          <div class="mr10">{{this.getMyInfo.name}}</div>
-      </cell>
-      <cell title="教育经历"  is-link link="/myEdu">
-          <div class="mr10">{{this.getMyInfo.name}}</div>
-      </cell>
-      <cell title="教学经验"  is-link link="/myTeachExp">
-          <div class="mr10">{{this.getMyInfo.name}}</div>
-      </cell>
-    </group>
-    <group title=" " label-width="4.5em" label-margin-right="2em">
-       <cell title="证书图片" ></cell>
-       <group title=" ">
             <vux-upload
                     url=""
                     :headers="headers"
                     :data="data"
                     :images="images"
-                    :readonly="false"
+                    :readonly="true"
                     :max="9"
                     :withCredentials="false"
                     :span="3"
@@ -59,16 +49,21 @@
                 >
                 </vux-upload>
     </group>
+     <group title="作品点评"  label-margin-right="2em">
+        <cell is-link link="/myName?type=nickname">
+            <div slot="title" style="color:#cacaca;font-size:15px;padding-bottom:60px">请点评作品</div>
+        </cell>
     </group>
     <!-- <div class="footerBtn">
      <x-button type="primary" action-type="button" @click.native="saveInfo" :show-loading="isloading" :disabled="isloading">保存</x-button>
 
     </div> -->
+     </view-box>
   </div>
 </template>
 
 <script>
-  import { XButton, Group, Cell, Selector   } from 'vux'
+  import { XButton, Group, Cell, Selector,ViewBox  } from 'vux'
 import SimpleCropper from '@/components/SimpleCrop' 
 import VuxUpload from '../components/Upload'
 
@@ -82,12 +77,16 @@ import VuxUpload from '../components/Upload'
       Cell,
       Selector,
       SimpleCropper,
+      ViewBox,
       VuxUpload
     },
     data () {
       return {
-        images:[{src: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg')},{src: require('../assets/ff.png')},
-        {src: require('../assets/ff.png')},{src: require('../assets/ff.png')},{src: require('../assets/ff.png')}],
+          optionsL:[{idValue:1,idLabel:'已到'},{idValue:2,idLabel:'未到'}],
+           images:[{src: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg')},{src: require('../assets/ff.png')},
+        {src: require('../assets/ff.png')},{src: require('../assets/ff.png')}],
+          studentList:[{name:'张三',sign:'',comm:'请点评',pic:'请上传'},{name:'张三',sign:'',comm:'请点评',pic:'请上传'},
+          {name:'张三',sign:'',comm:'请点评',pic:'请上传'},{name:'张三',sign:'',comm:'请点评',pic:'请上传'}],
         Asrc:'',
         value2:'',
         isloading:false,
@@ -152,27 +151,31 @@ import VuxUpload from '../components/Upload'
         this.value2 = this.getMyInfo.sex
         this.Asrc = this.getMyInfo.img
     },
+    mounted(){
+        let a = document.getElementsByClassName('weui-select');
+        [...a].map(item=>{
+            item.style.cssText += 'color:red';
+        })
+    }
   }
 </script>
 <style lang="less">
-.teacherInfo{
+.teacherDoSingleDetail{
+    height: 100%;
     .weui-cells__title{
     margin-top: 0;
-    padding-top:0; 
-    padding-bottom:0;
+    padding-top:.2rem; 
+    padding-bottom:.1rem;
     font-size: .4rem;
+}
+select option[value='']{
+    color:red
 }
 .myAvatar{
     width: 70px;
     height: 70px;
     border-radius: 50%;
     margin-right: 10px;
-}
-.mr10{
-    margin-right: 10px;
-}
-.weui-select{
-    color:#999999
 }
 .vux-upload .vux-flexbox-item .vux-upload-bg .vux-upload-content{
     background-position: center;
@@ -181,18 +184,13 @@ import VuxUpload from '../components/Upload'
     width: 82%;
     margin: 4% 0 0 9%;
 }
-.weui-uploader__input-box{
-    border:none;
+.mr10{
+    margin-right: 10px;
+    font-size: 15px;
+
 }
-.vux-upload .vux-flexbox-item .vux-upload-bg .weui-uploader__input-box::before{
-    position: absolute;
-    content: '';
-    width: 100%;
-    height: 100%;
-    background: url('../assets/upload.png') no-repeat center/cover;
-}
-.weui-uploader__input-box:after{
-    display: none;
+.weui-select{
+    color:#999999
 }
 .footerBtn{
     width: 90%;
