@@ -1,36 +1,50 @@
 <template>
   <div class="picDetail">
-      <!-- swiper1 -->
-      <div class="picTitle">
-          <div class="picDate">2018年10月10日 17:25</div>
-      </div>
-      <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
-         <swiper-slide class="slide-1" v-for="(item,index) in pics" :key="index">
-            <img :src="item.src" alt="" class="slideImgG" >
-        </swiper-slide>
-      </swiper>
-      <!-- swiper2 Thumbs -->
-      <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
-        <swiper-slide class="slide-1" v-for="(item,index) in pics" :key="index">
-            <img :src="item.src" alt="" class="slideImg">
-        </swiper-slide>
-      </swiper>
+    <!-- swiper1 -->
+    <div class="picTitle">
+      <div class="picDate">2018年10月10日 17:25</div>
+    </div>
+    <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
+      <swiper-slide class="slide-1" v-for="(item,index) in pics" :key="index">
+        <img :src="item.src" alt="" class="slideImgG">
+      </swiper-slide>
+    </swiper>
+    <!-- swiper2 Thumbs -->
+    <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
+      <swiper-slide class="slide-1" v-for="(item,index) in pics" :key="index">
+        <img :src="item.src" alt="" class="slideImg">
+      </swiper-slide>
+    </swiper>
   </div>
 </template>
 
 
 <script>
-import 'swiper/dist/css/swiper.css'
-
-import { swiper, swiperSlide } from 'vue-awesome-swiper'
-  export default {
-      components: {
+  import 'swiper/dist/css/swiper.css'
+  import {
     swiper,
     swiperSlide
-  },
+  } from 'vue-awesome-swiper'
+  export default {
+    components: {
+      swiper,
+      swiperSlide
+    },
     data() {
       return {
-          pics:[{src:require('../assets/ff.png')},{src:require('../assets/aa.jpg')},{src:require('../assets/bb.png')},{src:require('../assets/cc.jpg')},{src:require('../assets/dd.png')},{src:require('../assets/ee.png')},],
+        pics: [{
+          src: require('../assets/ff.png')
+        }, {
+          src: require('../assets/aa.jpg')
+        }, {
+          src: require('../assets/bb.png')
+        }, {
+          src: require('../assets/cc.jpg')
+        }, {
+          src: require('../assets/dd.png')
+        }, {
+          src: require('../assets/ee.png')
+        }, ],
         swiperOptionTop: {
           spaceBetween: 10,
           loop: true,
@@ -62,9 +76,9 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 </script>
 
 <style lang="less" scoped>
-.picDetail{
-  height: 100%;
-}
+  .picDetail {
+    height: 100%;
+  }
   .swiper-container {
     background-color: white;
   }
@@ -72,10 +86,10 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
     background-size: cover;
     background-position: center;
   }
-  .slide-1{
-      display: flex;
-      justify-content: center;
-      align-items: center;
+  .slide-1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .gallery-top {
     height: 77%!important;
@@ -96,26 +110,25 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
   .gallery-thumbs .swiper-slide-active {
     opacity: 1;
   }
-  .picTitle{
-      width: 100%;
-      height: 1.5rem;
-      background-color: #fff;
+  .picTitle {
+    width: 100%;
+    height: 1.5rem;
+    background-color: #fff;
   }
-  .picDate{
-      width: 90%;
-      height: 1.4rem;
-      line-height: 1.5rem;
-      margin: 0 auto;
-      border-bottom: 1px solid gainsboro;
-      font-size: 16px;
+  .picDate {
+    width: 90%;
+    height: 1.4rem;
+    line-height: 1.5rem;
+    margin: 0 auto;
+    border-bottom: 1px solid gainsboro;
+    font-size: 16px;
   }
-  .slideImg{
-      width: 1.8rem;
-      height: 1.8rem;
+  .slideImg {
+    width: 1.8rem;
+    height: 1.8rem;
   }
-  .slideImgG{
-     max-width: 90%;
+  .slideImgG {
+    max-width: 90%;
     max-height: 90%;
-
   }
 </style>

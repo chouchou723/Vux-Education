@@ -4,7 +4,8 @@
       <flexbox-item :span="span" v-for="(item, index) in images" :key="index" @click.native="onPreview(index)">
         <div class="vux-upload-bg">
           <div class="vux-upload-content" :style="{ backgroundImage: `url(${item.src})` }">
-            <x-icon v-if="!readonly" type="ios-close" class="red" @click.native="onRemove(index, $event)" style="fill:#00a6e7"></x-icon>
+            <div class="whiteM"></div>
+            <x-icon v-if="!readonly" type="ios-close" @click.native="onRemove(index, $event)" style="fill:#00a6e7"></x-icon>
           </div>
         </div>
         
@@ -138,33 +139,34 @@ export default {
     },
     post (file) {
       this.loading = true
-
+  this.onSuccess('response.data', file)
+  this.loading = false
       // 压缩上传
       // lrz(file, Object.assign({
       //   quality: 0.7,
       //   fieldName: 'file'
       // }, this.compress)).then((rst) => {
-        const data = rst.formData;
+        // const data = rst.formData;
         // for (let key in this.data) {
         //   if (this.data.hasOwnProperty(key)) {
         //     data.append(key, this.data[key])
         //   }
         // }
-        AjaxPlugin.$http.post(this.url, data, {
-          headers: this.headers,
-          withCredentials: this.withCredentials
-        }).then((response) => {
-          if (response.status === 200 && response.data.status === 'ok') {
-            this.onSuccess(response.data, file)
-            this.loading = false
-          } else {
-            this.onError(new Error(response.data.message), file)
-            this.loading = false
-          }
-        }).catch((err) => {
-          this.onError(err, file)
-          this.loading = false
-        })
+        // AjaxPlugin.$http.post(this.url, data, {
+        //   headers: this.headers,
+        //   withCredentials: this.withCredentials
+        // }).then((response) => {
+        //   if (response.status === 200 && response.data.status === 'ok') {
+        //     this.onSuccess(response.data, file)
+        //     this.loading = false
+        //   } else {
+        //     this.onError(new Error(response.data.message), file)
+        //     this.loading = false
+        //   }
+        // }).catch((err) => {
+        //   this.onError(err, file)
+        //   this.loading = false
+        // })
       // }).catch((err) => {
       //   this.onError(err, file)
       // })
@@ -232,6 +234,16 @@ export default {
         margin: 0;
         background-size: cover;
         position: relative;
+        .whiteM{
+              position: absolute;
+              top: 0;
+              left: 100%;
+              width: 10px;
+              height: 10px;
+              -webkit-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);
+              background: white;
+        }
       }
     }
   }

@@ -1085,7 +1085,7 @@
 
 			// Otherwise figure out whether we are switching into dragging mode now.
 			} else {
-				console.log(2)
+				// console.log(2)
 
 				var minimumTrackingForScroll = self.options.locking ? 3 : 0;
 				var minimumTrackingForDrag = 5;
@@ -1349,13 +1349,13 @@
 			}
 			//520
 			//620
-			console.log(this)
+			console.log(self.__contentHeight,self.__clientHeight)
 			self.__maxScrollLeft = Math.max((self.__contentWidth * zoomLevel) - self.__clientWidth, 0);
 			if(this.__pageW=='tc'){
 
-				self.__maxScrollTop = Math.max((self.__contentHeight * zoomLevel)- 620, 0);
+				self.__maxScrollTop = Math.max((self.__contentHeight * zoomLevel)- self.__clientHeight, 0);
 			}else{
-				self.__maxScrollTop = Math.max((self.__contentHeight * zoomLevel)- 520, 0);
+				self.__maxScrollTop = Math.max((self.__contentHeight * zoomLevel)- self.__clientHeight+100, 0);
 
 			}
 		},

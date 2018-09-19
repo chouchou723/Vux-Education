@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import store from '../vuex/store'
 import {TeacherRoutes} from './teacher'
 import {StudentRoutes} from './student'
+import {AssistantRoutes} from './assistant'
 Vue.use(Router)
 
 const router = new Router({
@@ -15,7 +16,8 @@ const router = new Router({
       path:'/index',
     },
   ...StudentRoutes,
-  ...TeacherRoutes
+  ...TeacherRoutes,
+  ...AssistantRoutes
   ],
   // scrollBehavior (to, from, savedPosition) {
   //   return { x: 0, y: 0 }

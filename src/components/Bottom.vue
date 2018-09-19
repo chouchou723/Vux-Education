@@ -1,7 +1,7 @@
 <template>
   <div>
      <tabbar @on-index-change='indexChange' v-model="index">
-      <tabbar-item  @on-item-click="saveIndex"  link="/index">
+      <tabbar-item  @on-item-click="saveIndex"  link="/student">
         <img slot="icon" src="../assets/bi1.png">
         <img slot="icon-active" src="../assets/bi1s.png">
         <span slot="label">我要选课</span>

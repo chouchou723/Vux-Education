@@ -1,90 +1,101 @@
 <template>
-  <div class="payResult">
-      <div class="iconBg">
-          <img src="../assets/buySuccess.png" alt="" class="buySuccess" v-if="buyStatus">
-          <img src="../assets/buyFail.png" alt="" class="buySuccess" v-else>
-          <div class="buySuccessFont" v-if="buyStatus&&type=='buy'">购买成功</div>
-          <div class="buySuccessFont" v-if="!buyStatus&&type=='buy'">购买失败</div>
-           <div class="buySuccessFont" v-if="buyStatus&&type=='coin'">充值成功</div>
-          <div class="buySuccessFont" v-if="!buyStatus&&type=='coin'">充值失败</div>
-      </div>
-       <group style="margin-top:-0.2rem"  v-if="type=='buy'" :class="buyStatus?'buyBgS':'buyBg'">
-            <cell-box is-link >
-                
+    <div class="payResult">
+        <div class="iconBg">
+            <img src="../assets/buySuccess.png" alt="" class="buySuccess" v-if="buyStatus">
+            <img src="../assets/buyFail.png" alt="" class="buySuccess" v-else>
+            <div class="buySuccessFont" v-if="buyStatus&&type=='buy'">购买成功</div>
+            <div class="buySuccessFont" v-if="!buyStatus&&type=='buy'">购买失败</div>
+            <div class="buySuccessFont" v-if="buyStatus&&type=='coin'">充值成功</div>
+            <div class="buySuccessFont" v-if="!buyStatus&&type=='coin'">充值失败</div>
+        </div>
+        <group style="margin-top:-0.2rem" v-if="type=='buy'" :class="buyStatus?'buyBgS':'buyBg'">
+            <cell-box is-link>
                 <div class="lessonListAll">
                     <div class="lessonTitleC">
                         <div class="lessonTitleNo">订单号:K283</div>
                     </div>
-                <div class="lessonTitle">
-
-                    <img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" width="75" height="75" alt="">
-                    <div class="lessonDetail">
-                        <div class="lessonList">
-                            <div class="lessonName">{{item.name}}</div>
+                    <div class="lessonTitle">
+                        <img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" width="75" height="75" alt="">
+                        <div class="lessonDetail">
+                            <div class="lessonList">
+                                <div class="lessonName">{{item.name}}</div>
+                            </div>
+                            <div class="lessonContent">{{item.content}}</div>
+                            <div class="lessonPrice">{{item.price}}元</div>
                         </div>
-                        <div class="lessonContent">{{item.content}}</div>
-                        <div class="lessonPrice">{{item.price}}元</div>
                     </div>
                 </div>
-                </div>
-            <!-- anything -->
+                <!-- anything -->
             </cell-box>
         </group>
         <div :class="buyStatus?'coinBgS':'coinBg'" v-if="type=='coin'">
             <div class="coinTitle">
                 <div>
-                2018-03-11 10:52:01
+                    2018-03-11 10:52:01
                 </div>
                 <div style="color:#04be02" v-if="buyStatus">
                     +20000积分
                 </div>
-                </div>
+            </div>
             <div class="coinContent">
                 <div>
-
-                充值20000积分
+                    充值20000积分
                 </div>
                 <div style="color:#999999" v-if="buyStatus">
                     剩余20000分
                 </div>
-                </div>
+            </div>
         </div>
-     <div class="payButton">
-     <x-button type="primary" action-type="button" @click.native="goTo">{{buyStatus?'我知道了':'继续支付'}}</x-button>
-
+        <div class="payButton">
+            <x-button type="primary" action-type="button" @click.native="goTo">{{buyStatus?'我知道了':'继续支付'}}</x-button>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
-import {XButton,Group,CellBox    } from 'vux'
-import {pushHimOnWall} from '../api/api'
-import apiHost from '../../config/prod.env'
-export default {
-  components: {
-  XButton ,Group,CellBox
-  },
-  data () {
-    return {
-      // note: changing this line won't causes changes
-      // with hot-reload because the reloaded component
-      // preserves its current state and we are modifying
-      // its initial state.
-      value:'',
-      buyStatus:false,
-      type:'coin',//coin
-      item:{id:1,ishot:true,name:'创意绘画单课',total:8,hasJoin:5,content:'1节课-2课时|4-8岁儿童|满5人开课',price:120,status:'待上课'}
-    }
-  },
-  methods:{
-            goTo(){
+    import {
+        XButton,
+        Group,
+        CellBox
+    } from 'vux'
+    import {
+        pushHimOnWall
+    } from '../api/api'
+    import apiHost from '../../config/prod.env'
+    export default {
+        components: {
+            XButton,
+            Group,
+            CellBox
+        },
+        data() {
+            return {
+                // note: changing this line won't causes changes
+                // with hot-reload because the reloaded component
+                // preserves its current state and we are modifying
+                // its initial state.
+                value: '',
+                buyStatus: false,
+                type: 'coin', //coin
+                item: {
+                    id: 1,
+                    ishot: true,
+                    name: '创意绘画单课',
+                    total: 8,
+                    hasJoin: 5,
+                    content: '1节课-2课时|4-8岁儿童|满5人开课',
+                    price: 120,
+                    status: '待上课'
+                }
+            }
+        },
+        methods: {
+            goTo() {
                 console.log(1);
-                if(this.buyStatus){
-
+                if (this.buyStatus) {
                     this.$router.push('/myLesson')
-                }else{
+                } else {
                     this.$router.push('/paying')
-
                 }
                 //  this.$wechat.chooseWXPay({
                 //                             timestamp: 0, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
@@ -97,151 +108,151 @@ export default {
                 //                             }
                 //                             });
             }
-  },
-  created(){
-    // console.log(this.getMyF,apiHost.API_ROOT)
-  },
-  mounted(){
-  },
-  computed: {
-    },
-}
+        },
+        created() {
+            // console.log(this.getMyF,apiHost.API_ROOT)
+        },
+        mounted() {},
+        computed: {},
+    }
 </script>
 
 <style lang="less">
-.payResult{
-.iconBg{
-    width: 100%;
-    height: 5rem;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.buySuccess{
-    width: 2rem;
-}
-.buySuccessFont{
-    font-size: 17px;
-    margin-top: .5rem;
-}
-.lessonListAll{
-     width: 100%;
-    display: flex;
-    flex-direction: column;
-}
-.lessonTitle{
-     display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding: .3rem 0 .2rem;
-}
-.lessonTitleC{
-     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: .1rem 0 .3rem;
-    border-bottom: 1px solid gainsboro;
-}
-.lessonList{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding: .1rem 0;
-}
-.lessonDetail{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding-left: .4rem;
-}
-.lessonName{
-    padding: 0 .2rem 0 0;
-}
-.lessonContent{
-     font-size: .16rem;
-     color: #b6b6b6;
-     padding:.15rem 0;
-}
-.lessonPrice{
-    color: #fb6804;
-}
-.lessonTitleNo{
-    color: #8a8e93;
-    font-size: .4rem;
-    position: relative;
-}
- .weui-cell_access.vux-cell-box:after{
-    display: none;
-}
-.buyBgS,.buyBg{
-    position: relative;
-}
-.buyBgS::before{
-    content:'';
-    position: absolute;
-    width: .15rem;
-    height: 1.2rem;
-    background: #04be02;
-    top:0;
-    left:0;
-    z-index: 1;
-}
-.buyBg::before{
-    content:'';
-    position: absolute;
-    width: .15rem;
-    height: 1.2rem;
-    background: #f76260;
-    top:0;
-    left:0;
-    z-index: 1;
-}
-.payButton{
-    width: 90%;
-    margin:.7rem auto 0;
-}
-.coinBg,.coinBgS{
-    width: 100%;
-    height: 2rem;
-    background-color: #fff;
-    margin-top: .5rem;
-    padding: .3rem .7rem;
-    position: relative;
-    box-sizing: border-box;
-}
-.coinBg::after{
-    content:'';
-    position: absolute;
-    top:0;
-    left: 0;
-    width: .15rem;
-    height: 100%;
-    background-color: #f76260;
-}
-.coinBgS::after{
-    content:'';
-    position: absolute;
-    top:0;
-    left: 0;
-    width: .15rem;
-    height: 100%;
-    background-color: #04be02;
-}
-.coinTitle{
-    font-size: 13px;
-    color: #999999; 
-    display: flex;
-    justify-content: space-between;
-    margin-bottom:.2rem;
-}
-.coinContent{
-    font-size: 16px;
-    display: flex;
-    justify-content: space-between;
-}
-}
+    .payResult {
+        .iconBg {
+            width: 100%;
+            height: 5rem;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .buySuccess {
+            width: 2rem;
+        }
+        .buySuccessFont {
+            font-size: 17px;
+            margin-top: .5rem;
+        }
+        .lessonListAll {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .lessonTitle {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding: .3rem 0 .2rem;
+        }
+        .lessonTitleC {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: .1rem 0 .3rem;
+            border-bottom: 1px solid gainsboro;
+        }
+        .lessonList {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: .1rem 0;
+        }
+        .lessonDetail {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding-left: .4rem;
+        }
+        .lessonName {
+            padding: 0 .2rem 0 0;
+        }
+        .lessonContent {
+            font-size: .16rem;
+            color: #b6b6b6;
+            padding: .15rem 0;
+        }
+        .lessonPrice {
+            color: #fb6804;
+        }
+        .lessonTitleNo {
+            color: #8a8e93;
+            font-size: .4rem;
+            position: relative;
+        }
+        .weui-cell_access.vux-cell-box:after {
+            display: none;
+        }
+        .buyBgS,
+        .buyBg {
+            position: relative;
+        }
+        .buyBgS::before {
+            content: '';
+            position: absolute;
+            width: .15rem;
+            height: 1.2rem;
+            background: #04be02;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .buyBg::before {
+            content: '';
+            position: absolute;
+            width: .15rem;
+            height: 1.2rem;
+            background: #f76260;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        .payButton {
+            width: 90%;
+            margin: .7rem auto 0;
+        }
+        .coinBg,
+        .coinBgS {
+            width: 100%;
+            height: 2rem;
+            background-color: #fff;
+            margin-top: .5rem;
+            padding: .3rem .7rem;
+            position: relative;
+            box-sizing: border-box;
+        }
+        .coinBg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: .15rem;
+            height: 100%;
+            background-color: #f76260;
+        }
+        .coinBgS::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: .15rem;
+            height: 100%;
+            background-color: #04be02;
+        }
+        .coinTitle {
+            font-size: 13px;
+            color: #999999;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: .2rem;
+        }
+        .coinContent {
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
 </style>

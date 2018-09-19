@@ -1,12 +1,12 @@
 <template>
   <div class="teacherBottom">
      <tabbar @on-index-change='indexChange' v-model="index">
-      <tabbar-item  @on-item-click="saveIndex"  link="/teacherClass">
+      <tabbar-item  @on-item-click="saveIndex"  link="/teacher">
         <img slot="icon" src="../assets/bi2.png">
         <img slot="icon-active" src="../assets/bi2B.png">
         <span slot="label">我的课程</span>
       </tabbar-item>
-      <tabbar-item  @on-item-click="saveIndex"  >
+      <tabbar-item  @on-item-click="saveIndex"  link="/teacherPublishHome">
         <!-- <img slot="icon" src="../assets/demo/icon_nav_msg.png"> -->
          <img slot="icon" src="../assets/publish.png">
         <img slot="icon-active" src="../assets/publishB.png">
@@ -93,16 +93,19 @@ export default {
                 break;
         }
     },
-  },
-  created(){
-      let path = this.$route.path;
-      if(path=='/lecture'){
+    tabIndex(){
+ let path = this.$route.path;
+      if(path=='/teacher'){
           this.index = 0
-      }else if(path=='/myLesson'){
+      }else if(path=='/teacherPublishHome'){
           this.index = 1
       }else if(path=='/teacherPersonal'){
           this.index = 2
       }
+    }
+  },
+  created(){
+     this.tabIndex()
   },
   mounted(){
   
@@ -111,8 +114,11 @@ export default {
         ...mapGetters([
             'getMyF'
             // ...
-        ])
+        ]),
     },
+    watch:{
+        '$route': 'tabIndex'
+    }
 }
 </script>
 
