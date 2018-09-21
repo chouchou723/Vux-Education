@@ -67,9 +67,6 @@
       padding-bottom: .1rem;
       font-size: .4rem;
     }
-    ::-webkit-input-placeholder {
-      color: gainsboro;
-    }
     .weui-btn_disabled.weui-btn_primary {
       background-color: #e1e1e1;
       color: black;

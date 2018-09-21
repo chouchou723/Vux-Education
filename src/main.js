@@ -13,9 +13,14 @@ Vue.use(WechatPlugin)
 Vue.use(ToastPlugin)
 // console.log(Vue.wechat)
 Vue.mixin({
-  created(){
-    document.getElementById("vux_view_box_body")&&(document.getElementById("vux_view_box_body").scrollTop=0)
-  }
+  methods:{
+    scrollT(){
+      document.getElementById("vux_view_box_body")&&(document.getElementById("vux_view_box_body").scrollTop=0)
+    },
+    setTitle(title){
+      document.title = title
+    }
+  },
   })
 
 FastClick.attach(document.body)

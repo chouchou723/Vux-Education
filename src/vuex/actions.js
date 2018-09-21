@@ -15,3 +15,9 @@ export const setMyF = ({commit},data) =>{
 export const setMyInfo = ({commit},data) =>{
 	commit('changeInfo',data)
 }
+export const setTeacherInfo = ({commit},data) =>{
+	commit('changeTeacherInfo',data)
+}
+export const setStep = ({commit},data) =>{
+	commit('changeStep',data)
+}

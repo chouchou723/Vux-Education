@@ -31,7 +31,7 @@
                 </x-input>
             </group>
             <!-- <group title=" " label-width="4.5em" label-margin-right="2em" v-if="step1==2"> -->
-            <teacherInfo v-if="step1==2"></teacherInfo>
+            <teacherInfo v-if="step1==2" :images='images' @getImages="getImages"></teacherInfo>
             <!-- </group> -->
             <group title=" " label-width="4.5em" label-margin-right="2em" v-if="step1==3">
                 <div class="stepThreeNoti" v-if="applyStaus==''">
@@ -52,8 +52,8 @@
                 </div>
             </group>
             <div class="footerBtn">
-                <x-button type="primary" action-type="button" @click.native="confireName" v-if="step1<3">下一步</x-button>
-                <x-button type="primary" action-type="button" @click.native="confireName" v-else>我知道了</x-button>
+                <x-button type="primary" action-type="button" @click.native="nextStep">
+                    {{step1===1?'下一步':step1==2?'提交审核':'我知道了'}}</x-button>
             </div>
         </view-box>
     </div>
@@ -87,9 +87,10 @@
             return {
                 applyStaus: 'pass',
                 countTime: 10,
-                step1: 3,
+                step1: 1,
                 value: '',
                 count: false,
+                images: [],
                 nickname: function(value) {
                     return {
                         valid: (/^[\u4e00-\u9fa5a-zA-Z0-9]+$/).test(value),
@@ -101,9 +102,20 @@
             }
         },
         created() {
-            document.title = '姓名'
+            document.title = '申请成为老师'
+            this.step1 = this.getStep || 1;
         },
         methods: {
+            getImages(data) {
+                this.images.push({
+                    src: data
+                })
+                // console.log(data)
+            },
+            nextStep() {
+                this.step1++
+                    this.setStep(this.step1)
+            },
             getCode() {
                 this.count = true;
                 if (this.countTime == 10) {
@@ -119,15 +131,15 @@
                 }
             },
             ...mapActions([
-                'setMyInfo'
+                'setStep'
             ]),
             confireName() {
                 if (this.type) {
-                    this.setMyInfo({
+                    this.setTeacherInfo({
                         nickname: this.value
                     })
                 } else {
-                    this.setMyInfo({
+                    this.setTeacherInfo({
                         name: this.value
                     })
                 }
@@ -136,7 +148,7 @@
         },
         computed: {
             ...mapGetters([
-                'getMyInfo'
+                'getStep'
                 // ...
             ]),
             getCodeContent() {
@@ -152,9 +164,6 @@
 <style lang="less">
     .applyFirst {
         height: 100%;
-         ::-webkit-input-placeholder {
-            color: #dbdbdb;
-        }
         .weui-cells__title {
             margin-top: 0;
             padding-top: .2rem;

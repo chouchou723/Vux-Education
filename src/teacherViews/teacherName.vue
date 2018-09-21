@@ -1,7 +1,7 @@
 <template>
   <div class="teacherName">
     <group title=" " label-width="4.5em" label-margin-right="2em">
-      <x-input :max="20" :is-type='nickname' v-model="value" :placeholder="type?'请输入昵称':'请输入姓名'"></x-input>
+      <x-input :max="20" :is-type='nickname' v-model="value" placeholder="请输入姓名"></x-input>
     </group>
     <div class="footerBtn">
       <x-button type="primary" action-type="button" :disabled="value.length==0" @click.native="confireName">确定</x-button>
@@ -38,35 +38,23 @@
       }
     },
     created() {
-      this.type = this.$route.query.type;
-      if (this.type) {
-        document.title = '昵称'
-        this.value = this.getMyInfo.nickname
-      } else {
         document.title = '姓名'
-        this.value = this.getMyInfo.name
-      }
     },
     methods: {
       ...mapActions([
-        'setMyInfo'
+        'setTeacherInfo'
       ]),
       confireName() {
-        if (this.type) {
-          this.setMyInfo({
-            nickname: this.value
-          })
-        } else {
-          this.setMyInfo({
+          this.setTeacherInfo({
             name: this.value
           })
-        }
-        this.$router.push('/myInfo')
+        // this.$router.push('/applyFirst?step=2')
+        this.$router.go(-1)
       },
     },
     computed: {
       ...mapGetters([
-        'getMyInfo'
+        'getTeacherInfo'
         // ...
       ]),
     },

@@ -15,7 +15,7 @@
             </tab>
             <!-- 列表 -->
             <group style="margin-top:-0.2rem" v-for="(item,index) in lessonList" :key="index">
-                <cell-box is-link>
+                <cell-box is-link link="/teacherLessonDetail/?id=1">
                     <div class="lessonListAll">
                         <div class="lessonTitleC">
                             <div class="lessonTitleNo">订单号:K283</div>

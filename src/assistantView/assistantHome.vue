@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper">
+    <div class="assistantHome">
         <view-box ref="viewBox">
             <transition name="fade">
                 <router-view></router-view>
@@ -24,7 +24,7 @@
     }
 </script>
 <style>
-    .wrapper {
+    .assistantHome {
         width: 100%;
         height: 100%;
         /* overflow: hidden; */

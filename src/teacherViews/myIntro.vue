@@ -1,7 +1,7 @@
 <template>
   <div class="myIntro">
     <group title=" " label-width="4.5em" label-margin-right="2em">
-      <x-textarea :max="300" v-model="value" placeholder="请输入填写个人介绍" :row="6"></x-textarea>
+      <x-textarea :max="300" v-model="value" placeholder="请输入填写个人介绍" :rows="6"></x-textarea>
     </group>
     <div class="footerBtn">
       <x-button type="primary" action-type="button" :disabled="value.length==0" @click.native="confirm">确定</x-button>
@@ -37,23 +37,24 @@
       }
     },
     created() {
-      document.title = '地址'
-      this.value = this.getMyInfo.address
+      document.title = '个人介绍'
+      this.value = this.getTeacherInfo.intro
     },
     methods: {
       ...mapActions([
-        'setMyInfo'
+        'setTeacherInfo'
       ]),
       confirm() {
-        this.setMyInfo({
-          address: this.value
+        this.setTeacherInfo({
+          intro: this.value
         })
-        this.$router.push('/myInfo')
+        this.$router.go(-1)
+        // this.$router.push('/applyFirst?step=2')
       }
     },
     computed: {
       ...mapGetters([
-        'getMyInfo'
+        'getTeacherInfo'
         // ...
       ]),
     },

@@ -29,6 +29,20 @@ const state = {
   myF: '123',
   isLoading: false,
   myInfo: { ...JSON.parse(info)
+  },
+  step:'',
+  teacherInfo: {
+    img: require('@/assets/bi3.png'),
+    teachTime: [],
+    skill: [],
+    name: '',
+    sex: '',
+    birthday: '',
+    address: '',
+    cell: '',
+    intro: '',
+    edu: [],
+    exp: [],
   }
 
 }
@@ -38,11 +52,19 @@ const mutations = {
   SENDMYF(state, data) {
     state.myF = data;
   },
+  changeStep(state, data) {
+    state.step = data;
+  },
   updateLoadingStatus(state, payload) {
     state.isLoading = payload.isLoading
   },
   changeInfo(state, data) {
     state.myInfo = { ...state.myInfo,
+      ...data
+    };
+  },
+  changeTeacherInfo(state, data) {
+    state.teacherInfo = { ...state.teacherInfo,
       ...data
     };
   },

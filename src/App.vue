@@ -82,6 +82,9 @@
     width: 100%;
     height: 100%;
     background-color: #F4F4F4;
+    ::-webkit-input-placeholder{
+      color: #B2B2B2;
+    }
   }
   // .fade-enter-active, .fade-leave-active {
   //   transition: opacity .2s;

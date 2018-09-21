@@ -60,9 +60,6 @@
 </script>
 <style lang="less">
   .failReason {
-     ::-webkit-input-placeholder {
-      color: gainsboro
-    }
     .weui-cells__title {
       margin-top: 0;
       padding-top: .2rem;

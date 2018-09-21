@@ -1,18 +1,19 @@
 <template>
     <div class="myOrder">
-        <view-box ref="viewBox">
-            <tab custom-bar-width="60px">
-                <tab-item selected>
-                    <span style="padding:0 32px;border-right:1px solid gainsboro">全部</span>
-                </tab-item>
-                <tab-item>
-                    <span style="padding:0 .6rem;border-right:1px solid gainsboro">待付款</span>
-                </tab-item>
-                <tab-item>
-                    <span style="padding:0 .6rem;border-right:1px solid gainsboro">已付款</span>
-                </tab-item>
-                <tab-item>退款</tab-item>
-            </tab>
+        <tab custom-bar-width="60px">
+            <tab-item selected @on-item-click='changeItem(1)'>
+                <span style="padding:0 32px;border-right:1px solid gainsboro">全部</span>
+            </tab-item>
+            <tab-item @on-item-click='changeItem(2)'>
+                <span style="padding:0 .6rem;border-right:1px solid gainsboro">待付款</span>
+            </tab-item>
+            <tab-item @on-item-click='changeItem(3)'>
+                <span style="padding:0 .6rem;border-right:1px solid gainsboro">已付款</span>
+            </tab-item>
+            <tab-item @on-item-click='changeItem(4)'>退款</tab-item>
+        </tab>
+        <!-- <view-box ref="viewBox"> -->
+        <scroller delegate-id="myScroller" :on-infinite="loadMore" ref='my_scroller'>
             <!-- 列表 -->
             <group style="margin-top:-0.2rem" v-for="(item,index) in lessonList" :key="index">
                 <cell-box is-link>
@@ -22,7 +23,7 @@
                             <div class="lessonTitleStatus" :style="item.status=='待付款'?'color:#f76967':'color:#04be02'">{{item.status}}</div>
                         </div>
                         <div class="lessonTitle">
-                            <x-img :default-src="dsrc" :src="asrc" width="75" height="75" alt="" :offset="700" container="#vux_view_box_body"></x-img>
+                            <x-img :default-src="dsrc" :src="asrc" width="75" height="75" alt="" :offset="2000*page" container="#vux_view_box_body"></x-img>
                             <div class="lessonDetail">
                                 <div class="lessonList">
                                     <div class="lessonName">{{item.name}}</div>
@@ -41,7 +42,8 @@
                     <!-- anything -->
                 </cell-box>
             </group>
-        </view-box>
+        </scroller>
+        <!-- </view-box> -->
     </div>
 </template>
 
@@ -58,6 +60,7 @@
         pushHimOnWall
     } from '../api/api'
     import apiHost from '../../config/prod.env'
+    import Scroller from '../components/Scroller'
     export default {
         components: {
             Group,
@@ -65,7 +68,8 @@
             TabItem,
             CellBox,
             ViewBox,
-            XImg
+            XImg,
+            Scroller
         },
         data() {
             return {
@@ -73,6 +77,8 @@
                 // with hot-reload because the reloaded component
                 // preserves its current state and we are modifying
                 // its initial state.
+                page: 1,
+                pageW: 'tc',
                 dsrc: require('../assets/picload.png'),
                 asrc: require("../assets/0e3a716cf47f1eb695e5b62597dec807.jpg"),
                 value: '',
@@ -200,6 +206,15 @@
             goToPay() {
                 this.$router.push('/paying')
             },
+            loadMore() {
+                console.log(1)
+                setTimeout(() => {
+                    this.$refs.my_scroller.finishInfinite(2)
+                }, 2000)
+            },
+            changeItem(num) {
+                console.log(num)
+            }
         },
         created() {
             // console.log(this.getMyF,apiHost.API_ROOT)

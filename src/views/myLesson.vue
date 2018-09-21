@@ -1,6 +1,7 @@
 <template>
     <div class="myLesson">
-        <view-box ref="viewBox">
+        <!-- <view-box ref="viewBox"> -->
+        <scroller delegate-id="myScroller" :pageW="pageW" :on-infinite="loadMore" ref='my_scroller'>
             <!-- 列表 -->
             <group style="margin-top:-0.2rem" class="groupC" v-for="(item,index) in lessonList" :key="index">
                 <cell-box is-link link="/courseInfo">
@@ -10,7 +11,7 @@
                             <div class="lessonTitleStatus" :style="item.status=='待上课'?'color:#f76967':'color:#04be02'">{{item.status}}</div>
                         </div>
                         <div class="lessonTitle">
-                            <x-img :default-src="dsrc" :src="asrc" width="75" height="75" alt="" :offset="700" container="#vux_view_box_body"></x-img>
+                            <x-img :default-src="dsrc" :src="asrc" width="75" height="75" alt="" :offset="2000*page" container="#vux_view_box_body"></x-img>
                             <div class="lessonDetail">
                                 <div class="lessonList">
                                     <div class="lessonName">{{item.name}}</div>
@@ -23,7 +24,8 @@
                     <!-- anything -->
                 </cell-box>
             </group>
-        </view-box>
+        </scroller>
+        <!-- </view-box> -->
     </div>
 </template>
 
@@ -38,12 +40,14 @@
         pushHimOnWall
     } from '../api/api'
     import apiHost from '../../config/prod.env'
+    import Scroller from '../components/Scroller'
     export default {
         components: {
             Group,
             CellBox,
             XImg,
-            ViewBox
+            ViewBox,
+            Scroller
         },
         data() {
             return {
@@ -54,6 +58,8 @@
                 dsrc: require('../assets/picload.png'),
                 asrc: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
                 value: '',
+                pageW: 'ml',
+                page: 1,
                 value7: '',
                 false: false,
                 chooseT: false,
@@ -165,7 +171,14 @@
                 ]
             }
         },
-        methods: {},
+        methods: {
+            loadMore() {
+                console.log(1)
+                setTimeout(() => {
+                    this.$refs.my_scroller.finishInfinite(2)
+                }, 2000)
+            },
+        },
         created() {
             document.title = "我的课程"
             // console.log(this.getMyF,apiHost.API_ROOT)

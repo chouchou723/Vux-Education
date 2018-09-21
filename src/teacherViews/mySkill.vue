@@ -6,7 +6,7 @@
       <x-input :is-type='nickname' v-model="value3" placeholder="可填写一个标签"></x-input>
     </group>
     <div class="footerBtn">
-      <x-button type="primary" action-type="button" :disabled="value.length==0" @click.native="confireName">确定</x-button>
+      <x-button type="primary" action-type="button" :disabled="!value1&&!value2&&!value3" @click.native="confireName">确定</x-button>
     </div>
   </div>
 </template>
@@ -43,35 +43,26 @@
       }
     },
     created() {
-      this.type = this.$route.query.type;
-      if (this.type) {
-        document.title = '昵称'
-        this.value = this.getMyInfo.nickname
-      } else {
-        document.title = '姓名'
-        this.value = this.getMyInfo.name
-      }
+        document.title = '擅长'
+        this.value1 = this.getTeacherInfo.skill[0]
+        this.value2 = this.getTeacherInfo.skill[1]
+        this.value3 = this.getTeacherInfo.skill[2]
     },
     methods: {
       ...mapActions([
-        'setMyInfo'
+        'setTeacherInfo'
       ]),
       confireName() {
-        if (this.type) {
-          this.setMyInfo({
-            nickname: this.value
+          this.setTeacherInfo({
+            skill: [this.value1,this.value2,this.value3]
           })
-        } else {
-          this.setMyInfo({
-            name: this.value
-          })
-        }
-        this.$router.push('/myInfo')
+        // this.$router.push('/applyFirst?step=2')
+        this.$router.go(-1)
       },
     },
     computed: {
       ...mapGetters([
-        'getMyInfo'
+        'getTeacherInfo'
         // ...
       ]),
     },

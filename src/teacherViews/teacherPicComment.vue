@@ -114,9 +114,6 @@
             position: relative;
             box-sizing: border-box;
         }
-         ::-webkit-input-placeholder {
-            color: #B2B2B2;
-        }
         .coinBgS::after {
             content: '';
             position: absolute;

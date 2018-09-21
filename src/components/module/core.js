@@ -1352,10 +1352,12 @@
 			console.log(self.__contentHeight,self.__clientHeight)
 			self.__maxScrollLeft = Math.max((self.__contentWidth * zoomLevel) - self.__clientWidth, 0);
 			if(this.__pageW=='tc'){
-
 				self.__maxScrollTop = Math.max((self.__contentHeight * zoomLevel)- self.__clientHeight, 0);
+			}else if(this.__pageW=='ml'){
+				self.__maxScrollTop = Math.max((self.__contentHeight * zoomLevel)- self.__clientHeight+30, 0);
+
 			}else{
-				self.__maxScrollTop = Math.max((self.__contentHeight * zoomLevel)- self.__clientHeight+100, 0);
+				self.__maxScrollTop = Math.max((self.__contentHeight * zoomLevel)- self.__clientHeight+90, 0);
 
 			}
 		},

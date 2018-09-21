@@ -13,7 +13,7 @@
       <flexbox-item :span="span" v-show="!readonly && images.length < max">
         <div class="vux-upload-bg">
           <div class="weui-uploader__input-box vux-upload-content" :class="{ loading: loading }">
-            <input v-show="!loading" ref="file" class="weui-uploader__input" value="" type="file" :accept="accept" :capture="capture" @change="onChange">
+            <input v-show="!loading" ref="file" class="weui-uploader__input" value="" type="file" multiple="multiple" :accept="accept" @change="onChange">
             <inline-loading v-show="loading"></inline-loading>
           </div>
         </div>
@@ -109,11 +109,19 @@ export default {
   },
   methods: {
     onChange (event) {
-      // 移动端仅支持单文件上传
-      const file = event.target.files[0]
-      if (!file) return
+      // multi
+      let ff = [...event.target.files]
+      ff.map(item=>{
+        if(item){
+          this.uploadFile(item)
 
-      this.uploadFile(file)
+        }
+      })
+      // 移动端仅支持单文件上传
+      // const file = event.target.files[0]
+      // if (!file) return
+
+      // this.uploadFile(file)
     },
     uploadFile (file) {
       if (this.images.length >= this.max) {
@@ -138,8 +146,9 @@ export default {
       }
     },
     post (file) {
+      // console.log(file)
       this.loading = true
-  this.onSuccess('response.data', file)
+  this.onSuccess(file, file)
   this.loading = false
       // 压缩上传
       // lrz(file, Object.assign({

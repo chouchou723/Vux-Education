@@ -92,6 +92,7 @@
     /* line-height: 60px; */
     color: #AAA;
     position: relative;
+    margin-top:10px;
   }
 
   ._v-container > ._v-content > .loading-layer > .no-data-text

@@ -186,6 +186,18 @@
             }
         },
         methods: {
+            onSuccess(data){
+                // console.log(data)
+                var reads = new FileReader();
+                let f = data;
+                reads.readAsDataURL(f);
+                reads.onload = (e) => {
+                    // this.$emit('getImages',e.target.result)
+                    this.images.push({src:e.target.result})
+                    // this.Asrc=e.target.result;
+                    // console.log(e.target.result)
+                };
+            },
             changeBorder(type) {
                 if (type == 1 && this.valueTitle) {
                     this.isBorder = true;

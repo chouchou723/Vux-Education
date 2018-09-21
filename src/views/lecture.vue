@@ -28,7 +28,7 @@
                 <!-- <div> -->
                 <cell-box is-link v-for="(item,index) in lessonList" :key="index" :link="`/courseDetails/?id=${item.id}`">
                     <div class="lessonList">
-                        <x-img :default-src="dsrc" :src="asrc" width="65" height="65" alt="" container="#picContent" :offset="800" :delay="50"></x-img>
+                        <x-img :default-src="dsrc" :src="asrc" width="65" height="65" alt="" container="#picContent" :offset="1500*page" :delay="50"></x-img>
                         <div class="lessonDetail">
                             <div class="lessonList">
                                 <div class="hot" v-if="item.ishot">热门</div>
@@ -493,7 +493,7 @@
             },
         },
         created() {
-            document.title = "我要选课"
+            this.setTitle("我要选课")
             this.changeType(0)
             this.fetchData();
             // console.log(this.getMyF,apiHost.API_ROOT)

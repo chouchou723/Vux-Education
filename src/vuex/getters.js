@@ -9,3 +9,9 @@ export const getMyF= state => {
 export const getMyInfo= state => {
     return state.myInfo
 }
+export const getTeacherInfo= state => {
+    return state.teacherInfo
+}
+export const getStep= state => {
+    return state.step
+}

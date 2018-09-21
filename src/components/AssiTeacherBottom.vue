@@ -9,7 +9,7 @@
       <tabbar-item  @on-item-click="saveIndex"  link="/assistantMessage">
         <!-- <img slot="icon" src="../assets/demo/icon_nav_msg.png"> -->
          <img slot="icon" src="../assets/message.png">
-        <img slot="icon-active" src="../assets/message.png">
+        <img slot="icon-active" src="../assets/messageB.png">
         <span slot="label">消息通知</span>
       </tabbar-item>
     </tabbar>

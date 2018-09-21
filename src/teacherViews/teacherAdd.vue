@@ -38,22 +38,23 @@
     },
     created() {
       document.title = '地址'
-      this.value = this.getMyInfo.address
+      this.value = this.getTeacherInfo.address
     },
     methods: {
       ...mapActions([
-        'setMyInfo'
+        'setTeacherInfo'
       ]),
       confirm() {
-        this.setMyInfo({
+        this.setTeacherInfo({
           address: this.value
         })
-        this.$router.push('/myInfo')
+        // this.$router.push('/applyFirst?step=2')
+        this.$router.go(-1)
       }
     },
     computed: {
       ...mapGetters([
-        'getMyInfo'
+        'getTeacherInfo'
         // ...
       ]),
     },

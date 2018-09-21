@@ -157,10 +157,6 @@
 </script>
 
 <style lang="less">
-    p {
-        padding: 0;
-        margin: 0;
-    }
     .assistantLessonDetail {
         // background: #F4F4F4;
         height: 100%;

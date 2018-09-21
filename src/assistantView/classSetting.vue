@@ -139,9 +139,6 @@
 <style lang="less">
     .classSetting {
         height: 100%;
-        ::-webkit-input-placeholder{
-            color:gainsboro
-        }
         .weui-btn_disabled.weui-btn_primary {
             background-color: #e1e1e1;
             color: black;

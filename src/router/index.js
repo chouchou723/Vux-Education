@@ -10,7 +10,7 @@ const router = new Router({
   routes: [
     {
       path:'/',
-      redirect: '/teacherPersonal'
+      redirect: '/student'
     },
     {
       path:'/index',

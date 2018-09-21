@@ -43,7 +43,6 @@
     data() {
       return {
         value: '',
-        endDate: '', //new Date().toLocaleDateString().replace('/','-'),
         showPopup: false,
         nickname: function(value) {
           return {
@@ -55,28 +54,32 @@
     },
     created() {
       document.title = '生日';
-      this.value = this.getMyInfo.birthday
-      let date = new Date();
-      let month = ('0' + (date.getMonth() + 1)).slice(-2);
-      let day = ('0' + date.getDate()).slice(-2)
-      this.endDate = date.getFullYear() + '-' + month + '-' + day
+      this.value = this.getTeacherInfo.birthday
+     
     },
     methods: {
       ...mapActions([
-        'setMyInfo'
+        'setTeacherInfo'
       ]),
       confirm() {
-        this.setMyInfo({
+        this.setTeacherInfo({
           birthday: this.value
         })
-        this.$router.push('/myInfo')
+        // this.$router.push('/applyFirst?step=2')
+        this.$router.go(-1)
       }
     },
     computed: {
       ...mapGetters([
-        'getMyInfo'
+        'getTeacherInfo'
         // ...
       ]),
+      endDate(){
+         let date = new Date();
+      let month = ('0' + (date.getMonth() + 1)).slice(-2);
+      let day = ('0' + date.getDate()).slice(-2)
+      return  date.getFullYear() + '-' + month + '-' + day
+      }
     },
   }
 </script>

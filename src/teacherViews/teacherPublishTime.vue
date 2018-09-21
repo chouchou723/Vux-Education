@@ -217,20 +217,6 @@
         .weui-uploader__input-box {
             border: 1px dashed #D9D9D9;
         }
-        .plusIcon .vux-flexbox-item .vux-upload-bg .weui-uploader__input-box::before {
-            position: absolute;
-            content: '';
-            width: 100%;
-            height: 100%;
-            background: url('../assets/upload.png') no-repeat center/cover;
-        }
-        .plusIcon .weui-uploader__input-box {
-            border: none;
-        }
-        .plusIcon .weui-uploader__input-box:after {
-            width: 0;
-            height: 0;
-        }
         .weui-btn_disabled.weui-btn_primary {
             background-color: #e1e1e1;
             color: black;

@@ -1,17 +1,8 @@
 <template>
-    <div class="applyFirst">
+    <div class="myTeacherInfo">
         <view-box ref="viewBox">
-            <group title=" " label-width="4.5em" label-margin-right="2em" v-if="step1==1">
-                <x-input placeholder="请输入手机号" type='tel' v-model="value" :max="11">
-                    <img slot="label" style="padding-right:10px;display:block;" src="../assets/inputCell.png" width="20" height="20">
-                </x-input>
-                <x-input placeholder="请输入短信验证码" class="weui-vcode">
-                    <img slot="label" style="padding-right:10px;display:block;" src="../assets/inputCell.png" width="20" height="20">
-                    <x-button slot="right" type="primary" :class="['getCode',count?'colorg':'']" @click.native="getCode">{{getCodeContent}}</x-button>
-                </x-input>
-            </group>
             <!-- <group title=" " label-width="4.5em" label-margin-right="2em" v-if="step1==2"> -->
-            <teacherInfo v-if="step1==2"></teacherInfo>
+            <teacherInfo :images='images' @getImages="getImages" rlink="myTeacherInfo"></teacherInfo>
             <!-- </group> -->
             <div class="footerBtn">
                 <x-button type="primary" action-type="button" disabled @click.native="confireName">取消修改</x-button>
@@ -47,6 +38,7 @@
         },
         data() {
             return {
+                images: [],
                 applyStaus: 'fail',
                 countTime: 10,
                 step1: 2,
@@ -63,9 +55,15 @@
             }
         },
         created() {
-            document.title = '姓名'
+            this.setTitle('我的资料')
         },
         methods: {
+            getImages(data) {
+                this.images.push({
+                    src: data
+                })
+                // console.log(data)
+            },
             getCode() {
                 this.count = true;
                 if (this.countTime == 10) {
@@ -112,11 +110,8 @@
     }
 </script>
 <style lang="less">
-    .applyFirst {
+    .myTeacherInfo {
         height: 100%;
-         ::-webkit-input-placeholder {
-            color: #dbdbdb;
-        }
         .weui-cells__title {
             margin-top: 0;
             padding-top: .2rem;

@@ -1,15 +1,15 @@
 <template>
     <div class="myTeachExp">
         <group v-for="(item,index) in eduList" :key="'edu'+index" label-width="4.5em" label-margin-right="2em">
-            <group-title slot="title" class="groupTitle">经验{{item.no}}<span style="float:right;" v-if="index!=0"><img @click="deleteEdu(index)" src="../assets/delete.png" width="15" alt=""></span></group-title>
+            <group-title slot="title" class="groupTitle">经验{{eduIndex[index]}}<span style="float:right;" v-if="index!=0"><img @click="deleteEdu(index)" src="../assets/delete.png" width="15" alt=""></span></group-title>
             <group>
-                <datetime v-model="value4" title="起始日期" @on-cancel="log('cancel')" @on-confirm="onConfirm">
+                <datetime v-model="item.start" title="起始日期" @on-cancel="log('cancel')" @on-confirm="onConfirm">
                 </datetime>
-                <datetime v-model="value5" title="结束日期" @on-cancel="log('cancel')" @on-confirm="onConfirm">
+                <datetime v-model="item.end" title="结束日期" @on-cancel="log('cancel')" @on-confirm="onConfirm">
                 </datetime>
                 <div style="background:#f4f4f4;width:100%;height:10px"></div>
                 <cell title="经验介绍"></cell>
-                <x-textarea :max="125" :rows="5" v-model="value" placeholder="请填写你的经验"></x-textarea>
+                <x-textarea :max="125" :rows="5" v-model="item.content" placeholder="请填写你的经验"></x-textarea>
             </group>
         </group>
         <div class="addNewBtn">
@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="footerBtn">
-            <x-button type="primary" action-type="button" :disabled="value.length==0" @click.native="confirm">确定</x-button>
+            <x-button type="primary" action-type="button" :disabled="!valid" @click.native="confirm">确定</x-button>
         </div>
     </div>
 </template>
@@ -49,8 +49,11 @@
         },
         data() {
             return {
+                eduIndex: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'],
                 eduList: [{
-                    no: '一'
+                    start: "",
+                    end: '',
+                    content: ''
                 }],
                 list1: [
                     ['1年之内', '1年', '2年', '2年以上']
@@ -68,7 +71,10 @@
             }
         },
         created() {
-            document.title = '教育经历'
+            document.title = '教学经验'
+            if (this.getTeacherInfo.exp.length !== 0) {
+                this.eduList = this.getTeacherInfo.exp
+            }
         },
         methods: {
             deleteEdu(index) {
@@ -81,18 +87,26 @@
                 })
             },
             ...mapActions([
-                'setMyInfo'
+                'setTeacherInfo'
             ]),
             confirm() {
-                // this.setMyInfo({cell:this.value})
-                this.$router.push('/myInfo')
+                this.setTeacherInfo({
+                    exp: this.eduList
+                })
+                // this.$router.push('/applyFirst?step=2')
+                this.$router.go(-1)
             }
         },
         computed: {
             ...mapGetters([
-                'getMyInfo'
+                'getTeacherInfo'
                 // ...
             ]),
+            valid() {
+                return this.eduList.every(item => {
+                    return Object.values(item).every(it => it != '')
+                })
+            }
         },
     }
 </script>
@@ -104,9 +118,6 @@
             padding-top: .2rem;
             padding-bottom: .1rem;
             font-size: .4rem;
-        }
-        input::-webkit-input-placeholder {
-            color: #dbdbdb;
         }
         .weui-btn_disabled.weui-btn_primary {
             background-color: #e1e1e1;

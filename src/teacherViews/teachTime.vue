@@ -4,7 +4,7 @@
       <popup-picker :data="list1" v-model="value1" value-text-align="left" placeholder="请选择你的教龄"></popup-picker>
     </group>
     <div class="footerBtn">
-      <x-button type="primary" action-type="button" :disabled="value.length==0" @click.native="confirm">确定</x-button>
+      <x-button type="primary" action-type="button" :disabled="value1.length==0" @click.native="confirm">确定</x-button>
     </div>
   </div>
 </template>
@@ -32,25 +32,26 @@
         list1: [
           ['1年之内', '1年', '2年', '2年以上']
         ],
-        value: '',
         value1: [],
       }
     },
     created() {
-      document.title = '手机'
+      document.title = '教龄'
+  this.value1 = this.getTeacherInfo.teachTime;
     },
     methods: {
       ...mapActions([
-        'setMyInfo'
+        'setTeacherInfo'
       ]),
       confirm() {
-        // this.setMyInfo({cell:this.value})
-        this.$router.push('/myInfo')
+        this.setTeacherInfo({teachTime:this.value1})
+        // this.$router.push('/applyFirst?step=2')
+        this.$router.go(-1)
       }
     },
     computed: {
       ...mapGetters([
-        'getMyInfo'
+        'getTeacherInfo'
         // ...
       ]),
     },

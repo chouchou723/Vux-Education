@@ -22,16 +22,16 @@
         <!-- <view-box ref="viewBox">  -->
         <scroller delegate-id="myScroller" :on-refresh="refresh" :pageW="pageW" :on-infinite="loadMore" ref='my_scroller' v-if="lessonList1.length!=0">
             <!-- 列表 -->
-            <group style="margin-top:-0.2rem">
+            <group style="margin-top:-0.2rem" id="picContent">
                 <cell-box is-link v-for="(item,index) in lessonList1" :key="index" :link="`/teacherLessonDetail/?id=${item.id}`">
                     <div class="lessonList">
-                        <x-img :default-src="dsrc" :src="asrc" width="65" height="65" alt="" container="#picContent" :offset="700" :delay="50"></x-img>
+                        <x-img :default-src="dsrc" :src="asrc" width="65" height="65" alt="" container="#vux_view_box_body" :offset="1500*page" :delay="50"></x-img>
                         <div class="lessonDetail">
                             <div class="lessonList">
                                 <!-- <div class="hot" v-if="item.ishot">热门</div> -->
                                 <div class="lessonName">{{item.name}}</div>
                                 <div class="lessonStatus" :style="item.hasJoin=='已开课'?'color: #04be02;border: 1px solid #04be02;':
-                                item.hasJoin=='已结课'?'color: #b6b6b6;border: 1px solid #b6b6b6;':'color: #F76260;border: 1px solid;'">{{item.hasJoin}}</div>
+                                    item.hasJoin=='已结课'?'color: #b6b6b6;border: 1px solid #b6b6b6;':'color: #F76260;border: 1px solid;'">{{item.hasJoin}}</div>
                             </div>
                             <div class="lessonContent">{{item.content}}</div>
                             <div class="lessonPrice" v-if="item.hasJoin=='已开课'||item.hasJoin=='待开课'">根据你的情况该课程费用约为{{item.price}}元</div>
@@ -83,6 +83,7 @@
                 value: '',
                 value7: '',
                 pageW: 'tc',
+                page: 1,
                 false: false,
                 chooseT: false,
                 chooseA: false,

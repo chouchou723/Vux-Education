@@ -179,9 +179,6 @@
             top: 0;
             left: 0;
         }
-        textarea::-webkit-input-placeholder {
-            color: #a5a3a3
-        }
         .simpleImg {
             width: 2.9rem;
             height: 2.9rem;
