@@ -3,7 +3,7 @@
         <group title=" " label-width="4.5em" label-margin-right="2em">
             <cell title="头像" is-link>
                 <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper">
-                    <img :src="this.getMyInfo.img" @touchend="upload" class="myAvatar">
+                    <img :src="`${apiUrl}/attach/img/${getMyInfo.img}/SQUARE`" @touchend="upload" class="myAvatar">
                 </simple-cropper>
                 <!-- <img :src="this.getMyInfo.img" class="myAvatar" alt="" @touchend="openFile"> -->
                 <!-- <input type="file" @change="fileChange()" style="display: none" ref="file" accept="image/png,image/jpeg,image/gif"> -->
@@ -43,6 +43,7 @@
         mapActions,
         mapGetters
     } from 'vuex';
+    import {postMyInfo} from '../api/api'
     export default {
         components: {
             Group,
@@ -68,21 +69,21 @@
             ...mapActions([
                 'setMyInfo'
             ]),
-            openFile() {
-                this.$refs.file.click();
-            },
-            fileChange() {
-                var reads = new FileReader();
-                let f = this.$refs.file.files[0];
-                reads.readAsDataURL(f);
-                reads.onload = (e) => {
-                    this.setMyInfo({
-                        img: e.target.result
-                    })
-                    // this.Asrc=e.target.result;
-                    // console.log(e.target.result)
-                };
-            },
+            // openFile() {
+            //     this.$refs.file.click();
+            // },
+            // fileChange() {
+            //     var reads = new FileReader();
+            //     let f = this.$refs.file.files[0];
+            //     reads.readAsDataURL(f);
+            //     reads.onload = (e) => {
+            //         this.setMyInfo({
+            //             img: e.target.result
+            //         })
+            //         // this.Asrc=e.target.result;
+            //         // console.log(e.target.result)
+            //     };
+            // },
             onChange() {
                 this.setMyInfo({
                     sex: this.value2
@@ -90,24 +91,38 @@
             },
             saveInfo() {
                 this.isloading = true;
-                console.log(this.getMyInfo)
-                this.$vux.toast.show({
-                    text: '保存成功'
-                })
+                let id = this.getMyInfo.id;
+                let para = {
+                      avatarId: this.getMyInfo.img,
+              nickName: this.getMyInfo.nickname,
+              realName: this.getMyInfo.name,
+              gender: this.value2=='男'?'MALE':'FEMALE',
+              birthday: this.getMyInfo.birthday,
+              address: this.getMyInfo.address,
+              mobilePhone: this.getMyInfo.cell,
+                }
+                postMyInfo(id,para).then(res=>{
+                    console.log(res)
+                    if(res.code==0){
+                        this.$vux.toast.show({
+                            text: '保存成功'
+                        })
                 localStorage.setItem('info', JSON.stringify(this.getMyInfo))
-                setTimeout(() => {
+
                     this.isloading = false;
-                }, 1000)
+                    }
+                })
             },
             upload() {
                 this.$refs['cropper'].upload()
             },
             // 上传头像成功回调 
-            uploadHandle(data) {
+            uploadHandle(id,data) {
                 this.setMyInfo({
-                    img: data
+                    img: id
                 })
                 if (data.state === 'SUCCESS') {
+                    console.log(123)
                     // this.userImg  = data
                 }
             }
@@ -119,9 +134,10 @@
             ]),
         },
         created() {
+            this.setTitle('我的资料')
             console.log(this.getMyInfo)
             this.value2 = this.getMyInfo.sex
-            this.Asrc = this.getMyInfo.img
+            // this.Asrc = this.getMyInfo.img
         },
     }
 </script>

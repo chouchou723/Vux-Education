@@ -1,24 +1,27 @@
 <template>
     <div class="myFav">
-        <view-box ref="viewBox">
+        <!-- <view-box ref="viewBox"> -->
+        <scroller delegate-id="myScroller" :on-infinite="loadMore" ref='my_scroller'>
+
             <group style="margin-top:-0.2rem">
-                <cell-box is-link v-for="(item,index) in lessonList" :key="index" link="/courseDetails">
+                <cell-box is-link v-for="(item,index) in lessonList" :key="index" :link="`/courseDetails?id=${item.courseId}`">
                     <div class="lessonListAll">
                         <div class="lessonTitle">
-                            <x-img :default-src="dsrc" :src="asrc" width="74" height="74" alt="" :offset="700" container="#vux_view_box_body"></x-img>
+                            <x-img :default-src="dsrc" :src="`${apiUrl}/attach/img/${item.course.picId}/SQUARE`" width="74" height="74" alt="" :offset="700" container="#vux_view_box_body"></x-img>
                             <div class="lessonDetail">
                                 <div class="lessonList">
-                                    <div class="lessonName">{{item.name}}</div>
+                                    <div class="lessonName">{{item.course.name}}</div>
                                 </div>
-                                <div class="lessonContent">{{item.content}}</div>
-                                <div class="lessonPrice">{{item.price}}元</div>
+                                <div class="lessonContent">{{item.course.courseNum}}节课-{{item.course.hours}}课时|{{item.course.applyAge.label}}儿童|满{{item.course.minStuNum}}人开课</div>
+                                <div class="lessonPrice">{{item.course.price}}元</div>
                             </div>
                         </div>
                     </div>
                     <!-- anything -->
                 </cell-box>
             </group>
-        </view-box>
+        </scroller>
+        <!-- </view-box> -->
     </div>
 </template>
 
@@ -30,15 +33,17 @@
         XImg
     } from 'vux'
     import {
-        pushHimOnWall
+        getMyCollect
     } from '../api/api'
     import apiHost from '../../config/prod.env'
+    import Scroller from '../components/Scroller'
+
     export default {
         components: {
             Group,
             CellBox,
             ViewBox,
-            XImg
+            XImg,Scroller
         },
         data() {
             return {
@@ -50,118 +55,42 @@
                 asrc: require("../assets/0e3a716cf47f1eb695e5b62597dec807.jpg"),
                 value: '',
                 value7: '',
+                page:0,
+                totalPages:0,
                 false: false,
                 chooseT: false,
                 chooseA: false,
                 chooseS: false,
                 typeKind: 0,
                 chooseItemList: [],
-                lessonList: [{
-                        id: 1,
-                        ishot: true,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120,
-                        status: '待上课'
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120,
-                        status: '上课中'
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    }
+                lessonList: [
                 ]
             }
         },
-        methods: {},
+        methods: {
+            loadMore() {
+               if(this.totalPages>this.page+1){
+                    this.page++;
+                    this.fetchData()
+                }else{
+                    console.log(12213)
+                        this.$refs.my_scroller.finishInfinite(2)
+                }
+            },
+            fetchData(){
+                let para ={
+                    page:0
+                }
+                getMyCollect(para).then(res=>{
+                    console.log(res)
+                    this.totalPages = res.data.totalPages;
+                    this.lessonList = res.data.content;
+                })
+            }
+        },
         created() {
+            this.setTitle('我的收藏');
+            this.fetchData()
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},

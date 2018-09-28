@@ -2,12 +2,12 @@
 	<div class="courseDetail">
 		<view-box ref="viewBox">
 			<div class="banner">
-				<img src="../assets/banner.jpg" alt="" class="courseBanner">
+				<img :src="`${apiUrl}/attach/img/${banner}`" alt="" class="courseBanner">
 			</div>
 			<div class="courseBar">
 				<div class="course">
-					<div class="tit">创意绘画单课</div>
-					<div class="price">2880元</div>
+					<div class="tit">{{detail.name}}</div>
+					<div class="price">{{detail.price}}元</div>
 				</div>
 				<div :class="['favorite',isFav?'selected':'']">
 					<i class="ico_favorite" @click="changeFav"></i>
@@ -18,40 +18,41 @@
 				<cell class="tit" title="课程信息"></cell>
 				<CellBox>
 					<div class="info_lf">
-						24节课，共48课时，满5人开课
+						{{detail.courseNum}}节课, 共{{detail.totalTime}}课时, 满{{detail.minStuNum}}人开课
 					</div>
 					<div class="info_rt">
-						已报名3人
+						已报名{{detail.stuNum}}人
 					</div>
 				</CellBox>
 				<div class="tips">
-					温馨提示：本课程满5人开课，在开课前1个工作日内若报名人数不足，课程将取消，已付款金额或积分将按原付款方式退回（最快1个工作日到账）
+					温馨提示：本课程满{{detail.minStuNum}}人开课，在开课前1个工作日内若报名人数不足，课程将取消，已付款金额或积分将按原付款方式退回（最快1个工作日到账）
 				</div>
 			</group>
 			<group class="courseBox">
 				<cell class="tit" title="课程地点"></cell>
-				<CellBox>博成路上南路世博源二区L1层星动力空间</CellBox>
+				<CellBox>{{detail.address}}</CellBox>
 			</group>
 			<group class="courseBox">
 				<cell class="tit" title="课程时间"></cell>
-				<div v-for="(item,index) in lessonList" :key="'lesson'+index" v-if="isMore?(index>=0):(index<=2)" class="weui-cell vux-cell-box">{{item}}</div>
+				<div v-for="(item,index) in lessonList" :key="'lesson'+index" v-if="isMore?(index>=0):(index<=2)" class="weui-cell vux-cell-box">
+					第{{item.classNum}}节课: {{item.date.substring(0,4)}}年{{item.date.substring(5,7)}}月{{item.date.substring(8,10)}}日, {{item.week}}, {{item.beginTimeStr.split(':')[0]>12?'下午':'上午'}}{{item.beginTimeStr}}-{{item.endTimeStr}}</div>
 				<CellBox>
 					<div class="more" @click="changeMore"><span>{{isMore?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMore?'rotate90':'']"></i></div>
 				</CellBox>
 			</group>
 			<group class="courseBox">
 				<cell class="tit" title="适用对象"></cell>
-				<CellBox>3-6岁儿童</CellBox>
+				<CellBox>{{detail.age}}儿童</CellBox>
 			</group>
 			<group class="courseBox">
 				<cell class="tit" title="授课老师"></cell>
-				<cell-box is-link link="/classTeacher">
+				<cell-box is-link :link="`/classTeacher?id=${detail.teacherId}`">
 					<div class="teacher">
-						<div class="pho"><img src="../assets/pho.jpg" alt=""></div>
+						<div class="pho"><img :src="`${apiUrl}/attach/img/${detail.teacherPid}`" alt=""></div>
 						<div class="info">
-							<div class="name">代方方</div>
-							<div class="schoolAge">6年教齡</div>
-							<p>上海大学美术学院油画硕士</p>
+							<div class="name">{{detail.teacher}}</div>
+							<div class="schoolAge">{{detail.experience}}年教齡</div>
+							<p>{{detail.edu}}</p>
 						</div>
 					</div>
 				</cell-box>
@@ -60,11 +61,10 @@
 				<cell class="tit" title="课程介绍"></cell>
 				<CellBox>
 					<div :class="['introduce',isMoreContent?'':'lite']">
-						<p>该旨在培养学龄前儿童对美术绘画的兴趣，增强色彩认知，快乐学习。</p>
-						<video :poster="videoPoster" preload='auto' ref="video" width="100%" height="200px" x5-video-player-type="h5" x5-video-player-fullscreen="true" src="http://yun.it7090.com/video/XHLaunchAd/video01.mp4"></video>
-						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM">
-						<div class="playModal" v-if="showM"></div>
-						<img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" alt="">
+						<video v-if="detail.videoId" preload='auto' ref="video" width="100%" height="200px" x5-video-player-type="h5" x5-video-player-fullscreen="true" :src="`${apiUrl}/attach/video/${detail.videoId}`"></video>
+						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM&&detail.videoId">
+						<div class="playModal" v-if="showM&&detail.videoId"></div>
+						<div v-html="detail.description"></div>
 					</div>
 				</CellBox>
 				<CellBox>
@@ -73,38 +73,43 @@
 			</group>
 			<group class="courseBox">
 				<cell class="tit" title="课程评价">
-					<div class="moreEval" @click="gotoMoveComment">更多评价（288条）</div>
+					<div class="moreEval" v-if="comment.commentNum>0" @click="gotoMoveComment">更多评价（{{comment.commentNum}}条）</div>
 				</cell>
-				<CellBox link="/commentDetail">
+				<CellBox @click.native="gotoDetail" v-if="comment.commentNum>0">
 					<div class="assess">
-						<div class="pho"><img src="../assets/pho.jpg" alt=""></div>
+						<div class="pho"><img :src="`${apiUrl}/attach/img/${comment.photo}/SQUARE`" alt=""></div>
 						<div class="info">
 							<div class="hd">
-								<div class="name">Kino的天空</div>
-								<div class="data">4月17日 </div>
+								<div class="name">{{comment.name}}</div>
+								<div class="data">{{comment.date.substring(5,7)}}月{{comment.date.substring(8,10)}}日</div>
 							</div>
 							<div class="rater">
 								<span style="vertical-align: top;">总体</span>
-								<img src="../assets/star.png" alt="" v-for="(item,index) in data42" :key="index+'a'" class="star"><img src="../assets/starg.png" alt="" v-for="(item,index) in (5-data42)" :key="index+'b'" v-if="item" class="star">
+								<img src="../assets/star.png" alt="" v-for="(item,index) in comment.overallScore" :key="index+'a'" class="star"><img src="../assets/starg.png" alt="" v-for="(item,index) in (5-comment.overallScore)" :key="index+'b'" v-if="item" class="star">
 								<!-- <rater v-model="data42" active-color="#FFBE00" :font-size="15" disabled></rater> -->
 							</div>
-							<p>我参加了周六上午的国画课，小朋友年纪小，希望从小培养，上课过程很开心！</p>
-							<div class="imgList">
-								<div class="each"><img src="../assets/pho.jpg" alt="" class="img"></div>
-								<div class="each"><img src="../assets/pho.jpg" alt="" class="img"></div>
-								<div class="each"><img src="../assets/pho.jpg" alt="" class="img"></div>
-								<div class="allPic">
-									<i class="picMin"></i>8
+							<p style="padding:.1rem 0">{{comment.content}}</p>
+							<div class="imgList" v-if="commentPic.length>0">
+								<div class="each" v-for="(pic,index) in commentPic" :key="'p'+index" @click="show(index)">
+									<img :src="`${apiUrl}/attach/img/${pic.id}/SQUARE`" alt="" class="img" v-if="index<3">
+								</div>
+								<div class="allPic" v-if="commentPic.length>3">
+									<i class="picMin"></i>{{commentPic.length}}
 								</div>
 							</div>
 							<div class="bd">
-								<div class="browse">浏览 3300</div>
+								<div class="browse">浏览 {{comment.browseNum}}</div>
 								<div class="other">
-									<span class="zan"><i class="ico_zan"></i>3</span>
-									<span class="reply"><i class="ico_reply"></i>1</span>
+									<span class="zan"><i :class="['ico_zan',comment.hasLiked?'ico_zaned':'']"></i>{{comment.likeNum}}</span>
+									<span class="reply"><i class="ico_reply"></i>{{comment.replyNum}}</span>
 								</div>
 							</div>
 						</div>
+					</div>
+				</CellBox>
+				<CellBox v-else>
+					<div class="noComment">
+						暂无评价
 					</div>
 				</CellBox>
 			</group>
@@ -113,12 +118,15 @@
 					<img slot="icon" src="../assets/bi4.png">
 					<span slot="label">客服电话</span>
 				</tabbar-item>
-				<tabbar-item class="buy" link="/confirmOrder">
+				<tabbar-item class="buy" @click.native="gotoBuy">
 					<span slot="label">购买课程</span>
 				</tabbar-item>
 			</tabbar>
 			<!-- <toast v-model="show7" type="text" :text="toastWord" position='middle'></toast> -->
 		</view-box>
+		<div v-transfer-dom>
+			<previewer :list="pics" ref="previewer"></previewer>
+		</div>
 	</div>
 </template>
 
@@ -130,10 +138,12 @@
 		CellBox,
 		Tabbar,
 		TabbarItem,
-		TransferDomDirective as TransferDom,
+		Previewer,
+		TransferDom,
 	} from 'vux'
 	import {
-		pushHimOnWall
+		lessonDetail,
+		doCollect
 	} from '../api/api'
 	import apiHost from '../../config/prod.env'
 	export default {
@@ -146,51 +156,102 @@
 			Cell,
 			CellBox,
 			Tabbar,
-			TabbarItem
+			TabbarItem,
+			Previewer
 		},
 		data() {
 			return {
+				detail: {
+					name: '',
+					price: '',
+					courseNum: '',
+					hours: '',
+					minStuNum: '',
+					stuNum: '',
+					address: '',
+					age: '',
+					teacher: '',
+					teacherPid: '',
+					experience: '',
+					edu: '',
+					teacherId: ''
+				},
+				comment: {
+					content: '',
+					name: '',
+					photo: '',
+					overallScore: 0,
+					date: '',
+					replyNum: 0,
+					likeNum: 0,
+					browseNum: 0,
+					id: ''
+				},
+				pics: [],
+				banner: '',
+				commentPic: [{
+					id: ''
+				}],
 				data42: 4,
 				videoPoster: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
 				isFav: false,
 				show7: false,
 				toastWord: '',
 				lessonList: [],
-				lessonListT: [],
-				lessonListAll: ['第1节课：2018年4月28日，周六，上午10:00 - 12:00', '第1节课：2018年4月28日，周六，上午10:00 - 12:00',
-					'第1节课：2018年4月28日，周六，上午10:00 - 12:00', '第1节课：2018年4月28日，周六，上午10:00 - 12:00',
-					'第1节课：2018年4月28日，周六，上午10:00 - 12:00'
-				],
 				isMore: false,
-				isMoreContent: false,
+				isMoreContent: '',
+				oh:'',
 				// showM:true,
 			}
 		},
 		methods: {
+			gotoBuy(){
+				let order = {
+					name:this.detail.name,
+					price:this.detail.price,
+					courseNum:this.detail.courseNum,
+					id:this.$route.query.id
+				}
+				localStorage.setItem('order',JSON.stringify(order))
+				this.$router.push('/confirmOrder')
+			},
+			show(index) {
+				this.$refs.previewer.show(index)
+			},
+			gotoDetail($e) {
+				console.log($e);
+				if ($e.target.className !== 'img') {
+					this.$router.push(`/commentDetail?id=${this.comment.id}`)
+				} else {}
+			},
 			gotoMoveComment() {
-				this.$router.push('/totalComment')
+				this.$router.push(`/totalComment?id=${this.$route.query.id}`)
 			},
 			playVideo() {
 				// this.showM = false;
 				this.$refs.video.play();
 			},
 			changeFav() {
-				if (this.isFav) {
-					this.isFav = false;
-					this.$vux.toast.show({
-						text: '取消收藏',
-						type: 'text',
-						position: 'middle'
-					})
-				} else {
-					this.isFav = true;
-					this.$vux.toast.show({
-						text: '收藏成功',
-						type: 'text',
-						position: 'middle'
-					})
-				}
-				this.show7 = true;
+				let id = this.$route.query.id
+				doCollect(id).then(res => {
+					if (res && res.code == 0) {
+						if (this.isFav) {
+							this.isFav = false;
+							this.$vux.toast.show({
+								text: '取消收藏',
+								type: 'text',
+								position: 'middle'
+							})
+						} else {
+							this.isFav = true;
+							this.$vux.toast.show({
+								text: '收藏成功',
+								type: 'text',
+								position: 'middle'
+							})
+						}
+					}
+				})
 			},
 			changeMore() {
 				if (this.isMore) {
@@ -210,17 +271,81 @@
 					// this.lessonList = this.lessonListAll
 				}
 			},
+			fetchData() {
+				let id = this.$route.query.id
+				lessonDetail(id).then(res => {
+					let data = res.data;
+					this.banner = data.picId;
+					this.isFav = data.hasCollection;
+					this.lessonList = data.schedules
+					this.detail = {
+						name: data.name,
+						price: data.price,
+						courseNum: data.courseNum,
+						totalTime: data.totalTime,
+						minStuNum: data.minStuNum,
+						stuNum: data.stuNum,
+						address: data.address,
+						age: data.applyAge.label,
+						teacher: data.teacher.name,
+						teacherPid: data.teacher.picId,
+						experience: data.teacher.experience,
+						edu: data.teacher.edu,
+						description: data.description,
+						videoId: data.video ? data.video.filePath : '',
+						teacherId: data.teacher.id
+					}
+					let commentData = data.comment;
+					if (commentData) {
+						this.comment = {
+							content: commentData.content,
+							name: commentData.nickname,
+							photo: commentData.photo,
+							overallScore: commentData.overallScore,
+							date: commentData.date,
+							replyNum: commentData.replyNum,
+							likeNum: commentData.likeNum,
+							browseNum: commentData.browseNum,
+							id: commentData.id,
+							commentNum: commentData.commentNum
+						}
+						this.commentPic = commentData.attachments
+						this.pics = commentData.attachments.map(item => {
+							return {
+								src: `${this.apiUrl}/attach/img/${item.id}`
+							}
+						})
+					}
+					console.log(this.pics)
+				})
+			},
+			setCall() {
+				document.querySelector(".tabBar2 .call").setAttribute('href', 'tel:4001720748');
+			},
 		},
 		created() {
+			this.setTitle('课程详情')
+			this.fetchData()
 			// this.lessonListT = this.lessonListAll.slice(0,3);
-			this.lessonList = [...this.lessonListAll]
+			// this.lessonList = [...this.lessonListAll]
 		},
 		mounted() {
-			document.querySelector(".tabBar2 .call").setAttribute('href', 'tel:4001720748');
 			window.onresize = function() {
-				this.$refs.video.style.width = window.innerWidth + "px";
-				this.$refs.video.style.height = window.innerHeight + "px";
+				if (this.$refs.video) {
+					this.$refs.video.style.width = window.innerWidth + "px";
+					this.$refs.video.style.height = window.innerHeight + "px";
+				}
 			}
+			this.setCall();
+			setTimeout(() => {
+				this.oh = document.getElementsByClassName('introduce')[0].offsetHeight;
+				if (this.oh < 490) {
+					console.log(oh, 123)
+					this.isMoreContent = true;
+				} else {
+					this.isMoreContent = false;
+				}
+			}, 500);
 		},
 		computed: {
 			showM() {
@@ -228,6 +353,20 @@
 					return false
 				} else {
 					return true
+				}
+			}
+		},
+		watch: {
+			isMoreContent(curVal, oldVal) {
+				if (curVal) {
+					if (this.oh > 490) {
+						document.getElementsByClassName('introduce')[0].style.cssText += 'height:auto'
+					}
+				} else {
+					console.log(458)
+					if (this.oh > 490) {
+						document.getElementsByClassName('introduce')[0].style.cssText += 'height:490px'
+					}
 				}
 			}
 		}
@@ -290,6 +429,15 @@
 			}
 		}
 		.courseBox {
+			.noComment {
+				width: 100%;
+				height: 2rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 18px;
+				color: #7F8389;
+			}
 			.vux-no-group-title {
 				.tit {
 					color: #7F8389;
@@ -347,10 +495,11 @@
 					width: 1.84rem;
 					height: 1.84rem;
 					margin-right: 0.48rem;
+					border-radius: 50%;
+					border: 1px solid gainsboro;
 					img {
 						display: block;
 						width: 100%;
-						border-radius: 50%;
 					}
 				}
 				.info {
@@ -372,7 +521,7 @@
 			.introduce {
 				position: relative;
 				&.lite {
-					height: 11rem;
+					// height: 11rem;
 					position: relative;
 					overflow: hidden;
 					&::after {
@@ -401,7 +550,7 @@
 					width: 100%;
 					height: 200px;
 					position: absolute;
-					top: 1.35rem;
+					top: 5px;
 					left: 0;
 					background: rgba(0, 0, 0, 0.4)
 				}
@@ -409,7 +558,7 @@
 					width: 2rem;
 					height: 2rem;
 					position: absolute;
-					top: 3rem;
+					top: 2rem;
 					left: 0;
 					right: 0;
 					margin: auto;
@@ -418,6 +567,7 @@
 			}
 			.assess {
 				display: flex;
+				width: 100%;
 				.pho {
 					width: 1.84rem;
 					height: 1.84rem;
@@ -429,6 +579,7 @@
 					}
 				}
 				.info {
+					width: 100%;
 					.hd {
 						display: flex;
 						justify-content: space-between;
@@ -451,9 +602,9 @@
 						display: flex;
 						margin: 0 -5px;
 						position: relative;
+						height: 2.4rem;
 						.each {
-							width: 2.2rem;
-							flex: 1;
+							width: 2.2rem; // flex: 1;
 							margin: 5px;
 							img {
 								display: block;
@@ -490,12 +641,23 @@
 						justify-content: space-between;
 						color: #7F8389;
 						font-size: 0.293333rem;
+						margin-top: .1rem;
 						.zan {
 							.ico_zan {
 								display: inline-block;
 								width: 0.266666rem;
 								height: 0.293333rem;
 								background: url(../assets/zan.png) no-repeat;
+								background-size: 100% 100%;
+								margin-right: 3px;
+								vertical-align: middle;
+								margin-top: -2px;
+							}
+							.ico_zaned {
+								display: inline-block;
+								width: 0.266666rem;
+								height: 0.293333rem;
+								background: url(../assets/zan_on.png) no-repeat;
 								background-size: 100% 100%;
 								margin-right: 3px;
 								vertical-align: middle;
@@ -530,6 +692,7 @@
 				line-height: 0.706666rem;
 				span {
 					color: #fff;
+					font-size: 16px;
 				}
 				.weui-tabbar__label {
 					padding-top: 2px;

@@ -14,21 +14,20 @@ Vue.use(Vuex)
 //     cell:'25444449586'
 // }
 // localStorage.setItem('info',JSON.stringify(inf))
-let inf = {
-  img: require('@/assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
-  nickname: '',
-  name: '',
-  sex: '',
-  birthday: '',
-  address: '',
-  cell: ''
-}
-const info = localStorage.getItem('info') || JSON.stringify(inf)
+
 const state = {
   // count: 0,
   myF: '123',
   isLoading: false,
-  myInfo: { ...JSON.parse(info)
+  myInfo: {
+    img: '',
+    nickname: '',
+    name: '',
+    sex: '男',
+    birthday: '',
+    address: '',
+    cell: '',
+    id:''
   },
   step:'',
   teacherInfo: {

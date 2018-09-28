@@ -2,15 +2,15 @@
     <div class="classSituationDetail">
         <view-box ref="viewBox">
             <div class="coinBgS">
-                <div class="coinContent">第1节课</div>
-                <div class="coinTitle">2018年10月10日,周六,上午10:00-12:00</div>
+                <div class="coinContent">第{{detail.classNum}}节课</div>
+                <div class="coinTitle"> {{detail.date.substring(0,4)}}年{{detail.date.substring(5,7)}}月{{detail.date.substring(8,10)}}日,{{detail.week}},{{detail.beginTime.split(':')[0]>12?'下午':'上午'}}{{detail.beginTime.slice(0,5)}}-{{detail.endTime.slice(0,5)}}</div>
             </div>
             <group>
                 <cell style="font-size:16px;">
                     <div slot="title" style="color:#999999">老师评语</div>
                 </cell>
                 <cell style="font-size:15px;" primary="content" value-align="left">
-                    <div style="color:black;line-height:1.5;padding:3px 0">本节课很好,孩子表现很主动,了解了创意的基础知识,对创意绘画有了更深的认识</div>
+                    <div style="color:black;line-height:1.5;padding:3px 0">{{detail.evaluate||'暂无评语'}}</div>
                 </cell>
             </group>
             <group>
@@ -18,7 +18,7 @@
                     <div slot="title" style="color:#999999">课程作品点评</div>
                 </cell>
                 <cell style="font-size:15px;" primary="content" value-align="left">
-                    <div style="color:black;line-height:1.5">本节课很好,孩子表现很主动,了解了创意的基础知识,对创意绘画有了更深的认识</div>
+                    <div style="color:black;line-height:1.5">{{detail.stuEvaluates||'暂无点评'}}</div>
                 </cell>
                 <cell primary="content" value-align="left">
                     <div class="detailImg6">
@@ -45,7 +45,7 @@
         TransferDom
     } from 'vux'
     import {
-        pushHimOnWall
+        getMyLessonSituationOne
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     export default {
@@ -64,46 +64,35 @@
                 // with hot-reload because the reloaded component
                 // preserves its current state and we are modifying
                 // its initial state.
-                value: '',
-                buyStatus: false,
-                type: 'coin', //coin
-                lessonL: 50,
-                pics: [{
-                        src: require('../assets/ff.png')
-                    }, {
-                        src: require('../assets/aa.jpg')
-                    },
-                    {
-                        src: require('../assets/bb.png')
-                    }, {
-                        src: require('../assets/cc.jpg')
-                    }, {
-                        src: require('../assets/dd.png')
-                    }, {
-                        src: require('../assets/ee.png')
-                    },
-                    {
-                        src: require('../assets/ff.png')
-                    }, {
-                        src: require('../assets/aa.jpg')
-                    }, {}
-                ],
+                detail: {
+                    date: '',
+                    beginTime: '',
+                    endTime: '',
+                    week: ''
+                },
+                pics: [],
             }
         },
         methods: {
             show(index) {
                 this.$refs.previewer.show(index)
             },
-            goTo() {
-                console.log(1);
-                if (this.buyStatus) {
-                    this.$router.push('/myLesson')
-                } else {
-                    this.$router.push('/paying')
-                }
+            fetchData() {
+                let id = this.$route.query.id
+                getMyLessonSituationOne(id).then(res => {
+                    console.log(res)
+                    this.detail = res.data
+                    this.pics = res.data.attachments.map(item => {
+                        return {
+                            src: `${this.apiUrl}/attach/img/${item.id}`
+                        }
+                    })
+                })
             }
         },
         created() {
+            this.setTitle('上课情况')
+            this.fetchData();
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},

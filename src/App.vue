@@ -18,7 +18,9 @@
     mapActions
   } from 'vuex'
   import {
-    getAT
+    getAT,
+    getStudentInfo,
+    getInfoTeacher
   } from './api/api'
   export default {
     name: 'app',
@@ -33,28 +35,81 @@
       }
     },
     created() {
-      let inf = {
-        img: require('@/assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
-        nickname: '张佳乐哈哈哈',
-        name: '张佳乐',
-        sex: '男',
-        birthday: '1995年9月10日',
-        address: '上海市世博园空间',
-        cell: '13444444455'
-      }
-      localStorage.setItem('info', JSON.stringify(inf))
-      this.setMyInfo({ ...inf
-      })
+      let role = 'teacher'
       let para = {
         login_role: 'student'
       }
-      getAT(para).then(res => {
+      getAT(para, 'teacher').then(res => {
         console.log(res)
       })
+      if (role == 'teacher') {
+        this.getInfoTeacher()
+      } else {
+        this.getStudentInfo()
+      }
     },
     methods: {
+      getStudentInfo() {
+        let para = {}
+        getStudentInfo(para).then(res => {
+          if (res.data === null) {
+            let inf = {
+              img: require('@/assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
+              nickname: '',
+              name: '',
+              sex: '男',
+              birthday: '',
+              address: '',
+              cell: ''
+            }
+            localStorage.setItem('info', JSON.stringify(inf))
+            this.setMyInfo({ ...inf
+            })
+          } else {
+            let data = res.data;
+            let inf = {
+              img: data.avatarId,
+              nickname: data.nickName ? data.nickName : '',
+              name: data.realName ? data.realName : '',
+              sex: data.gender ? data.gender.label : '男',
+              birthday: data.birthday ? data.birthday.slice(0, 10) : '',
+              address: data.address ? data.address : '',
+              cell: data.mobilePhone ? data.mobilePhone : '',
+              id: data.id
+            }
+            localStorage.setItem('info', JSON.stringify(inf))
+            this.setMyInfo({ ...inf
+            })
+          }
+        })
+      },
+      getInfoTeacher() {
+        let para = {}
+        getInfoTeacher(para).then(res => {
+          console.log(res)
+          if (res.data !== null) {
+            let data = res.data;
+            let inf = {
+              img: data.picId,
+              teachTime: [data.experience],
+              skill: data.skill.split(','),
+              name: data.realName,
+              sex: data.gender?data.gender.label:'',
+              birthday: data.birthday?data.birthday:'',
+              address: data.address?data.address:'',
+              cell: data.mobilePhone?data.mobilePhone:'',
+              intro: data.description?data.description:'',
+              edu: data.edus,
+              exp:data.exps,
+            }
+            localStorage.setItem('teacherInfo', JSON.stringify(inf))
+            this.setTeacherInfo({ ...inf
+            })
+          }
+        })
+      },
       ...mapActions([
-        'setMyInfo'
+        'setMyInfo', 'setTeacherInfo'
       ]),
       touchstart($event) {
         this.clientX = $event.touches[0].clientX;
@@ -82,11 +137,10 @@
     width: 100%;
     height: 100%;
     background-color: #F4F4F4;
-    ::-webkit-input-placeholder{
+     ::-webkit-input-placeholder {
       color: #B2B2B2;
     }
-  }
-  // .fade-enter-active, .fade-leave-active {
+  } // .fade-enter-active, .fade-leave-active {
   //   transition: opacity .2s;
   // }
   // .fade-enter, .fade-leave-to  {

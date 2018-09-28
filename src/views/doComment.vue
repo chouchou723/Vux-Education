@@ -26,9 +26,9 @@
                 </cell>
             </group>
             <group title=" ">
-                <x-textarea style="font-size:14px" :max="200" :rows="5" placeholder="亲,课程怎么样,老师好不好,环境如何,学习效果满意吗?" :show-counter="false"></x-textarea>
+                <x-textarea  v-model="value" style="font-size:14px" :max="200" :rows="5" placeholder="亲,课程怎么样,老师好不好,环境如何,学习效果满意吗?" :show-counter="false"></x-textarea>
                 <cell>
-                    <span slot="title" style="font-size:14px;color:#a5a3a3">加油! 还差15字</span>
+                    <span slot="title" style="font-size:14px;color:#a5a3a3">{{value.length<15?`加油! 还差${15-value.length}个字`:`还能填写${200-value.length}个字`}}</span>
                 </cell>
             </group>
             <group title=" ">
@@ -51,7 +51,7 @@
                 </cell>
             </group>
             <div class="footerBtn">
-                <x-button type="primary" action-type="button" :disabled="value.length==0">提交</x-button>
+                <x-button type="primary" action-type="button" :disabled="value.length==0" @click.native="submit">提交</x-button>
             </div>
         </view-box>
     </div>
@@ -67,6 +67,10 @@
         Rater
     } from 'vux'
     import Rt from '../components/Rater'
+    
+    import {
+		doComment,
+	} from '../api/api'
     // import SimpleCropper from '@/components/SimpleCrop' 
     import VuxUpload from '../components/Upload'
     export default {
@@ -90,15 +94,10 @@
                 //                 }, 
                 // userImg: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
                 varmax: 9,
-                headers: {},
+                headers:  {'Content-Type': 'multipart/form-data'},
                 data: {},
-                images: [{
-                    src: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg')
-                }, {
-                    src: require('../assets/ff.png')
-                }, {
-                    src: require('../assets/ff.png')
-                }],
+                images: [],
+                pics:[],
                 uploadUrl: '',
                 params: {},
                 data1: 5,
@@ -115,14 +114,33 @@
             }
         },
         created() {
-            let type = this.$route.query.type;
-            if (type) {
-                document.title = '昵称'
-            } else {
-                document.title = '姓名'
-            }
+            this.setTitle('我要评价')
         },
         methods: {
+            submit(){
+                let id = this.$route.query.id;
+                let para = {
+                    overallScore: this.data1,
+                    teacherScore: this.data2,
+                    courseScore: this.data3,
+                    venueScore: this.data4,
+                    content: this.value,
+                    picIds:this.pics.join(',')
+                }
+                doComment(id,para).then(res=>{
+                    if(res.code==0){
+                        this.$vux.toast.show({
+								text: '提交成功',
+								type: 'text',
+								position: 'middle'
+                            })
+                            setTimeout(() => {
+                                this.$router.go(-1)
+                            }, 500);
+                    }
+                    console.log(res)
+                })
+            },
             reduceRank(d) {
                 if (d.type == 'reduce') {
                     this[d.numb] = d.id + 1;
@@ -139,7 +157,14 @@
             //   this.userImg = this.form.headImgUrl = data.fileId 
             //   } 
             //  }
-            onSuccess() {},
+            onSuccess(id,data) {
+                 var reads = new FileReader();
+                 reads.readAsDataURL(data);
+                 reads.onload = (e) => {
+                this.images = [...this.images,{src:e.target.result}]
+                };
+                this.pics = [...this.pics,id];
+            },
             onError() {},
             onRemove(d) {
                 this.images.splice(d, 1)

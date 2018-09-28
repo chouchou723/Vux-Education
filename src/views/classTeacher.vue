@@ -3,18 +3,18 @@
         <view-box ref="viewBox">
             <div class="personalBg">
                 <div class="personalInfo">
-                    <img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" alt="" class="personalImg">
-                    <img src="../assets/sex1.png" alt="" class="sexPos">
+                    <img :src="`${apiUrl}/attach/img/${teacher.picId}`" alt="" class="personalImg">
+                    <img :src="teacher.sex=='MALE'?require('../assets/sex1.png'):require('../assets/sex2.png')" alt="" class="sexPos">
                     <div class="personalDetail">
                         <div class="personalName">
-                            <span style="margin-right:.1  rem">张佳乐</span>
-                            <img src="../assets/tlevel.png" width="38" alt="" style="vertical-align: middle;">
-                            <span class="teacherLevel">LV 1</span></div>
+                            <span style="margin-right:.1rem;">{{teacher.realName}}</span>
+                            <!-- <img src="../assets/tlevel.png" width="38" alt="" style="vertical-align: middle;"> -->
+                            <span class="teacherLevel">LV {{teacher.level}}</span></div>
                         <div class="personalLesson">
                             <span class="op5">授课时长</span>
-                            <span class="mgr4">8节课</span>
+                            <span class="mgr4">{{teacher.classNum}}节课</span>
                             <span class="op5">老师教龄</span>
-                            <span>10年</span>
+                            <span>{{teacher.experience}}年</span>
                         </div>
                     </div>
                 </div>
@@ -30,33 +30,25 @@
                     <div slot="title" style="color:#999999">个人介绍</div>
                 </cell>
                 <cell class="fz15" primary="content" value-align="left">
-                    <div style="color:black;line-height:1.5;padding:3px 0">本节课很好,孩子表现很主动,了解了创意的基础知识,对创意绘画有了更深的认识</div>
+                    <div style="color:black;line-height:1.5;padding:3px 0">{{teacher.description}}</div>
                 </cell>
             </group>
             <group>
                 <cell class="fz15">
                     <div slot="title" style="color:#999999">教育经历</div>
                 </cell>
-                <cell class="fz15" primary="content" value-align="left">
-                    <div style="color:#999999;margin-bottom:.2rem">2017/08-2018/09</div>
-                    <div style="color:black;">上海大学, 本科, 艺术专业</div>
-                </cell>
-                <cell class="fz15" primary="content" value-align="left">
-                    <div style="color:#999999;margin-bottom:.2rem">2017/08-2018/09</div>
-                    <div style="color:black;">上海大学, 本科, 艺术专业</div>
+                <cell class="fz15" primary="content" value-align="left" v-for="(edu,index) in teacher.edus" :key="'e'+index">
+                    <div style="color:#999999;margin-bottom:.2rem">{{edu.beginDate.split(' ')[0].replace(/\-/g,'/')}}-{{edu.endDate.split(' ')[0].replace(/\-/g,'/')}}</div>
+                    <div style="color:black;">{{edu.school}}, {{edu.degree}}, {{edu.subject}}专业</div>
                 </cell>
             </group>
             <group>
                 <cell class="fz15">
-                    <div slot="title" style="color:#999999">教育经验</div>
+                    <div slot="title" style="color:#999999">教学经验</div>
                 </cell>
-                <cell class="fz15" primary="content" value-align="left">
-                    <div style="color:#999999;margin-bottom:.2rem">2017/08-2018/09</div>
-                    <div style="color:black;">本节课很好,孩子表现很主动,了解了创意的基专业,本节课很好,孩子表现很主动,了解了创意的基</div>
-                </cell>
-                <cell class="fz15" primary="content" value-align="left">
-                    <div style="color:#999999;margin-bottom:.2rem">2017/08-2018/09</div>
-                    <div style="color:black;">上本节课很好,孩子表现很主动,了解了创意的基,本节课很好,孩子表现很主动,了解了创意的基业</div>
+                <cell class="fz15" primary="content" value-align="left" v-for="(exp,index) in teacher.exps" :key="'e'+index">
+                    <div style="color:#999999;margin-bottom:.2rem">{{exp.beginDate.split(' ')[0].replace(/\-/g,'/')}}-{{exp.endDate.split(' ')[0].replace(/\-/g,'/')}}</div>
+                    <div style="color:black;">{{exp.description}}</div>
                 </cell>
             </group>
             <group>
@@ -83,7 +75,7 @@
         ViewBox
     } from 'vux'
     import {
-        pushHimOnWall
+        getTeacherInfo
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     import 'swiper/dist/css/swiper.css'
@@ -107,22 +99,19 @@
                     },
                     loop: true
                 },
-                pics: [{
-                        src: require('../assets/ff.png')
-                    }, {
-                        src: require('../assets/aa.jpg')
-                    },
-                    {
-                        src: require('../assets/bb.png')
-                    }, {
-                        src: require('../assets/cc.jpg')
-                    },
-                    {
-                        src: require('../assets/dd.png')
-                    }, {
-                        src: require('../assets/ee.png')
-                    },
+                pics: [
                 ],
+                teacher: {
+                    realName: '',
+                    classNum: '',
+                    experience: '',
+                    picId: '',
+                    description: '',
+                    edus: [],
+                    exps: [],
+                    sex: 'MALE',
+                    level:0
+                },
                 tt: 20,
                 name: '时间',
                 ops: [{
@@ -141,11 +130,36 @@
                 true1: true,
                 msg: 'Hello World!',
                 options: [1, 2, 3],
-                goodAt: ['创意画', '漫画']
+                goodAt: []
             }
         },
-        methods: {},
+        methods: {
+            fetchData() {
+                let id = this.$route.query.id;
+                getTeacherInfo(id).then(res => {
+                    console.log(res)
+                    let data = res.data
+                    this.teacher = {
+                        realName: data.realName,
+                        classNum: data.classNum,
+                        experience: data.experience,
+                        picId: data.picId,
+                        description: data.description,
+                        edus: data.edus,
+                        exps: data.exps,
+                        sex: data.gender.name,
+                        level:data.level.label
+                    }
+                    this.goodAt = data.skill.split(',')
+                    this.pics = data.cerIds.split(',').map(item=>{
+                        return {src:`${this.apiUrl}/attach/img/${item}`}
+                    })
+                })
+            }
+        },
         created() {
+            this.setTitle('授课老师')
+            this.fetchData()
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},
@@ -196,6 +210,8 @@
             font-size: .48rem;
             color: white;
             position: relative;
+            display: flex;
+            align-items: center;
             /* margin-bottom: .3rem; */
         }
         .personalLesson {
@@ -230,11 +246,15 @@
             border-radius: .3rem;
         }
         .teacherLevel {
+            background: url('../assets/tlevel.png');
+            background-size: cover;
             color: white;
             font-size: 12px;
-            position: absolute;
-            top: 0.16rem;
-            left: 1.75rem;
+            width: 38px;
+            text-align: center;
+            // position: absolute;
+            // top: 0.16rem;
+            // left: 1.73rem;
         }
         .goodAt {
             display: inline-block; //   width: 59px;

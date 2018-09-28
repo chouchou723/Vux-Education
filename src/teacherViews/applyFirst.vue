@@ -69,6 +69,7 @@
         ViewBox
     } from 'vux'
     import teacherInfo from './teacherInfo'
+    import {getSmsCode} from '../api/api'
     import {
         mapActions,
         mapGetters
@@ -117,17 +118,30 @@
                     this.setStep(this.step1)
             },
             getCode() {
-                this.count = true;
-                if (this.countTime == 10) {
-                    this.countStart = setInterval(() => {
-                        if (this.countTime == 1) {
-                            clearInterval(this.countStart)
-                            this.countTime = 10;
-                            this.count = false;
-                        } else {
-                            this.countTime--
-                        }
-                    }, 1000)
+                if(this.value){
+                    let para = this.value
+                    getSmsCode(para).then(res=>{
+                        console.log(res)
+                    })
+                    this.count = true;
+                    if (this.countTime == 10) {
+                        this.countStart = setInterval(() => {
+                            if (this.countTime == 1) {
+                                clearInterval(this.countStart)
+                                this.countTime = 10;
+                                this.count = false;
+                            } else {
+                                this.countTime--
+                            }
+                        }, 1000)
+                    }
+
+                }else{
+                    this.$vux.toast.show({
+                        text:'请先填写手机号',
+                        type:'text',
+                        width:'3.5rem'
+                    })
                 }
             },
             ...mapActions([

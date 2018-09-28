@@ -29,7 +29,7 @@
         XButton
     } from 'vux'
     import {
-        pushHimOnWall
+        getWxPay
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     export default {
@@ -45,37 +45,25 @@
                 // preserves its current state and we are modifying
                 // its initial state.
                 value: '',
+                id:''
             }
         },
         methods: {
-            payOrder() {
-                console.log(1);
-                this.$router.push('/payResult')
-                // let order = {
-                //     shopCart: this.shopCart,
-                //     adr_id: this.receiver.id,
-                //     create_time: Date.parse(new Date())
+            payOrder() {//调接口获取sign
+                // console.log(1);
+                // let para = {
+                //     orderId:this.$route.query.id
                 // }
-                // this.$vux.loading.show({text: '创建订单中'})
-                // let url = location.href.split('#')[0]
-                // Client.post(url + 'create-order', order).then((response) => {
-                //     this.$vux.loading.hide()
-                //     if (response.status === 200 && response.data.status === 1) {
-                //         this.wechatPay(response.data.data)
-                //     } else {
-                //         this.$vux.alert.show({
-                //             title : '创建订单失败',
-                //             content: response.data.message
-                //         })
-                //     }
+                // getWxPay(para).then(res=>{
+                //     console.log(res)
+                //     // this.wechatPay(res.data.data)
+                    this.$router.replace('/payResult')
                 // }).catch((error) => {
-                //     this.$vux.loading.hide()
                 //     this.$vux.toast.show({
                 //         text: '网络错误',
                 //         type: 'cancel'
                 //     })
                 // })
-                //   console.log(this.$wechat)
             },
             wechatPay(config) {
                 let $this = this
@@ -97,7 +85,7 @@
                     }
                 });
             },
-            wechatConfig() {
+            wechatConfig() {//create获取config
                 let url = location.href.split('#')[0]
                 Client.post(url + 'js-sdk-config', {
                     url
@@ -127,7 +115,9 @@
             },
         },
         created() {
-            this.value = this.$route.query.m;
+            let payment = JSON.parse(localStorage.getItem('payment'))
+            this.value = payment.price;
+            this.id = payment.id;
             // this.wechatConfig();
             // console.log(this.getMyF,apiHost.API_ROOT)
         },

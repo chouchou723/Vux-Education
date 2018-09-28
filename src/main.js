@@ -13,6 +13,11 @@ Vue.use(WechatPlugin)
 Vue.use(ToastPlugin)
 // console.log(Vue.wechat)
 Vue.mixin({
+  data(){
+    return {
+      apiUrl:'http://eduweixin.test.artreedu.com'
+    }
+  },
   methods:{
     scrollT(){
       document.getElementById("vux_view_box_body")&&(document.getElementById("vux_view_box_body").scrollTop=0)

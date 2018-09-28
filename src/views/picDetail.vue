@@ -4,13 +4,13 @@
     <div class="picTitle">
       <div class="picDate">2018年10月10日 17:25</div>
     </div>
-    <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop">
+    <swiper :options="swiperOptionTop" class="gallery-top" ref="swiperTop" v-if="pics.length>0">
       <swiper-slide class="slide-1" v-for="(item,index) in pics" :key="index">
         <img :src="item.src" alt="" class="slideImgG">
       </swiper-slide>
     </swiper>
     <!-- swiper2 Thumbs -->
-    <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs">
+    <swiper :options="swiperOptionThumbs" class="gallery-thumbs" ref="swiperThumbs" v-if="pics.length>0">
       <swiper-slide class="slide-1" v-for="(item,index) in pics" :key="index">
         <img :src="item.src" alt="" class="slideImg">
       </swiper-slide>
@@ -25,6 +25,9 @@
     swiper,
     swiperSlide
   } from 'vue-awesome-swiper'
+  // import {
+  //   getMyPicture
+  // } from '../api/api'
   export default {
     components: {
       swiper,
@@ -32,38 +35,13 @@
     },
     data() {
       return {
-        pics: [{
-          src: require('../assets/ff.png')
-        }, {
-          src: require('../assets/aa.jpg')
-        }, {
-          src: require('../assets/bb.png')
-        }, {
-          src: require('../assets/cc.jpg')
-        }, {
-          src: require('../assets/dd.png')
-        }, {
-          src: require('../assets/ee.png')
-        }, ],
-        swiperOptionTop: {
-          spaceBetween: 10,
-          loop: true,
-          loopedSlides: 5, //looped slides should be the same
-          navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev'
-          }
-        },
-        swiperOptionThumbs: {
-          spaceBetween: 10,
-          slidesPerView: 5,
-          touchRatio: 0.2,
-          loop: true,
-          loopedSlides: 5, //looped slides should be the same
-          slideToClickedSlide: true,
-        }
+        pics: [],
+        canShow: false,
+        swiperOptionTop: {},
+        swiperOptionThumbs: {}
       }
     },
+    methods: {},
     mounted() {
       this.$nextTick(() => {
         const swiperTop = this.$refs.swiperTop.swiper
@@ -71,7 +49,38 @@
         swiperTop.controller.control = swiperThumbs
         swiperThumbs.controller.control = swiperTop
       })
-    }
+    },
+    created() {
+      let num = this.$route.query.num;
+      let pic = localStorage.getItem('pics');
+      this.pics = pic.split(',').map((item, index) => {
+        return {
+          src: `${this.apiUrl}/attach/img/${item}`
+        }
+      })
+      this.swiperOptionTop = {
+          // spaceBetween: 10,
+          loop: true,
+          loopedSlides: num - 0, //looped slides should be the same
+          navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+          }
+        },
+        this.swiperOptionThumbs = {
+          // spaceBetween: 10,
+          slidesPerView: num - 0,
+          touchRatio: 0.2,
+          loop: true,
+          loopedSlides: num - 0, //looped slides should be the same
+          slideToClickedSlide: true,
+        }
+      this.setTitle('我的作品')
+    },
+    // watch:{
+    //   pics(newVal){
+    //   }
+    // }
   }
 </script>
 

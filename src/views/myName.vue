@@ -61,7 +61,7 @@
             name: this.value
           })
         }
-        this.$router.push('/myInfo')
+        this.$router.go(-1)
       },
     },
     computed: {

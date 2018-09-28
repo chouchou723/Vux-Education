@@ -2,15 +2,15 @@
     <div class="myPic">
         <view-box ref="viewBox">
             <!-- 列表 -->
-            <group v-for="(item,index) in lessonList" :key="index" @click.native="gotoPic">
+            <group v-for="(item,index) in lessonList" :key="index" @click.native="gotoPic(index,item.data.length)">
                 <cell-box>
                     <div class="lessonListAll">
                         <div class="lessonTitleC">
-                            <div class="lessonTitleNo">2018年11月10日</div>
+                            <div class="lessonTitleNo">{{item.time.replace('-','年').replace('-','月')}}日</div>
                         </div>
                         <div class="lessonTitle">
-                            <div v-for="(pic,ind) in item.pics" :key="ind" class="picImg">
-                                <x-img :default-src="dsrc" :src="asrc" width="100" height="100" alt="" :offset="700" container="#vux_view_box_body"></x-img>
+                            <div v-for="(pic,ind) in item.data" :key="ind" class="picImg">
+                                <x-img :default-src="dsrc" :src="`${apiUrl}/attach/img/${pic.picId}/SQUARE`" width="100" height="100" alt="" :offset="700" container="#vux_view_box_body"></x-img>
                             </div>
                         </div>
                     </div>
@@ -29,7 +29,7 @@
         XImg
     } from 'vux'
     import {
-        pushHimOnWall
+        getMyPicture
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     export default {
@@ -55,128 +55,32 @@
                 chooseS: false,
                 typeKind: 0,
                 chooseItemList: [],
-                lessonList: [{
-                        pics: 1,
-                        id: 1,
-                        ishot: true,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120,
-                        status: '待上课'
-                    },
-                    {
-                        pics: 4,
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120,
-                        status: '上课中'
-                    },
-                    {
-                        pics: 2,
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        pics: 3,
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        pics: 3,
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        pics: 3,
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        pics: 3,
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        pics: 3,
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        pics: 3,
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        pics: 3,
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        pics: 3,
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    }
+                lessonList: [
                 ]
             }
         },
         methods: {
-            gotoPic() {
+            gotoPic(index,num) {
                 // console.log(1)
-                this.$router.push('/picDetail')
+                let pics = this.lessonList[index].data.map(item=>{
+                    return item.picId
+                })
+                localStorage.setItem('pics',pics.join(','))
+                this.$router.push(`/picDetail?num=${num}`)
+            },
+            fetchData(){
+                let para = {
+
+                }
+                getMyPicture(para).then(res=>{
+                    this.lessonList = res.data
+                    console.log(res)
+                })
             }
         },
         created() {
+            this.setTitle('我的作品');
+            this.fetchData()
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},
@@ -187,7 +91,7 @@
 <style lang="less">
     .myPic {
         height: 100%;
-        div:first-child .weui-cells {
+        #vux_view_box_body div:first-child .weui-cells {
             margin-top: 0
         }
         .lessonListAll {

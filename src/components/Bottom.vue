@@ -96,7 +96,7 @@ export default {
   },
   created(){
       let path = this.$route.path;
-      if(path=='/lecture'){
+      if(path=='/student'){
           this.index = 0
       }else if(path=='/myLesson'){
           this.index = 1

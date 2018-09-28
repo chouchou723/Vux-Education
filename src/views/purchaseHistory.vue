@@ -1,17 +1,17 @@
 <template>
     <div class="purchaseHistory">
         <view-box ref="viewBox">
-            <group title="近半年消费总计:4880元">
+            <group :title="`近半年消费总计:${total}元`">
                 <cell v-for="(item,index) in pointDetail" :key="index">
                     <div style="color:#fb6804">
-                        2880元
+                        {{item.cost}}元
                     </div>
                     <div class="coinBg" slot="title">
                         <div class="coinTitle">
-                            <div>{{item.date}}</div>
+                            <div>{{item.orderTime}}</div>
                         </div>
                         <div class="coinContent">
-                            <div>{{item.content}}
+                            <div>{{item.target}}
                             </div>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
         ViewBox
     } from 'vux'
     import {
-        pushHimOnWall
+        getMyPurchase
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     export default {
@@ -43,94 +43,25 @@
                 // with hot-reload because the reloaded component
                 // preserves its current state and we are modifying
                 // its initial state.
-                value: '',
-                pointDetail: [{
-                        date: '2018-03-11 10:52:01',
-                        point: 20000,
-                        content: '充值20000积分',
-                        remain: 20000
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
+                total: '',
+                pointDetail: [
                 ],
             }
         },
         methods: {
-            gotoBuyP() {
-                this.$router.push('/buyPoints')
-            },
-            goTo() {
-                console.log(1);
-                if (this.buyStatus) {
-                    this.$router.push('/myLesson')
-                } else {
-                    this.$router.push('/paying')
+            fetchData(){
+                let para = {
+
                 }
-                //  this.$wechat.chooseWXPay({
-                //                             timestamp: 0, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-                //                             nonceStr: '', // 支付签名随机串，不长于 32 位
-                //                             package: '', // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
-                //                             signType: '', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                //                             paySign: '', // 支付签名
-                //                             success: function (res) {
-                //                             // 支付成功后的回调函数
-                //                             }
-                //                             });
-            }
+                getMyPurchase(para).then(res=>{
+                    this.total = res.data.total
+                    this.pointDetail =res.data.details
+                })
+            },
         },
         created() {
+            this.setTitle('消费记录')
+            this.fetchData()
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},

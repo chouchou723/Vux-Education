@@ -1,7 +1,7 @@
 <template>
   <div class="myAdd">
     <group title=" " label-width="4.5em" label-margin-right="2em">
-      <x-textarea :max="200" v-model="value" placeholder="请输入地址" :show-counter="false"></x-textarea>
+      <x-textarea :max="100" v-model="value" placeholder="请输入地址" :show-counter="false"></x-textarea>
     </group>
     <div class="footerBtn">
       <x-button type="primary" action-type="button" :disabled="value.length==0" @click.native="confirm">确定</x-button>
@@ -48,7 +48,7 @@
         this.setMyInfo({
           address: this.value
         })
-        this.$router.push('/myInfo')
+        this.$router.go(-1)
       }
     },
     computed: {

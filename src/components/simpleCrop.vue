@@ -16,7 +16,9 @@
   
 <script> 
 import Cropper from 'cropperjs' 
-import 'cropperjs/dist/cropper.min.css' 
+import 'cropperjs/dist/cropper.min.css'
+import {uploadPicBase} from '../api/api'
+
 export default { 
  name: 'v-simple-cropper', 
  props: { 
@@ -72,13 +74,25 @@ export default {
   height: cropBox.height * scale 
   }) 
   let imgData = cropCanvas.toDataURL('image/jpeg') 
-  let formData = new window.FormData() 
-  formData.append('fileType', this.initParam['fileType']) 
-  formData.append('img', imgData) 
+  // console.log(imgData)
+  let formData = new FormData() 
+  formData.append('fileImg', imgData)
+  // formData.append('fileType', this.initParam['fileType']) 
+  // formData.append('img', imgData) 
 //   formData.append('signId', this.$localStorage('signId')) 
-  formData.append('originalFilename', this.filename) 
-   this.successCallback(imgData) //test
+  // formData.append('originalFilename', this.filename) 
+  uploadPicBase( formData, {
+          headers: {'Content-Type': 'multipart/form-data'} ,
+          // withCredentials: this.withCredentials
+        }).then(res=>{
+          // console.log(res)
+          if(res.code==0){
+ this.successCallback(res.data.id,imgData)
   this.cancelHandle()  //test
+          }
+        })
+   //test
+  
   // window.$axios(this.initParam['uploadURL'], formData, {//更换api
   // method: 'post', 
   // headers: {'Content-Type': 'multipart/form-data'} 

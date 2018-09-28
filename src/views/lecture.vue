@@ -28,15 +28,15 @@
                 <!-- <div> -->
                 <cell-box is-link v-for="(item,index) in lessonList" :key="index" :link="`/courseDetails/?id=${item.id}`">
                     <div class="lessonList">
-                        <x-img :default-src="dsrc" :src="asrc" width="65" height="65" alt="" container="#picContent" :offset="1500*page" :delay="50"></x-img>
+                        <x-img :default-src="dsrc" :src="`${apiUrl}/attach/img/${item.picId}/SQUARE`" width="65" height="65" alt="" container="#vux_view_box_body" :offset="1500*(page+1)" :delay="50"></x-img>
                         <div class="lessonDetail">
                             <div class="lessonList">
-                                <div class="hot" v-if="item.ishot">热门</div>
+                                <div class="hot" v-if="item.hot">热门</div>
                                 <div class="lessonName">{{item.name}}</div>
-                                <div class="lessonStatus">{{item.total}}人-已报{{item.hasJoin}}人</div>
+                                <div class="lessonStatus">{{item.maxStuNum}}人-已报{{item.stuNum||0}}人</div>
                             </div>
-                            <div class="lessonContent">{{item.content}}</div>
-                            <div class="lessonPrice">{{item.price}}元</div>
+                            <div class="lessonContent">{{item.courseNum}}节课-{{item.hours}}课时|{{item.applyAge.label}}儿童|满{{item.minStuNum||0}}人开课</div>
+                            <div class="lessonPrice">{{item.price||0}}元</div>
                         </div>
                     </div>
                     <!-- anything -->
@@ -68,12 +68,12 @@
                     <div style="width:100%;height:.34rem;background:#F4F4F4;border-bottom:1px solid #D9D9D9"></div>
                     <div class="LectureselectTwo">
                         <div class="LectureselectTwoFirst">
-                            <div :class="['LectureselectKind',typeKind==index?'LecturetypeChoose':'']" v-for="(item,index) in typekind" :key="index" @click="changeType(index)">
+                            <div :class="['LectureselectKind',typeKind==index?'LecturetypeChoose':'']" v-for="(item,index) in kindList" :key="index" @click="changeType(index)">
                                 {{item}}
                             </div>
                         </div>
                         <div class="LectureaddListS">
-                            <div v-for="(item,index) in selectList[typeKind]" :key="index" :class="chooseListSelect[typeKind].includes(item.id)?'LectureselectItem':'LectureaddItem'" @click="chooseItemSelect(item.id)">{{item.name}}</div>
+                            <div v-for="(item,index) in selectList[typeKind]" :key="index" :class="chooseListSelect[typeKind].includes(item.name)?'LectureselectItem':'LectureaddItem'" @click="chooseItemSelect(item.name)">{{item.label}}</div>
                         </div>
                     </div>
                     <div class='Lectureaddfooter'>
@@ -102,7 +102,7 @@
         XImg
     } from 'vux'
     import {
-        getLessonList
+        getLessonList,getAllVenue,getCourseKind,getApplyAge
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     import Scroller from '../components/Scroller'
@@ -130,7 +130,7 @@
                 // preserves its current state and we are modifying
                 // its initial state.
                 searchValue: '',
-                page: 1,
+                page: 0,
                 size: 15,
                 classType: 'SINGLE',
                 dsrc: require('../assets/picload.png'),
@@ -144,93 +144,10 @@
                 chooseItemList: [],
                 chooseItemListBackup: [],
                 nowTime: '', //`${new Date().getFullYear()}年${new Date().getMonth()+1}月${new Date().getDate()}日`,
-                addList: [{
-                    id: '1',
-                    name: '世博园场馆'
-                }, {
-                    id: '2',
-                    name: '东方明珠'
-                }, {
-                    id: '3',
-                    name: '世博园场馆'
-                }, {
-                    id: '23',
-                    name: '东方明珠'
-                }, {
-                    id: '12',
-                    name: '世博园场馆'
-                }, {
-                    id: '22',
-                    name: '东方明珠'
-                }, {
-                    id: '33',
-                    name: '世博园场馆'
-                }, {
-                    id: '231',
-                    name: '东方明珠'
-                }, {
-                    id: '112',
-                    name: '世博园场馆'
-                }, {
-                    id: '232',
-                    name: '东方明珠'
-                }],
+                addList: [],
                 selectList: [
-                    [{
-                            id: 'CALLIGRAPHY',
-                            name: '书法'
-                        }, {
-                            id: 'CHINESE',
-                            name: '国画'
-                        }, {
-                            id: 'CREATIVE',
-                            name: '创意绘画'
-                        }, {
-                            id: 'SKETCH',
-                            name: '素描水彩'
-                        },
-                        {
-                            id: 'OIL',
-                            name: '油画'
-                        }, {
-                            id: 'CLAY',
-                            name: '泥塑'
-                        }, {
-                            id: 'FABRIC',
-                            name: '布艺'
-                        }, {
-                            id: 'LEATHER',
-                            name: '皮具'
-                        }, {
-                            id: 'FLOWER',
-                            name: '插花'
-                        }, {
-                            id: 'TEA',
-                            name: '茶道'
-                        }, {
-                            id: 'YOGA',
-                            name: '瑜伽'
-                        }, {
-                            id: 'PHOTO',
-                            name: '摄影体验'
-                        }
-                    ],
-                    [{
-                        id: 'BABY',
-                        name: '1-3岁'
-                    }, {
-                        id: 'CHILD',
-                        name: '3-6岁'
-                    }, {
-                        id: 'JUVENILE',
-                        name: '6-12岁'
-                    }, {
-                        id: 'TEENAGE',
-                        name: '12-18岁'
-                    }, {
-                        id: 'AUDIT',
-                        name: '成人'
-                    }, ]
+                    [],
+                    []
                 ],
                 chooseListSelect: {
                     0: [],
@@ -240,157 +157,28 @@
                     0: [],
                     1: []
                 },
-                typekind: ['课程种类', '适用对象', ],
+                kindList: ['课程种类', '适用对象', ],
                 onFetching: false,
-                lessonList: [{
-                        id: 1,
-                        ishot: true,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 3,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 4,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 5,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 6,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 7,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 8,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 9,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 10,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 11,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 12,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 13,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 14,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    },
-                    {
-                        id: 15,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120
-                    }
-                ]
+                lessonList: [],
+                totalPages:0,
             }
         },
         methods: {
-            refresh() {},
+            refresh() {
+                    this.fetchData(0)
+            },
             loadMore() {
-                console.log(1)
-                setTimeout(() => {
-                    this.$refs.my_scroller.finishInfinite(2)
-                }, 2000)
+                if(this.totalPages>this.page+1){
+                    this.page++;
+                    this.fetchData()
+                }else{
+                        this.$refs.my_scroller.finishInfinite(2)
+                }
             },
             changeLesson(type) {
                 this.classType = type;
                 this.chooseIndex = 0;
+                this.fetchData();
             },
             chooseItemSelect(id) {
                 if (this.chooseListSelect[this.typeKind].includes(id)) {
@@ -419,8 +207,12 @@
                 this.chooseIndex = 0;
             },
             clearsSelect() {
-                this.chooseListSelect[this.typeKind] = [];
+                this.chooseListSelect = [[],[]];
+                this.chooseListSelectBackUp = [[],[]];
+                this.typeKind = 0;
+                this.typeKindBackup = 0;
                 this.chooseIndex = 0;
+                this.fetchData();                
             },
             confirmAddSelect() { //确认上课地点
                 this.chooseItemListBackup = JSON.parse(JSON.stringify(this.chooseItemList));
@@ -444,16 +236,21 @@
                 }
             },
             changeDate(value) {
+                // this.value7
                 this.nowTime = value.split('-')[0] + '年' + value.split('-')[1] + '月' + value.split('-')[2] + '日';
-                this.chooseSelect('time')
+                this.chooseSelect('time');
+                this.fetchData(0);
                 // console.log(value)
             },
             clearDate() {
                 this.nowTime = '';
-                this.value7 = new Date().toLocaleDateString().replace('/', '-')
-                this.chooseSelect('time')
+                this.value7 = ''//new Date().toLocaleDateString().replace(/\//g, '-')
+                this.chooseSelect('time');
+                this.fetchData(0);
             },
-            onSubmit() {},
+            onSubmit() {
+                this.fetchData(0);
+            },
             onCancel() {},
             onFocus() {
                 this.chooseIndex = 0;
@@ -476,26 +273,48 @@
                     $event.preventDefault()
                 }
             },
-            fetchData() {
+            fetchData(page=this.page) {
                 let para = {
                     applyAge: this.chooseListSelectBackUp[1].join(','),
-                    date: this.nowTime,
+                    date: this.value7,
                     kinds: this.chooseListSelectBackUp[0].join(','),
                     name: this.searchValue,
-                    page: this.page,
+                    page: page,
                     size: this.size,
                     type: this.classType,
                     venueId: this.chooseItemListBackup.join(',')
                 }
                 getLessonList(para).then(res => {
                     console.log(res)
+                    this.totalPages = res.data.totalPages;
+                    this.lessonList = page==0?res.data.content:[...this.lessonList,...res.data.content];
                 })
             },
+            getVenue(){//获取场馆
+                getAllVenue().then(res=>{
+                    this.addList = res.data;
+                    // console.log(res)
+                })
+            },
+            getCourseKind(){
+                getCourseKind().then(res=>{
+                    this.selectList[0] = res.data
+                    // console.log(this.selectList)
+                })
+            },
+            getApplyAge(){
+                getApplyAge().then(res=>{
+                    this.selectList[1] = res.data
+                })
+            }
         },
         created() {
             this.setTitle("我要选课")
             this.changeType(0)
             this.fetchData();
+            this.getVenue();
+            this.getCourseKind();
+            this.getApplyAge();
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},

@@ -2,11 +2,11 @@
     <div class="classSituation">
         <view-box ref="viewBox">
             <div class="coinBgS">
-                <div class="coinContent">创意绘画课程</div>
-                <div class="coinTitle">24节课,共48课时</div>
+                <div class="coinContent">{{detail.name}}</div>
+                <div class="coinTitle">{{detail.classNum}}节课,共{{detail.totalHours}}课时</div>
             </div>
             <group title=" " label-width="4.5em">
-                <cell v-for="(item,index) in lessonL" :key="index" :title="`第${item}节课`" is-link style="font-size:16px" link="/classSituationDetail">
+                <cell v-for="(item,index) in lessonL" :key="index" :title="`第${index+1}节课`" is-link style="font-size:16px" :link="`/classSituationDetail?id=${item.id}`">
                 </cell>
             </group>
         </view-box>
@@ -20,7 +20,7 @@
         ViewBox
     } from 'vux'
     import {
-        pushHimOnWall
+        getMyLessonSituation
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     export default {
@@ -35,33 +35,26 @@
                 // with hot-reload because the reloaded component
                 // preserves its current state and we are modifying
                 // its initial state.
+                detail:{},
                 value: '',
-                buyStatus: false,
-                type: 'coin', //coin
-                lessonL: 50
+                lessonL: 0
             }
         },
         methods: {
-            goTo() {
-                console.log(1);
-                if (this.buyStatus) {
-                    this.$router.push('/myLesson')
-                } else {
-                    this.$router.push('/paying')
+            fetchData(){
+                let para = {
+                    id :this.$route.query.id
                 }
-                //  this.$wechat.chooseWXPay({
-                //                             timestamp: 0, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-                //                             nonceStr: '', // 支付签名随机串，不长于 32 位
-                //                             package: '', // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
-                //                             signType: '', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                //                             paySign: '', // 支付签名
-                //                             success: function (res) {
-                //                             // 支付成功后的回调函数
-                //                             }
-                //                             });
+                getMyLessonSituation(para).then(res=>{
+                    console.log(res)
+                    this.detail = res.data;
+                    this.lessonL = res.data.details;
+                })
             }
         },
         created() {
+            this.setTitle('上课情况');
+            this.fetchData()
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},

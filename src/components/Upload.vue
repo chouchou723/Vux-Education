@@ -28,7 +28,7 @@ import { Flexbox, FlexboxItem, Previewer, InlineLoading } from 'vux'
 // import AjaxPlugin.$http. from 'AjaxPlugin.$http.'
 import { AjaxPlugin } from 'vux'
 // import lrz from 'lrz'
-
+import {uploadPic} from '../api/api'
 export default {
   components: {
     Flexbox,
@@ -148,8 +148,8 @@ export default {
     post (file) {
       // console.log(file)
       this.loading = true
-  this.onSuccess(file, file)
-  this.loading = false
+  // this.onSuccess(file, file)
+  // this.loading = false
       // 压缩上传
       // lrz(file, Object.assign({
       //   quality: 0.7,
@@ -161,21 +161,25 @@ export default {
         //     data.append(key, this.data[key])
         //   }
         // }
-        // AjaxPlugin.$http.post(this.url, data, {
-        //   headers: this.headers,
-        //   withCredentials: this.withCredentials
-        // }).then((response) => {
-        //   if (response.status === 200 && response.data.status === 'ok') {
-        //     this.onSuccess(response.data, file)
-        //     this.loading = false
-        //   } else {
-        //     this.onError(new Error(response.data.message), file)
-        //     this.loading = false
-        //   }
-        // }).catch((err) => {
-        //   this.onError(err, file)
-        //   this.loading = false
-        // })
+        let param = new FormData()
+        param.append('Filedata', file, file.name)
+        // let data = file
+        uploadPic( param, {
+          headers: this.headers,
+          // withCredentials: this.withCredentials
+        }).then((response) => {
+          // console.log(response,123)
+          if (response.code === '0') {
+            this.onSuccess(response.data.id, file)
+            this.loading = false
+          } else {
+            this.onError(new Error(response.data.msg), file)
+            this.loading = false
+          }
+        }).catch((err) => {
+          this.onError(err, file)
+          this.loading = false
+        })
       // }).catch((err) => {
       //   this.onError(err, file)
       // })

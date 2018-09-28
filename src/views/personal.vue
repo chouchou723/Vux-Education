@@ -2,15 +2,15 @@
     <div class="personal">
         <div class="personalBg">
             <div class="personalInfo">
-                <img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" alt="" class="personalImg">
-                <img src="../assets/sex1.png" alt="" class="sexPos">
+                <img :src="`${apiUrl}/attach/img/${info.img}/SQUARE`" alt="" class="personalImg">
+                <img :src="info.sex=='男'?require('../assets/sex1.png'):require('../assets/sex2.png')" alt="" class="sexPos">
                 <div class="personalDetail">
-                    <div class="personalName">张佳乐</div>
+                    <div class="personalName">{{info.name}}</div>
                     <div class="personalLesson">
                         <span class="op5">上课时长</span>
-                        <span class="mgr4">8节课</span>
+                        <span class="mgr4">{{info.courseHours}}节课</span>
                         <span class="op5">作品数量</span>
-                        <span>10件</span>
+                        <span>{{info.workNum}}件</span>
                     </div>
                 </div>
             </div>
@@ -62,7 +62,7 @@
         Cell
     } from 'vux'
     import {
-        pushHimOnWall
+        getStudentIndex
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     export default {
@@ -76,29 +76,31 @@
                 // with hot-reload because the reloaded component
                 // preserves its current state and we are modifying
                 // its initial state.
-                tt: 20,
-                name: '时间',
-                ops: [{
-                    id: 1,
-                    name: '时间'
-                }, {
-                    id: 12,
-                    name: '金钱'
-                }, {
-                    id: 13,
-                    name: '地位'
-                }],
-                haha: require("../assets/0e3a716cf47f1eb695e5b62597dec807.jpg"),
-                value: '',
-                value1: '',
-                true1: true,
-                msg: 'Hello World!',
-                options: [1, 2, 3]
+                info: {
+                    img: '',
+                    name: '',
+                    sex: '',
+                    courseHours: '',
+                    workNum: 0
+                }
             }
         },
-        methods: {},
+        methods: {
+            fetchData() {
+                let data = JSON.parse(localStorage.getItem('info'));
+                this.info.sex = data.sex;
+                this.info.img = data.img;
+                getStudentIndex().then(res => {
+                    let data = res.data
+                    this.info.name = data.name;
+                    this.info.courseHours = data.courseHours;
+                    this.info.workNum = data.workNum;
+                })
+            },
+        },
         created() {
-            document.title = "个人中心"
+            this.setTitle("个人中心")
+            this.fetchData()
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},

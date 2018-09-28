@@ -5,18 +5,18 @@
 				<cell class="tit" title="课程信息"></cell>
 				<CellBox class="courseBar">
 					<div class="course">
-						<div class="tit">国画课程</div>
-						<div class="info">24节课，共48课时</div>
+						<div class="tit">{{detail.name}}</div>
+						<div class="info">{{detail.courseNum}}节课，共{{detail.totalTime}}课时</div>
 					</div>
-					<x-button mini plain type="primary" link="/doComment">我要评价</x-button>
+					<x-button mini plain type="primary" :link="`/doComment?id=${$route.query.id}`">我要评价</x-button>
 				</CellBox>
 			</group>
 			<group class="courseBox">
-				<cell class="tit" title="课程地点"></cell>
+				<cell class="tit" title="时间地点"></cell>
 				<CellBox>
 					<div class="con">
-						<p>时间：上午10:00-12:00</p>
-						<p>地点：博成路上南路世博源L1层星动力空间</p>
+						<p>时间：{{detail.beginTimeStr.split(':')[0]>12?'下午':'上午'}}{{detail.beginTimeStr}}-{{detail.endTimeStr}}</p>
+						<p>地点：{{detail.address}}</p>
 					</div>
 				</CellBox>
 			</group>
@@ -39,19 +39,19 @@
 			</group>
 			<group class="courseBox">
 				<cell class="tit" title="上课情况"></cell>
-				<CellBox is-link link="/classSituation">
+				<CellBox is-link :link="`/classSituation?id=${$route.query.id}`">
 					查看每节课的签到情况和老师评语
 				</CellBox>
 			</group>
 			<group class="courseBox">
 				<cell class="tit" title="授课老师"></cell>
-				<cell-box is-link link="/classTeacher">
+				<cell-box is-link :link="`/classTeacher?id=${detail.teacherId}`">
 					<div class="teacher">
-						<div class="pho"><img src="../assets/pho.jpg" alt=""></div>
+						<div class="pho"><img :src="`${apiUrl}/attach/img/${detail.teacherPid}`" alt=""></div>
 						<div class="info">
-							<div class="name">代方方</div>
-							<div class="schoolAge">6年教齡</div>
-							<p>上海大学美术学院油画硕士</p>
+							<div class="name">{{detail.teacher}}</div>
+							<div class="schoolAge">{{detail.experience}}年教齡</div>
+							<p>{{detail.edu}}</p>
 						</div>
 					</div>
 				</cell-box>
@@ -60,11 +60,10 @@
 				<cell class="tit" title="课程介绍"></cell>
 				<CellBox>
 					<div :class="['introduce',isMoreContent?'':'lite']">
-						<p>该旨在培养学龄前儿童对美术绘画的兴趣，增强色彩认知，快乐学习。</p>
-						<video :poster="videoPoster" preload='auto' ref="video" width="100%" height="200px" x5-video-player-type="h5" x5-video-player-fullscreen="true" src="http://yun.it7090.com/video/XHLaunchAd/video01.mp4"></video>
-						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM">
-						<div class="playModal" v-if="showM"></div>
-						<img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" alt="">
+						<video v-if="detail.videoId" preload='auto' ref="video" width="100%" height="200px" x5-video-player-type="h5" x5-video-player-fullscreen="true" :src="`${apiUrl}/attach/img/${detail.videoId}`"></video>
+						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM&&detail.videoId">
+						<div class="playModal" v-if="showM&&detail.videoId"></div>
+						<div v-html="detail.description"></div>
 					</div>
 				</CellBox>
 				<CellBox>
@@ -75,34 +74,35 @@
 			</group>
 			<group class="courseBox">
 				<cell class="tit" title="课程评价">
-					<div class="moreEval" @click="gotoMoveComment">更多评价（288条）</div>
+					<div class="moreEval" @click="gotoMoveComment">更多评价（{{comment.commentNum}}条）</div>
 				</cell>
-				<CellBox link="/commentDetail">
+				<CellBox @click.native="gotoDetail">
 					<div class="assess">
-						<div class="pho"><img src="../assets/pho.jpg" alt=""></div>
+						<div class="pho"><img :src="`${apiUrl}/attach/img/${comment.photo}/SQUARE`" alt=""></div>
 						<div class="info">
 							<div class="hd">
-								<div class="name">Kino的天空</div>
-								<div class="data">4月17日 </div>
+								<div class="name">{{comment.name}}</div>
+								<div class="data">{{comment.date.substring(5,7)}}月{{comment.date.substring(8,10)}}日</div>
 							</div>
 							<div class="rater">
-								<span>总体</span>
-								<img src="../assets/star.png" alt="" v-for="(item,index) in data42" :key="index+'a'" class="star"><img src="../assets/starg.png" alt="" v-for="(item,index) in (5-data42)" :key="index+'b'" v-if="item" class="star">
+								<span style="vertical-align: top;">总体</span>
+								<img src="../assets/star.png" alt="" v-for="(item,index) in comment.overallScore" :key="index+'a'" class="star"><img src="../assets/starg.png" alt="" v-for="(item,index) in (5-comment.overallScore)" :key="index+'b'" v-if="item" class="star">
+								<!-- <rater v-model="data42" active-color="#FFBE00" :font-size="15" disabled></rater> -->
 							</div>
-							<p>我参加了周六上午的国画课，小朋友年纪小，希望从小培养，上课过程很开心！</p>
-							<div class="imgList">
-								<div class="each"><img src="../assets/pho.jpg" alt="" class="img"></div>
-								<div class="each"><img src="../assets/pho.jpg" alt="" class="img"></div>
-								<div class="each"><img src="../assets/pho.jpg" alt="" class="img"></div>
-								<div class="allPic">
-									<i class="picMin"></i>8
+							<p style="padding:.1rem 0">{{comment.content}}</p>
+							<div class="imgList" v-if="commentPic.length>0">
+								<div class="each" v-for="(pic,index) in commentPic" :key="'p'+index" @click="show(index)">
+									<img :src="`${apiUrl}/attach/img/${pic.id}/SQUARE`" alt="" class="img" v-if="index<3">
+								</div>
+								<div class="allPic" v-if="commentPic.length>3">
+									<i class="picMin"></i>{{commentPic.length}}
 								</div>
 							</div>
 							<div class="bd">
-								<div class="browse">浏览 3300</div>
+								<div class="browse">浏览 {{comment.browseNum}}</div>
 								<div class="other">
-									<span class="zan"><i class="ico_zan"></i>3</span>
-									<span class="reply"><i class="ico_reply"></i>1</span>
+									<span class="zan"><i :class="['ico_zan',comment.hasLiked?'ico_zaned':'']"></i>{{comment.likeNum}}</span>
+									<span class="reply"><i class="ico_reply"></i>{{comment.replyNum}}</span>
 								</div>
 							</div>
 						</div>
@@ -110,6 +110,9 @@
 				</CellBox>
 			</group>
 		</view-box>
+		<div v-transfer-dom>
+			<previewer :list="pics" ref="previewer"></previewer>
+		</div>
 	</div>
 </template>
 
@@ -121,14 +124,20 @@
 		ViewBox,
 		Group,
 		Cell,
-		CellBox
+		CellBox,
+		Previewer,
+		TransferDom,
 	} from 'vux'
 	import {
-		pushHimOnWall
+		lessonDetail,
+		lessonDateStatus
 	} from '../api/api'
 	import Calendar from '../components/calendar';
 	import apiHost from '../../config/prod.env'
 	export default {
+		directives: {
+			TransferDom
+		},
 		components: {
 			XButton,
 			Calendar,
@@ -137,18 +146,61 @@
 			ViewBox,
 			Group,
 			Cell,
-			CellBox
+			CellBox,
+			Previewer
 		},
 		data() {
 			return {
+				detail: {
+					name: '',
+					price: '',
+					courseNum: '',
+					hours: '',
+					minStuNum: '',
+					stuNum: '',
+					address: '',
+					age: '',
+					teacher: '',
+					teacherPid: '',
+					experience: '',
+					edu: '',
+					beginTimeStr: '',
+					endTimeStr: '',
+					teacherId: ''
+				},
+				comment: {
+					content: '',
+					name: '',
+					photo: '',
+					overallScore: 0,
+					date: '',
+					replyNum: 0,
+					likeNum: 0,
+					browseNum: 0,
+					id: ''
+				},
+				pics: [],
+				commentPic: [{
+					id: ''
+				}],
 				data42: 3,
-				isMoreContent: false,
+				isMoreContent: '',
 				videoPoster: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
 				arr2: [],
-				arr: []
+				arr: [],
+				oh:''
 			}
 		},
 		methods: {
+			show(index) {
+				this.$refs.previewer.show(index)
+			},
+			gotoDetail($e) {
+				console.log($e);
+				if ($e.target.className !== 'img') {
+					this.$router.push(`/commentDetail?id=${this.comment.id}`)
+				}
+			},
 			changeMoreContent() {
 				if (this.isMoreContent) {
 					this.isMoreContent = false;
@@ -159,7 +211,7 @@
 				}
 			},
 			gotoMoveComment() {
-				this.$router.push('/totalComment')
+				this.$router.push(`/totalComment?id=${this.$route.query.id}`)
 			},
 			playVideo() {
 				// this.showM = false;
@@ -173,19 +225,97 @@
 				console.log('跳到了本月今天', data); //跳到了本月
 			},
 			changeDate(data) {
-				//   this.$toast('切换到的月份为' + data);
+				let date = data.split('/')[1];
+				this.lessonDateStatus(date);
 				console.log('左右点击切换月份', data); //左右点击切换月份
 			},
-			format(date, index) {
+			format(date, day) {
 				date = new Date(date);
-				return `${date.getFullYear()}-${date.getMonth() + 1}-${index}`;
+				return `${date.getFullYear()}-${date.getMonth() + 1}-${day}`;
+			},
+			fetchData() {
+				let id = this.$route.query.id
+				lessonDetail(id).then(res => {
+					let data = res.data;
+					this.banner = data.picId;
+					this.isFav = data.hasCollection;
+					this.lessonList = data.schedules
+					this.detail = {
+						name: data.name,
+						price: data.price,
+						courseNum: data.courseNum,
+						totalTime: data.totalTime,
+						minStuNum: data.minStuNum,
+						stuNum: data.stuNum,
+						address: data.address,
+						age: data.applyAge.label,
+						teacher: data.teacher.name,
+						teacherPid: data.teacher.picId,
+						experience: data.teacher.experience,
+						edu: data.teacher.edu,
+						description: data.description,
+						videoId: data.videoId,
+						beginTimeStr: data.schedules[0].beginTimeStr,
+						endTimeStr: data.schedules[0].endTimeStr,
+						teacherId: data.teacher.id
+					}
+					let commentData = data.comment;
+					if (commentData) {
+						this.comment = {
+							content: commentData.content,
+							name: commentData.nickname,
+							photo: commentData.photo,
+							overallScore: commentData.overallScore,
+							date: commentData.date,
+							replyNum: commentData.replyNum,
+							likeNum: commentData.likeNum,
+							browseNum: commentData.browseNum,
+							id: commentData.id,
+							commentNum: commentData.commentNum
+						}
+						this.commentPic = commentData.attachments
+						this.pics = commentData.attachments.map(item => {
+							return {
+								src: `${this.apiUrl}/attach/img/${item.id}`
+							}
+						})
+					}
+					// console.log(para)
+				})
+			},
+			lessonDateStatus(date) {
+				let id = this.$route.query.id;
+				let month = new Date(date).getMonth() + 1;
+				lessonDateStatus(id, {
+					month: month
+				}).then(res => {
+					if (res.data.length != 0) {
+						this.arr = res.data.map(item => {
+							return {
+								date: item.date.substring(0, 10),
+								className: item.status.name === 'ABSENT' ? 'mark3' : item.status.name === 'ATTEND' ? 'mark1' : 'mark2'
+							}
+						})
+					}
+				})
 			}
 		},
 		mounted() {
 			window.onresize = function() {
-				this.$refs.video.style.width = window.innerWidth + "px";
-				this.$refs.video.style.height = window.innerHeight + "px";
+				if (this.$refs.video) {
+					this.$refs.video.style.width = window.innerWidth + "px";
+					this.$refs.video.style.height = window.innerHeight + "px";
+				}
 			}
+			setTimeout(() => {
+				this.oh = document.getElementsByClassName('introduce')[0].offsetHeight;
+				if (this.oh < 490) {
+					console.log(oh, 123)
+					this.isMoreContent = true;
+				} else {
+					this.isMoreContent = false;
+				}
+			}, 500);
 		},
 		computed: {
 			showM() {
@@ -197,20 +327,22 @@
 			}
 		},
 		created() {
-			document.title = "课程信息"
-			this.arr = [{
-					date: this.format(new Date(), 1),
-					className: 'mark1'
-				},
-				{
-					date: this.format(new Date(), 13),
-					className: 'mark2'
-				},
-				{
-					date: this.format(new Date(), 3),
-					className: 'mark3'
+			this.setTitle("课程信息")
+			this.fetchData()
+			this.lessonDateStatus(new Date())
+		},
+		watch: {
+			isMoreContent(curVal, oldVal) {
+				if (curVal) {
+					if (this.oh > 490) {
+						document.getElementsByClassName('introduce')[0].style.cssText += 'height:auto'
+					}
+				} else {
+					if (this.oh > 490) {
+						document.getElementsByClassName('introduce')[0].style.cssText += 'height:490px'
+					}
 				}
-			];
+			}
 		}
 	}
 </script>
@@ -304,10 +436,11 @@
 					width: 1.84rem;
 					height: 1.84rem;
 					margin-right: 0.48rem;
+					border-radius: 50%;
+					border: 1px solid gainsboro;
 					img {
 						display: block;
 						width: 100%;
-						border-radius: 50%;
 					}
 				}
 				.info {
@@ -357,7 +490,7 @@
 					width: 100%;
 					height: 200px;
 					position: absolute;
-					top: 1.35rem;
+					top: 5px;
 					left: 0;
 					background: rgba(0, 0, 0, 0.4)
 				}
@@ -365,7 +498,7 @@
 					width: 2rem;
 					height: 2rem;
 					position: absolute;
-					top: 3rem;
+					top: 2rem;
 					left: 0;
 					right: 0;
 					margin: auto;
@@ -373,6 +506,7 @@
 				}
 			}
 			.assess {
+				width: 100%;
 				display: flex;
 				.pho {
 					width: 1.84rem;
@@ -385,6 +519,7 @@
 					}
 				}
 				.info {
+					width: 100%;
 					.hd {
 						display: flex;
 						justify-content: space-between;
@@ -407,9 +542,9 @@
 						display: flex;
 						margin: 0 -5px;
 						position: relative;
+						height: 2.4rem;
 						.each {
-							width: 2.2rem;
-							flex: 1;
+							width: 2.2rem; // flex: 1;
 							margin: 5px;
 							img {
 								display: block;
@@ -446,6 +581,7 @@
 						justify-content: space-between;
 						color: #7F8389;
 						font-size: 0.293333rem;
+						margin-top: .1rem;
 						.zan {
 							.ico_zan {
 								display: inline-block;

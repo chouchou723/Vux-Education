@@ -112,21 +112,21 @@
             ...mapActions([
                 'setTeacherInfo'
             ]),
-            openFile() {
-                this.$refs.file.click();
-            },
-            fileChange() {
-                var reads = new FileReader();
-                let f = this.$refs.file.files[0];
-                reads.readAsDataURL(f);
-                reads.onload = (e) => {
-                    this.setTeacherInfo({
-                        img: e.target.result
-                    })
-                    // this.Asrc=e.target.result;
-                    // console.log(e.target.result)
-                };
-            },
+            // openFile() {
+            //     this.$refs.file.click();
+            // },
+            // fileChange() {
+            //     var reads = new FileReader();
+            //     let f = this.$refs.file.files[0];
+            //     reads.readAsDataURL(f);
+            //     reads.onload = (e) => {
+            //         this.setTeacherInfo({
+            //             img: e.target.result
+            //         })
+            //         // this.Asrc=e.target.result;
+            //         // console.log(e.target.result)
+            //     };
+            // },
             onChange() {
                 this.setTeacherInfo({
                     sex: this.value2
@@ -165,7 +165,7 @@
         created() {
             console.log(12313)
             this.value2 = this.getTeacherInfo.sex
-            this.Asrc = this.getTeacherInfo.img
+            // this.Asrc = this.getTeacherInfo.img
         },
     }
 </script>

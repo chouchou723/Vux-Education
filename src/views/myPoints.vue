@@ -4,7 +4,7 @@
             <group title="总余额">
                 <cell>
                     <div slot="title" class="payTitle">
-                        <div style="margin-bottom:.1rem">积分:<span style="color:#fb6804;margin-left:.2rem">20000</span></div>
+                        <div style="margin-bottom:.1rem">积分:<span style="color:#fb6804;margin-left:.2rem">{{total}}</span></div>
                         <div style="color:#999999;font-size:.3rem;">积分充值规则: 1元=10积分</div>
                     </div>
                     <x-button mini type="primary" @click.native="gotoBuyP">充值</x-button>
@@ -14,13 +14,13 @@
                 <cell v-for="(item,index) in pointDetail" :key="index">
                     <div class="coinBg" slot="title">
                         <div class="coinTitle">
-                            <div>{{item.date}}</div>
-                            <div :style="item.point>0?'color:#04be02':'color:#f76260'">{{item.point>0?'+'+item.point:item.point}}积分</div>
+                            <div>{{item.changeTime}}</div>
+                            <div :style="item.type.name==='ADD'?'color:#04be02':'color:#f76260'">{{item.type.name==='ADD'?'+'+item.changeNum:item.changeNum}}积分</div>
                         </div>
                         <div class="coinContent">
                             <div>{{item.content}}
                             </div>
-                            <div style="color:#999999">剩余{{item.remain}}分
+                            <div style="color:#999999">剩余{{item.remainNum}}分
                             </div>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
         ViewBox
     } from 'vux'
     import {
-        pushHimOnWall
+        getMyPoint
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     export default {
@@ -55,66 +55,8 @@
                 // preserves its current state and we are modifying
                 // its initial state.
                 value: '',
-                pointDetail: [{
-                        date: '2018-03-11 10:52:01',
-                        point: 20000,
-                        content: '充值20000积分',
-                        remain: 20000
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
+                total:0,
+                pointDetail: [
                 ],
             }
         },
@@ -139,9 +81,21 @@
                 //                             // 支付成功后的回调函数
                 //                             }
                 //                             });
+            },
+            fetchData(){
+                let para = {
+
+                }
+                getMyPoint(para).then(res=>{
+                    this.total = res.data.total;
+                    this.pointDetail = res.data.detail
+                    console.log(res)
+                })
             }
         },
         created() {
+            this.setTitle('我的积分')
+            this.fetchData()
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},
