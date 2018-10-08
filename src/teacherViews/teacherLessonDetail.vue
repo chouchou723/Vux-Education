@@ -6,45 +6,52 @@
 				</div> -->
 			<div class="courseBar">
 				<div class="course">
-					<div class="tit">创意绘画单课</div>
-					<div class="price" v-if="content=='已开课'||content=='待开课'||content=='已取消'">12节课-48课时|已报名5人,如果想知道为什么只能说没办法</div>
+					<div class="tit">{{detail.name}}</div>
+					<div class="price" v-if="detail.status.name=='PROCESS'">
+						{{detail.courseNum}}节课 - {{detail.totalTime}}课时 | 已报名{{detail.stuNum}}人
+					</div>
+					<div class="price" v-if="detail.status.name=='PASS'">
+						根据您的情况该课程费用约为{{detail.price}}元 | 已报名{{detail.stuNum}}人
+					</div>
+					<div class="price" v-if="detail.status.name=='FAIL'||detail.status.name=='CANCEL'">
+						取消原因:{{detail.reason}}
+					</div>
 				</div>
 				<div class="favorite">
-					<span :style="content=='已开课'?'color:#04be02':content=='待开课'?'color:#e42b2b':content=='待审核'?'color:#7F8389':'color:#bdb9b9'">{{content}}</span>
+					<span :style="detail.status.name=='PROCESS'?'color:#04be02':detail.status.name=='PASS'?'color:#e42b2b':detail.status.name=='WAIT'?'color:#aaadb1':'color:#bdb9b9'">
+						{{detail.status.name=='FAIL'?'已取消':detail.status.label}}</span>
 				</div>
 			</div>
-			<group title=" " label-width="4.5em" v-if="content=='已开课'">
-				<cell v-for="(item,index) in lessonL" :key="index" :title="`第${item}节课`" is-link style="font-size:16px" link="/teacherDoSingleDetail">
-				</cell>
+			<!-- 已开课的列表 -->
+			<group title=" " label-width="4.5em" v-if="detail.status.name=='PROCESS'">
+				 <cell v-for="(item,index) in lessonL" :key="index" :title="`第${index+1}节课`" is-link style="font-size:16px" :link="`/teacherDoSingleDetail?id=${item.id}&num=${index+1}`">
+                </cell>
 			</group>
-			<group class="courseBox" v-if="content!=='已开课'">
+			<!-- 其他情况 -->
+			<group class="courseBox" v-if="detail.status.name!=='PROCESS'">
 				<cell class="tit" title="课程信息"></cell>
 				<CellBox>
 					<div class="info_lf">
-						24节课，共48课时，满5人开课
+						{{detail.courseNum}}节课, 共{{detail.totalTime}}课时, 满{{detail.minStuNum}}人开课
 					</div>
-					<!-- <div class="info_rt">
-				    		已报名3人
-				    	</div> -->
 				</CellBox>
-				<!-- <div class="tips">
-				    	温馨提示：本课程满5人开课，在开课前1个工作日内若报名人数不足，课程将取消，已付款金额或积分将按原付款方式退回（最快1个工作日到账）
-				    </div> -->
 			</group>
 			<!-- <group class="courseBox">
 				    <cell class="tit" title="课程地点"></cell>		    
 				    <CellBox>博成路上南路世博源二区L1层星动力空间</CellBox>
 				</group> -->
-			<group class="courseBox" v-if="content!=='已开课'">
+			<group class="courseBox" v-if="detail.status.name!=='PROCESS'">
 				<cell class="tit" title="课程时间"></cell>
-				<div v-for="(item,index) in lessonList" :key="'lesson'+index" v-if="isMore?(index>=0):(index<=2)" class="weui-cell vux-cell-box">{{item}}</div>
+				<div v-for="(item,index) in lessonList" :key="'lesson'+index" v-if="isMore?(index>=0):(index<=2)" class="weui-cell vux-cell-box">
+				第{{item.classNum}}节课: {{item.date.substring(0,4)}}年{{item.date.substring(5,7)}}月{{item.date.substring(8,10)}}日, {{item.week}}, {{item.beginTimeStr.split(':')[0]>12?'下午':'上午'}}{{item.beginTimeStr}}-{{item.endTimeStr}}
+				</div>
 				<CellBox>
 					<div class="more" @click="changeMore"><span>{{isMore?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMore?'rotate90':'']"></i></div>
 				</CellBox>
 			</group>
-			<group class="courseBox" v-if="content!=='已开课'">
+			<group class="courseBox" v-if="detail.status.name!=='PROCESS'">
 				<cell class="tit" title="适用对象"></cell>
-				<CellBox>3-6岁儿童</CellBox>
+				<CellBox>{{detail.age}}儿童</CellBox>
 			</group>
 			<!-- <group class="courseBox">
 				    <cell class="tit" title="授课老师"></cell>		    
@@ -59,15 +66,14 @@
 			        	</div>
 			      	</cell-box>
 				</group> -->
-			<group class="courseBox" v-if="content!=='已开课'">
+			<group class="courseBox" v-if="detail.status.name!=='PROCESS'">
 				<cell class="tit" title="课程介绍"></cell>
 				<CellBox>
 					<div :class="['introduce',isMoreContent?'':'lite']">
-						<p>该旨在培养学龄前儿童对美术绘画的兴趣，增强色彩认知，快乐学习。</p>
-						<video :poster="videoPoster" preload='auto' ref="video" width="100%" height="200px" x5-video-player-type="h5" x5-video-player-fullscreen="true" src="http://yun.it7090.com/video/XHLaunchAd/video01.mp4"></video>
-						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM">
-						<div class="playModal" v-if="showM"></div>
-						<img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" alt="">
+						<video v-if="detail.videoId" preload='auto' ref="video" width="100%" height="200px" x5-video-player-type="h5" x5-video-player-fullscreen="true" :src="`${apiUrl}/attach/video/${detail.videoId}`"></video>
+						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM&&detail.videoId">
+						<div class="playModal" v-if="showM&&detail.videoId"></div>
+						<div v-html="detail.description"></div>
 					</div>
 				</CellBox>
 				<CellBox>
@@ -127,7 +133,8 @@
 		TransferDomDirective as TransferDom,
 	} from 'vux'
 	import {
-		pushHimOnWall
+		lessonDetail,
+		getMyLessonSituation
 	} from '../api/api'
 	import apiHost from '../../config/prod.env'
 	export default {
@@ -144,7 +151,22 @@
 		},
 		data() {
 			return {
-				lessonL: 50,
+				detail: {
+					name: '',
+					price: '',
+					courseNum: '',
+					minStuNum: '',
+					stuNum: '',
+					// address: '',
+					age: '',
+					status:{
+						name:'',
+						label:''
+					},
+					reason:''
+				},
+				oh:'',
+				lessonL: 0,
 				data42: 4,
 				videoPoster: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
 				isFav: false,
@@ -158,35 +180,14 @@
 					'第1节课：2018年4月28日，周六，上午10:00 - 12:00'
 				],
 				isMore: false,
-				isMoreContent: false,
+				isMoreContent: '',
 				// showM:true,
 			}
 		},
 		methods: {
-			gotoMoveComment() {
-				this.$router.push('/totalComment')
-			},
 			playVideo() {
 				// this.showM = false;
 				this.$refs.video.play();
-			},
-			changeFav() {
-				if (this.isFav) {
-					this.isFav = false;
-					this.$vux.toast.show({
-						text: '取消收藏',
-						type: 'text',
-						position: 'middle'
-					})
-				} else {
-					this.isFav = true;
-					this.$vux.toast.show({
-						text: '收藏成功',
-						type: 'text',
-						position: 'middle'
-					})
-				}
-				this.show7 = true;
 			},
 			changeMore() {
 				if (this.isMore) {
@@ -206,10 +207,44 @@
 					// this.lessonList = this.lessonListAll
 				}
 			},
+			getList(){
+				let para = {
+                    id :this.$route.query.id
+                }
+				getMyLessonSituation(para).then(res=>{
+					// console.log(res)
+					this.lessonL = res.data.details;
+				})
+			},
+			fetchData(){
+				let id = this.$route.query.id;
+				lessonDetail(id).then(res=>{
+					console.log(res)
+					let data = res.data;
+					this.lessonList = data.schedules
+					
+					this.detail = {
+						name: data.name,
+						price: data.price,
+						courseNum: data.courseNum,
+						totalTime: data.totalTime,
+						minStuNum: data.minStuNum,
+						stuNum: data.stuNum,
+						// address: data.address,
+						status:data.status,
+						age: data.applyAge.label,
+						description: data.description,
+						videoId: data.video ? data.video.filePath : '',
+						reason:data.reason
+					}
+				})
+			}
 		},
 		created() {
+			this.setTitle('课程详情')
+			this.fetchData()
+			this.getList()
 			// this.lessonListT = this.lessonListAll.slice(0,3);
-			this.lessonList = [...this.lessonListAll]
 		},
 		mounted() {
 			//  document.querySelector(".tabBar2 .call").setAttribute('href','tel:4001720748');
@@ -217,6 +252,14 @@
 				this.$refs.video.style.width = window.innerWidth + "px";
 				this.$refs.video.style.height = window.innerHeight + "px";
 			}
+			setTimeout(() => {
+				this.oh = document.getElementsByClassName('introduce')[0].offsetHeight;
+				if (this.oh < 490) {
+					this.isMoreContent = true;
+				} else {
+					this.isMoreContent = false;
+				}
+			}, 500);
 		},
 		computed: {
 			showM() {
@@ -224,6 +267,20 @@
 					return false
 				} else {
 					return true
+				}
+			}
+		},
+		watch: {
+			isMoreContent(curVal, oldVal) {
+				if (curVal) {
+					if (this.oh > 490) {
+						document.getElementsByClassName('introduce')[0].style.cssText += 'height:auto'
+					}
+				} else {
+					console.log(458)
+					if (this.oh > 490) {
+						document.getElementsByClassName('introduce')[0].style.cssText += 'height:490px'
+					}
 				}
 			}
 		}
@@ -261,8 +318,8 @@
 				}
 				.price {
 					color: #FB6600;
-					font-size: 0.373333rem;
-					padding: .1rem 0;
+					font-size:12px;
+					padding: .1rem 0 .3rem;
 					line-height: 1.3;
 				}
 			}
@@ -273,7 +330,7 @@
 				align-items: center;
 				justify-content: center;
 				span {
-					font-size: 14px;
+					font-size: 15px;
 				}
 			}
 		}
@@ -360,7 +417,7 @@
 			.introduce {
 				position: relative;
 				&.lite {
-					height: 11rem;
+					// height: 11rem;
 					position: relative;
 					overflow: hidden;
 					&::after {
@@ -389,7 +446,7 @@
 					width: 100%;
 					height: 200px;
 					position: absolute;
-					top: 1.35rem;
+					top: 5px;
 					left: 0;
 					background: rgba(0, 0, 0, 0.4)
 				}
@@ -397,7 +454,7 @@
 					width: 2rem;
 					height: 2rem;
 					position: absolute;
-					top: 3rem;
+					top: 2rem;
 					left: 0;
 					right: 0;
 					margin: auto;

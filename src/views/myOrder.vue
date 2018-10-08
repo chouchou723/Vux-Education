@@ -138,9 +138,6 @@
                if(this.totalPages>this.page+1){
                     this.page++;
                     this.fetchData()
-                    setTimeout(() => {
-                        this.$refs.my_scroller.finishInfinite(2)
-                    }, 2000)
                 }else{
                     console.log(12213)
                         this.$refs.my_scroller.finishInfinite(2)

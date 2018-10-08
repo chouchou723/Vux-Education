@@ -43,10 +43,10 @@
       }
     },
     created() {
-        document.title = '擅长'
+        this.setTitle('擅长')
         this.value1 = this.getTeacherInfo.skill[0]
-        this.value2 = this.getTeacherInfo.skill[1]
-        this.value3 = this.getTeacherInfo.skill[2]
+        this.value2 = this.getTeacherInfo.skill[1]||''
+        this.value3 = this.getTeacherInfo.skill[2]||''
     },
     methods: {
       ...mapActions([

@@ -3,13 +3,13 @@
         <group v-for="(item,index) in eduList" :key="'edu'+index" label-width="4.5em" label-margin-right="2em">
             <group-title slot="title" class="groupTitle">经验{{eduIndex[index]}}<span style="float:right;" v-if="index!=0"><img @click="deleteEdu(index)" src="../assets/delete.png" width="15" alt=""></span></group-title>
             <group>
-                <datetime v-model="item.start" title="起始日期" @on-cancel="log('cancel')" @on-confirm="onConfirm">
+                <datetime v-model="item.beginDateStr" title="起始日期" >
                 </datetime>
-                <datetime v-model="item.end" title="结束日期" @on-cancel="log('cancel')" @on-confirm="onConfirm">
+                <datetime v-model="item.endDateStr" title="结束日期" >
                 </datetime>
                 <div style="background:#f4f4f4;width:100%;height:10px"></div>
                 <cell title="经验介绍"></cell>
-                <x-textarea :max="125" :rows="5" v-model="item.content" placeholder="请填写你的经验"></x-textarea>
+                <x-textarea :max="125" :rows="5" v-model="item.description" placeholder="请填写你的经验"></x-textarea>
             </group>
         </group>
         <div class="addNewBtn">
@@ -51,27 +51,20 @@
             return {
                 eduIndex: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'],
                 eduList: [{
-                    start: "",
-                    end: '',
-                    content: ''
+                    beginDateStr: "",
+                    endDateStr: '',
+                    description: ''
                 }],
-                list1: [
-                    ['1年之内', '1年', '2年', '2年以上']
-                ],
-                list2: [
-                    ['专科', '本科', '博士', '硕士']
-                ],
                 value: '',
                 value1: '',
                 value2: '',
                 value3: [],
                 value4: '',
                 value5: '',
-                tableNumber: ['一', '二', '三', '四', '五', '六', '七']
             }
         },
         created() {
-            document.title = '教学经验'
+            this.setTitle('教学经验')
             if (this.getTeacherInfo.exp.length !== 0) {
                 this.eduList = this.getTeacherInfo.exp
             }
@@ -83,7 +76,9 @@
             addNewEdu(data) {
                 let l = data.length;
                 this.eduList.push({
-                    no: this.tableNumber[l]
+                    beginDateStr: "",
+                    endDateStr: '',
+                    description: ''
                 })
             },
             ...mapActions([

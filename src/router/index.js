@@ -5,12 +5,14 @@ import {TeacherRoutes} from './teacher'
 import {StudentRoutes} from './student'
 import {AssistantRoutes} from './assistant'
 Vue.use(Router)
-
+const index = () =>
+  import('@/views/index')
 const router = new Router({
   routes: [
     {
       path:'/',
-      redirect: '/student'
+      component:index
+      // redirect: '/student'
     },
     {
       path:'/index',
@@ -24,7 +26,13 @@ const router = new Router({
   // }
 
 })
+
 router.beforeEach(function (to, from, next) {
+  if(to.meta.type==='student'){
+    localStorage.setItem('role','student')
+  }else if(to.meta.type==='teacher'){
+    localStorage.setItem('role','teacher')
+  }
   store.commit('updateLoadingStatus', {isLoading: true})
   next()
 })

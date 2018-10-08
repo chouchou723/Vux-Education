@@ -38,7 +38,8 @@
       }
     },
     created() {
-        document.title = '姓名'
+        this.setTitle('姓名')
+        this.value = this.getTeacherInfo.name
     },
     methods: {
       ...mapActions([

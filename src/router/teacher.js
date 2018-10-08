@@ -73,131 +73,227 @@ const teacherChooseLessonDetail = () =>
 
 export const TeacherRoutes = [{
     path: '/teacher',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherHome,
     children: [{
         path: '/teacherPersonal',
+        meta: {
+          type: 'teacher'
+        },
         component: teacherPersonal
       },
       {
         path: '/',
+        meta: {
+          type: 'teacher'
+        },
         component: teacherClass
       },
       {
         path: '/teacherPublishHome',
+        meta: {
+          type: 'teacher'
+        },
         component: teacherPublishHome,
       },
     ]
   },
   {
     path: '/applyFirst',
+    meta: {
+      type: 'teacher'
+    },
     component: applyFirst,
   },
   {
     path: '/teachTime',
+    meta: {
+      type: 'teacher'
+    },
     component: teachTime,
   },
   {
     path: '/mySkill',
+    meta: {
+      type: 'teacher'
+    },
     component: mySkill,
   },
   {
     path: '/teacherName',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherName,
   },
   {
     path: '/myIntro',
+    meta: {
+      type: 'teacher'
+    },
     component: myIntro,
   },
   {
     path: '/myEdu',
+    meta: {
+      type: 'teacher'
+    },
     component: myEdu,
   },
   {
     path: '/myTeachExp',
+    meta: {
+      type: 'teacher'
+    },
     component: myTeachExp,
   },
   {
     path: '/myTeacherInfo',
+    meta: {
+      type: 'teacher'
+    },
     component: myTeacherInfo,
   },
   {
     path: '/teacherOrder',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherOrder,
   },
   {
     path: '/teacherBir',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherBir,
   },
   {
     path: '/teacherAdd',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherAdd,
   },
   {
     path: '/teacherCell',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherCell,
   },
   {
     path: '/teacherFeedback',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherFeedback,
   },
   {
     path: '/teacherFinancial',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherFinancial,
   },
   {
     path: '/teacherGetMoney',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherGetMoney,
   },
   {
     path: '/teacherMoneyResult',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherMoneyResult,
   },
   {
     path: '/teacherMoneyList',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherMoneyList,
   },
   {
     path: '/teacherLessonDetail',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherLessonDetail,
   },
   {
     path: '/teacherDoSingleDetail',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherDoSingleDetail,
   },
   {
     path: '/teacherCommentStudent',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherCommentStudent,
   },
   {
     path: '/teacherUploadPic',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherUploadPic,
   },
   {
     path: '/teacherPicComment',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherPicComment,
   },
   {
     path: '/teacherPublishLesson',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherPublishLesson,
   },
   {
     path: '/teacherAddClassIntro',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherAddClassIntro,
   },
   {
     path: '/teacherPublishTime',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherPublishTime,
   },
   {
     path: '/teacherChangeClassTime',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherChangeClassTime,
   },
   {
     path: '/teacherChooseLesson',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherChooseLesson,
   },
   {
     path: '/teacherChooseLessonDetail',
+    meta: {
+      type: 'teacher'
+    },
     component: teacherChooseLessonDetail,
   },
 

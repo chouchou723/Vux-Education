@@ -7,7 +7,7 @@
             <tab-item @on-item-click='changeItem("PROCESS")'>
                 <span style="padding:0 .6rem;border-right:1px solid gainsboro">已开课</span>
             </tab-item>
-            <tab-item @on-item-click='changeItem("WAIT")'>
+            <tab-item @on-item-click='changeItem("PASS")'>
                 <span style="padding:0 .6rem;border-right:1px solid gainsboro">未开课</span>
             </tab-item>
             <tab-item @on-item-click='changeItem("END")'>已结课</tab-item>
@@ -19,7 +19,7 @@
             <group style="margin-top:-0.2rem" id="picContent">
                 <cell-box is-link v-for="(item,index) in lessonList1" :key="index" :link="`/teacherLessonDetail/?id=${item.id}`">
                     <div class="lessonList">
-                        <x-img :default-src="dsrc" :src="`${apiUrl}/attach/img/${item.picId}/SQUARE`" width="65" height="65" alt="" container="#vux_view_box_body" :offset="1500*(page+1)" :delay="50"></x-img>
+                        <x-img :default-src="dsrc" :src="`${apiUrl}/attach/img/${item.picId}/SQUARE`" width="65" height="65" alt="" container="#vux_view_box_body" :offset="1500*(page+1)"></x-img>
                         <div class="lessonDetail">
                             <div class="lessonList">
                                 <!-- <div class="hot" v-if="item.ishot">热门</div> -->
@@ -148,13 +148,15 @@
                     this.lessonList1 = res.data.content;
                     this.totalPages = res.data.totalPages;
                 }).then(res=>{
-                    cb()
+                    if(cb) cb()
                 })
             }
         },
         created() {
+            console.log(4)
             this.setTitle('我的课程')
             this.fetchData()
+            let a = [{date:123,id:456}];let b = a.map(item=> {return {...item,date:item.date+1}});console.log(b)
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},

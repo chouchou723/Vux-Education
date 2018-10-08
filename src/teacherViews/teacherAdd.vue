@@ -37,7 +37,7 @@
       }
     },
     created() {
-      document.title = '地址'
+      this.setTitle('地址')
       this.value = this.getTeacherInfo.address
     },
     methods: {

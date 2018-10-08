@@ -1,47 +1,46 @@
 <template>
     <div class="teacherOrder">
-        <view-box ref="viewBox">
+        <!-- <view-box ref="viewBox"> -->
             <tab custom-bar-width="60px" active-color="#00a6e7">
-                <tab-item selected>
+                <tab-item selected @on-item-click='changeItem("")'>
                     <span style="padding:0 32px;border-right:1px solid gainsboro">全部</span>
                 </tab-item>
-                <tab-item>
+                <tab-item @on-item-click='changeItem("PASS")'>
                     <span style="padding:0 .6rem;border-right:1px solid gainsboro">待上课</span>
                 </tab-item>
-                <tab-item>
+                <tab-item @on-item-click='changeItem("PROCESS")'>
                     <span style="padding:0 .6rem;border-right:1px solid gainsboro">已上课</span>
                 </tab-item>
-                <tab-item>已退款</tab-item>
+                <tab-item @on-item-click='changeItem("CANCEL")'>已退款</tab-item>
             </tab>
             <!-- 列表 -->
-            <group style="margin-top:-0.2rem" v-for="(item,index) in lessonList" :key="index">
-                <cell-box is-link link="/teacherLessonDetail/?id=1">
+            <scroller delegate-id="myScroller" :on-infinite="loadMore" :pageW="pageW" ref='my_scroller' v-if="lessonList.length!==0">
+            <group style="margin-top:-0.2rem" v-for="(item,index) in lessonList" :key="index" >
+                <cell-box is-link :link="`/teacherLessonDetail/?id=${item.id}`">
                     <div class="lessonListAll">
                         <div class="lessonTitleC">
-                            <div class="lessonTitleNo">订单号:K283</div>
-                            <div class="lessonTitleStatus" :style="item.status=='待上课'?'color:#f76967':item.status=='已上课'?'color:#04be02':'color:#8a8e93'">{{item.status}}</div>
+                            <div class="lessonTitleNo">订单号:{{item.code}}</div>
+                            <div class="lessonTitleStatus" :style="item.status.name=='PASS'?'color:#f76967':item.status.name=='PROCESS'?'color:#04be02':'color:#8a8e93'">{{item.status.label}}</div>
                         </div>
                         <div class="lessonTitle">
-                            <x-img :default-src="dsrc" :src="asrc" width="80" height="80" alt="" :offset="700" container="#vux_view_box_body"></x-img>
+                            <x-img :default-src="dsrc" :src="`${apiUrl}/attach/img/${item.course.picId}/SQUARE`" width="80" height="80" alt="" :offset="1500*(page+1)" container="#vux_view_box_body"></x-img>
                             <div class="lessonDetail">
                                 <div class="lessonList">
-                                    <div class="lessonName">{{item.name}}</div>
+                                    <div class="lessonName">{{item.course.name}}</div>
                                 </div>
                                 <!-- <div class="lessonContent">{{item.content}}</div> -->
                                 <div class="lessonPrice">总价:{{item.price}}元</div>
                             </div>
                         </div>
-                        <div class="lessonFoot">
-                            <div v-if="item.status=='待付款'" class="pay" @click="goToPay">付款</div>
-                            <div v-if="item.status=='待付款'" class="notPay">取消</div>
-                            <div v-if="item.status=='已付款'" class="notPay">申请退款</div>
-                            <!-- <div v-if="item.status=='已退款'" class="notPay">删除</div> -->
-                        </div>
                     </div>
                     <!-- anything -->
                 </cell-box>
             </group>
-        </view-box>
+            </scroller>
+             <cell-box v-if="lessonList.length===0">
+                 <div style="text-align:center;font-size:17px;color:rgb(170, 170, 170);width:100%;margin-top:10px">没有更多数据</div>
+             </cell-box>
+        <!-- </view-box> -->
     </div>
 </template>
 
@@ -55,9 +54,11 @@
         XImg
     } from 'vux'
     import {
-        pushHimOnWall
+        getTeacherOrder
     } from '../api/api'
     import apiHost from '../../config/prod.env'
+    import Scroller from '../components/Scroller'
+
     export default {
         components: {
             Group,
@@ -65,7 +66,7 @@
             TabItem,
             CellBox,
             ViewBox,
-            XImg
+            XImg,Scroller
         },
         data() {
             return {
@@ -73,135 +74,48 @@
                 // with hot-reload because the reloaded component
                 // preserves its current state and we are modifying
                 // its initial state.
+                page: 0,
+                pageW:'',
+                totalPages:0,
                 dsrc: require('../assets/picload.png'),
                 asrc: require("../assets/0e3a716cf47f1eb695e5b62597dec807.jpg"),
                 value: '',
-                value7: '',
-                false: false,
-                chooseT: false,
-                chooseA: false,
-                chooseS: false,
-                typeKind: 0,
-                chooseItemList: [],
-                lessonList: [{
-                        id: 1,
-                        ishot: true,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120,
-                        status: '待上课'
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120,
-                        status: '待上课'
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120,
-                        status: '已上课'
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120,
-                        status: '已退款'
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120,
-                        status: '已退款'
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120,
-                        status: '已退款'
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120,
-                        status: '已退款'
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120,
-                        status: '已退款'
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120,
-                        status: '已退款'
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120,
-                        status: '已退款'
-                    },
-                    {
-                        id: 2,
-                        ishot: false,
-                        name: '创意绘画单课',
-                        total: 8,
-                        hasJoin: 5,
-                        content: '1节课-2课时|4-8岁儿童|满5人开课',
-                        price: 120,
-                        status: '已退款'
-                    }
-                ]
+                lessonList: [
+                ],
+                status:'',
             }
         },
         methods: {
-            goToPay() {
-                this.$router.push('/paying')
+            loadMore() {
+               if(this.totalPages>this.page+1){
+                    this.page++;
+                    this.fetchData()
+                }else{
+                    // console.log(12213)
+                        this.$refs.my_scroller.finishInfinite(2)
+                }
             },
+            changeItem(status) {
+                this.status = status;
+                this.fetchData(0)
+                // console.log(num)
+            },
+            fetchData(page=this.page){
+                let para={
+                    page:page,
+                    size:15,
+                    status: this.status,
+                    // sort:'asc'
+                }
+                getTeacherOrder(para).then(res=>{
+                    this.totalPages = res.data.totalPages;
+                    this.lessonList = res.data.content;
+                })
+            }
         },
         created() {
+            this.setTitle('我的订单');
+            this.fetchData()
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},

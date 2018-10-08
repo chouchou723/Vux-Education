@@ -2,27 +2,12 @@
     <div class="teacherDoSingleDetail">
         <view-box ref="viewBox">
             <group title="课程签到" label-width="4.5em" label-margin-right="2em">
-                <!-- <cell v-for="(item,index) in studentList" :key="'ss'+index" :title="item.name"  is-link link="/myName?type=nickname">
-              <div class="mr10 colorRed">{{item.sign?item.sign:'请签到'}}</div>
-          </cell> -->
-                <selector v-for="(item,index) in studentList" :key="'ss'+index" :title="item.name" :value-map="['idValue', 'idLabel']" :options="optionsL" placeholder="请签到" v-model="item.sign" direction="rtl" @on-change="onChange" :class="['mr10',item.sign?'':'colorRed']"></selector>
-                <!-- <cell title="姓名"  is-link link="/myName">
-              <div class="mr10">{{this.getMyInfo.name}}</div>
-          </cell>
-          <selector title="性别" :options="['男', '女']" v-model="value2"  direction="rtl" @on-change="onChange"></selector>
-           <cell title="生日"  is-link link="/myBir">
-              <div class="mr10">{{this.getMyInfo.birthday}}</div>
-          </cell>
-           <cell title="地址"  is-link link="/myAdd">
-              <div class="mr10">{{this.getMyInfo.address}}</div>
-          </cell>
-           <cell title="手机"  is-link link="/myCell">
-              <div class="mr10">{{this.getMyInfo.cell}}</div>
-          </cell> -->
+                <selector v-for="(item,index) in signList" :key="'ss'+index" :title="item.stuName" :value-map="['idValue', 'idLabel']" :options="optionsL" placeholder="请签到" v-model="item.status" direction="rtl" @on-change="onChange" :class="['mr10',item.status?'':'colorRed']"></selector>
+       
             </group>
             <group title="学生点评" label-width="4.5em" label-margin-right="2em">
-                <cell v-for="(item,index) in studentList" :key="'ss'+index" :title="item.name" is-link link="/teacherCommentStudent?type=nickname">
-                    <div class="mr10">{{item.comm}}</div>
+                <cell v-for="(item,index) in evaluatesList" :key="'ss'+index" :title="item.stuName" is-link link="/teacherCommentStudent?type=nickname">
+                    <div class="mr10">{{item.status.label}}</div>
                 </cell>
             </group>
             <group title="作品上传" label-width="4.5em" label-margin-right="2em">
@@ -54,7 +39,7 @@
         Selector,
         ViewBox
     } from 'vux'
-    import SimpleCropper from '@/components/SimpleCrop'
+    import {getTeacherLessonDetailList} from '../api/api'
     import VuxUpload from '../components/Upload'
     import {
         mapActions,
@@ -66,17 +51,16 @@
             XButton,
             Cell,
             Selector,
-            SimpleCropper,
             ViewBox,
             VuxUpload
         },
         data() {
             return {
                 optionsL: [{
-                    idValue: 1,
+                    idValue: 'ATTEND',
                     idLabel: '已到'
                 }, {
-                    idValue: 2,
+                    idValue: 'ABSENT',
                     idLabel: '未到'
                 }],
                 images: [{
@@ -90,6 +74,23 @@
                         src: require('../assets/ff.png')
                     }, {
                         src: require('../assets/ff.png')
+                    }
+                ],
+                signList:[
+                    {
+                        stuName:'',
+                        stuId:'',
+                        status:'',
+                    }
+                ],
+                evaluatesList:[
+                     {
+                        stuName:'',
+                        stuId:'',
+                        evaluate:'',
+                        status:{
+                            label:'请点评'
+                        }
                     }
                 ],
                 studentList: [{
@@ -172,6 +173,15 @@
                 if (data.state === 'SUCCESS') {
                     // this.userImg  = data
                 }
+            },
+            fetchData(){
+                let id = this.$route.query.id;
+                getTeacherLessonDetailList(id).then(res=>{
+                    console.log(res)
+                    let data =res.data;
+                    this.signList = data.signs
+                    this.evaluatesList = data.evaluates;
+                })
             }
         },
         computed: {
@@ -181,6 +191,9 @@
             ]),
         },
         created() {
+            let index = this.$route.query.num;
+            this.setTitle(`第${index}节课`)
+            this.fetchData()
             console.log(this.getMyInfo)
             this.value2 = this.getMyInfo.sex
             this.Asrc = this.getMyInfo.img

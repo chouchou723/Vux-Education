@@ -2,12 +2,12 @@
     <div class="myEdu">
         <group v-for="(item,index) in eduList" :key="'edu'+index" label-width="4.5em" label-margin-right="2em">
             <group-title slot="title" class="groupTitle">经历{{eduIndex[index]}}<span style="float:right;" v-if="index!=0"><img @click="deleteEdu(index)" src="../assets/delete.png" width="15" alt=""></span></group-title>
-            <x-input title="学校"  v-model="item.school" text-align="right" placeholder="请填写"></x-input>
-            <x-input title="专业"  v-model="item.major" text-align="right" placeholder="请填写"></x-input>
-            <popup-picker title="学历" :data="list2" v-model="item.record" value-text-align="right"></popup-picker>
-            <datetime v-model="item.start" title="起始日期" @on-cancel="log('cancel')" @on-confirm="onConfirm">
+            <x-input title="学校" v-model="item.school" text-align="right" placeholder="请填写"></x-input>
+            <x-input title="专业" v-model="item.subject" text-align="right" placeholder="请填写"></x-input>
+            <popup-picker title="学历" :data="list2" v-model="item.degreeV" value-text-align="right" @on-change="changeDegree(item)"></popup-picker>
+            <datetime v-model="item.beginDate" format="YYYY-MM-DD" title="起始日期">
             </datetime>
-            <datetime v-model="item.end" title="结束日期" @on-cancel="log('cancel')" @on-confirm="onConfirm">
+            <datetime v-model="item.endDate" title="结束日期">
             </datetime>
         </group>
         <div class="addNewBtn">
@@ -31,6 +31,9 @@
         GroupTitle
     } from 'vux'
     import {
+        getTeacherDegree
+    } from '../api/api'
+    import {
         mapActions,
         mapGetters
     } from 'vuex';
@@ -45,20 +48,16 @@
         },
         data() {
             return {
-                eduIndex:['一','二','三','四','五','六','七','八','九','十'],
+                eduIndex: ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'],
                 eduList: [{
-                    school:'',
-                    major:'',
-                    record:[],
-                    start:'',
-                    end:''
+                    school: '',
+                    subject: '',
+                    degree: [],
+                    beginDate: '',
+                    endDate: '',
+                    degreeV: []
                 }],
-                list1: [
-                    ['1年之内', '1年', '2年', '2年以上']
-                ],
-                list2: [
-                    ['专科', '本科', '博士', '硕士']
-                ],
+                list2: [],
                 value: '',
                 value1: '',
                 value2: '',
@@ -69,9 +68,15 @@
             }
         },
         created() {
-            document.title = '教育经历'
-            if(this.getTeacherInfo.edu.length!==0){
-this.eduList = this.getTeacherInfo.edu
+            this.setTitle('教育经历')
+            this.getTeacherDegree()
+            if (this.getTeacherInfo.edu.length !== 0) {
+                this.eduList = this.getTeacherInfo.edu.map(item => {
+                    return {
+                        ...item,
+                        degreeV: [item.degree.name]
+                    }
+                })
             }
         },
         methods: {
@@ -81,15 +86,43 @@ this.eduList = this.getTeacherInfo.edu
             addNewEdu(data) {
                 let l = data.length;
                 this.eduList.push({
-                    no: this.tableNumber[l]
+                    no: this.tableNumber[l],
+                    school: '',
+                    subject: '',
+                    degree: [],
+                    beginDate: '',
+                    endDate: ''
                 })
             },
             ...mapActions([
                 'setTeacherInfo'
             ]),
+            changeDegree(item) {
+                let arr = this.list2[0].filter(ia => {
+                    return ia.value === item.degreeV[0]
+                })
+                item.degree = {
+                    label: arr[0].name,
+                    name: arr[0].value
+                };
+            },
             confirm() {
-                this.setTeacherInfo({edu:this.eduList})
+                this.setTeacherInfo({
+                    edu: this.eduList
+                })
                 this.$router.go(-1)
+            },
+            getTeacherDegree() {
+                getTeacherDegree().then(res => {
+                    let arr = res.data.map(item => {
+                        return {
+                            name: item.label,
+                            value: item.name
+                        }
+                    })
+                    this.list2 = [arr]
+                    //   this.value1 = [this.getTeacherInfo.teachTime.name];
+                })
             }
         },
         computed: {
@@ -97,9 +130,9 @@ this.eduList = this.getTeacherInfo.edu
                 'getTeacherInfo'
                 // ...
             ]),
-            valid(){
-                return this.eduList.every(item=>{
-                    return Object.values(item).every(it=>it!='')
+            valid() {
+                return this.eduList.every(item => {
+                    return Object.values(item).every(it => it != '')
                 })
             }
         },

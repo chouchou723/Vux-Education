@@ -3,8 +3,8 @@
         <view-box ref="viewBox">
             <group v-for="(item,index) in pointDetail" :key="index">
                 <cell>
-                    <div slot="title" style="color:#999999;font-size:14px">提现单号: D282</div>
-                    <div style="color:#999999;font-size:14px">2018-3-11 10:52:01</div>
+                    <div slot="title" style="color:#999999;font-size:14px;margin-right: 10px;">提现单号: {{item.code}}</div>
+                    <div style="color:#999999;font-size:14px;">{{item.orderTime}}</div>
                 </cell>
                 <cell>
                     <!-- <div style="color:#fb6804">
@@ -21,10 +21,10 @@
                     </div>
                     <div class="coinBg">
                         <div class="coinContent">
-                            <div style="color:#fb6804">100元</div>
+                            <div style="color:#fb6804">{{item.price}}元</div>
                         </div>
                         <div class="coinContent">
-                            <div style="color:black">微信帐户 代芳芳
+                            <div style="color:black">微信帐户 {{name}}
                             </div>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
         ViewBox
     } from 'vux'
     import {
-        pushHimOnWall
+        getTeacherWithdraw
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     export default {
@@ -56,94 +56,30 @@
                 // with hot-reload because the reloaded component
                 // preserves its current state and we are modifying
                 // its initial state.
-                value: '',
+                name: '',
                 pointDetail: [{
                         date: '2018-03-11 10:52:01',
                         point: 20000,
                         content: '充值20000积分',
                         remain: 20000
                     },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
-                    {
-                        date: '2018-03-11 10:52:01',
-                        content: '订单D282,消耗10000积分',
-                        point: -10000,
-                        remain: 0
-                    },
                 ],
             }
         },
         methods: {
-            gotoBuyP() {
-                this.$router.push('/buyPoints')
-            },
-            goTo() {
-                console.log(1);
-                if (this.buyStatus) {
-                    this.$router.push('/myLesson')
-                } else {
-                    this.$router.push('/paying')
-                }
-                //  this.$wechat.chooseWXPay({
-                //                             timestamp: 0, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-                //                             nonceStr: '', // 支付签名随机串，不长于 32 位
-                //                             package: '', // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
-                //                             signType: '', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                //                             paySign: '', // 支付签名
-                //                             success: function (res) {
-                //                             // 支付成功后的回调函数
-                //                             }
-                //                             });
+            fetchData(){
+                let name = JSON.parse(localStorage.getItem('teacherInfo')).name
+                this.name = name;
+                getTeacherWithdraw().then(res=>{
+                    console.log(res)
+                    this.pointDetail = res.data
+                })
             }
         },
         created() {
+            this.setTitle('我的提现');
+            this.fetchData()
+
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},
@@ -159,6 +95,9 @@
             padding-top: .2rem;
             padding-bottom: .2rem;
             font-size: .4rem;
+        }
+        .weui-cell{
+            align-items:flex-start;
         }
         .coinBg {
             max-width: 7rem; // height: 2rem;

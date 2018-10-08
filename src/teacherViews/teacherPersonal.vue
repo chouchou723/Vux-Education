@@ -2,13 +2,13 @@
     <div class="teacherPersonal">
         <div class="personalBg">
             <div class="personalInfo">
-                <img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" alt="" class="personalImg">
-                <img src="../assets/sex1.png" alt="" class="sexPos">
+                <img :src="`${apiUrl}/attach/img/${teacher.picId}/SQUARE`" alt="" class="personalImg">
+                 <img :src="teacher.sex=='男'?require('../assets/sex1.png'):require('../assets/sex2.png')" alt="" class="sexPos">
                 <div class="personalDetail">
-                    <div class="personalName">张佳乐</div>
+                    <div class="personalName">{{teacher.name}}</div>
                     <div class="personalLesson">
                         <span class="op5">授课时长</span>
-                        <span class="mgr4">8节课</span>
+                        <span class="mgr4">{{teacher.classNum}}节课</span>
                     </div>
                 </div>
             </div>
@@ -52,7 +52,7 @@
         Cell
     } from 'vux'
     import {
-        pushHimOnWall
+        getTeacherIndex
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     export default {
@@ -67,28 +67,30 @@
                 // preserves its current state and we are modifying
                 // its initial state.
                 tt: 20,
-                name: '时间',
-                ops: [{
-                    id: 1,
-                    name: '时间'
-                }, {
-                    id: 12,
-                    name: '金钱'
-                }, {
-                    id: 13,
-                    name: '地位'
-                }],
-                haha: require("../assets/0e3a716cf47f1eb695e5b62597dec807.jpg"),
-                value: '',
-                value1: '',
-                true1: true,
-                msg: 'Hello World!',
-                options: [1, 2, 3]
+                teacher:{
+                    name:'',
+                    picId:'',
+                    sex:'男',
+                    classNum:0
+                }
             }
         },
-        methods: {},
+        methods: {
+            fetchData(){
+                getTeacherIndex().then(res=>{
+                    console.log(res)
+                    let data = res.data;
+                    let sex = JSON.parse(localStorage.getItem('teacherInfo')).sex
+                    this.teacher.name = data.name
+                    this.teacher.picId = data.picId
+                    this.teacher.classNum = data.classNum
+                    this.teacher.sex = sex
+                })
+            }
+        },
         created() {
-            document.title = "个人中心"
+            this.setTitle("个人中心");
+            this.fetchData()
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},

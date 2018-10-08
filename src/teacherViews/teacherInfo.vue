@@ -3,7 +3,7 @@
         <group title=" " label-width="4.5em" label-margin-right="2em">
             <cell title="照片" is-link>
                 <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper">
-                    <img :src="this.getTeacherInfo.img" @touchend="upload" class="myAvatar">
+                    <img :src="`${apiUrl}/attach/img/${getTeacherInfo.img}/SQUARE`" @touchend="upload" class="myAvatar">
                 </simple-cropper>
                 <!-- <img :src="this.getTeacherInfo.img" class="myAvatar" alt="" @touchend="openFile"> -->
                 <!-- <input type="file" @change="fileChange()" style="display: none" ref="file" accept="image/png,image/jpeg,image/gif"> -->
@@ -13,7 +13,7 @@
             </cell>
             <selector title="性别" :options="['男', '女']" v-model="value2" direction="rtl" @on-change="onChange"></selector>
             <cell title="教龄" is-link link="/teachTime">
-                <div class="mr10">{{this.getTeacherInfo.teachTime[0]}}</div>
+                <div class="mr10">{{this.getTeacherInfo.teachTime.label}}</div>
             </cell>
             <cell title="擅长" is-link link="/mySkill">
                 <div class="mr10">{{this.getTeacherInfo.skill.length!==0?'已填写':''}}</div>
@@ -154,7 +154,8 @@
                 if (data.state === 'SUCCESS') {
                     // this.userImg  = data
                 }
-            }
+            },
+            
         },
         computed: {
             ...mapGetters([

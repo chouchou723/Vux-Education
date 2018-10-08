@@ -4,14 +4,12 @@
       <router-view></router-view>
     </transition>
     <loading v-model="isLoading"></loading>
-    <alert v-model="show2" title="离开" content="离开咯"></alert>
   </div>
 </template>
 
 <script>
   import {
     Loading,
-    Alert
   } from 'vux'
   import {
     mapState,
@@ -25,21 +23,39 @@
   export default {
     name: 'app',
     components: {
-      Loading,
-      Alert
+      Loading
     },
     data() {
       return {
         clientX: 0,
         show2: false,
+        inf: {
+          img: require('@/assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
+          nickname: '',
+          name: '',
+          sex: '男',
+          birthday: '',
+          address: '',
+          cell: ''
+        },
+        teacherInf: {
+          img: '',
+          teachTime: {label:'',name:''},
+          skill: '',
+          name: '',
+          sex: '男',
+          birthday: '',
+          address: '',
+          cell: '',
+          intro: '',
+          edu: '',
+          exp: '',
+        }
       }
     },
     created() {
-      let role = 'teacher'
-      let para = {
-        login_role: 'student'
-      }
-      getAT(para, 'teacher').then(res => {
+      const role = localStorage.getItem('role');
+      getAT().then(res => {
         console.log(res)
       })
       if (role == 'teacher') {
@@ -50,20 +66,10 @@
     },
     methods: {
       getStudentInfo() {
-        let para = {}
-        getStudentInfo(para).then(res => {
+        getStudentInfo().then(res => {
           if (res.data === null) {
-            let inf = {
-              img: require('@/assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
-              nickname: '',
-              name: '',
-              sex: '男',
-              birthday: '',
-              address: '',
-              cell: ''
-            }
-            localStorage.setItem('info', JSON.stringify(inf))
-            this.setMyInfo({ ...inf
+            localStorage.setItem('info', JSON.stringify(this.inf))
+            this.setMyInfo({ ...this.inf
             })
           } else {
             let data = res.data;
@@ -84,23 +90,26 @@
         })
       },
       getInfoTeacher() {
-        let para = {}
-        getInfoTeacher(para).then(res => {
-          console.log(res)
-          if (res.data !== null) {
+        getInfoTeacher().then(res => {
+          // console.log(res)
+          if (res.data === null) {
+            localStorage.setItem('info', JSON.stringify(this.teacherInf))
+            this.setTeacherInfo({ ...this.teacherInf
+            })
+          } else {
             let data = res.data;
             let inf = {
               img: data.picId,
-              teachTime: [data.experience],
+              teachTime: data.experience?data.experience:{label:'',name:''},
               skill: data.skill.split(','),
               name: data.realName,
-              sex: data.gender?data.gender.label:'',
-              birthday: data.birthday?data.birthday:'',
-              address: data.address?data.address:'',
-              cell: data.mobilePhone?data.mobilePhone:'',
-              intro: data.description?data.description:'',
+              sex: data.gender ? data.gender.label : '',
+              birthday: data.birthday ? data.birthday : '',
+              address: data.address ? data.address : '',
+              cell: data.mobilePhone ? data.mobilePhone : '',
+              intro: data.description ? data.description : '',
               edu: data.edus,
-              exp:data.exps,
+              exp: data.exps,
             }
             localStorage.setItem('teacherInfo', JSON.stringify(inf))
             this.setTeacherInfo({ ...inf

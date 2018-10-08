@@ -1349,13 +1349,12 @@
 			}
 			//520
 			//620
-			console.log(self.__contentHeight,self.__clientHeight)
+			// console.log(self.__contentHeight,self.__clientHeight)
 			self.__maxScrollLeft = Math.max((self.__contentWidth * zoomLevel) - self.__clientWidth, 0);
 			if(this.__pageW=='tc'){
 				self.__maxScrollTop = Math.max((self.__contentHeight * zoomLevel)- self.__clientHeight, 0);
 			}else if(this.__pageW=='ml'){
 				self.__maxScrollTop = Math.max((self.__contentHeight * zoomLevel)- self.__clientHeight+30, 0);
-
 			}else{
 				self.__maxScrollTop = Math.max((self.__contentHeight * zoomLevel)- self.__clientHeight+90, 0);
 
@@ -1390,11 +1389,11 @@
 				self.__minDecelerationScrollTop = Math.floor(scrollTop / clientHeight) * clientHeight;
 				self.__maxDecelerationScrollLeft = Math.ceil(scrollLeft / clientWidth) * clientWidth;
 				self.__maxDecelerationScrollTop = Math.ceil(scrollTop / clientHeight) * clientHeight;
-				console.log(self.__scrollTop,456)
+				// console.log(self.__scrollTop,456)
 				
 			} else {
 				
-				console.log(self.__maxScrollTop,123)
+				// console.log(self.__maxScrollTop,123)
 				self.__minDecelerationScrollLeft = 0;
 				self.__minDecelerationScrollTop = 0;
 				self.__maxDecelerationScrollLeft = self.__maxScrollLeft;

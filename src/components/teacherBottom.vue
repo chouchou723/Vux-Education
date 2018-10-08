@@ -75,9 +75,6 @@ export default {
       onShow(){
             document.querySelector(".weui-dialog__ft a").setAttribute('href','tel:4001720748');
       },
-    ...mapActions([
-                'setMyF'
-            ]),
     indexChange(index){
         switch (index) {
             case 0:
@@ -102,7 +99,7 @@ export default {
       }else if(path=='/teacherPersonal'){
           this.index = 2
       }
-    }
+    },
   },
   created(){
      this.tabIndex()
@@ -110,12 +107,12 @@ export default {
   mounted(){
   
   },
-  computed: {
-        ...mapGetters([
-            'getMyF'
-            // ...
-        ]),
-    },
+//   computed: {
+//         ...mapGetters([
+//             'getMyF'
+//             // ...
+//         ]),
+//     },
     watch:{
         '$route': 'tabIndex'
     }

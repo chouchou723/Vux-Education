@@ -53,7 +53,7 @@
       }
     },
     created() {
-      document.title = '生日';
+      this.setTitle('生日');
       this.value = this.getTeacherInfo.birthday
      
     },

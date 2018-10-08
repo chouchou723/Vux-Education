@@ -83,24 +83,23 @@ let base = 'http://eduweixin.test.artreedu.com';
 // access_token  : 24680
 // login_role  :  student
 // unionId  :  ohzciv91EysSA6kUFOQ24LBsZBDw
-
 //微信获取token
-export const  getAT = (params,role) => {
+export const  getAT = (params) => {
+    const role = localStorage.getItem('role');
+    AjaxPlugin.$http.defaults.headers.common['login_role'] = role;
     if(role==='student'){
-        
         AjaxPlugin.$http.defaults.headers.common['access_token'] = '24680';
-        AjaxPlugin.$http.defaults.headers.common['login_role'] = 'student';
-        AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv91EysSA6kUFOQ24LBsZBDw';
+       AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv91EysSA6kUFOQ24LBsZBDw';
+
     }else{
         AjaxPlugin.$http.defaults.headers.common['access_token'] = '13579';
-        AjaxPlugin.$http.defaults.headers.common['login_role'] = 'teacher';
+        // AjaxPlugin.$http.defaults.headers.common['login_role'] = params;
         AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv75r9gBnLM3Zs2z7V0WqFvU';
     }
     return AjaxPlugin.$http.get(`${base}/api/auth/wechat`, { params: params }).then(res => {
 
         return res.data});
 };
-
 
 //查询学生信息
 export const  getStudentInfo = (params, token) => {
@@ -274,9 +273,59 @@ export const  getInfoTeacher = (id) => {
     // axios.defaults.headers.common['Authorization'] = token.Authorization;
     return AjaxPlugin.$http.get(`${base}/api/teachers`).then(res => res.data);
 };
-//教师获取自己信息 
+//教师获取自己课程 
 export const  getTeacherLesson = (params) => {
     // axios.defaults.headers.common['Authorization'] = token.Authorization;
     return AjaxPlugin.$http.get(`${base}/api/course/my/tea`,{params:params}).then(res => res.data);
 };
+//教师获取主页信息 
+export const  getTeacherIndex = (params) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.get(`${base}/api/teachers/lit`,{params:params}).then(res => res.data);
+};
+//教师获取我的订单 
+export const  getTeacherOrder = (params) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.get(`${base}/api/orders/teacher`,{params:params}).then(res => res.data);
+};
+//教师获取我的财务记录 
+export const  getTeacherBuz = (params) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.get(`${base}/api/orders/teacher/buz`,{params:params}).then(res => res.data);
+};
+//教师获取我的提现记录 
+export const  getTeacherWithdraw = (params) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.get(`${base}/api/orders/teacher/withdraw`,{params:params}).then(res => res.data);
+};
+//教师 创建课程时的课程内容 
+export const  getTeacherLessonDetail = (id) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.get(`${base}/api/course/content/${id}`).then(res => res.data);
+};
+//教师 开课状态的 课程列表
+export const  getTeacherLessonDetailList = (id) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.get(`${base}/api/course/class/${id}`).then(res => res.data);
+};
+//教师 申请提现
+export const  doWithDraw = (params) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.post(`${base}/api/orders/teacher/withdraw`,params).then(res => res.data);
+};
+//教师 获取学历
+export const  getTeacherDegree = () => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.get(`${base}/api/teachers/enum/degree`).then(res => res.data);
+};
+//教师 获取教龄
+export const  getTeacherExp = () => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.get(`${base}/api/teachers/enum/exp`).then(res => res.data);
+};
+
+
+
+
+
 
