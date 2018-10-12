@@ -1,12 +1,12 @@
 <template>
   <div class="mySkill">
     <group title="最多填写3个标签,每个标签最多4个字" label-width="4.5em" label-margin-right="2em">
-      <x-input :is-type='nickname' v-model="value1" placeholder="可填写一个标签"></x-input>
-      <x-input :is-type='nickname' v-model="value2" placeholder="可填写一个标签"></x-input>
-      <x-input :is-type='nickname' v-model="value3" placeholder="可填写一个标签"></x-input>
+      <x-input ref="input1" :is-type='nickname' v-model="value1" placeholder="可填写一个标签"></x-input>
+      <x-input ref="input2" :is-type='nickname' v-model="value2" placeholder="可填写一个标签"></x-input>
+      <x-input ref="input3" :is-type='nickname' v-model="value3" placeholder="可填写一个标签"></x-input>
     </group>
     <div class="footerBtn">
-      <x-button type="primary" action-type="button" :disabled="!value1&&!value2&&!value3" @click.native="confireName">确定</x-button>
+      <x-button type="primary" action-type="button" :disabled="valida" @click.native="confireName">确定</x-button>
     </div>
   </div>
 </template>
@@ -44,7 +44,7 @@
     },
     created() {
         this.setTitle('擅长')
-        this.value1 = this.getTeacherInfo.skill[0]
+        this.value1 = this.getTeacherInfo.skill[0]||''
         this.value2 = this.getTeacherInfo.skill[1]||''
         this.value3 = this.getTeacherInfo.skill[2]||''
     },
@@ -65,6 +65,17 @@
         'getTeacherInfo'
         // ...
       ]),
+      valida(){
+        let a =  this.value1.length<5
+        let b =  this.value2.length<5
+        let c =  this.value3.length<5
+        let d = !this.value1&&!this.value2&&!this.value3
+        if(!d&&a&&b&&c){
+          return false
+        }else{
+          return true
+        }
+      }
     },
   }
 </script>
@@ -80,7 +91,7 @@
       background-color: #e1e1e1;
       color: black;
     }
-    .weui-btn_primary {
+    .weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
       background-color: #00a6e7;
     }
     .footerBtn {

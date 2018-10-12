@@ -51,7 +51,7 @@
           name: arr[0].value
         }
         this.setTeacherInfo({
-          teachTime: newA
+          experience: newA
         })
         // this.$router.push('/applyFirst?step=2')
         this.$router.go(-1)
@@ -65,7 +65,10 @@
             }
           })
           this.list1 = [arr]
-          this.value1 = [this.getTeacherInfo.teachTime.name];
+          
+          console.log(arr)
+          let v = this.getTeacherInfo.experience.name?this.getTeacherInfo.experience.name:arr[0].value
+          this.value1 = [v];
         })
       }
     },
@@ -89,7 +92,7 @@
       background-color: #e1e1e1;
       color: black;
     }
-    .weui-btn_primary {
+    .weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
       background-color: #00a6e7;
     }
     .vux-popup-picker-select {

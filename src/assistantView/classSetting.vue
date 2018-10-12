@@ -2,13 +2,15 @@
     <div class="classSetting">
         <view-box ref="viewBox">
             <group title="课程金额" label-width="4.5em" label-margin-right="2em">
-                <x-input :max="20" title="金额"  v-model="valueTitle" placeholder="请设置该课程的金额" text-align="right" ></x-input>
+                <x-input :max="10" type="number" title="金额"  v-model="valueTitle" placeholder="请设置该课程的金额" @on-blur="checkMoney" text-align="right" ></x-input>
             </group>
             <group title="满几人开课" label-width="4.5em" label-margin-right="2em">
-                <popup-picker title="人数" show-name :data="list2" v-model="value1" @on-show="onShow" @on-hide="onHide" @on-change="onChange" :columns="1"></popup-picker>
+                <x-input  type="number" title="人数"  v-model="value1"  :placeholder="`最多${$route.query.maxStuNum}人`" @on-blur="onBlur" text-align="right" ></x-input>
+
+                <!-- <popup-picker title="人数" show-name :data="list2" v-model="value1" @on-show="onShow" @on-hide="onHide" @on-change="onChange" :columns="1"></popup-picker> -->
             </group>
             <div class="footerBtn">
-                <x-button type="primary" action-type="button" @click.native="saveInfo" :show-loading="isloading" :disabled="isloading">提交</x-button>
+                <x-button type="primary" action-type="button" @click.native="saveInfo" :show-loading="isloading" :disabled="!(valueTitle&&value1)">提交</x-button>
             </div>
         </view-box>
     </div>
@@ -18,120 +20,76 @@
     import {
         XButton,
         Group,
-        Cell,
-        Selector,
         ViewBox,
         XInput,
-        Tab,
         PopupPicker,
-        TabItem,
     } from 'vux'
-    import SimpleCropper from '@/components/SimpleCrop'
-    import VuxUpload from '../components/Upload'
-    import {
-        mapActions,
-        mapGetters
-    } from 'vuex';
+    import {passTheClass} from '../api/api'
     export default {
         components: {
             Group,
             XButton,
-            Cell,
-            Selector,
-            SimpleCropper,
             ViewBox,
-            VuxUpload,
             XInput,
-            Tab,
-            TabItem,
             PopupPicker,
         },
         data() {
             return {
                 valueTitle: '',
-                list2: [{
-                    name: '1人',
-                    value: '1'
-                }, {
-                    name: '2人',
-                    value: '2',
-                }, {
-                    name: '3人',
-                    value: '3',
-                }, ],
-                Asrc: '',
-                isBorder: false,
-                value: [],
-                value1: [],
-                value2: [],
-                value3: [],
+                // list2: [{
+                //     name: '1人',
+                //     value: '1'
+                // }, {
+                //     name: '2人',
+                //     value: '2',
+                // }, {
+                //     name: '3人',
+                //     value: '3',
+                // }, ],
+                value1: '',
                 isloading: false,
             }
         },
         methods: {
-            ...mapActions([
-                'setMyInfo'
-            ]),
-            openFile() {
-                this.$refs.file.click();
+            checkMoney(v){
+                let arr = (v+'').split('.');
+                if(arr.length===1){
+                    return
+                }else{
+                    this.valueTitle = `${arr[0]}.${arr[1].slice(0,2)}`-0
+                }
             },
-            fileChange() {
-                var reads = new FileReader();
-                let f = this.$refs.file.files[0];
-                reads.readAsDataURL(f);
-                reads.onload = (e) => {
-                    this.setMyInfo({
-                        img: e.target.result
-                    })
-                    // this.Asrc=e.target.result;
-                    // console.log(e.target.result)
-                };
-            },
-            onChange() {
-                this.setMyInfo({
-                    sex: this.value2
-                })
+            onBlur(v){
+                let max = this.$route.query.maxStuNum
+                if(v-max>0){
+                    this.value1 = max-0
+                }
             },
             saveInfo() {
-                this.isloading = true;
-                // console.log(this.getMyInfo)
-                // this.$vux.toast.show({
-                //     text: '保存成功'
-                // })
-                // localStorage.setItem('info', JSON.stringify(this.getMyInfo))
-                setTimeout(() => {
-                    this.isloading = false;
-                }, 1000)
-                this.$router.push({
-                    path: '/teacherPublishHome',
-                    query: {
-                        title: this.valueTitle
+                if(!this.isloading){
+                    this.isloading = true;
+                    let para = {
+                        courseId: this.$route.query.id,
+                        price:this.valueTitle,
+                        minPerson:this.value1
                     }
+                    let id = this.$route.query.id
+                    passTheClass(para,id).then(res=>{
+                        if(res.code==0){
+                             this.$vux.toast.show({
+                    text: '提交成功'
                 })
-            },
-            upload() {
-                this.$refs['cropper'].upload()
-            },
-            // 上传头像成功回调 
-            uploadHandle(data) {
-                this.setMyInfo({
-                    img: data
-                })
-                if (data.state === 'SUCCESS') {
-                    // this.userImg  = data
+                        }
+                    }).then(()=>{
+                        this.$router.go(-1)
+                    })
                 }
-            }
+            },
         },
         computed: {
-            ...mapGetters([
-                'getMyInfo'
-                // ...
-            ]),
         },
         created() {
-            document.title = "审核通过"
-            console.log(this.getMyInfo)
-            // this.value2 = this.getMyInfo.sex
+            this.setTitle("审核通过")
         },
         mounted() {}
     }
@@ -143,7 +101,7 @@
             background-color: #e1e1e1;
             color: black;
         }
-        .weui-btn_primary {
+        .weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
             background-color: #00a6e7;
         }
         .weui-cells__title {

@@ -133,7 +133,7 @@
         .weui-wepay-flow__process {
             background-color: #00a6e7;
         }
-        .weui-btn_primary {
+        .weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
             background-color: #00a6e7;
         }
         .weui-wepay-flow {

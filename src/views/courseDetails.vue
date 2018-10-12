@@ -42,7 +42,7 @@
 			</group>
 			<group class="courseBox">
 				<cell class="tit" title="适用对象"></cell>
-				<CellBox>{{detail.age}}儿童</CellBox>
+				<CellBox>{{detail.age}}{{detail.age=='成人'?'':'儿童'}}</CellBox>
 			</group>
 			<group class="courseBox">
 				<cell class="tit" title="授课老师"></cell>
@@ -67,7 +67,7 @@
 						<div v-html="detail.description"></div>
 					</div>
 				</CellBox>
-				<CellBox>
+				<CellBox v-if="isOh">
 					<div class="more" @click="changeMoreContent"><span>{{isMoreContent?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMoreContent?'rotate90':'']"></i></div>
 				</CellBox>
 			</group>
@@ -90,8 +90,8 @@
 							</div>
 							<p style="padding:.1rem 0">{{comment.content}}</p>
 							<div class="imgList" v-if="commentPic.length>0">
-								<div class="each" v-for="(pic,index) in commentPic" :key="'p'+index" @click="show(index)">
-									<img :src="`${apiUrl}/attach/img/${pic.id}/SQUARE`" alt="" class="img" v-if="index<3">
+								<div class="each" v-for="(pic,index) in commentPic" :key="'p'+index" @click="show(index)" v-if="index<3">
+									<img :src="`${apiUrl}/attach/img/${pic.id}/SQUARE`" alt="" class="img">
 								</div>
 								<div class="allPic" v-if="commentPic.length>3">
 									<i class="picMin"></i>{{commentPic.length}}
@@ -161,6 +161,7 @@
 		},
 		data() {
 			return {
+				isOh:false,
 				detail: {
 					name: '',
 					price: '',
@@ -199,7 +200,7 @@
 				toastWord: '',
 				lessonList: [],
 				isMore: false,
-				isMoreContent: '',
+				isMoreContent: true,
 				oh:'',
 				// showM:true,
 			}
@@ -341,8 +342,10 @@
 				this.oh = document.getElementsByClassName('introduce')[0].offsetHeight;
 				if (this.oh < 490) {
 					this.isMoreContent = true;
+					this.isOh = false
 				} else {
 					this.isMoreContent = false;
+					this.isOh = true
 				}
 			}, 500);
 		},
@@ -570,6 +573,7 @@
 				.pho {
 					width: 1.84rem;
 					height: 1.84rem;
+					flex:0 0 1.84rem;
 					margin-right: 0.266666rem;
 					img {
 						display: block;
@@ -578,7 +582,8 @@
 					}
 				}
 				.info {
-					width: 100%;
+					// width: 100%;
+					flex: 1;
 					.hd {
 						display: flex;
 						justify-content: space-between;
@@ -603,6 +608,7 @@
 						position: relative;
 						height: 2.4rem;
 						.each {
+							flex: 0 0 2.2rem;
 							width: 2.2rem; // flex: 1;
 							margin: 5px;
 							img {

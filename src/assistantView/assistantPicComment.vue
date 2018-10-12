@@ -1,5 +1,5 @@
 <template>
-    <div class="teacherPicComment">
+    <div class="assistantPicComment">
         <view-box ref="viewBox">
             <group>
                 <cell primary="content" value-align="left">
@@ -32,7 +32,7 @@
         Previewer,
         XTextarea,
         XButton,
-    TransferDom
+        TransferDom
     } from 'vux'
     import {
         getTeacherLessonDetailList,
@@ -49,8 +49,7 @@
             ViewBox,
             Previewer,
             XTextarea,
-            XButton,
-            
+            XButton
         },
         data() {
             return {
@@ -110,7 +109,7 @@
 </script>
 
 <style lang="less">
-    .teacherPicComment {
+    .assistantPicComment {
         height: 100%;
         .coinBgS {
             width: 100%;

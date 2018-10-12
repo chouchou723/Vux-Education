@@ -26,7 +26,7 @@
         <scroller delegate-id="myScroller" :on-refresh="refresh" :on-infinite="loadMore" ref='my_scroller'>
             <group id="picContent">
                 <!-- <div> -->
-                <cell-box is-link v-for="(item,index) in lessonList" :key="index" :link="`/courseDetails/?id=${item.id}`">
+                <cell-box is-link v-for="(item,index) in lessonList" :key="index" :link="`/courseDetails?id=${item.id}`">
                     <div class="lessonList">
                         <x-img :default-src="dsrc" :src="`${apiUrl}/attach/img/${item.picId}/SQUARE`" width="65" height="65" alt="" container="#vux_view_box_body" :offset="1500*(page+1)" :delay="50"></x-img>
                         <div class="lessonDetail">
@@ -35,7 +35,7 @@
                                 <div class="lessonName">{{item.name}}</div>
                                 <div class="lessonStatus">{{item.maxStuNum}}人-已报{{item.stuNum||0}}人</div>
                             </div>
-                            <div class="lessonContent">{{item.courseNum}}节课-{{item.hours}}课时|{{item.applyAge.label}}儿童|满{{item.minStuNum||0}}人开课</div>
+                            <div class="lessonContent">{{item.courseNum}}节课-{{item.hours}}课时 | {{item.applyAge.label}}{{item.applyAge.label=='成人'?'':'儿童'}} | 满{{item.minStuNum||0}}人开课</div>
                             <div class="lessonPrice">{{item.price||0}}元</div>
                         </div>
                     </div>
@@ -102,7 +102,10 @@
         XImg
     } from 'vux'
     import {
-        getLessonList,getAllVenue,getCourseKind,getApplyAge
+        getLessonList,
+        getAllVenue,
+        getCourseKind,
+        getApplyAge
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     import Scroller from '../components/Scroller'
@@ -134,7 +137,6 @@
                 size: 15,
                 classType: 'SINGLE',
                 dsrc: require('../assets/picload.png'),
-                asrc: require('../assets/ee.png'),
                 value7: '',
                 false: false,
                 show2: false,
@@ -160,24 +162,27 @@
                 kindList: ['课程种类', '适用对象', ],
                 onFetching: false,
                 lessonList: [],
-                totalPages:0,
+                totalPages: 0,
             }
         },
         methods: {
-            refresh() {
-                    this.fetchData(0)
+            refresh(cb) {
+                this.page = 0;
+                this.fetchData(this.page, cb);
             },
             loadMore() {
-                if(this.totalPages>this.page+1){
-                    this.page++;
-                    this.fetchData()
-                }else{
-                        this.$refs.my_scroller.finishInfinite(2)
-                }
+                // console.log('首次')
+                // if(this.totalPages>this.page+1){
+                this.page++;
+                this.fetchData()
+                // }else{
+                //         this.$refs.my_scroller.finishInfinite(2)
+                // }
             },
             changeLesson(type) {
                 this.classType = type;
                 this.chooseIndex = 0;
+                this.page = 0;
                 this.fetchData();
             },
             chooseItemSelect(id) {
@@ -204,26 +209,34 @@
             },
             clearAddSelect() {
                 this.chooseItemList = [];
+                this.chooseItemListBackup = [];
                 this.chooseIndex = 0;
+                this.fetchData(0);
             },
             clearsSelect() {
-                this.chooseListSelect = [[],[]];
-                this.chooseListSelectBackUp = [[],[]];
+                this.chooseListSelect = [
+                    [],
+                    []
+                ];
+                this.chooseListSelectBackUp = [
+                    [],
+                    []
+                ];
                 this.typeKind = 0;
                 this.typeKindBackup = 0;
                 this.chooseIndex = 0;
-                this.fetchData();                
+                this.fetchData(0);
             },
             confirmAddSelect() { //确认上课地点
                 this.chooseItemListBackup = JSON.parse(JSON.stringify(this.chooseItemList));
                 this.chooseIndex = 0;
-                this.fetchData();
+                this.fetchData(0);
             },
             confirmsSelect() { //确认上课年龄和上课类型
                 this.chooseIndex = 0;
                 this.chooseListSelectBackUp = JSON.parse(JSON.stringify(this.chooseListSelect))
                 this.typeKindBackup = this.typeKind;
-                this.fetchData();
+                this.fetchData(0);
                 // console.log(this.chooseListSelectBackUp)
             },
             chooseItem(id) {
@@ -244,7 +257,7 @@
             },
             clearDate() {
                 this.nowTime = '';
-                this.value7 = ''//new Date().toLocaleDateString().replace(/\//g, '-')
+                this.value7 = '' //new Date().toLocaleDateString().replace(/\//g, '-')
                 this.chooseSelect('time');
                 this.fetchData(0);
             },
@@ -273,37 +286,47 @@
                     $event.preventDefault()
                 }
             },
-            fetchData(page=this.page) {
+            fetchData(page = this.page, cb) {
+                this.page = page;
                 let para = {
                     applyAge: this.chooseListSelectBackUp[1].join(','),
                     date: this.value7,
                     kinds: this.chooseListSelectBackUp[0].join(','),
                     name: this.searchValue,
-                    page: page,
-                    size: this.size,
+                    // page: page,
+                    size: 15 * (page + 1),
                     type: this.classType,
                     venueId: this.chooseItemListBackup.join(',')
                 }
                 getLessonList(para).then(res => {
                     console.log(res)
-                    this.totalPages = res.data.totalPages;
-                    this.lessonList = page==0?res.data.content:[...this.lessonList,...res.data.content];
+                    this.totalPages = res.data.totalElements;
+                    this.lessonList = res.data.content;
+                    if (page == 0) {
+                        this.$refs.my_scroller.scrollTo(0, 0)
+                    }
+                }).then(res => {
+                    if (this.totalPages <= 15 * (this.page + 1)) {
+                        this.$refs.my_scroller.finishInfinite(2)
+                        this.page =Math.floor(this.totalPages/15)
+                    }
+                    if (cb) cb()
                 })
             },
-            getVenue(){//获取场馆
-                getAllVenue().then(res=>{
+            getVenue() { //获取场馆
+                getAllVenue().then(res => {
                     this.addList = res.data;
                     // console.log(res)
                 })
             },
-            getCourseKind(){
-                getCourseKind().then(res=>{
+            getCourseKind() {
+                getCourseKind().then(res => {
                     this.selectList[0] = res.data
                     // console.log(this.selectList)
                 })
             },
-            getApplyAge(){
-                getApplyAge().then(res=>{
+            getApplyAge() {
+                getApplyAge().then(res => {
                     this.selectList[1] = res.data
                 })
             }

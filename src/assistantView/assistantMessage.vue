@@ -1,7 +1,7 @@
 <template>
   <div class="assistantMessage">
        <view-box ref="viewBox">
-     <group v-for="(item,index) in pointDetail" :key="index">
+     <group v-for="(item,index) in pointDetail" :key="index" v-if="pointDetail.length!==0">
           <cell >
         <div slot="title" style="color:#999999;font-size:14px">场馆确认</div>
         <div style="color:#999999;font-size:14px">2018-3-11 10:52:01</div>
@@ -12,6 +12,9 @@
             </div>
       </cell>
     </group>
+    <div v-if="pointDetail.length===0" class="noData">
+暂无通知
+    </div>
        </view-box>
   </div>
 </template>
@@ -31,42 +34,10 @@ export default {
       // preserves its current state and we are modifying
       // its initial state.
       value:'',
-      pointDetail:[{date:'2018-03-11 10:52:01',point:20000,content:'充值20000积分',remain:20000},
-      {date:'2018-03-11 10:52:01',content:'订单D282,消耗10000积分',point:-10000,remain:0},
-      {date:'2018-03-11 10:52:01',content:'订单D282,消耗10000积分',point:-10000,remain:0},
-      {date:'2018-03-11 10:52:01',content:'订单D282,消耗10000积分',point:-10000,remain:0},
-      {date:'2018-03-11 10:52:01',content:'订单D282,消耗10000积分',point:-10000,remain:0},
-      {date:'2018-03-11 10:52:01',content:'订单D282,消耗10000积分',point:-10000,remain:0},
-      {date:'2018-03-11 10:52:01',content:'订单D282,消耗10000积分',point:-10000,remain:0},
-      {date:'2018-03-11 10:52:01',content:'订单D282,消耗10000积分',point:-10000,remain:0},
-      {date:'2018-03-11 10:52:01',content:'订单D282,消耗10000积分',point:-10000,remain:0},
-      {date:'2018-03-11 10:52:01',content:'订单D282,消耗10000积分',point:-10000,remain:0},],
+      pointDetail:[],
     }
   },
   methods:{
-            gotoBuyP(){
-                 this.$router.push('/buyPoints')
-            },
-            goTo(){
-                console.log(1);
-                if(this.buyStatus){
-
-                    this.$router.push('/myLesson')
-                }else{
-                    this.$router.push('/paying')
-
-                }
-                //  this.$wechat.chooseWXPay({
-                //                             timestamp: 0, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
-                //                             nonceStr: '', // 支付签名随机串，不长于 32 位
-                //                             package: '', // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=\*\*\*）
-                //                             signType: '', // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
-                //                             paySign: '', // 支付签名
-                //                             success: function (res) {
-                //                             // 支付成功后的回调函数
-                //                             }
-                //                             });
-            }
   },
   created(){
     // console.log(this.getMyF,apiHost.API_ROOT)
@@ -87,6 +58,14 @@ export default {
     .coinBg{
         font-size: 15px;
         padding-bottom:10px
+    }
+    .noData{
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: .8rem;
+        color:#999;
     }
 }
 </style>

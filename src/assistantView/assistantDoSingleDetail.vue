@@ -1,5 +1,5 @@
 <template>
-    <div class="teacherDoSingleDetail">
+    <div class="assistantDoSingleDetail">
         <view-box ref="viewBox">
             <group title="课程签到" label-width="4.5em" label-margin-right="2em">
                 <selector v-for="(item,index) in signList" :key="'ss'+index" :title="item.stuName" :value-map="['idValue', 'idLabel']" 
@@ -144,7 +144,7 @@
     }
 </script>
 <style lang="less">
-    .teacherDoSingleDetail {
+    .assistantDoSingleDetail {
         height: 100%;
         .weui-cells__title {
             margin-top: 0;

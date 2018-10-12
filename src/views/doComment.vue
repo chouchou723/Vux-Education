@@ -28,7 +28,8 @@
             <group title=" ">
                 <x-textarea  v-model="value" style="font-size:14px" :max="200" :rows="5" placeholder="亲,课程怎么样,老师好不好,环境如何,学习效果满意吗?" :show-counter="false"></x-textarea>
                 <cell>
-                    <span slot="title" style="font-size:14px;color:#a5a3a3">{{value.length<15?`加油! 还差${15-value.length}个字`:`还能填写${200-value.length}个字`}}</span>
+                    <div slot="title" style="font-size:14px;color:#a5a3a3" v-if="value.length<15">{{`加油! 还差${15-value.length}个字`}}</div>
+                    <div slot="title" style="font-size:14px;color:#a5a3a3" v-else>{{`还能填写${200-value.length}个字`}}</div>
                 </cell>
             </group>
             <group title=" ">

@@ -1,22 +1,22 @@
 <template>
     <div class="teacherOrder">
         <!-- <view-box ref="viewBox"> -->
-            <tab custom-bar-width="60px" active-color="#00a6e7">
-                <tab-item selected @on-item-click='changeItem("")'>
-                    <span style="padding:0 32px;border-right:1px solid gainsboro">全部</span>
-                </tab-item>
-                <tab-item @on-item-click='changeItem("PASS")'>
-                    <span style="padding:0 .6rem;border-right:1px solid gainsboro">待上课</span>
-                </tab-item>
-                <tab-item @on-item-click='changeItem("PROCESS")'>
-                    <span style="padding:0 .6rem;border-right:1px solid gainsboro">已上课</span>
-                </tab-item>
-                <tab-item @on-item-click='changeItem("CANCEL")'>已退款</tab-item>
-            </tab>
-            <!-- 列表 -->
-            <scroller delegate-id="myScroller" :on-infinite="loadMore" :pageW="pageW" ref='my_scroller' v-if="lessonList.length!==0">
-            <group style="margin-top:-0.2rem" v-for="(item,index) in lessonList" :key="index" >
-                <cell-box is-link :link="`/teacherLessonDetail/?id=${item.id}`">
+        <tab custom-bar-width="60px" active-color="#00a6e7">
+            <tab-item selected @on-item-click='changeItem("")'>
+                <span style="padding:0 32px;border-right:1px solid gainsboro">全部</span>
+            </tab-item>
+            <tab-item @on-item-click='changeItem("PASS")'>
+                <span style="padding:0 .6rem;border-right:1px solid gainsboro">待上课</span>
+            </tab-item>
+            <tab-item @on-item-click='changeItem("PROCESS")'>
+                <span style="padding:0 .6rem;border-right:1px solid gainsboro">已上课</span>
+            </tab-item>
+            <tab-item @on-item-click='changeItem("CANCEL")'>已退款</tab-item>
+        </tab>
+        <!-- 列表 -->
+        <scroller delegate-id="myScroller" :on-infinite="loadMore" :pageW="pageW" ref='my_scroller' v-if="lessonList.length!==0">
+            <group style="margin-top:-0.2rem" v-for="(item,index) in lessonList" :key="index">
+                <cell-box is-link :link="`/teacherLessonDetail?id=${item.id}`">
                     <div class="lessonListAll">
                         <div class="lessonTitleC">
                             <div class="lessonTitleNo">订单号:{{item.code}}</div>
@@ -36,10 +36,10 @@
                     <!-- anything -->
                 </cell-box>
             </group>
-            </scroller>
-             <cell-box v-if="lessonList.length===0">
-                 <div style="text-align:center;font-size:17px;color:rgb(170, 170, 170);width:100%;margin-top:10px">没有更多数据</div>
-             </cell-box>
+        </scroller>
+        <cell-box v-if="lessonList.length===0">
+            <div style="text-align:center;font-size:17px;color:rgb(170, 170, 170);width:100%;margin-top:10px">没有更多数据</div>
+        </cell-box>
         <!-- </view-box> -->
     </div>
 </template>
@@ -58,7 +58,6 @@
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     import Scroller from '../components/Scroller'
-
     export default {
         components: {
             Group,
@@ -66,7 +65,8 @@
             TabItem,
             CellBox,
             ViewBox,
-            XImg,Scroller
+            XImg,
+            Scroller
         },
         data() {
             return {
@@ -75,41 +75,47 @@
                 // preserves its current state and we are modifying
                 // its initial state.
                 page: 0,
-                pageW:'',
-                totalPages:0,
+                pageW: '',
+                totalPages: 0,
                 dsrc: require('../assets/picload.png'),
                 asrc: require("../assets/0e3a716cf47f1eb695e5b62597dec807.jpg"),
                 value: '',
-                lessonList: [
-                ],
-                status:'',
+                lessonList: [],
+                status: '',
             }
         },
         methods: {
             loadMore() {
-               if(this.totalPages>this.page+1){
-                    this.page++;
-                    this.fetchData()
-                }else{
-                    // console.log(12213)
-                        this.$refs.my_scroller.finishInfinite(2)
-                }
+                //    if(this.totalPages>this.page+1){
+                this.page++;
+                this.fetchData()
+                // }else{
+                //     // console.log(12213)
+                //         this.$refs.my_scroller.finishInfinite(2)
+                // }
             },
             changeItem(status) {
                 this.status = status;
                 this.fetchData(0)
                 // console.log(num)
             },
-            fetchData(page=this.page){
-                let para={
-                    page:page,
-                    size:15,
+            fetchData(page = this.page) {
+                let para = {
+                    // page:page,
+                    // size:15,
+                    size: 15 * (page + 1),
                     status: this.status,
                     // sort:'asc'
                 }
-                getTeacherOrder(para).then(res=>{
-                    this.totalPages = res.data.totalPages;
+                getTeacherOrder(para).then(res => {
+                    this.totalPages = res.data.totalElements;
                     this.lessonList = res.data.content;
+                }).then(res => {
+                    if (this.totalPages <= 15 * (this.page + 1)) {
+                        this.$refs.my_scroller.finishInfinite(2)
+                        this.page =Math.floor(this.totalPages/15)
+
+                    }
                 })
             }
         },

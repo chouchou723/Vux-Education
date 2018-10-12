@@ -22,7 +22,7 @@
             <group>
                 <cell class="fz15">
                     <div slot="title" style="color:#999999"><span>擅长</span>
-                        <span v-for="(item,index) in goodAt" :key="index" class="goodAt">{{item}}</span></div>
+                        <span v-for="(item,index) in goodAt" :key="index" class="goodAt" v-if="item">{{item}}</span></div>
                 </cell>
             </group>
             <group>
@@ -142,7 +142,7 @@
                     this.teacher = {
                         realName: data.realName,
                         classNum: data.classNum,
-                        experience: data.experience,
+                        experience: data.experience?data.experience:'1',
                         picId: data.picId,
                         description: data.description,
                         edus: data.edus,

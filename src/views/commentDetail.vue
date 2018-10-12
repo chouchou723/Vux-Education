@@ -70,19 +70,19 @@
                     </div>
                 </cell>
                 <cell v-if="commentlist.length==0" value-align="left">
-                    <div style="font-size:14px;text-align:center;">暂无评论</div>
+                    <div style="font-size:14px;text-align:center;height:2rem;padding-top:.2rem">暂无评论</div>
                 </cell>
             </group>
-            <div class="footer" slot="bottom">
+            <div class="footer" slot="bottom" @touchmove="touchmove">
                 <div class="footTexa">
                     <x-textarea placeholder="评论" v-model="comm" :show-counter="false" :rows="1" autosize @on-focus='onFocus' @on-blur="onBlur" @on-change="onChange"></x-textarea>
                 </div>
                 <div class="footerBtn" @click="sendComment">发送
                 </div>
             </div>
-            <div class="footerFixed">
+            <div class="footerFixed" v-if="showM" @touchmove="touchmove">
             </div>
-            <div class="modal" v-if="showM"></div>
+            <div class="modal" v-if="showM" @touchmove="touchmove"></div>
         </view-box>
     </div>
 </template>
@@ -149,6 +149,9 @@
             }
         },
         methods: {
+            touchmove($event) {
+                    $event.preventDefault()
+            },
             onChange() {},
             onFocus() {
                 this.showM = true;

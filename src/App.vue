@@ -13,13 +13,7 @@
   } from 'vux'
   import {
     mapState,
-    mapActions
   } from 'vuex'
-  import {
-    getAT,
-    getStudentInfo,
-    getInfoTeacher
-  } from './api/api'
   export default {
     name: 'app',
     components: {
@@ -29,97 +23,43 @@
       return {
         clientX: 0,
         show2: false,
-        inf: {
-          img: require('@/assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
-          nickname: '',
-          name: '',
-          sex: '男',
-          birthday: '',
-          address: '',
-          cell: ''
-        },
-        teacherInf: {
-          img: '',
-          teachTime: {label:'',name:''},
-          skill: '',
-          name: '',
-          sex: '男',
-          birthday: '',
-          address: '',
-          cell: '',
-          intro: '',
-          edu: '',
-          exp: '',
-        }
+        // inf: {
+        //   img: require('@/assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
+        //   nickname: '',
+        //   name: '',
+        //   sex: '男',
+        //   birthday: '',
+        //   address: '',
+        //   cell: ''
+        // },
+        // teacherInf: {
+        //   id: '',
+        //   img: '',
+        //   experience: {
+        //     label: '',
+        //     name: ''
+        //   },
+        //   skill: [],
+        //   realName: '',
+        //   gender: '',
+        //   // birthday: data.birthday ? data.birthday : '',
+        //   // address: data.address ? data.address : '',
+        //   // mobilePhone: data.mobilePhone ? data.mobilePhone : '',
+        //   description: '',
+        //   edus: [],
+        //   exps: [],
+        //   cerIds: '',
+        //   rejectReason:'',
+        //   status:{
+        //     label:'',
+        //     name:''
+        //   }
+        // }
       }
     },
     created() {
-      const role = localStorage.getItem('role');
-      getAT().then(res => {
-        console.log(res)
-      })
-      if (role == 'teacher') {
-        this.getInfoTeacher()
-      } else {
-        this.getStudentInfo()
-      }
     },
     methods: {
-      getStudentInfo() {
-        getStudentInfo().then(res => {
-          if (res.data === null) {
-            localStorage.setItem('info', JSON.stringify(this.inf))
-            this.setMyInfo({ ...this.inf
-            })
-          } else {
-            let data = res.data;
-            let inf = {
-              img: data.avatarId,
-              nickname: data.nickName ? data.nickName : '',
-              name: data.realName ? data.realName : '',
-              sex: data.gender ? data.gender.label : '男',
-              birthday: data.birthday ? data.birthday.slice(0, 10) : '',
-              address: data.address ? data.address : '',
-              cell: data.mobilePhone ? data.mobilePhone : '',
-              id: data.id
-            }
-            localStorage.setItem('info', JSON.stringify(inf))
-            this.setMyInfo({ ...inf
-            })
-          }
-        })
-      },
-      getInfoTeacher() {
-        getInfoTeacher().then(res => {
-          // console.log(res)
-          if (res.data === null) {
-            localStorage.setItem('info', JSON.stringify(this.teacherInf))
-            this.setTeacherInfo({ ...this.teacherInf
-            })
-          } else {
-            let data = res.data;
-            let inf = {
-              img: data.picId,
-              teachTime: data.experience?data.experience:{label:'',name:''},
-              skill: data.skill.split(','),
-              name: data.realName,
-              sex: data.gender ? data.gender.label : '',
-              birthday: data.birthday ? data.birthday : '',
-              address: data.address ? data.address : '',
-              cell: data.mobilePhone ? data.mobilePhone : '',
-              intro: data.description ? data.description : '',
-              edu: data.edus,
-              exp: data.exps,
-            }
-            localStorage.setItem('teacherInfo', JSON.stringify(inf))
-            this.setTeacherInfo({ ...inf
-            })
-          }
-        })
-      },
-      ...mapActions([
-        'setMyInfo', 'setTeacherInfo'
-      ]),
       touchstart($event) {
         this.clientX = $event.touches[0].clientX;
       },

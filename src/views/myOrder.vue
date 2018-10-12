@@ -57,7 +57,10 @@
         XImg
     } from 'vux'
     import {
-        getMyOrder,cancelMyOrder,refundMyOrder,deleteMyOrder
+        getMyOrder,
+        cancelMyOrder,
+        refundMyOrder,
+        deleteMyOrder
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     import Scroller from '../components/Scroller'
@@ -78,7 +81,7 @@
                 // preserves its current state and we are modifying
                 // its initial state.
                 page: 0,
-                totalPages:0,
+                totalPages: 0,
                 pageW: 'tc',
                 dsrc: require('../assets/picload.png'),
                 asrc: require("../assets/0e3a716cf47f1eb695e5b62597dec807.jpg"),
@@ -90,75 +93,86 @@
                 chooseS: false,
                 typeKind: 0,
                 chooseItemList: [],
-                lessonList: [{}
-                ],
-                status:'',
+                lessonList: [{course:{name:''},status:{label:''}}],
+                status: '',
             }
         },
         methods: {
-            deleteOrder(id){
-                deleteMyOrder(id).then(res=>{
+            deleteOrder(id) {
+                deleteMyOrder(id).then(res => {
                     console.log(res)
-                    if(res.code==0){
+                    if (res.code == 0) {
                         this.$vux.toast.show({
-                            text:'删除成功'
+                            text: '删除成功'
                         })
+                        this.page = 0;
                         this.fetchData(0)
                     }
                 })
             },
-            doRefund(id){
-                refundMyOrder(id).then(res=>{
+            doRefund(id) {
+                refundMyOrder(id).then(res => {
                     console.log(res)
-                    if(res.code==0){
+                    if (res.code == 0) {
                         this.$vux.toast.show({
-                            text:'申请成功'
+                            text: '申请成功'
                         })
+                        this.page = 0;
                         this.fetchData(0)
                     }
                 })
             },
-            cancelOrder(id){
-                cancelMyOrder(id).then(res=>{
+            cancelOrder(id) {
+                cancelMyOrder(id).then(res => {
                     console.log(res)
-                    if(res.code==0){
+                    if (res.code == 0) {
                         this.$vux.toast.show({
-                            text:'取消成功'
+                            text: '取消成功'
                         })
+                        this.page = 0;
                         this.fetchData(0)
                     }
                 })
             },
             goToPay(m) {
                 let payment = m;
-                localStorage.setItem('payment',m)
+                localStorage.setItem('payment', m)
                 this.$router.push(`/paying`)
             },
             loadMore() {
-               if(this.totalPages>this.page+1){
-                    this.page++;
-                    this.fetchData()
-                }else{
-                    console.log(12213)
-                        this.$refs.my_scroller.finishInfinite(2)
-                }
+                    // console.log(this.page)
+
+                //    if(this.totalPages>this.page+1){
+                this.page++;
+                this.fetchData()
+                // }else{
+                //     console.log(12213)
+                //         this.$refs.my_scroller.finishInfinite(2)
+                // }
             },
             changeItem(status) {
                 this.status = status;
-                this.fetchData(0)
+                this.page = 0;
+                this.fetchData(this.page)
                 // console.log(num)
             },
-            fetchData(page=this.page){
-                let para={
-                    page:page,
-                    size:15,
+            fetchData(page = this.page) {
+                let para = {
+                    // page:page,
+                    // size:15,
+                    size: 15 * (page + 1),
                     status: this.status,
                     // sort:'asc'
                 }
-                getMyOrder(para).then(res=>{
-                    this.totalPages = res.data.totalPages;
+                getMyOrder(para).then(res => {
+                    this.totalPages = res.data.totalElements;
                     this.lessonList = res.data.content;
-                    console.log(res)
+
+                }).then(res => {
+                    if (this.totalPages <= 15 * (this.page + 1)) {
+                        this.page =Math.floor(this.totalPages/15)
+                        this.$refs.my_scroller.finishInfinite(2)
+                    }
                 })
             },
         },

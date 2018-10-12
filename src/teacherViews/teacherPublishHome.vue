@@ -19,15 +19,17 @@
                 </cell>
             </group>
             <group title="补充课程内容" label-margin-right="2em">
-                <popup-picker title="上课场馆" show-name :data="list2" v-model="value1" @on-show="onShow" @on-hide="onHide" @on-change="onChange" :columns="1"></popup-picker>
-                <popup-picker title="上课时间段" show-name :data="list3" v-model="value2" @on-show="onShow" @on-hide="onHide" @on-change="onChange" :columns="1"></popup-picker>
-                <datetime v-model="value3" @on-change="change" title="上课起始日期" @on-cancel="log('cancel')" @on-confirm="onConfirm"></datetime>
-                <datetime v-model="value4" @on-change="change" title="上课结束日期" @on-cancel="log('cancel')" @on-confirm="onConfirm"></datetime>
-                <popup-picker title="上课教室" show-name :data="list4" v-model="value5" @on-show="onShow" @on-hide="onHide" @on-change="onChange" :columns="1"></popup-picker>
-                <popup-picker title="每个几天上一次课" show-name :data="list5" v-model="value6" @on-show="onShow" @on-hide="onHide" @on-change="onChange" :columns="1"></popup-picker>
+                <popup-picker title="上课场馆" show-name :data="list2" v-model="value1" @on-change="onChangeAdd" :columns="1"></popup-picker>
+                <!-- <popup-picker title="上课时间段" show-name :data="list3" v-model="value2"  @on-change="onChange" :columns="1"></popup-picker> -->
+                <datetime v-model="value2" format="HH:mm" title="上课开始时间"></datetime>
+                <datetime v-model="value3" title="上课起始日期" :start-date="value4?value4:endDate"></datetime>
+                <datetime v-model="value4" title="上课结束日期" :start-date="value3"></datetime>
+                <popup-picker title="上课教室" show-name :data="list4" v-model="value5" @on-change="onChange" :columns="1"></popup-picker>
+                <x-input v-model="value6" type="number" title="每隔几天上一次课" text-align='right'></x-input>
+                <!-- <popup-picker title="每个几天上一次课" show-name :data="list5" v-model="value6"  @on-change="onChange" :columns="1"></popup-picker> -->
             </group>
             <div class="footerBtn">
-                <x-button type="primary" action-type="button" @click.native="saveInfo" :disabled="isloading">下一步</x-button>
+                <x-button type="primary" action-type="button" @click.native="saveInfo" :disabled="valid">下一步</x-button>
             </div>
         </view-box>
     </div>
@@ -46,8 +48,11 @@
         TabItem,
         Datetime
     } from 'vux'
-    import SimpleCropper from '@/components/SimpleCrop'
-    import VuxUpload from '../components/Upload'
+    import {
+        getAllVenue,
+        getClassrooms,
+        getTeacherschedules
+    } from '../api/api'
     import {
         mapActions,
         mapGetters
@@ -58,9 +63,7 @@
             XButton,
             Cell,
             Selector,
-            SimpleCropper,
             ViewBox,
-            VuxUpload,
             XInput,
             Tab,
             TabItem,
@@ -79,16 +82,7 @@
                     name: '1.5小时',
                     value: '3',
                 }, ],
-                list2: [{
-                    name: '中华艺术宫',
-                    value: '1'
-                }, {
-                    name: '新天地',
-                    value: '2',
-                }, {
-                    name: '万象城',
-                    value: '3',
-                }, ],
+                list2: [],
                 list3: [{
                     name: '上午10:00 - 12:00',
                     value: '1'
@@ -99,16 +93,7 @@
                     name: '下午16:30 - 18:30',
                     value: '3',
                 }, ],
-                list4: [{
-                    name: 'A教室',
-                    value: '1'
-                }, {
-                    name: 'B教室',
-                    value: '2',
-                }, {
-                    name: 'C教室',
-                    value: '3',
-                }, ],
+                list4: [],
                 list5: [{
                     name: '1天',
                     value: '1'
@@ -119,64 +104,32 @@
                     name: '3天',
                     value: '3',
                 }, ],
-                // optionsL: [{
-                //     idValue: 1,
-                //     idLabel: '0.5小时'
-                // }, {
-                //     idValue: 2,
-                //     idLabel: '1小时'
-                // }, {
-                //     idValue: 3,
-                //     idLabel: '1.5小时'
-                // }],
-                images: [{
-                    src: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg')
-                }, ],
-                studentList: [{
-                        name: '张三',
-                        sign: '',
-                        comm: '请点评',
-                        pic: '请上传'
-                    }, {
-                        name: '张三',
-                        sign: '',
-                        comm: '请点评',
-                        pic: '请上传'
-                    },
-                    {
-                        name: '张三',
-                        sign: '',
-                        comm: '请点评',
-                        pic: '请上传'
-                    }, {
-                        name: '张三',
-                        sign: '',
-                        comm: '请点评',
-                        pic: '请上传'
-                    }
-                ],
-                Asrc: '',
-                value: [],
                 value1: [],
-                value2: [],
+                value2: '',
                 value3: '',
                 value4: '',
                 value5: [],
-                value6: [],
+                value6: '',
                 classTitle: '',
                 isloading: false,
-                uploadParam: {
-                    fileType: 'recruit', // 其他上传参数 
-                    uploadURL: this.$dataURL + 'uploadAction/qcloudImg', // 上传地址 
-                    scale: 4 // 相对手机屏幕放大的倍数: 4倍 
-                },
-                userImg: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
+                classid: '',
             }
         },
         methods: {
+            getVenue() { //获取场馆
+                getAllVenue().then(res => {
+                    this.list2 = res.data.map(item => {
+                        return {
+                            name: item.name,
+                            value: item.id + ''
+                        }
+                    })
+                })
+            },
             goToChoose(num) {
                 if (num == 1) {
                     this.$router.push('/teacherPublishLesson')
+                    localStorage.setItem('newCreate','new')
                 } else {
                     this.$router.push('/teacherChooseLesson')
                 }
@@ -184,65 +137,94 @@
             ...mapActions([
                 'setMyInfo'
             ]),
-            openFile() {
-                this.$refs.file.click();
-            },
-            fileChange() {
-                var reads = new FileReader();
-                let f = this.$refs.file.files[0];
-                reads.readAsDataURL(f);
-                reads.onload = (e) => {
-                    this.setMyInfo({
-                        img: e.target.result
-                    })
-                    // this.Asrc=e.target.result;
-                    // console.log(e.target.result)
-                };
-            },
             onChange() {
-                this.setMyInfo({
-                    sex: this.value2
-                })
+                // this.setMyInfo({
+                //     sex: this.value2
+                // })
+            },
+            onChangeAdd(value) {
+                this.getClassrooms()
+                // console.log(this.list4)
+            },
+            getClassrooms(id) {
+                if(typeof(this.value1[0])!= 'undefined'){
+                    getClassrooms(this.value1[0]).then(res => {
+                        this.list4 = res.data.map(item => {
+                            return {
+                                name: '教室' + item.id,
+                                value: item.id + '',
+                            }
+                        })
+                    }).then(()=>{
+                    if(id){
+                        setTimeout(()=>{
+                            this.value5 = [id]
+    
+                        },1)
+                    }
+    
+                    })
+
+                }
+            },
+            setInfo() {
+                let stepTwo = {
+                    venueId: this.value1[0],
+                    beginTime: this.value2,
+                    beginDate: this.value3,
+                    endDate: this.value4,
+                    classroomId: this.value5[0],
+                    step: this.value6,
+                    contentId: this.classid
+                }
+                localStorage.setItem('stepTwo', JSON.stringify(stepTwo))
             },
             saveInfo() {
-                // this.isloading = true;
-                // console.log(this.getMyInfo)
-                // this.$vux.toast.show({
-                //     text: '保存成功'
-                // })
-                // localStorage.setItem('info', JSON.stringify(this.getMyInfo))
-                // setTimeout(() => {
-                //     this.isloading = false;
-                // }, 1000)
+                 this.setInfo()
                 this.$router.push({
                     path: '/teacherPublishTime'
                 })
             },
-            upload() {
-                this.$refs['cropper'].upload()
+        },
+        computed: {
+            endDate() {
+                let date = new Date();
+                let month = ('0' + (date.getMonth() + 1)).slice(-2);
+                let day = ('0' + date.getDate()).slice(-2)
+                return date.getFullYear() + '-' + month + '-' + day
             },
-            // 上传头像成功回调 
-            uploadHandle(data) {
-                this.setMyInfo({
-                    img: data
-                })
-                if (data.state === 'SUCCESS') {
-                    // this.userImg  = data
+            valid(){
+                // console.log(this.classid)
+                let a = this.classTitle&& this.classid&&this.value1&&this.value2&&this.value3&&this.value4&&this.value5&&this.value6
+                if(a){
+                    return false
+                }else{
+                    return true
                 }
             }
         },
-        computed: {
-            ...mapGetters([
-                'getMyInfo'
-                // ...
-            ]),
-        },
         created() {
-            document.title = "创建新的课程内容"
-            this.classTitle = this.$route.query.title || ''
-            console.log(this.getMyInfo)
-            // this.value2 = this.getMyInfo.sex
+            this.setTitle('发布课程')
+            this.getVenue()
+            if(this.$route.query.title){
+                this.classTitle = this.$route.query.title
+            }else{
+               localStorage.removeItem('stepTwo')
+            }
+            this.classid = this.$route.query.id || ''
+            if (localStorage.getItem('stepTwo')&&this.classTitle) {
+                let data = JSON.parse(localStorage.getItem('stepTwo'))
+                this.value1 = [data.venueId];
+                this.value2 = data.beginTime;
+                this.value3 = data.beginDate;
+                this.value4 = data.endDate;
+                this.value6 = data.step;
+                this.getClassrooms(data.classroomId)
+            }
         },
+        // beforeDestroy() {
+        //     this.setInfo()
+        // },
         mounted() {}
     }
 </script>
@@ -256,7 +238,7 @@
             background-color: #e1e1e1;
             color: black;
         }
-        .weui-btn_primary {
+        .weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
             background-color: #00a6e7;
         }
         .weui-cells__title {
@@ -275,29 +257,9 @@
                 line-height: 22px
             }
         }
-        #noborderBottom .vux-cell-box:before {
-            border-top: none;
-        }
         .classTitle {
             border-left: 5px solid #00a6e7;
             padding-left: 10px;
-        }
-        .myAvatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .vux-upload .vux-flexbox-item .vux-upload-bg .vux-upload-content {
-            background-position: center;
-        }
-        .vux-upload .vux-flexbox-item .vux-upload-bg {
-            width: 82%;
-            margin: 4% 0 0 9%;
-        }
-        .mr10 {
-            margin-right: 10px;
-            font-size: 15px;
         }
         .publishDiv {
             width: 100%;
@@ -325,12 +287,8 @@
                 }
             }
         }
-        .classType {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding-top: 10px;
+        .weui-input{
+            color:#999;
         }
         .weui-select {
             color: #999999

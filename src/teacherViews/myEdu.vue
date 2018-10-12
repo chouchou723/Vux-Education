@@ -4,10 +4,10 @@
             <group-title slot="title" class="groupTitle">经历{{eduIndex[index]}}<span style="float:right;" v-if="index!=0"><img @click="deleteEdu(index)" src="../assets/delete.png" width="15" alt=""></span></group-title>
             <x-input title="学校" v-model="item.school" text-align="right" placeholder="请填写"></x-input>
             <x-input title="专业" v-model="item.subject" text-align="right" placeholder="请填写"></x-input>
-            <popup-picker title="学历" :data="list2" v-model="item.degreeV" value-text-align="right" @on-change="changeDegree(item)"></popup-picker>
-            <datetime v-model="item.beginDate" format="YYYY-MM-DD" title="起始日期">
+            <popup-picker title="学历" :data="list2" v-model="item.degreeV" show-name value-text-align="right" @on-change="changeDegree(item)"></popup-picker>
+            <datetime v-model="item.beginDateStr" :end-date="item.endDateStr?item.endDateStr:endDate" title="起始日期">
             </datetime>
-            <datetime v-model="item.endDate" title="结束日期">
+            <datetime v-model="item.endDateStr"  title="结束日期" >
             </datetime>
         </group>
         <div class="addNewBtn">
@@ -53,25 +53,18 @@
                     school: '',
                     subject: '',
                     degree: [],
-                    beginDate: '',
-                    endDate: '',
+                    beginDateStr: '',
+                    endDateStr: '',
                     degreeV: []
                 }],
                 list2: [],
-                value: '',
-                value1: '',
-                value2: '',
-                value3: [],
-                value4: '',
-                value5: '',
-                tableNumber: ['一', '二', '三', '四', '五', '六', '七']
             }
         },
         created() {
             this.setTitle('教育经历')
             this.getTeacherDegree()
-            if (this.getTeacherInfo.edu.length !== 0) {
-                this.eduList = this.getTeacherInfo.edu.map(item => {
+            if (this.getTeacherInfo.edus.length !== 0) {
+                this.eduList = this.getTeacherInfo.edus.map(item => {
                     return {
                         ...item,
                         degreeV: [item.degree.name]
@@ -86,12 +79,12 @@
             addNewEdu(data) {
                 let l = data.length;
                 this.eduList.push({
-                    no: this.tableNumber[l],
                     school: '',
                     subject: '',
                     degree: [],
-                    beginDate: '',
-                    endDate: ''
+                    beginDateStr: '',
+                    endDateStr: '',
+                    degreeV: []
                 })
             },
             ...mapActions([
@@ -108,7 +101,7 @@
             },
             confirm() {
                 this.setTeacherInfo({
-                    edu: this.eduList
+                    edus: this.eduList
                 })
                 this.$router.go(-1)
             },
@@ -134,6 +127,12 @@
                 return this.eduList.every(item => {
                     return Object.values(item).every(it => it != '')
                 })
+            },
+            endDate() {
+                let date = new Date();
+                let month = ('0' + (date.getMonth() + 1)).slice(-2);
+                let day = ('0' + date.getDate()).slice(-2)
+                return date.getFullYear() + '-' + month + '-' + day
             }
         },
     }
@@ -146,6 +145,9 @@
             padding-top: .2rem;
             padding-bottom: .1rem;
             font-size: .4rem;
+        }
+        .weui-input {
+            color: #999
         }
         .weui-btn_disabled.weui-btn_primary {
             background-color: #e1e1e1;
@@ -163,7 +165,7 @@
         .vux-no-group-title {
             margin-top: 0;
         }
-        .weui-btn_primary {
+        .weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
             background-color: #00a6e7;
         }
         .vux-popup-picker-select {

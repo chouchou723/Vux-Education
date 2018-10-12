@@ -38,7 +38,7 @@
     },
     created() {
       document.title = '个人介绍'
-      this.value = this.getTeacherInfo.intro
+      this.value = this.getTeacherInfo.description
     },
     methods: {
       ...mapActions([
@@ -46,7 +46,7 @@
       ]),
       confirm() {
         this.setTeacherInfo({
-          intro: this.value
+          description: this.value
         })
         this.$router.go(-1)
         // this.$router.push('/applyFirst?step=2')
@@ -72,7 +72,7 @@
       background-color: #e1e1e1;
       color: black;
     }
-    .weui-btn_primary {
+    .weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
       background-color: #00a6e7;
     }
     .footerBtn {

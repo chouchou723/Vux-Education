@@ -24,9 +24,10 @@ AjaxPlugin.$http.interceptors.response.use(function (response) {
     }else{
         Vue.$vux.toast.show({
             text: response.data.msg,
+            width:'auto',
             type:'text',
             position:'middle'
-           })
+        })
     }
 }, function (err) {
     // 处理统一的验证失效错误
@@ -84,17 +85,31 @@ let base = 'http://eduweixin.test.artreedu.com';
 // login_role  :  student
 // unionId  :  ohzciv91EysSA6kUFOQ24LBsZBDw
 //微信获取token
-export const  getAT = (params) => {
-    const role = localStorage.getItem('role');
-    AjaxPlugin.$http.defaults.headers.common['login_role'] = role;
+export const  getAT = (role,params) => {
     if(role==='student'){
+        AjaxPlugin.$http.defaults.headers.common['login_role'] = role;
         AjaxPlugin.$http.defaults.headers.common['access_token'] = '24680';
        AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv91EysSA6kUFOQ24LBsZBDw';
 
-    }else{
+    }else if(role==='assistant'){
+        AjaxPlugin.$http.defaults.headers.common['login_role'] = 'teacher';
         AjaxPlugin.$http.defaults.headers.common['access_token'] = '13579';
-        // AjaxPlugin.$http.defaults.headers.common['login_role'] = params;
         AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv75r9gBnLM3Zs2z7V0WqFvU';
+    }else{
+        AjaxPlugin.$http.defaults.headers.common['login_role'] = role;
+        AjaxPlugin.$http.defaults.headers.common['access_token'] = '13579';
+        AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv75r9gBnLM3Zs2z7V0WqFvU';
+
+        //pre
+        //  AjaxPlugin.$http.defaults.headers.common['access_token'] = '11111';
+        // AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv75r9gBnLM3Zs2z7V0WqFv1';
+// wait
+        // AjaxPlugin.$http.defaults.headers.common['access_token'] = '22222';
+        // AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv75r9gBnLM3Zs2z7V0WqFv2';
+//fail
+        // AjaxPlugin.$http.defaults.headers.common['access_token'] = '33333';
+        // AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv75r9gBnLM3Zs2z7V0WqFv3';
+
     }
     return AjaxPlugin.$http.get(`${base}/api/auth/wechat`, { params: params }).then(res => {
 
@@ -118,6 +133,10 @@ export const  getLessonList = (params, token) => {
 //获取所有场馆 
 export const  getAllVenue = (params, token) => {
     return AjaxPlugin.$http.get(`${base}/api/venue/all`, { params: params }).then(res => res.data);
+};
+//根据场馆获取教室 
+export const  getClassrooms = (id) => {
+    return AjaxPlugin.$http.get(`${base}/api/venue/${id}/classrooms`).then(res => res.data);
 };
 //获取课程种类 
 export const  getCourseKind = (params, token) => {
@@ -266,8 +285,15 @@ export const  uploadPicBase = (params) => {
 //获取验证码
 export const  getSmsCode = (params) => {
     // axios.defaults.headers.common['Authorization'] = token.Authorization;
-    return AjaxPlugin.$http.post(`${base}/api/sms/captcha?mobile=${params}`).then(res => res.data);
+    return AjaxPlugin.$http.post(`${base}/api/sms/captcha`,params).then(res => res.data);
 };
+//验证验证码
+export const  submitSmsCode = (params) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.post(`${base}/api/sms/bind`,params).then(res => res.data);
+};
+
+
 //教师获取自己信息 
 export const  getInfoTeacher = (id) => {
     // axios.defaults.headers.common['Authorization'] = token.Authorization;
@@ -323,6 +349,85 @@ export const  getTeacherExp = () => {
     // axios.defaults.headers.common['Authorization'] = token.Authorization;
     return AjaxPlugin.$http.get(`${base}/api/teachers/enum/exp`).then(res => res.data);
 };
+//教师 提交资料
+export const  editTeacherInfo = (params) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.post(`${base}/api/teachers`,params).then(res => res.data);
+};
+//教师 提交教育经历
+export const  editTeacherEdu = (params) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.post(`${base}/api/teachers/edus`,params).then(res => res.data);
+};
+//教师 提交教学经验
+export const  editTeacherExp = (params) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.post(`${base}/api/teachers/exps`,params).then(res => res.data);
+};
+//教师 学生签到
+export const  doSign = (params,id) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.post(`${base}/api/course/class/${id}/sign`,params).then(res => res.data);
+};
+//教师 学生点评
+export const  doStudentComment = (params,id) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.post(`${base}/api/course/class/${id}/evaluate/stu`,params).then(res => res.data);
+};
+//教师 学生作品上传
+export const  doStudentPicUpload = (params,id) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.post(`${base}/api/course/class/${id}/uploadPics`,params).then(res => res.data);
+};
+//教师 学生作品点评
+export const  doStudentPicComment = (params,id) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.post(`${base}/api/course/class/${id}/evaluate`,params).then(res => res.data);
+};
+//教师 创建课程选择已有课程
+export const  getTeacherAlreadyClass = (params) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.get(`${base}/api/course/content`,{params:params}).then(res => res.data);
+};
+//教师 创建课程下一步获取课程表
+export const  getTeacherschedules = (params) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.get(`${base}/api/course/schedules`,{params:params}).then(res => res.data);
+};
+//教师 创建新的课程内容
+export const  createNewContent = (params,id) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.post(`${base}/api/course/content`,params).then(res => res.data);
+};
+//教师 最后确定发布课程
+export const  publishClass = (params,id) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.post(`${base}/api/course`,params).then(res => res.data);
+};
+//教师 修改单个课程时间
+export const  editIndClassTime = (params) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.post(`${base}/api/course/schedule/tmp/modify`,params).then(res => res.data);
+};
+//教师 根据tmpid获取时间表
+export const  getTeacherschedulesByTmp = (params) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.get(`${base}/api/course/schedule/tmp`,{params:params}).then(res => res.data);
+};
+
+//助教 审核通过
+export const  passTheClass = (params,id) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.post(`${base}/api/course/${id}/pass`,params).then(res => res.data);
+};
+//助教 审核不通过
+export const  rejectTheClass = (params,id) => {
+    // axios.defaults.headers.common['Authorization'] = token.Authorization;
+    return AjaxPlugin.$http.post(`${base}/api/course/${id}/reject`,params).then(res => res.data);
+};
+
+
+
 
 
 

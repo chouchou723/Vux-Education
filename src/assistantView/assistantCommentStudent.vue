@@ -1,5 +1,5 @@
 <template>
-  <div class="teacherCommentStudent">
+  <div class="assistantCommentStudent">
     <group title="张明霞" label-width="4.5em" label-margin-right="2em">
       <x-textarea :max="300" v-model="value" :rows="5" placeholder="学生上课情况怎么样,画的好不好,表现满意吗?" :show-counter="true"></x-textarea>
     </group>
@@ -73,7 +73,7 @@
   }
 </script>
 <style lang="less">
-  .teacherCommentStudent {
+  .assistantCommentStudent {
     .weui-cells__title {
       margin-top: 0;
       padding-top: .2rem;
@@ -84,7 +84,7 @@
       background-color: #e1e1e1;
       color: black;
     }
-    .weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
+    .weui-btn_primary ,.weui-btn_primary:not(.weui-btn_disabled):active{
       background-color: #00a6e7;
     }
     .footerBtn {

@@ -75,21 +75,28 @@
         },
         methods: {
             loadMore() {
-                if(this.totalPages>this.page+1){
+                // if(this.totalPages>this.page+1){
                     this.page++;
                     this.fetchData()
-                }else{
-                    this.$refs.my_scroller.finishInfinite(2)
-                }
+                // }else{
+                //     this.$refs.my_scroller.finishInfinite(2)
+                // }
             },
-            fetchData(){
+            fetchData(page = this.page){
                 let para = {
-                    page : this.page
+                    // page : this.page
+                    size: 15*(page+1),
                 }
                 getMyLessonList(para).then(res=>{
-                    this.totalPages = res.data.totalPages;
+                    this.totalPages = res.data.totalElements;
                     this.lessonList = res.data.content
                     // console.log(this.lessonList)
+                }).then(res => {
+                    if (this.totalPages <= 15*(this.page + 1)) {
+                        this.$refs.my_scroller.finishInfinite(2)
+                        this.page =Math.floor(this.totalPages/15)
+
+                    }
                 })
             },
         },

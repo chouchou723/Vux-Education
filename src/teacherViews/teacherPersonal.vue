@@ -3,7 +3,7 @@
         <div class="personalBg">
             <div class="personalInfo">
                 <img :src="`${apiUrl}/attach/img/${teacher.picId}/SQUARE`" alt="" class="personalImg">
-                 <img :src="teacher.sex=='男'?require('../assets/sex1.png'):require('../assets/sex2.png')" alt="" class="sexPos">
+                <img :src="teacher.sex=='MALE'?require('../assets/sex1.png'):require('../assets/sex2.png')" alt="" class="sexPos">
                 <div class="personalDetail">
                     <div class="personalName">{{teacher.name}}</div>
                     <div class="personalLesson">
@@ -54,7 +54,9 @@
     import {
         getTeacherIndex
     } from '../api/api'
-    import apiHost from '../../config/prod.env'
+    import {
+        mapActions
+    } from 'vuex';
     export default {
         components: {
             Group,
@@ -66,25 +68,30 @@
                 // with hot-reload because the reloaded component
                 // preserves its current state and we are modifying
                 // its initial state.
-                tt: 20,
-                teacher:{
-                    name:'',
-                    picId:'',
-                    sex:'男',
-                    classNum:0
+                teacher: {
+                    name: '',
+                    picId: '',
+                    sex: '男',
+                    classNum: 0
                 }
             }
         },
         methods: {
-            fetchData(){
-                getTeacherIndex().then(res=>{
+            ...mapActions([
+                'setTeacherInfo'
+            ]),
+            fetchData() {
+                getTeacherIndex().then(res => {
                     console.log(res)
                     let data = res.data;
-                    let sex = JSON.parse(localStorage.getItem('teacherInfo')).sex
+                    let inf = JSON.parse(localStorage.getItem('teacherInfo'))
+                    this.setTeacherInfo({ ...inf
+                    })
+                    // let sex = JSON.parse(localStorage.getItem('teacherInfo')).sex
                     this.teacher.name = data.name
                     this.teacher.picId = data.picId
                     this.teacher.classNum = data.classNum
-                    this.teacher.sex = sex
+                    this.teacher.sex = inf.gender
                 })
             }
         },

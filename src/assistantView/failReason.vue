@@ -4,7 +4,7 @@
       <x-textarea :max="300" v-model="value" placeholder="请填写课程审核不通过的原因" :show-counter="true"></x-textarea>
     </group>
     <div class="footerBtn">
-      <x-button type="primary" action-type="button" :disabled="value.length==0" @click.native="confirm">提交</x-button>
+      <x-button type="primary" action-type="button" @click.native="saveInfo" :show-loading="isloading" :disabled="value.length==0">提交</x-button>
     </div>
   </div>
 </template>
@@ -16,9 +16,8 @@
     XTextarea
   } from 'vux'
   import {
-    mapActions,
-    mapGetters
-  } from 'vuex';
+    rejectTheClass
+  } from '../api/api'
   export default {
     components: {
       Group,
@@ -28,6 +27,7 @@
     data() {
       return {
         value: '',
+        isloading:false,
         nickname: function(value) {
           return {
             valid: (/^[\u4e00-\u9fa5a-zA-Z0-9]+$/).test(value),
@@ -40,21 +40,32 @@
       document.title = '审核不通过'
     },
     methods: {
-      ...mapActions([
-        'setMyInfo'
-      ]),
-      confirm() {
-        this.setMyInfo({
-          address: this.value
-        })
-        this.$router.push('/myInfo')
-      }
+      saveInfo() {
+                if(!this.isloading){
+                    this.isloading = true;
+                    let para = {
+                        courseId: this.$route.query.id,
+                        reason:this.value,
+                    }
+                    let id = this.$route.query.id
+                    rejectTheClass(para,id).then(res=>{
+                       if(res.code==0){
+                             this.$vux.toast.show({
+                    text: '提交成功'
+                })
+                        }
+                    }).then(()=>{
+                        this.$router.go(-1)
+                    })
+                }
+                // console.log(this.getMyInfo)
+                // this.$vux.toast.show({
+                //     text: '保存成功'
+                // })
+                // localStorage.setItem('info', JSON.stringify(this.getMyInfo))
+            },
     },
     computed: {
-      ...mapGetters([
-        'getMyInfo'
-        // ...
-      ]),
     },
   }
 </script>
@@ -70,7 +81,7 @@
       background-color: #e1e1e1;
       color: black;
     }
-    .weui-btn_primary {
+    .weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
       background-color: #00a6e7;
     }
     .footerBtn {

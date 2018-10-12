@@ -17,7 +17,7 @@
                     <img src="../assets/fail.png" alt="" v-if="step1>=3&applyStaus=='fail'">
                     <img src="../assets/waitG.png" alt="" v-if="step1<3">
                     <div :style="step1<3?'color:grey':applyStaus=='fail'?'color:#e64340':'color:#00a6e7'">
-                        {{step1 ==3&&applyStaus=='' ? '等待审核':applyStaus=='fail'?'审核未过':'审核通过'}}
+                        {{applyStaus=='' ? '等待审核':applyStaus=='fail'?'审核未过':'审核通过'}}
                     </div>
                 </div>
             </div>
@@ -25,13 +25,13 @@
                 <x-input placeholder="请输入手机号" type='tel' v-model="value" :max="11">
                     <img slot="label" style="padding-right:10px;display:block;" src="../assets/inputCell.png" width="20" height="20">
                 </x-input>
-                <x-input placeholder="请输入短信验证码" class="weui-vcode">
+                <x-input placeholder="请输入短信验证码" class="weui-vcode" v-model="value1" :max="6">
                     <img slot="label" style="padding-right:10px;display:block;" src="../assets/key.png" width="20" height="20">
                     <x-button slot="right" type="primary" :class="['getCode',count?'colorg':'']" @click.native="getCode">{{getCodeContent}}</x-button>
                 </x-input>
             </group>
             <!-- <group title=" " label-width="4.5em" label-margin-right="2em" v-if="step1==2"> -->
-            <teacherInfo v-if="step1==2" :images='images' @getImages="getImages"></teacherInfo>
+            <teacherInfo v-if="step1==2" :images='images' @getImages="getImages" @removeImg="removeImg"></teacherInfo>
             <!-- </group> -->
             <group title=" " label-width="4.5em" label-margin-right="2em" v-if="step1==3">
                 <div class="stepThreeNoti" v-if="applyStaus==''">
@@ -45,15 +45,19 @@
                 </div>
                 <div class="stepThreeNoti" v-if="applyStaus=='fail'">
                     <div class="notiOne">资料审核未通过</div>
-                    <div class="notiTwo">原因:XXXXXXXXXX</div>
+                    <div class="notiTwo">原因:{{rejectReason}}</div>
                 </div>
                 <div class="plzCall">
                     如有问题,请咨询电话<a class="linkA" href="tel:400172074">400-1720-748</a>
                 </div>
             </group>
             <div class="footerBtn">
-                <x-button type="primary" action-type="button" @click.native="nextStep">
-                    {{step1===1?'下一步':step1==2?'提交审核':'我知道了'}}</x-button>
+                <x-button type="primary" action-type="button" @click.native="nextStep" :disabled="!(value&&value1)" v-if="step1===1">
+                    下一步</x-button>
+                <x-button type="primary" action-type="button" @click.native="submitInfo" :disabled="valid" :show-loading='isLoading' v-if="step1===2">
+                    提交审核</x-button>
+                <x-button type="primary" action-type="button" @click.native="closePage" v-if="step1===3">
+                    我知道了</x-button>
             </div>
         </view-box>
     </div>
@@ -69,7 +73,13 @@
         ViewBox
     } from 'vux'
     import teacherInfo from './teacherInfo'
-    import {getSmsCode} from '../api/api'
+    import {
+        getSmsCode,
+        submitSmsCode,
+        editTeacherInfo,
+        editTeacherEdu,
+        editTeacherExp
+    } from '../api/api'
     import {
         mapActions,
         mapGetters
@@ -86,11 +96,14 @@
         },
         data() {
             return {
-                applyStaus: 'pass',
+                isLoading: false,
+                applyStaus: '',
                 countTime: 10,
                 step1: 1,
                 value: '',
+                value1: '',
                 count: false,
+                rejectReason: '',
                 images: [],
                 nickname: function(value) {
                     return {
@@ -100,27 +113,132 @@
                 },
                 type: '',
                 countStart: {},
+                cerIdArr: []
             }
         },
         created() {
             document.title = '申请成为老师'
-            this.step1 = this.getStep || 1;
+            let status = JSON.parse(localStorage.getItem('teacherInfo')).status;
+            if (status.name === 'PASS') {
+                this.step1 = this.getStep||3;
+                this.applyStaus = 'pass'
+            } else if (status.name === 'REJECT') {
+                this.step1 = this.getStep||3;
+                this.applyStaus = 'fail'
+                this.rejectReason = JSON.parse(localStorage.getItem('teacherInfo')).rejectReason
+            } else if (status.name === 'WAIT') {
+                this.step1 = this.getStep||3;
+                this.applyStaus = ''
+            }else{
+                 this.step1 = this.getStep||1;
+            }
+            if (this.getTeacherInfo.cerIds) {
+                this.cerIdArr = this.getTeacherInfo.cerIds.split(',')
+                this.images = this.cerIdArr.map(item => {
+                    return {
+                        src: `${this.apiUrl}/attach/img/${item}/SQUARE`
+                    }
+                })
+            }
         },
         methods: {
+            closePage(){
+                if(this.applyStaus==='pass'){
+                    this.$router.replace('/teacher')
+                }else{
+                    this.$wechat.closeWindow();
+                }
+            },
+            removeImg(index) {
+                this.cerIdArr.splice(index, 1)
+                this.images.splice(index, 1)
+                this.setTeacherInfo({
+                    cerIds: this.cerIdArr.join(',')
+                })
+            },
             getImages(data) {
+                this.cerIdArr.push(data)
                 this.images.push({
-                    src: data
+                    src: `${this.apiUrl}/attach/img/${data}/SQUARE`
+                })
+                // console.log(data)
+                this.setTeacherInfo({
+                    cerIds: this.cerIdArr.join(',')
                 })
                 // console.log(data)
             },
             nextStep() {
-                this.step1++
+                if (this.value.length == 11) {
+                    let para = {
+                        captcha: this.value1,
+                        mobile: this.value
+                    }
+                    this.step1 = 2;
                     this.setStep(this.step1)
+                    submitSmsCode(para).then(res => {
+                        if (res.code == 0) {
+                            // this.step1++
+                            // this.setStep(this.step1)
+                        }
+                    })
+                }
+            },
+            submitInfo() {
+                if (!this.isLoading) {
+                    this.isLoading = true;
+                    let para = {
+                        realName: this.getTeacherInfo.realName,
+                        skill: this.getTeacherInfo.skill.join(','),
+                        experience: this.getTeacherInfo.experience.name,
+                        cerIds: this.getTeacherInfo.cerIds,
+                        description: this.getTeacherInfo.description,
+                        gender: this.getTeacherInfo.gender,
+                        id: this.getTeacherInfo.id,
+                        picId: this.getTeacherInfo.img,
+                    };
+                    let edus = this.getTeacherInfo.edus
+                    let edu = edus.map(item => {
+                        return {
+                            id: item.id ? item.id : '',
+                            school: item.school,
+                            subject: item.subject,
+                            beginDate: item.beginDateStr,
+                            endDate: item.endDateStr,
+                            degree: item.degree.name,
+                        }
+                    })
+                    let exps = this.getTeacherInfo.exps
+                    let exp = exps.map(item => {
+                        return {
+                            id: item.id ? item.id : '',
+                            beginDate: item.beginDateStr,
+                            endDate: item.endDateStr,
+                            description: item.description,
+                        }
+                    })
+                    Promise.all([editTeacherInfo(para), editTeacherEdu(edu), editTeacherExp(exp)]).then((values) => {
+                        let isSuccess = values.every(item => {
+                            return item.code == 0
+                        })
+                        if (isSuccess) {
+                            this.isLoading = false;
+                            this.$vux.toast.show({
+                                text: '提交成功'
+                            })
+                            // console.log(this.getTeacherInfo)
+                            localStorage.setItem('teacherInfo', JSON.stringify(this.getTeacherInfo))
+                            this.step1 = 3;
+                            this.setStep(this.step1)
+                        }
+                    });
+                }
             },
             getCode() {
-                if(this.value){
-                    let para = this.value
-                    getSmsCode(para).then(res=>{
+                if (this.value.length == 11) {
+                    let para = {
+                        mobile: this.value
+                    }
+                    getSmsCode(para).then(res => {
                         console.log(res)
                     })
                     this.count = true;
@@ -135,34 +253,27 @@
                             }
                         }, 1000)
                     }
-
-                }else{
+                } else if (this.value.length < 11) {
                     this.$vux.toast.show({
-                        text:'请先填写手机号',
-                        type:'text',
-                        width:'3.5rem'
+                        text: '请填写正确的手机号',
+                        type: 'text',
+                        width: 'auto'
+                    })
+                } else {
+                    this.$vux.toast.show({
+                        text: '请先填写手机号',
+                        type: 'text',
+                        width: 'auto'
                     })
                 }
             },
             ...mapActions([
-                'setStep'
+                'setStep', 'setTeacherInfo'
             ]),
-            confireName() {
-                if (this.type) {
-                    this.setTeacherInfo({
-                        nickname: this.value
-                    })
-                } else {
-                    this.setTeacherInfo({
-                        name: this.value
-                    })
-                }
-                this.$router.push('/myInfo')
-            },
         },
         computed: {
             ...mapGetters([
-                'getStep'
+                'getStep', 'getTeacherInfo'
                 // ...
             ]),
             getCodeContent() {
@@ -170,6 +281,17 @@
                     return `重新获取(${this.countTime}s)`
                 } else {
                     return '获取验证码'
+                }
+            },
+            valid() {
+                let arr = Object.values(this.getTeacherInfo);
+                console.log(arr)
+                if (arr.every(item => {
+                        return item != ''
+                    })) {
+                    return false
+                } else {
+                    return true
                 }
             }
         },
@@ -314,10 +436,10 @@
         .colorg {
             color: #afa8a8;
         }
-        .weui-btn:after {
+        .getCode.weui-btn:after {
             border: none;
         }
-        .weui-btn_disabled.weui-btn_primary {
+        .footerBtn .weui-btn_disabled.weui-btn_primary {
             background-color: #e1e1e1;
             color: black;
         }
@@ -362,7 +484,7 @@
             width: 90%;
             margin: 1rem auto 0;
             text-align: center;
-            .weui-btn_primary {
+            .weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
                 background-color: #00a6e7;
             }
         }

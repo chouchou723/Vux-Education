@@ -15,10 +15,6 @@
     Group,
     XTextarea
   } from 'vux'
-  import {
-    mapActions,
-    mapGetters
-  } from 'vuex';
   export default {
     components: {
       Group,
@@ -37,25 +33,19 @@
       }
     },
     created() {
-      document.title = '课程介绍'
+      this.setTitle('课程介绍')
+      if(localStorage.getItem('createDes')){
+                this.value = localStorage.getItem('createDes')
+            }
       // this.value = this.getMyInfo.address
     },
     methods: {
-      ...mapActions([
-        'setMyInfo'
-      ]),
       confirm() {
-        this.setMyInfo({
-          address: this.value
-        })
-        this.$router.push('/myInfo')
+        localStorage.setItem('createDes',this.value)
+        this.$router.go(-1)
       }
     },
     computed: {
-      ...mapGetters([
-        'getMyInfo'
-        // ...
-      ]),
     },
   }
 </script>
@@ -71,7 +61,7 @@
       background-color: #e1e1e1;
       color: black;
     }
-    .weui-btn_primary {
+    .weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
       background-color: #00a6e7;
     }
     .footerBtn {

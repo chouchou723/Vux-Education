@@ -1,5 +1,5 @@
 <template>
-    <div class="teacherUploadPic">
+    <div class="assistantUploadPic">
         <view-box ref="viewBox">
             <group :title="studentName" label-width="4.5em" label-margin-right="2em">
                 <vux-upload :class="images.length!=0?'':'plusIcon'" url=""  :images="images" :readonly="false" :max="9" :withCredentials="false" :span="4" :preview="true" @success="onSuccess" @error="onError" @remove="onRemove">
@@ -110,7 +110,7 @@
     }
 </script>
 <style lang="less">
-    .teacherUploadPic {
+    .assistantUploadPic {
         height: 100%;
         .weui-cells__title {
             margin-top: 0;

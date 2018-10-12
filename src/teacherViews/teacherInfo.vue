@@ -9,47 +9,46 @@
                 <!-- <input type="file" @change="fileChange()" style="display: none" ref="file" accept="image/png,image/jpeg,image/gif"> -->
             </cell>
             <cell title="姓名" is-link link="/teacherName">
-                <div class="mr10">{{this.getTeacherInfo.name}}</div>
+                <div class="mr10">{{this.getTeacherInfo.realName}}</div>
             </cell>
-            <selector title="性别" :options="['男', '女']" v-model="value2" direction="rtl" @on-change="onChange"></selector>
+            <selector title="性别" :options="sexOption" :value-map="['name', 'label']" v-model="value2" direction="rtl" @on-change="onChange"></selector>
             <cell title="教龄" is-link link="/teachTime">
-                <div class="mr10">{{this.getTeacherInfo.teachTime.label}}</div>
+                <div class="mr10">{{this.getTeacherInfo.experience.label}}</div>
             </cell>
             <cell title="擅长" is-link link="/mySkill">
                 <div class="mr10">{{this.getTeacherInfo.skill.length!==0?'已填写':''}}</div>
             </cell>
-            <cell title="生日" is-link link="/teacherBir">
+            <!-- <cell title="生日" is-link link="/teacherBir">
                 <div class="mr10">{{this.getTeacherInfo.birthday}}</div>
             </cell>
             <cell title="地址" is-link link="/teacherAdd">
                 <div class="mr10">{{this.getTeacherInfo.address}}</div>
             </cell>
             <cell title="手机" is-link link="/teacherCell">
-                <div class="mr10">{{this.getTeacherInfo.cell}}</div>
-            </cell>
+                <div class="mr10">{{this.getTeacherInfo.mobilePhone}}</div>
+            </cell> -->
         </group>
         <group title=" " label-width="4.5em" label-margin-right="2em">
             <cell title="个人介绍" is-link link="/myIntro">
-                <div class="mr10">{{this.getTeacherInfo.intro}}</div>
+                <div class="mr10">{{this.getTeacherInfo.description}}</div>
             </cell>
             <cell title="教育经历" is-link link="/myEdu">
-                <div class="mr10">{{this.getTeacherInfo.edu.length!==0?'已填写':''}}</div>
+                <div class="mr10">{{this.getTeacherInfo.edus.length!==0?'已填写':''}}</div>
             </cell>
             <cell title="教学经验" is-link link="/myTeachExp">
-                <div class="mr10">{{this.getTeacherInfo.exp.length!==0?'已填写':''}}</div>
+                <div class="mr10">{{this.getTeacherInfo.exps.length!==0?'已填写':''}}</div>
             </cell>
         </group>
         <group title=" " label-width="4.5em" label-margin-right="2em">
             <cell title="证书图片"></cell>
             <group title=" ">
-                <vux-upload url="" :class="images.length!=0?'':'plusIcon'" :headers="headers" :data="data" :images="images" :readonly="false" :max="9" 
-                :withCredentials="false" :span="3" :preview="true" @success="onSuccess" @error="onError" @remove="onRemove">
+                <vux-upload url="" :class="images.length!=0?'':'plusIcon'" :headers="headers" :data="data" :images="images" :readonly="false" :max="9" :withCredentials="false" :span="3" :preview="true" @success="onSuccess" @error="onError" @remove="onRemove">
                 </vux-upload>
             </group>
         </group>
         <!-- <div class="footerBtn">
-         <x-button type="primary" action-type="button" @click.native="saveInfo" :show-loading="isloading" :disabled="isloading">保存</x-button>
-        </div> -->
+             <x-button type="primary" action-type="button" @click.native="saveInfo" :show-loading="isloading" :disabled="isloading">保存</x-button>
+            </div> -->
     </div>
 </template>
 
@@ -75,13 +74,20 @@
             SimpleCropper,
             VuxUpload
         },
-        props:{
-            images:Array
+        props: {
+            images: Array
         },
         data() {
             return {
-                data:{},
-                headers:{},
+                sexOption: [{
+                    name: 'MALE',
+                    label: '男'
+                }, {
+                    name: 'FEMALE',
+                    label: '女'
+                }],
+                data: {},
+                headers: {},
                 // images: [],
                 Asrc: '',
                 value2: '',
@@ -95,19 +101,17 @@
             }
         },
         methods: {
-            onError(){},
-            onRemove(){},
-            onSuccess(data){
-                // console.log(data)
-                var reads = new FileReader();
-                let f = data;
-                reads.readAsDataURL(f);
-                reads.onload = (e) => {
-                    this.$emit('getImages',e.target.result)
-                    // this.images.push({src:e.target.result})
-                    // this.Asrc=e.target.result;
-                    // console.log(e.target.result)
-                };
+            onError() {},
+            onRemove(index) {
+                console.log(index)
+                this.$emit('removeImg', index)
+            },
+            onSuccess(id, data) {
+                //  var reads = new FileReader();
+                //  reads.readAsDataURL(data);
+                //  reads.onload = (e) => {
+                this.$emit('getImages', id)
+                //  }
             },
             ...mapActions([
                 'setTeacherInfo'
@@ -129,7 +133,7 @@
             // },
             onChange() {
                 this.setTeacherInfo({
-                    sex: this.value2
+                    gender: this.value2
                 })
             },
             saveInfo() {
@@ -148,6 +152,7 @@
             },
             // 上传头像成功回调 
             uploadHandle(data) {
+                console.log(data)
                 this.setTeacherInfo({
                     img: data
                 })
@@ -155,7 +160,6 @@
                     // this.userImg  = data
                 }
             },
-            
         },
         computed: {
             ...mapGetters([
@@ -165,7 +169,7 @@
         },
         created() {
             console.log(12313)
-            this.value2 = this.getTeacherInfo.sex
+            this.value2 = this.getTeacherInfo.gender
             // this.Asrc = this.getTeacherInfo.img
         },
     }
@@ -201,7 +205,7 @@
         .plusIcon .weui-uploader__input-box {
             border: none;
         }
-        .plusIcon  .vux-flexbox-item .vux-upload-bg .weui-uploader__input-box::before {
+        .plusIcon .vux-flexbox-item .vux-upload-bg .weui-uploader__input-box::before {
             position: absolute;
             content: '';
             width: 100%;

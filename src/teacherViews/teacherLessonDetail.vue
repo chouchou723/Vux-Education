@@ -2,8 +2,8 @@
 	<div class="teacherLessonDetail">
 		<view-box ref="viewBox">
 			<!-- <div class="banner">
-					<img src="../assets/banner.jpg" alt="" class="courseBanner">
-				</div> -->
+							<img src="../assets/banner.jpg" alt="" class="courseBanner">
+						</div> -->
 			<div class="courseBar">
 				<div class="course">
 					<div class="tit">{{detail.name}}</div>
@@ -19,13 +19,13 @@
 				</div>
 				<div class="favorite">
 					<span :style="detail.status.name=='PROCESS'?'color:#04be02':detail.status.name=='PASS'?'color:#e42b2b':detail.status.name=='WAIT'?'color:#aaadb1':'color:#bdb9b9'">
-						{{detail.status.name=='FAIL'?'已取消':detail.status.label}}</span>
+								{{detail.status.name=='FAIL'?'已取消':detail.status.label}}</span>
 				</div>
 			</div>
 			<!-- 已开课的列表 -->
 			<group title=" " label-width="4.5em" v-if="detail.status.name=='PROCESS'">
-				 <cell v-for="(item,index) in lessonL" :key="index" :title="`第${index+1}节课`" is-link style="font-size:16px" :link="`/teacherDoSingleDetail?id=${item.id}&num=${index+1}`">
-                </cell>
+				<cell v-for="(item,index) in lessonL" :key="index" :title="`第${index+1}节课`" is-link style="font-size:16px" :link="`/teacherDoSingleDetail?id=${item.id}&num=${index+1}`">
+				</cell>
 			</group>
 			<!-- 其他情况 -->
 			<group class="courseBox" v-if="detail.status.name!=='PROCESS'">
@@ -37,13 +37,13 @@
 				</CellBox>
 			</group>
 			<!-- <group class="courseBox">
-				    <cell class="tit" title="课程地点"></cell>		    
-				    <CellBox>博成路上南路世博源二区L1层星动力空间</CellBox>
-				</group> -->
+						    <cell class="tit" title="课程地点"></cell>		    
+						    <CellBox>博成路上南路世博源二区L1层星动力空间</CellBox>
+						</group> -->
 			<group class="courseBox" v-if="detail.status.name!=='PROCESS'">
 				<cell class="tit" title="课程时间"></cell>
 				<div v-for="(item,index) in lessonList" :key="'lesson'+index" v-if="isMore?(index>=0):(index<=2)" class="weui-cell vux-cell-box">
-				第{{item.classNum}}节课: {{item.date.substring(0,4)}}年{{item.date.substring(5,7)}}月{{item.date.substring(8,10)}}日, {{item.week}}, {{item.beginTimeStr.split(':')[0]>12?'下午':'上午'}}{{item.beginTimeStr}}-{{item.endTimeStr}}
+					第{{item.classNum}}节课: {{item.date.substring(0,4)}}年{{item.date.substring(5,7)}}月{{item.date.substring(8,10)}}日, {{item.week}}, {{item.beginTimeStr.split(':')[0]>12?'下午':'上午'}}{{item.beginTimeStr}}-{{item.endTimeStr}}
 				</div>
 				<CellBox>
 					<div class="more" @click="changeMore"><span>{{isMore?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMore?'rotate90':'']"></i></div>
@@ -51,21 +51,21 @@
 			</group>
 			<group class="courseBox" v-if="detail.status.name!=='PROCESS'">
 				<cell class="tit" title="适用对象"></cell>
-				<CellBox>{{detail.age}}儿童</CellBox>
+				<CellBox>{{detail.age}}{{detail.age=='成人'?'':'儿童'}}</CellBox>
 			</group>
 			<!-- <group class="courseBox">
-				    <cell class="tit" title="授课老师"></cell>		    
-				    <cell-box is-link link="/classTeacher">
-			        	<div class="teacher">
-			        		<div class="pho"><img src="../assets/pho.jpg" alt=""></div>
-			        		<div class="info">
-			        			<div class="name">代方方</div>
-			        			<div class="schoolAge">6年教齡</div>
-			        			<p>上海大学美术学院油画硕士</p>
-			        		</div>
-			        	</div>
-			      	</cell-box>
-				</group> -->
+						    <cell class="tit" title="授课老师"></cell>		    
+						    <cell-box is-link link="/classTeacher">
+					        	<div class="teacher">
+					        		<div class="pho"><img src="../assets/pho.jpg" alt=""></div>
+					        		<div class="info">
+					        			<div class="name">代方方</div>
+					        			<div class="schoolAge">6年教齡</div>
+					        			<p>上海大学美术学院油画硕士</p>
+					        		</div>
+					        	</div>
+					      	</cell-box>
+						</group> -->
 			<group class="courseBox" v-if="detail.status.name!=='PROCESS'">
 				<cell class="tit" title="课程介绍"></cell>
 				<CellBox>
@@ -76,47 +76,47 @@
 						<div v-html="detail.description"></div>
 					</div>
 				</CellBox>
-				<CellBox>
+				<CellBox v-if="isOh">
 					<div class="more" @click="changeMoreContent"><span>{{isMoreContent?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMoreContent?'rotate90':'']"></i></div>
 				</CellBox>
 			</group>
 			<!-- <group class="courseBox">
-				    <cell class="tit" title="课程评价">
-				    	<div class="moreEval" @click="gotoMoveComment">更多评价（288条）</div>
-				    </cell>		   
-				    <CellBox link="/commentDetail">
-				    	<div class="assess">
-				    		<div class="pho"><img src="../assets/pho.jpg" alt=""></div>
-				    		<div class="info">
-				    			<div class="hd">
-				    				<div class="name">Kino的天空</div>
-							    	<div class="data">4月17日 </div>
-							    </div>
-				    			<div class="rater">
-				    				<span style="vertical-align: top;">总体</span>
-	                    <img src="../assets/star.png" alt="" v-for="(item,index) in data42" :key="index+'a'" class="star"><img src="../assets/starg.png" alt="" v-for="(item,index) in (5-data42)" :key="index+'b'" v-if="item" class="star">
-									
-							    </div>
-				    			<p>我参加了周六上午的国画课，小朋友年纪小，希望从小培养，上课过程很开心！</p>
-				    			<div class="imgList">
-				    				<div class="each"><img src="../assets/pho.jpg" alt="" class="img"></div>
-				    				<div class="each"><img src="../assets/pho.jpg" alt="" class="img"></div>
-				    				<div class="each"><img src="../assets/pho.jpg" alt="" class="img"></div>
-				    				<div class="allPic">
-				    					<i class="picMin"></i>8
-				    				</div>
-				    			</div>
-				    			<div class="bd">
-				    				<div class="browse">浏览 3300</div>
-				    				<div class="other">
-				    					<span class="zan"><i class="ico_zan"></i>3</span>
-				    					<span class="reply"><i class="ico_reply"></i>1</span>
-				    				</div>
-				    			</div>
-				    		</div>
-				    	</div>
-				    </CellBox>
-				</group> -->
+						    <cell class="tit" title="课程评价">
+						    	<div class="moreEval" @click="gotoMoveComment">更多评价（288条）</div>
+						    </cell>		   
+						    <CellBox link="/commentDetail">
+						    	<div class="assess">
+						    		<div class="pho"><img src="../assets/pho.jpg" alt=""></div>
+						    		<div class="info">
+						    			<div class="hd">
+						    				<div class="name">Kino的天空</div>
+									    	<div class="data">4月17日 </div>
+									    </div>
+						    			<div class="rater">
+						    				<span style="vertical-align: top;">总体</span>
+			                    <img src="../assets/star.png" alt="" v-for="(item,index) in data42" :key="index+'a'" class="star"><img src="../assets/starg.png" alt="" v-for="(item,index) in (5-data42)" :key="index+'b'" v-if="item" class="star">
+											
+									    </div>
+						    			<p>我参加了周六上午的国画课，小朋友年纪小，希望从小培养，上课过程很开心！</p>
+						    			<div class="imgList">
+						    				<div class="each"><img src="../assets/pho.jpg" alt="" class="img"></div>
+						    				<div class="each"><img src="../assets/pho.jpg" alt="" class="img"></div>
+						    				<div class="each"><img src="../assets/pho.jpg" alt="" class="img"></div>
+						    				<div class="allPic">
+						    					<i class="picMin"></i>8
+						    				</div>
+						    			</div>
+						    			<div class="bd">
+						    				<div class="browse">浏览 3300</div>
+						    				<div class="other">
+						    					<span class="zan"><i class="ico_zan"></i>3</span>
+						    					<span class="reply"><i class="ico_reply"></i>1</span>
+						    				</div>
+						    			</div>
+						    		</div>
+						    	</div>
+						    </CellBox>
+						</group> -->
 			<!-- <toast v-model="show7" type="text" :text="toastWord" position='middle'></toast> -->
 		</view-box>
 	</div>
@@ -128,9 +128,6 @@
 		Group,
 		Cell,
 		CellBox,
-		Tabbar,
-		TabbarItem,
-		TransferDomDirective as TransferDom,
 	} from 'vux'
 	import {
 		lessonDetail,
@@ -138,19 +135,15 @@
 	} from '../api/api'
 	import apiHost from '../../config/prod.env'
 	export default {
-		directives: {
-			TransferDom
-		},
 		components: {
 			ViewBox,
 			Group,
 			Cell,
 			CellBox,
-			Tabbar,
-			TabbarItem
 		},
 		data() {
 			return {
+				isOh: false,
 				detail: {
 					name: '',
 					price: '',
@@ -159,13 +152,13 @@
 					stuNum: '',
 					// address: '',
 					age: '',
-					status:{
-						name:'',
-						label:''
+					status: {
+						name: '',
+						label: ''
 					},
-					reason:''
+					reason: ''
 				},
-				oh:'',
+				oh: '',
 				lessonL: 0,
 				data42: 4,
 				videoPoster: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
@@ -174,13 +167,8 @@
 				content: '待开课',
 				toastWord: '',
 				lessonList: [],
-				lessonListT: [],
-				lessonListAll: ['第1节课：2018年4月28日，周六，上午10:00 - 12:00', '第1节课：2018年4月28日，周六，上午10:00 - 12:00',
-					'第1节课：2018年4月28日，周六，上午10:00 - 12:00', '第1节课：2018年4月28日，周六，上午10:00 - 12:00',
-					'第1节课：2018年4月28日，周六，上午10:00 - 12:00'
-				],
 				isMore: false,
-				isMoreContent: '',
+				isMoreContent: true,
 				// showM:true,
 			}
 		},
@@ -207,22 +195,21 @@
 					// this.lessonList = this.lessonListAll
 				}
 			},
-			getList(){
+			getList() {
 				let para = {
-                    id :this.$route.query.id
-                }
-				getMyLessonSituation(para).then(res=>{
+					id: this.$route.query.id
+				}
+				getMyLessonSituation(para).then(res => {
 					// console.log(res)
 					this.lessonL = res.data.details;
 				})
 			},
-			fetchData(){
+			fetchData() {
 				let id = this.$route.query.id;
-				lessonDetail(id).then(res=>{
+				lessonDetail(id).then(res => {
 					console.log(res)
 					let data = res.data;
 					this.lessonList = data.schedules
-					
 					this.detail = {
 						name: data.name,
 						price: data.price,
@@ -231,11 +218,14 @@
 						minStuNum: data.minStuNum,
 						stuNum: data.stuNum,
 						// address: data.address,
-						status:data.status,
+						status: data.status,
 						age: data.applyAge.label,
 						description: data.description,
 						videoId: data.video ? data.video.filePath : '',
-						reason:data.reason
+						reason: data.reason
+					}
+					if (this.detail.status.name == 'PROCESS') {
+						this.getList()
 					}
 				})
 			}
@@ -243,21 +233,26 @@
 		created() {
 			this.setTitle('课程详情')
 			this.fetchData()
-			this.getList()
 			// this.lessonListT = this.lessonListAll.slice(0,3);
 		},
 		mounted() {
 			//  document.querySelector(".tabBar2 .call").setAttribute('href','tel:4001720748');
 			window.onresize = function() {
-				this.$refs.video.style.width = window.innerWidth + "px";
-				this.$refs.video.style.height = window.innerHeight + "px";
+				if (this.$refs.video) {
+					this.$refs.video.style.width = window.innerWidth + "px";
+					this.$refs.video.style.height = window.innerHeight + "px";
+				}
 			}
 			setTimeout(() => {
-				this.oh = document.getElementsByClassName('introduce')[0].offsetHeight;
-				if (this.oh < 490) {
-					this.isMoreContent = true;
-				} else {
-					this.isMoreContent = false;
+				if (this.detail.status.name !== 'PROCESS') {
+					this.oh = document.getElementsByClassName('introduce')[0].offsetHeight;
+					if (this.oh < 490) {
+						this.isMoreContent = true;
+						this.isOh = false
+					} else {
+						this.isMoreContent = false;
+						this.isOh = true
+					}
 				}
 			}, 500);
 		},
@@ -277,7 +272,6 @@
 						document.getElementsByClassName('introduce')[0].style.cssText += 'height:auto'
 					}
 				} else {
-					console.log(458)
 					if (this.oh > 490) {
 						document.getElementsByClassName('introduce')[0].style.cssText += 'height:490px'
 					}
@@ -318,7 +312,7 @@
 				}
 				.price {
 					color: #FB6600;
-					font-size:12px;
+					font-size: 12px;
 					padding: .1rem 0 .3rem;
 					line-height: 1.3;
 				}
@@ -385,35 +379,6 @@
 					transform: rotate(180deg);
 				}
 			}
-			.teacher {
-				display: flex;
-				align-items: center;
-				.pho {
-					width: 1.84rem;
-					height: 1.84rem;
-					margin-right: 0.48rem;
-					img {
-						display: block;
-						width: 100%;
-						border-radius: 50%;
-					}
-				}
-				.info {
-					font-size: 0.293333rem;
-					line-height: 1.8em;
-					.name {
-						font-size: 0.346666rem;
-						font-weight: bold;
-					}
-					.schoolAge {
-						color: #7F8389;
-					}
-					p {
-						margin: 0;
-						color: #000;
-					}
-				}
-			}
 			.introduce {
 				position: relative;
 				&.lite {
@@ -461,128 +426,6 @@
 					z-index: 1;
 				}
 			}
-			.assess {
-				display: flex;
-				.pho {
-					width: 1.84rem;
-					height: 1.84rem;
-					margin-right: 0.266666rem;
-					img {
-						display: block;
-						width: 100%;
-						border-radius: 50%;
-					}
-				}
-				.info {
-					.hd {
-						display: flex;
-						justify-content: space-between;
-						.data {
-							color: #7F8389;
-							font-size: 0.293333rem;
-						}
-					}
-					.rater {
-						color: #7F8389;
-						font-size: 0.293333rem;
-						margin: 0.133333rem 0;
-					}
-					.star {
-						width: 12px;
-						height: 12px;
-						margin-right: .1rem;
-					}
-					.imgList {
-						display: flex;
-						margin: 0 -5px;
-						position: relative;
-						.each {
-							width: 2.2rem;
-							flex: 1;
-							margin: 5px;
-							img {
-								display: block;
-								max-width: 100%;
-							}
-						}
-						.allPic {
-							position: absolute;
-							right: 10px;
-							bottom: 10px;
-							width: 1rem;
-							height: 0.533333rem;
-							text-align: center;
-							background-color: rgba(0, 0, 0, 0.6);
-							border-radius: 0.533333rem;
-							color: #fff;
-							font-size: 12px;
-							display: flex;
-							justify-content: space-between;
-							align-items: center;
-							box-sizing: border-box;
-							padding: 0 0.2rem;
-							.picMin {
-								display: inline-block;
-								width: 0.293333rem;
-								height: 0.293333rem;
-								background: url(../assets/picMin.png) no-repeat;
-								background-size: 100% 100%;
-							}
-						}
-					}
-					.bd {
-						display: flex;
-						justify-content: space-between;
-						color: #7F8389;
-						font-size: 0.293333rem;
-						.zan {
-							.ico_zan {
-								display: inline-block;
-								width: 0.266666rem;
-								height: 0.293333rem;
-								background: url(../assets/zan.png) no-repeat;
-								background-size: 100% 100%;
-								margin-right: 3px;
-								vertical-align: middle;
-								margin-top: -2px;
-							}
-						}
-						.reply {
-							margin-left: 10px;
-							.ico_reply {
-								display: inline-block;
-								width: 0.266666rem;
-								height: 0.293333rem;
-								background: url(../assets/reply.png) no-repeat;
-								background-size: 100% 100%;
-								margin-right: 3px;
-								vertical-align: middle;
-								margin-top: -2px;
-							}
-						}
-					}
-				}
-			}
-		}
-		.tabBar2 {
-			background: #1AAD19 !important;
-			.call {
-				flex: 1;
-				background: #F9F9F9;
-			}
-			.buy {
-				flex: 3;
-				line-height: 0.706666rem;
-				span {
-					color: #fff;
-				}
-				.weui-tabbar__label {
-					padding-top: 2px;
-				}
-			}
-		}
-		.weui-tabbar__item.weui-bar__item_on .weui-tabbar__label {
-			color: #999999;
 		}
 	}
 </style>

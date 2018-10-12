@@ -2,11 +2,12 @@
     <div class="myTeacherInfo">
         <view-box ref="viewBox">
             <!-- <group title=" " label-width="4.5em" label-margin-right="2em" v-if="step1==2"> -->
-            <teacherInfo :images='images' @getImages="getImages" rlink="myTeacherInfo"></teacherInfo>
+            <teacherInfo :images='images' @getImages="getImages" @removeImg="removeImg" rlink="myTeacherInfo"></teacherInfo>
             <!-- </group> -->
             <div class="footerBtn">
-                <x-button type="primary" action-type="button" disabled @click.native="confireName">取消修改</x-button>
-                <x-button type="primary" action-type="button" @click.native="confireName">保存并提交审核</x-button>
+                <x-button action-type="button" @click.native="cancelEdit">取消修改</x-button>
+                <x-button type="primary" action-type="button" :disabled="valid" :show-loading='isLoading' @click.native="confireName">
+                    {{isLoading?'提交中':'保存并提交审核'}}</x-button>
             </div>
         </view-box>
     </div>
@@ -14,96 +15,132 @@
 
 <script>
     import {
-        Step,
-        StepItem,
         XButton,
-        Group,
-        XInput,
         ViewBox
     } from 'vux'
     import teacherInfo from './teacherInfo'
+    import {
+        editTeacherInfo,
+        editTeacherEdu,
+        editTeacherExp
+    } from '../api/api'
     import {
         mapActions,
         mapGetters
     } from 'vuex';
     export default {
         components: {
-            Group,
             XButton,
-            XInput,
-            Step,
-            StepItem,
             teacherInfo,
             ViewBox
         },
         data() {
             return {
                 images: [],
-                applyStaus: 'fail',
-                countTime: 10,
-                step1: 2,
-                value: '',
-                count: false,
-                nickname: function(value) {
-                    return {
-                        valid: (/^[\u4e00-\u9fa5a-zA-Z0-9]+$/).test(value),
-                        msg: '不能输入符号'
-                    }
-                },
-                type: '',
-                countStart: {},
+                cerIdArr: [],
+                isLoading:false,
             }
         },
         created() {
             this.setTitle('我的资料')
+            if (this.getTeacherInfo.cerIds) {
+                this.cerIdArr = this.getTeacherInfo.cerIds.split(',')
+                this.images = this.cerIdArr.map(item => {
+                    return {
+                        src: `${this.apiUrl}/attach/img/${item}/SQUARE`
+                    }
+                })
+            }
         },
         methods: {
+            cancelEdit() {
+                this.$router.push('/teacherPersonal')
+            },
+            removeImg(index) {
+                this.cerIdArr.splice(index, 1)
+                this.images.splice(index, 1)
+                this.setTeacherInfo({
+                    cerIds: this.cerIdArr.join(',')
+                })
+            },
             getImages(data) {
+                this.cerIdArr.push(data)
                 this.images.push({
-                    src: data
+                    src: `${this.apiUrl}/attach/img/${data}/SQUARE`
+                })
+                // console.log(data)
+                this.setTeacherInfo({
+                    cerIds: this.cerIdArr.join(',')
                 })
                 // console.log(data)
             },
-            getCode() {
-                this.count = true;
-                if (this.countTime == 10) {
-                    this.countStart = setInterval(() => {
-                        if (this.countTime == 1) {
-                            clearInterval(this.countStart)
-                            this.countTime = 10;
-                            this.count = false;
-                        } else {
-                            this.countTime--
-                        }
-                    }, 1000)
-                }
-            },
             ...mapActions([
-                'setMyInfo'
+                'setTeacherInfo'
             ]),
             confireName() {
-                if (this.type) {
-                    this.setMyInfo({
-                        nickname: this.value
+                if(!this.isLoading){
+                this.isLoading = true;
+                let para = {
+                    realName: this.getTeacherInfo.realName,
+                    skill: this.getTeacherInfo.skill.join(','),
+                    experience: this.getTeacherInfo.experience.name,
+                    cerIds: this.getTeacherInfo.cerIds,
+                    description: this.getTeacherInfo.description,
+                    gender: this.getTeacherInfo.gender,
+                    id: this.getTeacherInfo.id,
+                    picId: this.getTeacherInfo.img,
+                };
+                let edus = this.getTeacherInfo.edus
+                let edu = edus.map(item => {
+                    return {
+                        id:item.id?item.id:'',
+                        school: item.school,
+                        subject: item.subject,
+                        beginDate: item.beginDateStr,
+                        endDate: item.endDateStr,
+                        degree: item.degree.name,
+                    }
+                })
+                let exps = this.getTeacherInfo.exps
+                let exp = exps.map(item => {
+                    return {
+                        id:item.id?item.id:'',
+                        beginDate: item.beginDateStr,
+                        endDate: item.endDateStr,
+                        description: item.description,
+                    }
+                })
+                Promise.all([editTeacherInfo(para), editTeacherEdu(edu), editTeacherExp(exp)]).then((values)=> {
+                    let isSuccess = values.every(item=>{
+                        return item.code ==0
                     })
-                } else {
-                    this.setMyInfo({
-                        name: this.value
-                    })
+                    if(isSuccess){
+                        this.isLoading = false;
+                        this.$vux.toast.show({
+                            text: '提交成功'
+                        })
+                        console.log(this.getTeacherInfo)
+                        localStorage.setItem('teacherInfo', JSON.stringify(this.getTeacherInfo))
+                    }
+                });
+
                 }
-                this.$router.push('/myInfo')
             },
         },
         computed: {
             ...mapGetters([
-                'getMyInfo'
+                'getTeacherInfo'
                 // ...
             ]),
-            getCodeContent() {
-                if (this.count) {
-                    return `重新获取(${this.countTime}s)`
+            valid() {
+                let arr = Object.values(this.getTeacherInfo);
+                // console.log(arr)
+                if (arr.every(item => {
+                        return item != ''
+                    })) {
+                    return false
                 } else {
-                    return '获取验证码'
+                    return true
                 }
             }
         },
@@ -118,135 +155,8 @@
             padding-bottom: .1rem;
             font-size: .4rem;
         }
-        .stepTitle {
-            width: 100%;
-            height: 4rem;
-            background: white;
-            padding: .8rem;
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            justify-content: space-between
-        }
-        .stepOne {
-            width: 2rem;
-            height: 2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            img {
-                width: 90%;
-            }
-            div {
-                font-size: 15px;
-                padding-top: .3rem;
-            }
-            &::after {
-                content: '';
-                position: absolute;
-                width: .6rem;
-                top: 27%;
-                right: -.6rem;
-                border-bottom: .07rem solid #00a6e7
-            }
-        }
-        .stepTwo {
-            width: 2rem;
-            height: 2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            img {
-                width: 90%;
-            }
-            div {
-                padding-top: .3rem;
-                font-size: 15px;
-            }
-            &::before {
-                content: '';
-                position: absolute;
-                width: .6rem;
-                top: 27%;
-                left: -.6rem;
-                border-bottom: .07rem solid gainsboro;
-            }
-            &::after {
-                content: '';
-                position: absolute;
-                width: .6rem;
-                top: 27%;
-                right: -.6rem;
-                border-bottom: .07rem solid gainsboro;
-            }
-        }
-        .stepTwoAct {
-            &::before {
-                content: '';
-                position: absolute;
-                width: .6rem;
-                top: 27%;
-                left: -.6rem;
-                border-bottom: .07rem solid #00a6e7;
-            }
-            &::after {
-                content: '';
-                position: absolute;
-                width: .6rem;
-                top: 27%;
-                right: -.6rem;
-                border-bottom: .07rem solid #00a6e7;
-            }
-        }
-        .stepThree {
-            width: 2rem;
-            height: 2rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            img {
-                width: 90%;
-            }
-            div {
-                padding-top: .3rem;
-                font-size: 15px;
-            }
-            &::before {
-                content: '';
-                position: absolute;
-                width: .6rem;
-                top: 27%;
-                left: -.6rem;
-                border-bottom: .07rem solid gainsboro;
-            }
-        }
-        .stepThreeAct {
-            &::before {
-                content: '';
-                position: absolute;
-                width: .6rem;
-                top: 27%;
-                left: -.6rem;
-                border-bottom: .07rem solid #00a6e7;
-            }
-        }
-        .getCode {
-            font-size: 15px; // padding-left:30px;
-            width: 125px;
-            border: none;
-            border-left: 1px solid gainsboro;
-            border-radius: 0;
-            background: transparent;
-            color: #00a6e7;
-        }
-        .colorg {
-            color: #afa8a8;
+        .weui-btn_default {
+            border: 1px solid gainsboro;
         }
         .weui-btn:after {
             border: none;
@@ -255,14 +165,8 @@
             background-color: #e1e1e1;
             color: black;
         }
-        .weui-btn_primary {
+        .weui-btn_primary,.weui-btn_loading.weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
             background-color: #00a6e7;
-        }
-        .weui-vcode {
-            .weui-cell__ft {
-                display: flex;
-                align-items: center;
-            }
         }
         .footerBtn {
             width: 92%;

@@ -12,12 +12,11 @@
             </tab-item>
             <tab-item @on-item-click='changeItem("END")'>已结课</tab-item>
         </tab>
-       
         <!-- <view-box ref="viewBox">  -->
         <scroller delegate-id="myScroller" :on-refresh="refresh" :pageW="pageW" :on-infinite="loadMore" ref='my_scroller' v-if="lessonList1.length!=0">
             <!-- 列表 -->
             <group style="margin-top:-0.2rem" id="picContent">
-                <cell-box is-link v-for="(item,index) in lessonList1" :key="index" :link="`/teacherLessonDetail/?id=${item.id}`">
+                <cell-box is-link v-for="(item,index) in lessonList1" :key="index" :link="`/teacherLessonDetail?id=${item.id}`">
                     <div class="lessonList">
                         <x-img :default-src="dsrc" :src="`${apiUrl}/attach/img/${item.picId}/SQUARE`" width="65" height="65" alt="" container="#vux_view_box_body" :offset="1500*(page+1)"></x-img>
                         <div class="lessonDetail">
@@ -25,9 +24,9 @@
                                 <!-- <div class="hot" v-if="item.ishot">热门</div> -->
                                 <div class="lessonName">{{item.name}}</div>
                                 <div class="lessonStatus" :style="item.status.label=='已开课'?'color: #04be02;border: 1px solid #04be02;':
-                                    item.status.label=='已结课'||item.status.label=='已取消'?'color: #b6b6b6;border: 1px solid #b6b6b6;':'color: #F76260;border: 1px solid #F76260;'">{{item.status.label}}</div>
+                                        item.status.label=='已结课'||item.status.label=='已取消'?'color: #b6b6b6;border: 1px solid #b6b6b6;':'color: #F76260;border: 1px solid #F76260;'">{{item.status.label}}</div>
                             </div>
-                            <div class="lessonContent">{{item.courseNum}}节课-{{item.totalTime}}课时|{{item.applyAge.label}}儿童|满{{item.minStuNum||0}}人开课</div>
+                            <div class="lessonContent">{{item.courseNum}}节课-{{item.totalTime}}课时 | {{item.applyAge.label}}{{item.applyAge.label=='成人'?'':'儿童'}} | 满{{item.minStuNum||0}}人开课</div>
                             <div class="lessonPrice" v-if="item.status.label=='已开课'||item.status.label=='待开课'">根据你的情况该课程费用约为{{item.price||0}}元</div>
                             <div class="lessonPrice" v-if="item.status.label=='已结课'">课程费用为{{item.price||0}}元</div>
                         </div>
@@ -40,11 +39,11 @@
             <img src="../assets/noLesson.png" alt="">
             <div>暂无数据</div>
         </div>
-         <div class="noLessonDiv" v-if="lessonList1.length==0&&status===''">
+        <div class="noLessonDiv" v-if="lessonList1.length==0&&status===''">
             <img src="../assets/noLesson.png" alt="">
             <div>您还没有发布课程</div>
             <div class="footerBtn">
-                <x-button type="primary" action-type="button" @click.native="goToPublish" :show-loading="isloading" :disabled="isloading">马上去发布</x-button>
+                <x-button type="primary" action-type="button" @click.native="goToPublish" >马上去发布</x-button>
             </div>
         </div>
         <!-- </view-box> -->
@@ -83,8 +82,8 @@
                 // with hot-reload because the reloaded component
                 // preserves its current state and we are modifying
                 // its initial state.
-                status:'',
-                totalPages:0,
+                status: '',
+                totalPages: 0,
                 dsrc: require('../assets/picload.png'),
                 asrc: require("../assets/0e3a716cf47f1eb695e5b62597dec807.jpg"),
                 value: '',
@@ -99,18 +98,21 @@
                 chooseItemList: [],
                 lessonList: [],
                 lessonList1: [{
-                        id: '',
-                        hot: true,
-                        name: '创意绘画单课',
-                        courseNum:0,
-                        totalTime:0,
-                        applyAge:{label:''},
-                        minStuNum:0,
-                        price:0,
-                        status:{label:''},
-                        picId:"",
+                    id: '',
+                    hot: true,
+                    name: '创意绘画单课',
+                    courseNum: 0,
+                    totalTime: 0,
+                    applyAge: {
+                        label: ''
                     },
-                ]
+                    minStuNum: 0,
+                    price: 0,
+                    status: {
+                        label: ''
+                    },
+                    picId: "",
+                }, ]
             }
         },
         methods: {
@@ -122,42 +124,44 @@
                 this.$router.push('/teacherPublishHome')
             },
             refresh(cb) {
-                this.fetchData(0,cb);
+                this.page = 0;
+                this.fetchData( this.page, cb);
                 // this.$refs.my_scroller.finishPullToRefresh()
                 // console.log(d)
             },
             loadMore() {
-                if(this.totalPages>this.page+1){
+                // if (this.totalPages > this.page + 1) {
                     this.page++;
                     this.fetchData()
-                }else{
-                        this.$refs.my_scroller.finishInfinite(2)
-                }
+                // }
             },
             goToPay() {
                 this.$router.push('/paying')
             },
-            fetchData(page=this.page,cb){
+            fetchData(page = this.page, cb) {
                 let para = {
-                    page:page,
-                    size:15,
-                    status:this.status
+                    // page: page,
+                    size: 15*(page+1),
+                    status: this.status
                 }
-                getTeacherLesson(para).then(res=>{
-                    console.log(res)
-                    this.lessonList1 = res.data.content;
-                    this.totalPages = res.data.totalPages;
-                }).then(res=>{
-                    if(cb) cb()
+                getTeacherLesson(para).then(res => {
+                    // console.log(res)
+                    this.lessonList1 = [...res.data.content];
+                    this.totalPages = res.data.totalElements;
+                }).then(res => {
+                    if (this.totalPages <= 15*(this.page + 1)) {
+                        this.$refs.my_scroller&&this.$refs.my_scroller.finishInfinite(2)
+                        this.page =Math.floor(this.totalPages/15)
+
+                    }
+                    if (cb) cb()
                 })
             }
         },
         created() {
-            console.log(4)
+            // console.log(4)
             this.setTitle('我的课程')
             this.fetchData()
-            let a = [{date:123,id:456}];let b = a.map(item=> {return {...item,date:item.date+1}});console.log(b)
-            // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},
         computed: {},
@@ -196,7 +200,7 @@
             background-color: #e1e1e1;
             color: black;
         }
-        .weui-btn_primary {
+        .weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
             background-color: #00a6e7;
         }
         .lessonTitle {

@@ -60,13 +60,13 @@
 				<cell class="tit" title="课程介绍"></cell>
 				<CellBox>
 					<div :class="['introduce',isMoreContent?'':'lite']">
-						<video v-if="detail.videoId" preload='auto' ref="video" width="100%" height="200px" x5-video-player-type="h5" x5-video-player-fullscreen="true" :src="`${apiUrl}/attach/img/${detail.videoId}`"></video>
+						<video v-if="detail.videoId" preload='auto' ref="video" width="100%" height="200px" x5-video-player-type="h5" x5-video-player-fullscreen="true" :src="`${apiUrl}/attach/video/${detail.videoId}`"></video>
 						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM&&detail.videoId">
 						<div class="playModal" v-if="showM&&detail.videoId"></div>
 						<div v-html="detail.description"></div>
 					</div>
 				</CellBox>
-				<CellBox>
+				<CellBox v-if="isOh">
 					<div class="more" @click="changeMoreContent">
 						<span>{{isMoreContent?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMoreContent?'rotate90':'']"></i>
 					</div>
@@ -74,9 +74,9 @@
 			</group>
 			<group class="courseBox">
 				<cell class="tit" title="课程评价">
-					<div class="moreEval" @click="gotoMoveComment">更多评价（{{comment.commentNum}}条）</div>
+					<div class="moreEval" v-if="comment.commentNum>0" @click="gotoMoveComment">更多评价（{{comment.commentNum}}条）</div>
 				</cell>
-				<CellBox @click.native="gotoDetail">
+				<CellBox @click.native="gotoDetail" v-if="comment.commentNum>0">
 					<div class="assess">
 						<div class="pho"><img :src="`${apiUrl}/attach/img/${comment.photo}/SQUARE`" alt=""></div>
 						<div class="info">
@@ -91,8 +91,8 @@
 							</div>
 							<p style="padding:.1rem 0">{{comment.content}}</p>
 							<div class="imgList" v-if="commentPic.length>0">
-								<div class="each" v-for="(pic,index) in commentPic" :key="'p'+index" @click="show(index)">
-									<img :src="`${apiUrl}/attach/img/${pic.id}/SQUARE`" alt="" class="img" v-if="index<3">
+								<div class="each" v-for="(pic,index) in commentPic" :key="'p'+index" @click="show(index)" v-if="index<3">
+									<img :src="`${apiUrl}/attach/img/${pic.id}/SQUARE`" alt="" class="img" >
 								</div>
 								<div class="allPic" v-if="commentPic.length>3">
 									<i class="picMin"></i>{{commentPic.length}}
@@ -106,6 +106,11 @@
 								</div>
 							</div>
 						</div>
+					</div>
+				</CellBox>
+				<CellBox v-else>
+					<div class="noComment">
+						暂无评价
 					</div>
 				</CellBox>
 			</group>
@@ -184,7 +189,8 @@
 					id: ''
 				}],
 				data42: 3,
-				isMoreContent: '',
+				isMoreContent: true,
+				isOh:false,
 				videoPoster: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
 				arr2: [],
 				arr: [],
@@ -204,18 +210,23 @@
 			changeMoreContent() {
 				if (this.isMoreContent) {
 					this.isMoreContent = false;
-					this.lessonList = this.lessonListAll.slice(0, 3);
+					// this.lessonList = this.lessonListAll.slice(0, 3);
 				} else {
 					this.isMoreContent = true;
-					this.lessonList = this.lessonListAll
+					// this.lessonList = this.lessonListAll
 				}
 			},
 			gotoMoveComment() {
 				this.$router.push(`/totalComment?id=${this.$route.query.id}`)
 			},
 			playVideo() {
+				// console.log(this.$refs.video.paused)
 				// this.showM = false;
-				this.$refs.video.play();
+				if(this.$refs.video.paused){
+					this.$refs.video.play();
+				}else{
+					this.$refs.video.pause()
+				}
 			},
 			clickDay(data) {
 				//   console.log('选中了', data); //选中某天
@@ -254,7 +265,7 @@
 						experience: data.teacher.experience,
 						edu: data.teacher.edu,
 						description: data.description,
-						videoId: data.videoId,
+						videoId: data.video ? data.video.filePath : '',
 						beginTimeStr: data.schedules[0].beginTimeStr,
 						endTimeStr: data.schedules[0].endTimeStr,
 						teacherId: data.teacher.id
@@ -312,16 +323,20 @@
 				if (this.oh < 490) {
 					console.log(oh, 123)
 					this.isMoreContent = true;
+					this.isOh = false
 				} else {
 					this.isMoreContent = false;
+					this.isOh = true
 				}
 			}, 500);
 		},
 		computed: {
 			showM() {
 				if (this.$refs.video && this.$refs.video.paused) {
+					return true
+				} else if(this.$refs.video && !this.$refs.video.paused){
 					return false
-				} else {
+				}else{
 					return true
 				}
 			}
@@ -392,6 +407,15 @@
 			}
 		}
 		.courseBox {
+			.noComment {
+				width: 100%;
+				height: 2rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 18px;
+				color: #7F8389;
+			}
 			.weui-cells {
 				margin: .77em 0;
 				.tit {
@@ -462,7 +486,7 @@
 			.introduce {
 				position: relative;
 				&.lite {
-					height: 11rem;
+					// height: 11rem;
 					position: relative;
 					overflow: hidden;
 					&::after {
@@ -512,6 +536,7 @@
 					width: 1.84rem;
 					height: 1.84rem;
 					margin-right: 0.266666rem;
+					flex:0 0 1.84rem;
 					img {
 						display: block;
 						width: 100%;
@@ -519,7 +544,8 @@
 					}
 				}
 				.info {
-					width: 100%;
+					// width: 100%;
+					flex:1;
 					.hd {
 						display: flex;
 						justify-content: space-between;
@@ -544,6 +570,7 @@
 						position: relative;
 						height: 2.4rem;
 						.each {
+							flex:0 0 2.2rem;
 							width: 2.2rem; // flex: 1;
 							margin: 5px;
 							img {

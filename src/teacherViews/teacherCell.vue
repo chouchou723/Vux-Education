@@ -38,7 +38,7 @@
     },
     created() {
       document.title = '手机'
-      this.value = this.getTeacherInfo.cell
+      this.value = this.getTeacherInfo.mobilePhone
     },
     methods: {
       ...mapActions([
@@ -46,7 +46,7 @@
       ]),
       confirm() {
         this.setTeacherInfo({
-          cell: this.value
+          mobilePhone: this.value
         })
         // this.$router.push('/applyFirst?step=2')
         this.$router.go(-1)
@@ -72,7 +72,7 @@
       background-color: #e1e1e1;
       color: black;
     }
-    .weui-btn_primary {
+    .weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
       background-color: #00a6e7;
     }
     .footerBtn {

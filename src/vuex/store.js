@@ -31,17 +31,24 @@ const state = {
   },
   step:'',
   teacherInfo: {
+    id:'',
     img: require('@/assets/bi3.png'),
-    teachTime: [],
+    experience: {label:'',name:''},
     skill: [],
-    name: '',
-    sex: '',
-    birthday: '',
-    address: '',
-    cell: '',
-    intro: '',
-    edu: [],
-    exp: [],
+    realName: '',
+    gender: 'MALE',
+    // birthday: '',
+    // address: '',
+    // mobilePhone: '',
+    description: '',
+    edus: [],
+    exps: [],
+    cerIds:'',
+    rejectReason:'',
+    status:{
+      label:'',
+      name:''
+    }
   }
 
 }

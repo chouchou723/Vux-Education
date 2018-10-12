@@ -4,7 +4,7 @@
             <group title="总余额">
                 <cell>
                     <div slot="title" class="payTitle">
-                        <div style="margin-bottom:.1rem">金额:<span style="color:#fb6804;margin-left:.2rem">{{total}}元</span></div>
+                        <div style="margin-bottom:.1rem">金额:<span style="color:#fb6804;margin-left:.2rem">{{total>0?total:0}}元</span></div>
                         <!-- <div style="color:#999999;font-size:.3rem;">积分充值规则: 1元=10积分</div> -->
                     </div>
                     <x-button mini type="primary" :disabled="total<=0" @click.native="gotoBuyP">提现</x-button>
@@ -89,7 +89,7 @@
             padding-bottom: .2rem;
             font-size: .4rem;
         }
-        .weui-btn_primary,.weui-btn_disabled.weui-btn_primary {
+        .weui-btn_primary,.weui-btn_disabled.weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
             background-color: #00a6e7;
         }
         .weui-cell_access.vux-cell-box:after {

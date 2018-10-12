@@ -12,7 +12,7 @@
                                 <div class="lessonList">
                                     <div class="lessonName">{{item.course.name}}</div>
                                 </div>
-                                <div class="lessonContent">{{item.course.courseNum}}节课-{{item.course.hours}}课时|{{item.course.applyAge.label}}儿童|满{{item.course.minStuNum}}人开课</div>
+                                <div class="lessonContent">{{item.course.courseNum}}节课-{{item.course.hours}}课时 | {{item.course.applyAge.label}}{{item.course.applyAge.label=='成人'?'':'儿童'}} | 满{{item.course.minStuNum}}人开课</div>
                                 <div class="lessonPrice">{{item.course.price}}元</div>
                             </div>
                         </div>
@@ -69,22 +69,30 @@
         },
         methods: {
             loadMore() {
-               if(this.totalPages>this.page+1){
+            //    if(this.totalPages>this.page+1){
                     this.page++;
                     this.fetchData()
-                }else{
-                    console.log(12213)
-                        this.$refs.my_scroller.finishInfinite(2)
-                }
+                // }else{
+                //     console.log(12213)
+                //         this.$refs.my_scroller.finishInfinite(2)
+                // }
             },
-            fetchData(){
+            fetchData(page = this.page){
                 let para ={
-                    page:0
+                    // page:0
+                    size: 15*(page+1),
+
                 }
                 getMyCollect(para).then(res=>{
                     console.log(res)
-                    this.totalPages = res.data.totalPages;
+                    this.totalPages = res.data.totalElements;
                     this.lessonList = res.data.content;
+                }).then(res => {
+                    if (this.totalPages <= 15*(this.page + 1)) {
+                        this.$refs.my_scroller.finishInfinite(2)
+                        this.page =Math.floor(this.totalPages/15)
+
+                    }
                 })
             }
         },

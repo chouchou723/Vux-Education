@@ -3,9 +3,9 @@
         <group v-for="(item,index) in eduList" :key="'edu'+index" label-width="4.5em" label-margin-right="2em">
             <group-title slot="title" class="groupTitle">经验{{eduIndex[index]}}<span style="float:right;" v-if="index!=0"><img @click="deleteEdu(index)" src="../assets/delete.png" width="15" alt=""></span></group-title>
             <group>
-                <datetime v-model="item.beginDateStr" title="起始日期" >
+                <datetime v-model="item.beginDateStr" title="起始日期" :end-date="item.endDateStr?item.endDateStr:endDate">
                 </datetime>
-                <datetime v-model="item.endDateStr" title="结束日期" >
+                <datetime v-model="item.endDateStr" title="结束日期" :start-date="item.beginDateStr" :end-date="endDate">
                 </datetime>
                 <div style="background:#f4f4f4;width:100%;height:10px"></div>
                 <cell title="经验介绍"></cell>
@@ -27,11 +27,10 @@
     import {
         XButton,
         Group,
-        XInput,
-        PopupPicker,
         Datetime,
         Cell,
-        XTextarea
+        XTextarea,
+        GroupTitle
     } from 'vux'
     import {
         mapActions,
@@ -41,11 +40,10 @@
         components: {
             Group,
             XButton,
-            XInput,
-            PopupPicker,
             Datetime,
             Cell,
-            XTextarea
+            XTextarea,
+            GroupTitle
         },
         data() {
             return {
@@ -55,18 +53,12 @@
                     endDateStr: '',
                     description: ''
                 }],
-                value: '',
-                value1: '',
-                value2: '',
-                value3: [],
-                value4: '',
-                value5: '',
             }
         },
         created() {
             this.setTitle('教学经验')
-            if (this.getTeacherInfo.exp.length !== 0) {
-                this.eduList = this.getTeacherInfo.exp
+            if (this.getTeacherInfo.exps.length !== 0) {
+                this.eduList = this.getTeacherInfo.exps
             }
         },
         methods: {
@@ -86,7 +78,7 @@
             ]),
             confirm() {
                 this.setTeacherInfo({
-                    exp: this.eduList
+                    exps: this.eduList
                 })
                 // this.$router.push('/applyFirst?step=2')
                 this.$router.go(-1)
@@ -101,6 +93,12 @@
                 return this.eduList.every(item => {
                     return Object.values(item).every(it => it != '')
                 })
+            },
+            endDate() {
+                let date = new Date();
+                let month = ('0' + (date.getMonth() + 1)).slice(-2);
+                let day = ('0' + date.getDate()).slice(-2)
+                return date.getFullYear() + '-' + month + '-' + day
             }
         },
     }
@@ -130,7 +128,7 @@
         .vux-no-group-title {
             margin-top: 0;
         }
-        .weui-btn_primary {
+        .weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
             background-color: #00a6e7;
         }
         .vux-popup-picker-select {

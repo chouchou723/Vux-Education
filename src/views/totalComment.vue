@@ -129,7 +129,8 @@
                 focusElem: '',
                 showM: false,
                 comm: '',
-                page: 0
+                page: 0,
+                totalPages:0
             }
         },
         methods: {
@@ -160,15 +161,15 @@
                 }, 1)
             },
             loadMore() {
-                if (this.totalPages > this.page + 1) {
+                // if (this.totalPages > this.page + 1) {
                     this.page++;
                     this.fetchData()
-                    setTimeout(() => {
-                        this.$refs.my_scroller.finishInfinite(2)
-                    }, 2000)
-                } else {
-                    this.$refs.my_scroller.finishInfinite(2)
-                }
+                //     setTimeout(() => {
+                //         this.$refs.my_scroller.finishInfinite(2)
+                //     }, 2000)
+                // } else {
+                //     this.$refs.my_scroller.finishInfinite(2)
+                // }
             },
             gotoDetail(id, $event) {
                 console.log($event);
@@ -176,16 +177,24 @@
                     this.$router.push(`/commentDetail?id=${id}`)
                 }
             },
-            fetchData() {
+            fetchData(page = this.page) {
                 let para = {
                     courseId: this.$route.query.id,
-                    page: this.page,
-                    size: 15,
+                    // page: this.page,
+                    size: 15*(page+1),
                     sort: 'desc'
                 }
                 getAllComment(para).then(res => {
                     this.commentlist = res.data.content
+                    this.totalPages = res.data.totalElements;
+
                     // console.log( this.pics)
+                }).then(res => {
+                    if (this.totalPages <= 15*(this.page + 1)) {
+                        this.$refs.my_scroller.finishInfinite(2)
+                        this.page =Math.floor (this.totalPages/15)
+
+                    }
                 })
             },
         },

@@ -69,7 +69,11 @@
                 }
                 doWithDraw(para).then(res => {
                     if(res.code==0){
-                        // this.$router.push('/teacherMoneyResult')
+                        this.$vux.toast.show({
+                            text:'申请成功'
+                        })
+                        localStorage.removeItem('withDraw')
+                        this.$router.push('/teacherMoneyList')
                     }
                     // console.log(res)
                 })
@@ -99,7 +103,7 @@
             padding-bottom: .1rem;
             font-size: .4rem;
         }
-        .weui-btn_primary {
+        .weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
             background-color: #00a6e7;
         }
         .payImg {
