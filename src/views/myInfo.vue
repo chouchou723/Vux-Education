@@ -38,7 +38,7 @@
         Cell,
         Selector
     } from 'vux'
-    import SimpleCropper from '../components/SimpleCrop'
+    // import SimpleCropper from '../components/SimpleCrop'
     import {
         mapActions,
         mapGetters
