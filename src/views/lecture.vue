@@ -7,7 +7,7 @@
                 <tab-item @on-item-click="changeLesson('SUIT')">系统学习</tab-item>
             </tab>
             <div class="chooseDiv" @touchmove="touchmove">
-                <div class="chooseTitle" :style="chooseIndex!==1?'':'color:#04BE02'" @click="chooseSelect('time')">上课时间
+                <div class="chooseTitle" :style="chooseIndex!==1?'':'color:#04BE02'" @click="chooseSelect('time')">{{this.value7?this.value7:'上课时间'}}
                     <img src="../assets/tri.png" alt="" style="width:.25rem;margin-left:.1rem" v-if="chooseIndex!==1">
                     <img src="../assets/triS.png" alt="" style="width:.25rem;margin-left:.1rem" v-else>
                 </div>
@@ -17,9 +17,9 @@
                 <div class="chooseTitle" :style="chooseIndex!==3?'':'color:#04BE02'" @click="chooseSelect('select')">筛选条件
                     <img src="../assets/tri.png" alt="" style="width:.25rem;margin-left:.1rem" v-if="chooseIndex!==3">
                     <img src="../assets/triS.png" alt="" style="width:.25rem;margin-left:.1rem" v-else></div>
-                <div class="modalTime" v-if="chooseIndex===1">
+                <!-- <div class="modalTime" v-if="chooseIndex===1">
                     {{nowTime}}
-                </div>
+                </div> -->
             </div>
         </sticky>
         <!-- 列表 -->
@@ -264,7 +264,10 @@
             onSubmit() {
                 this.fetchData(0);
             },
-            onCancel() {},
+            onCancel() {
+                this.searchValue = '';
+                this.fetchData(0);
+            },
             onFocus() {
                 this.chooseIndex = 0;
             },

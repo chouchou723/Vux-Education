@@ -320,7 +320,7 @@
 			}
 			setTimeout(() => {
 				this.oh = document.getElementsByClassName('introduce')[0].offsetHeight;
-				if (this.oh < 490) {
+				if (this.oh < 390) {
 					console.log(oh, 123)
 					this.isMoreContent = true;
 					this.isOh = false
@@ -349,12 +349,12 @@
 		watch: {
 			isMoreContent(curVal, oldVal) {
 				if (curVal) {
-					if (this.oh > 490) {
+					if (this.oh > 390) {
 						document.getElementsByClassName('introduce')[0].style.cssText += 'height:auto'
 					}
 				} else {
-					if (this.oh > 490) {
-						document.getElementsByClassName('introduce')[0].style.cssText += 'height:490px'
+					if (this.oh > 390) {
+						document.getElementsByClassName('introduce')[0].style.cssText += 'height:390px'
 					}
 				}
 			}
@@ -414,7 +414,7 @@
 				justify-content: center;
 				align-items: center;
 				font-size: 18px;
-				color: #7F8389;
+				color: #999;
 			}
 			.weui-cells {
 				margin: .77em 0;

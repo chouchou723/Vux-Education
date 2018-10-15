@@ -224,7 +224,7 @@
             setTimeout(() => {
                 if (this.detail.status.name !== 'PROCESS') {
                     this.oh = document.getElementsByClassName('introduce')[0].offsetHeight;
-                    if (this.oh < 490) {
+                    if (this.oh < 390) {
                         this.isMoreContent = true;
                         this.isOh = false
                     } else {
@@ -246,12 +246,12 @@
         watch: {
             isMoreContent(curVal, oldVal) {
                 if (curVal) {
-                    if (this.oh > 490) {
+                    if (this.oh > 390) {
                         document.getElementsByClassName('introduce')[0].style.cssText += 'height:auto'
                     }
                 } else {
-                    if (this.oh > 490) {
-                        document.getElementsByClassName('introduce')[0].style.cssText += 'height:490px'
+                    if (this.oh > 390) {
+                        document.getElementsByClassName('introduce')[0].style.cssText += 'height:390px'
                     }
                 }
             }

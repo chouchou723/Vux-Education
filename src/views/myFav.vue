@@ -1,9 +1,9 @@
 <template>
     <div class="myFav">
         <!-- <view-box ref="viewBox"> -->
-        <scroller delegate-id="myScroller" :on-infinite="loadMore" ref='my_scroller'>
+        <scroller delegate-id="myScroller" :on-infinite="loadMore" ref='my_scroller' v-if="lessonList.length!==0">
 
-            <group style="margin-top:-0.2rem">
+            <group style="margin-top:-0.2rem" >
                 <cell-box is-link v-for="(item,index) in lessonList" :key="index" :link="`/courseDetails?id=${item.courseId}`">
                     <div class="lessonListAll">
                         <div class="lessonTitle">
@@ -21,6 +21,9 @@
                 </cell-box>
             </group>
         </scroller>
+             <div v-if="lessonList.length===0" style="width:100%;height:80%;display:flex;justify-content:center;align-items:center;color:#999999;font-size:0.4rem;">
+                    暂无收藏
+                </div>
         <!-- </view-box> -->
     </div>
 </template>

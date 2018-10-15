@@ -46,9 +46,10 @@ router.beforeEach(function (to, from, next) {
   if (from.path === '/') {
     getAT(to.meta.type, {
       login_role: to.meta.type
-    }).then(res => {
-      console.log(res, 123)
     })
+    // .then(res => {
+    //   console.log(res, 123)
+    // })
     // .then(() => {
     if (to.meta.type == 'teacher') {
       getInfoTeacherF(next,to,getInfoTeacher,store)

@@ -112,7 +112,7 @@ export const  getAT = (role,params) => {
 
     }
     return AjaxPlugin.$http.get(`${base}/api/auth/wechat`, { params: params }).then(res => {
-
+        console.log(12)
         return res.data});
 };
 

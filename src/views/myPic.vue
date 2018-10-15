@@ -2,7 +2,7 @@
     <div class="myPic">
         <view-box ref="viewBox">
             <!-- 列表 -->
-            <group v-for="(item,index) in lessonList" :key="index" @click.native="gotoPic(index,item.data.length)">
+            <group v-for="(item,index) in lessonList" :key="index" @click.native="gotoPic(index,item.data.length)" v-if="lessonList.length!==0">
                 <cell-box>
                     <div class="lessonListAll">
                         <div class="lessonTitleC">
@@ -17,6 +17,9 @@
                     <!-- anything -->
                 </cell-box>
             </group>
+             <div v-if="lessonList.length===0" style="width:100%;height:80%;display:flex;justify-content:center;align-items:center;color:#999999;font-size:0.4rem;">
+                    暂无作品
+                </div>
         </view-box>
     </div>
 </template>

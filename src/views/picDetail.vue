@@ -61,7 +61,7 @@
       this.swiperOptionTop = {
           // spaceBetween: 10,
           loop: true,
-          loopedSlides: num - 0, //looped slides should be the same
+          loopedSlides: num - 0>5?5:num-0, //looped slides should be the same
           navigation: {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev'
@@ -69,10 +69,10 @@
         },
         this.swiperOptionThumbs = {
           // spaceBetween: 10,
-          slidesPerView: num - 0,
+          slidesPerView: num - 0>5?5:num-0,
           touchRatio: 0.2,
           loop: true,
-          loopedSlides: num - 0, //looped slides should be the same
+          loopedSlides: num - 0>5?5:num-0, //looped slides should be the same
           slideToClickedSlide: true,
         }
       this.setTitle('我的作品')

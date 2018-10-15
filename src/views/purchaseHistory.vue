@@ -2,7 +2,7 @@
     <div class="purchaseHistory">
         <view-box ref="viewBox">
             <group :title="`近半年消费总计:${total}元`">
-                <cell v-for="(item,index) in pointDetail" :key="index">
+                <cell v-for="(item,index) in pointDetail" :key="index" v-if="pointDetail.length!==0">
                     <div style="color:#fb6804">
                         {{item.cost}}元
                     </div>
@@ -17,6 +17,9 @@
                     </div>
                 </cell>
             </group>
+                <div v-if="pointDetail.length===0" style="width:100%;height:80%;display:flex;justify-content:center;align-items:center;color:#999999;font-size:0.4rem;">
+                    暂无消费记录
+                </div>
         </view-box>
     </div>
 </template>
