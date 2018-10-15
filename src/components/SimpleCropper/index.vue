@@ -17,7 +17,7 @@
 <script> 
 import Cropper from 'cropperjs' 
 import 'cropperjs/dist/cropper.min.css'
-import {uploadPicBase} from '../api/api'
+import {uploadPicBase} from '../../api/api'
 
 export default { 
  name: 'v-simple-cropper', 
