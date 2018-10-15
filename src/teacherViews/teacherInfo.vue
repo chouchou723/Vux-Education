@@ -59,7 +59,7 @@
         Cell,
         Selector
     } from 'vux'
-    import SimpleCropper from '@/components/SimpleCrop'
+    import SimpleCropper from '../components/SimpleCrop'
     import VuxUpload from '../components/Upload'
     import {
         mapActions,
