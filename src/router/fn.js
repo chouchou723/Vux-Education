@@ -25,14 +25,12 @@
       localStorage.setItem('teacherInfo', JSON.stringify(inf))
       store.commit('changeTeacherInfo', { ...inf
       })
-      console.log(to.path,2)
       if (inf.status.name !== 'PASS' && to.path !== '/applyFirst') {
-      console.log(123)
         next(`/applyFirst?code=${code}`)
       } else  if (inf.status.name === 'PASS' && to.path === '/applyFirst') {
         next(`/teacher?code=${code}`)
       } else {
-        next()
+        next(to.path+`?code=${code}`)
       }
     })
   }

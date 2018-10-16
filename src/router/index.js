@@ -44,7 +44,6 @@ router.beforeEach(function (to, from, next) {
   store.commit('updateLoadingStatus', {
     isLoading: true
   })
-  console.log(from.path,1)
   if (from.path === '/') {
     if(to.query.code){
       getTokenInfo(to.meta.type,{code:to.query.code}).then(()=>{
@@ -60,7 +59,7 @@ router.beforeEach(function (to, from, next) {
         getAT({
           login_role: to.meta.type,
           code:setUuid(),
-          url:window.location.href.split('#')[1].slice(1)
+          url:to.fullPath.slice(1)
         })
     }
   }else{
