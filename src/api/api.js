@@ -114,18 +114,23 @@ export const  getAT = (role,params) => {
 
     }
     return AjaxPlugin.$http.get(`${base}/api/auth/wechat`, { params: params }).then(res => {
-        console.log(res)
-        let para = {
-            code : params.code
-        }
-        return getTokenInfo(para).then(res=>{
-            return res.data
-        })
+        window.location.href=res.data.data
     });
 };
-//查询学生信息
-export const  getTokenInfo = (params1) => {
-    return AjaxPlugin.$http.get(`${base}/api/auth/getInfo`, { params1: params1 }).then(res => res.data);
+//获取token
+export const  getTokenInfo = (role,params) => {
+    if(role==='student'){
+        AjaxPlugin.$http.defaults.headers.common['login_role'] = role;
+    }
+    else{
+        AjaxPlugin.$http.defaults.headers.common['login_role'] = 'teacher';
+    }
+    return AjaxPlugin.$http.get(`${base}/api/auth/getInfo`, { params: params }).then(res =>{
+        //  res.data
+          AjaxPlugin.$http.defaults.headers.common['access_token'] = res.data.data.accessToken;
+        AjaxPlugin.$http.defaults.headers.common['unionId'] = res.data.data.unionId;
+        return res.data
+        });
 };
 
 //查询学生信息

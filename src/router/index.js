@@ -14,7 +14,8 @@ import {
 import {
   getAT,
   getStudentInfo,
-  getInfoTeacher
+  getInfoTeacher,
+  getTokenInfo
 } from '../api/api'
 Vue.use(Router)
 const index = () =>
@@ -44,26 +45,23 @@ router.beforeEach(function (to, from, next) {
     isLoading: true
   })
   if (from.path === '/') {
-    getAT(to.meta.type, {
-      login_role: to.meta.type,
-      code:setUuid()
-    }).then(()=>{
-
-      if (to.meta.type == 'teacher') {
-        getInfoTeacherF(next,to,getInfoTeacher,store)
-      } else if (to.meta.type == 'student') {
-        getStudentInfoF(next,getStudentInfo,store)
-      }else{
-        next()
-      }
-    })
-    // .then(res => {
-    //   console.log(res, 123)
-    // })
-    // .then(() => {
-
-
-    // })
+    if(to.query.code){
+      getTokenInfo(to.meta.type,{code:to.query.code}).then(()=>{
+        if (to.meta.type == 'teacher') {
+          getInfoTeacherF(next,to,getInfoTeacher,store)
+        } else if (to.meta.type == 'student') {
+          getStudentInfoF(next,getStudentInfo,store)
+        }else{
+          next()
+        }
+      })
+    }else{
+        getAT(to.meta.type, {
+          login_role: to.meta.type,
+          code:setUuid(),
+          url:window.location.href.split('#')[1].slice(1)
+        })
+    }
   }else{
     next()
   }
