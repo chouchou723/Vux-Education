@@ -91,13 +91,7 @@ export const  getAT = (role,params) => {
     //     AjaxPlugin.$http.defaults.headers.common['access_token'] = '24680';
     //    AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv91EysSA6kUFOQ24LBsZBDw';
 
-    }
-    // else if(role==='assistant'){
-    //     AjaxPlugin.$http.defaults.headers.common['login_role'] = 'teacher';
-    //     AjaxPlugin.$http.defaults.headers.common['access_token'] = '13579';
-    //     AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv75r9gBnLM3Zs2z7V0WqFvU';
-    // }
-    else{
+    }else{
         AjaxPlugin.$http.defaults.headers.common['login_role'] = 'teacher';
         // AjaxPlugin.$http.defaults.headers.common['access_token'] = '13579';
         // AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv75r9gBnLM3Zs2z7V0WqFvU';

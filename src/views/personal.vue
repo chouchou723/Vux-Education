@@ -90,9 +90,9 @@
                 let data = JSON.parse(localStorage.getItem('info'));
                 this.info.sex = data.sex;
                 this.info.img = data.img;
+                this.info.name = data.name;
                 getStudentIndex().then(res => {
                     let data = res.data
-                    this.info.name = data.name;
                     this.info.courseHours = data.courseHours;
                     this.info.workNum = data.workNum;
                 })
