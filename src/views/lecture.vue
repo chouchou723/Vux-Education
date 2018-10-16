@@ -23,7 +23,7 @@
             </div>
         </sticky>
         <!-- 列表 -->
-        <scroller delegate-id="myScroller" :on-refresh="refresh" :on-infinite="loadMore" ref='my_scroller'>
+        <scroller delegate-id="myScroller" :pageW="pageW" :on-refresh="refresh" :on-infinite="loadMore" ref='my_scroller'>
             <group id="picContent">
                 <!-- <div> -->
                 <cell-box is-link v-for="(item,index) in lessonList" :key="index" :link="`/courseDetails?id=${item.id}`">
@@ -142,6 +142,7 @@
                 show2: false,
                 chooseIndex: 0,
                 typeKind: 0,
+                pageW:'',
                 typeKindBackup: 0,
                 chooseItemList: [],
                 chooseItemListBackup: [],
