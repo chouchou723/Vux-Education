@@ -13,7 +13,7 @@
             <tab-item @on-item-click='changeItem("REFUND")'>退款</tab-item>
         </tab>
         <!-- <view-box ref="viewBox"> -->
-        <scroller delegate-id="myScroller" :on-infinite="loadMore" ref='my_scroller'>
+        <scroller delegate-id="myScroller" :pageW="pageW" :on-infinite="loadMore" ref='my_scroller'>
             <!-- 列表 -->
             <group style="margin-top:-0.2rem" v-for="(item,index) in lessonList" :key="index">
                 <cell-box is-link>

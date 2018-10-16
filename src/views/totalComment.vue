@@ -1,7 +1,7 @@
 <template>
     <div class="totalComment">
         <!-- <view-box ref="viewBox"> -->
-        <scroller delegate-id="myScroller" :on-infinite="loadMore" ref='my_scroller'>
+        <scroller delegate-id="myScroller" :pageW="pageW" :on-infinite="loadMore" ref='my_scroller'>
             <group v-for="(comment,index) in commentlist" :key="comment+index" :class="index===0?'firstGroup':''">
                 <cell @click.native="gotoDetail(comment.id,$event)">
                     <div slot="title" class="commentTitle">
@@ -97,6 +97,7 @@
                 //                 }, 
                 // userImg: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
                 varmax: 9,
+                pageW:'',
                 commentlist: [{
                     nickname: '',
                     date: '',

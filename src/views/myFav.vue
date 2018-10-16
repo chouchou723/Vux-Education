@@ -1,7 +1,7 @@
 <template>
     <div class="myFav">
         <!-- <view-box ref="viewBox"> -->
-        <scroller delegate-id="myScroller" :on-infinite="loadMore" ref='my_scroller' v-if="lessonList.length!==0">
+        <scroller delegate-id="myScroller" :on-infinite="loadMore" :pageW="pageW" ref='my_scroller' v-if="lessonList.length!==0">
 
             <group style="margin-top:-0.2rem" >
                 <cell-box is-link v-for="(item,index) in lessonList" :key="index" :link="`/courseDetails?id=${item.courseId}`">
@@ -59,6 +59,7 @@
                 value: '',
                 value7: '',
                 page:0,
+                pageW:'',
                 totalPages:0,
                 false: false,
                 chooseT: false,
