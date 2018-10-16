@@ -49,7 +49,7 @@ router.beforeEach(function (to, from, next) {
     if(to.query.code){
       getTokenInfo(to.meta.type,{code:to.query.code}).then(()=>{
         if (to.meta.type == 'teacher') {
-          getInfoTeacherF(next,to,getInfoTeacher,store)
+          getInfoTeacherF(next,to,getInfoTeacher,store,to.query.code)
         } else if (to.meta.type == 'student') {
           getStudentInfoF(next,getStudentInfo,store)
         }else{

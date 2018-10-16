@@ -1,5 +1,5 @@
 
-  export const  getInfoTeacherF = (next,to,getInfoTeacher,store)=> {
+  export const  getInfoTeacherF = (next,to,getInfoTeacher,store,code)=> {
     getInfoTeacher().then(res => {
       let data = res.data;
       let inf = {
@@ -28,9 +28,9 @@
       console.log(to.path,2)
       if (inf.status.name !== 'PASS' && to.path !== '/applyFirst') {
       console.log(123)
-        next('/applyFirst')
+        next(`/applyFirst?code=${code}`)
       } else  if (inf.status.name === 'PASS' && to.path === '/applyFirst') {
-        next('/teacher')
+        next(`/teacher?code=${code}`)
       } else {
         next()
       }
