@@ -121,10 +121,10 @@
                 this.setMyInfo({
                     img: id
                 })
-                if (data.state === 'SUCCESS') {
-                    console.log(123)
-                    // this.userImg  = data
-                }
+                // if (data.state === 'SUCCESS') {
+                //     console.log(123)
+                //     // this.userImg  = data
+                // }
             }
         },
         computed: {

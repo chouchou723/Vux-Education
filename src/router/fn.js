@@ -16,8 +16,8 @@
         // address: data.address ? data.address : '',
         // mobilePhone: data.mobilePhone ? data.mobilePhone : '',
         description: data.description ? data.description : '',
-        edus: data.edus,
-        exps: data.exps,
+        edus: data.edus?data.edus:[],
+        exps: data.exps?data.exps:[],
         cerIds: data.cerIds?data.cerIds:'',
         status: data.status,
         rejectReason: data.rejectReason?data.rejectReason: '资料审核未通过'
@@ -25,6 +25,7 @@
       localStorage.setItem('teacherInfo', JSON.stringify(inf))
       store.commit('changeTeacherInfo', { ...inf
       })
+      console.log(to.path)
       if (inf.status.name !== 'PASS' && to.path !== '/applyFirst') {
         next('/applyFirst')
       } else  if (inf.status.name === 'PASS' && to.path === '/applyFirst') {
