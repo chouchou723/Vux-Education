@@ -317,7 +317,7 @@
             justify-content: space-between
         }
         .stepOne {
-            width: 2rem;
+            width: 2.2rem;
             height: 2rem;
             display: flex;
             flex-direction: column;
@@ -341,7 +341,7 @@
             }
         }
         .stepTwo {
-            width: 2rem;
+            width: 2.2rem;
             height: 2rem;
             display: flex;
             flex-direction: column;
@@ -391,7 +391,7 @@
             }
         }
         .stepThree {
-            width: 2rem;
+            width: 2.2rem;
             height: 2rem;
             display: flex;
             flex-direction: column;
