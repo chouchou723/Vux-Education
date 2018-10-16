@@ -27,6 +27,7 @@
       })
       console.log(to.path)
       if (inf.status.name !== 'PASS' && to.path !== '/applyFirst') {
+      console.log(123)
         next('/applyFirst')
       } else  if (inf.status.name === 'PASS' && to.path === '/applyFirst') {
         next('/teacher')
