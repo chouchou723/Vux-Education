@@ -44,7 +44,7 @@ router.beforeEach(function (to, from, next) {
   store.commit('updateLoadingStatus', {
     isLoading: true
   })
-  console.log(from.path)
+  console.log(from.path,1)
   if (from.path === '/') {
     if(to.query.code){
       getTokenInfo(to.meta.type,{code:to.query.code}).then(()=>{
