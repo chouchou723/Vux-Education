@@ -10,7 +10,7 @@
                     <x-button mini type="primary" :disabled="total<=0" @click.native="gotoBuyP">提现</x-button>
                 </cell>
             </group>
-            <group title="收支明细">
+            <group title="收支明细" v-if="pointDetail.length!==0">
                 <cell v-for="(item,index) in pointDetail" :key="index">
                     <div class="coinBg" slot="title">
                         <div class="coinTitle">
@@ -23,6 +23,9 @@
                     </div>
                 </cell>
             </group>
+             <div v-if="pointDetail.length===0" style="width:100%;height:80%;display:flex;justify-content:center;align-items:center;color:#999999;font-size:0.4rem;">
+                    暂无收支明细
+                </div>
         </view-box>
     </div>
 </template>

@@ -37,9 +37,9 @@
                 </cell-box>
             </group>
         </scroller>
-        <cell-box v-if="lessonList.length===0">
-            <div style="text-align:center;font-size:17px;color:rgb(170, 170, 170);width:100%;margin-top:10px">没有更多数据</div>
-        </cell-box>
+       <div v-if="lessonList.length===0" style="width:100%;height:80%;display:flex;justify-content:center;align-items:center;color:#999999;font-size:0.4rem;">
+                    暂无订单
+                </div>
         <!-- </view-box> -->
     </div>
 </template>

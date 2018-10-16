@@ -52,7 +52,7 @@
                 </div>
             </group>
             <div class="footerBtn">
-                <x-button type="primary" action-type="button" @click.native="nextStep" :disabled="!(value&&value1)" v-if="step1===1">
+                <x-button type="primary" action-type="button" @click.native="nextStep" :disabled="!(value&&value1.length===4)" v-if="step1===1">
                     下一步</x-button>
                 <x-button type="primary" action-type="button" @click.native="submitInfo" :disabled="valid" :show-loading='isLoading' v-if="step1===2">
                     提交审核</x-button>
@@ -98,7 +98,7 @@
             return {
                 isLoading: false,
                 applyStaus: '',
-                countTime: 10,
+                countTime: 60,
                 step1: 1,
                 value: '',
                 value1: '',
@@ -173,10 +173,10 @@
                         captcha: this.value1,
                         mobile: this.value
                     }
-                    this.step1 = 2;
-                    this.setStep(this.step1)
                     submitSmsCode(para).then(res => {
                         if (res.code == 0) {
+                    this.step1 = 2;
+                    this.setStep(this.step1)
                             // this.step1++
                             // this.setStep(this.step1)
                         }
@@ -242,11 +242,11 @@
                         console.log(res)
                     })
                     this.count = true;
-                    if (this.countTime == 10) {
+                    if (this.countTime == 60) {
                         this.countStart = setInterval(() => {
                             if (this.countTime == 1) {
                                 clearInterval(this.countStart)
-                                this.countTime = 10;
+                                this.countTime = 60;
                                 this.count = false;
                             } else {
                                 this.countTime--

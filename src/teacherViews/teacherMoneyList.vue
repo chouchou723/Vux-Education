@@ -1,7 +1,7 @@
 <template>
     <div class="teacherMoneyList">
         <view-box ref="viewBox">
-            <group v-for="(item,index) in pointDetail" :key="index">
+            <group v-for="(item,index) in pointDetail" :key="index" v-if="pointDetail.length!==0">
                 <cell>
                     <div slot="title" style="color:#999999;font-size:14px;margin-right: 10px;">提现单号: {{item.code}}</div>
                     <div style="color:#999999;font-size:14px;">{{item.orderTime}}</div>
@@ -30,6 +30,9 @@
                     </div>
                 </cell>
             </group>
+              <div v-if="pointDetail.length===0" style="width:100%;height:80%;display:flex;justify-content:center;align-items:center;color:#999999;font-size:0.4rem;">
+                    暂无提现记录
+                </div>
         </view-box>
     </div>
 </template>

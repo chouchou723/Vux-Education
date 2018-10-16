@@ -88,17 +88,19 @@ let base = 'http://eduweixin.test.artreedu.com';
 export const  getAT = (role,params) => {
     if(role==='student'){
         AjaxPlugin.$http.defaults.headers.common['login_role'] = role;
-        AjaxPlugin.$http.defaults.headers.common['access_token'] = '24680';
-       AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv91EysSA6kUFOQ24LBsZBDw';
+    //     AjaxPlugin.$http.defaults.headers.common['access_token'] = '24680';
+    //    AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv91EysSA6kUFOQ24LBsZBDw';
 
-    }else if(role==='assistant'){
+    }
+    // else if(role==='assistant'){
+    //     AjaxPlugin.$http.defaults.headers.common['login_role'] = 'teacher';
+    //     AjaxPlugin.$http.defaults.headers.common['access_token'] = '13579';
+    //     AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv75r9gBnLM3Zs2z7V0WqFvU';
+    // }
+    else{
         AjaxPlugin.$http.defaults.headers.common['login_role'] = 'teacher';
-        AjaxPlugin.$http.defaults.headers.common['access_token'] = '13579';
-        AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv75r9gBnLM3Zs2z7V0WqFvU';
-    }else{
-        AjaxPlugin.$http.defaults.headers.common['login_role'] = role;
-        AjaxPlugin.$http.defaults.headers.common['access_token'] = '13579';
-        AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv75r9gBnLM3Zs2z7V0WqFvU';
+        // AjaxPlugin.$http.defaults.headers.common['access_token'] = '13579';
+        // AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv75r9gBnLM3Zs2z7V0WqFvU';
 
         //pre
         //  AjaxPlugin.$http.defaults.headers.common['access_token'] = '11111';
@@ -112,8 +114,18 @@ export const  getAT = (role,params) => {
 
     }
     return AjaxPlugin.$http.get(`${base}/api/auth/wechat`, { params: params }).then(res => {
-        console.log(12)
-        return res.data});
+        console.log(res)
+        let para = {
+            code : params.code
+        }
+        return getTokenInfo(para).then(res=>{
+            return res.data
+        })
+    });
+};
+//查询学生信息
+export const  getTokenInfo = (params1) => {
+    return AjaxPlugin.$http.get(`${base}/api/auth/getInfo`, { params1: params1 }).then(res => res.data);
 };
 
 //查询学生信息

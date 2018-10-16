@@ -1,7 +1,7 @@
 <template>
     <div class="teacherPublishHome">
         <view-box ref="viewBox">
-            <group title="选择课程名称" label-width="4.5em" label-margin-right="2em">
+            <group title="选择课程内容" label-width="4.5em" label-margin-right="2em">
                 <div class="publishDiv">
                     <div class="publishIcon" @click="goToChoose(1)">
                         <img src="../assets/publishNew.png" alt="">

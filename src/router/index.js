@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../vuex/store'
-import {getInfoTeacherF,getStudentInfoF} from './fn'
+import {getInfoTeacherF,getStudentInfoF,setUuid} from './fn'
 import {
   TeacherRoutes
 } from './teacher'
@@ -45,19 +45,22 @@ router.beforeEach(function (to, from, next) {
   })
   if (from.path === '/') {
     getAT(to.meta.type, {
-      login_role: to.meta.type
+      login_role: to.meta.type,
+      code:setUuid()
+    }).then(()=>{
+
+      if (to.meta.type == 'teacher') {
+        getInfoTeacherF(next,to,getInfoTeacher,store)
+      } else if (to.meta.type == 'student') {
+        getStudentInfoF(next,getStudentInfo,store)
+      }else{
+        next()
+      }
     })
     // .then(res => {
     //   console.log(res, 123)
     // })
     // .then(() => {
-    if (to.meta.type == 'teacher') {
-      getInfoTeacherF(next,to,getInfoTeacher,store)
-    } else if (to.meta.type == 'student') {
-      getStudentInfoF(next,getStudentInfo,store)
-    }else{
-      next()
-    }
 
 
     // })

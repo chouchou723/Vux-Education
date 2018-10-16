@@ -5,7 +5,10 @@
                 <img :src="`${apiUrl}/attach/img/${teacher.picId}/SQUARE`" alt="" class="personalImg">
                 <img :src="teacher.sex=='MALE'?require('../assets/sex1.png'):require('../assets/sex2.png')" alt="" class="sexPos">
                 <div class="personalDetail">
-                    <div class="personalName">{{teacher.name}}</div>
+                    <div class="personalName">
+                        <span style="margin-right:.2rem;">{{teacher.name}}</span>
+                     <span class="teacherLevel">LV {{teacher.level}}</span>
+                    </div>
                     <div class="personalLesson">
                         <span class="op5">授课时长</span>
                         <span class="mgr4">{{teacher.classNum}}节课</span>
@@ -72,7 +75,8 @@
                     name: '',
                     picId: '',
                     sex: '男',
-                    classNum: 0
+                    classNum: 0,
+                    level:1
                 }
             }
         },
@@ -91,6 +95,7 @@
                     this.teacher.name = data.name
                     this.teacher.picId = data.picId
                     this.teacher.classNum = data.classNum
+                    this.teacher.level=data.level?data.level.label:1
                     this.teacher.sex = inf.gender
                 })
             }
@@ -130,6 +135,17 @@
             left: 2rem;
             width: .5rem;
         }
+        .teacherLevel {
+            background: url('../assets/tlevel.png');
+            background-size: cover;
+            color: white;
+            font-size: 12px;
+            width: 38px;
+            text-align: center;
+            // position: absolute;
+            // top: 0.16rem;
+            // left: 1.73rem;
+        }
         .personalImg {
             width: 1.973333rem;
             height: 1.973333rem;
@@ -146,6 +162,8 @@
         .personalName {
             font-size: .48rem;
             color: white;
+            display: flex;
+            align-items: center;
             /* margin-bottom: .3rem; */
         }
         .personalLesson {

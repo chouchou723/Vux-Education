@@ -73,7 +73,7 @@
                             text:'申请成功'
                         })
                         localStorage.removeItem('withDraw')
-                        this.$router.push('/teacherMoneyList')
+                        this.$router.replace('/teacherMoneyList')
                     }
                     // console.log(res)
                 })

@@ -7,7 +7,7 @@
                     <img :src="teacher.sex=='MALE'?require('../assets/sex1.png'):require('../assets/sex2.png')" alt="" class="sexPos">
                     <div class="personalDetail">
                         <div class="personalName">
-                            <span style="margin-right:.1rem;">{{teacher.realName}}</span>
+                            <span style="margin-right:.2rem;">{{teacher.realName}}</span>
                             <!-- <img src="../assets/tlevel.png" width="38" alt="" style="vertical-align: middle;"> -->
                             <span class="teacherLevel">LV {{teacher.level}}</span></div>
                         <div class="personalLesson">
