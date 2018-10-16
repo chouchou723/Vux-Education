@@ -13,7 +13,7 @@
             <tab-item @on-item-click='changeItem("REFUND")'>退款</tab-item>
         </tab>
         <!-- <view-box ref="viewBox"> -->
-        <scroller delegate-id="myScroller" :pageW="pageW" :on-infinite="loadMore" ref='my_scroller'>
+        <scroller delegate-id="myScroller" :pageW="pageW" :on-infinite="loadMore" ref='my_scroller' v-if="lessonList.length!==0">
             <!-- 列表 -->
             <group style="margin-top:-0.2rem" v-for="(item,index) in lessonList" :key="index">
                 <cell-box is-link>
@@ -43,6 +43,9 @@
                 </cell-box>
             </group>
         </scroller>
+         <div v-if="lessonList.length===0" style="width:100%;height:80%;display:flex;justify-content:center;align-items:center;color:#999999;font-size:0.4rem;">
+                    暂无订单
+                </div>
         <!-- </view-box> -->
     </div>
 </template>
