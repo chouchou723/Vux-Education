@@ -433,6 +433,10 @@
             background: transparent;
             color: #00a6e7;
         }
+       .getCode.weui-btn_primary:not(.weui-btn_disabled):active {
+            border: none;
+            background: transparent;
+        }
         .colorg {
             color: #afa8a8;
         }
