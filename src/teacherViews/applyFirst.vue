@@ -435,6 +435,7 @@
         }
        .getCode.weui-btn_primary:not(.weui-btn_disabled):active {
             border: none;
+            border-left: 1px solid gainsboro;
             background: transparent;
         }
         .colorg {

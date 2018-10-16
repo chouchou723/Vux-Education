@@ -57,7 +57,7 @@ router.beforeEach(function (to, from, next) {
         }
       })
     }else{
-        getAT(to.meta.type, {
+        getAT({
           login_role: to.meta.type,
           code:setUuid(),
           url:window.location.href.split('#')[1].slice(1)
