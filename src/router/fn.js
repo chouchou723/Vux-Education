@@ -4,13 +4,7 @@
     if(tInfo){
       let tData = JSON.parse(tInfo);
       store.commit('changeTeacherInfo', {...tData})
-      if (tData.status.name !== 'PASS' && to.path !== '/applyFirst') {
-        next(`/applyFirst?code=${code}`)
-      } else if (tData.status.name === 'PASS' && to.path === '/applyFirst') {
-        next(`/teacher?code=${code}`)
-      } else {
-        next(to.path+`?code=${code}`)
-      }
+      next()
     }else{
       getInfoTeacher().then(res => {
         let data = res.data;
