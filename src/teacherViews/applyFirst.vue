@@ -120,17 +120,17 @@
             document.title = '申请成为老师'
             let status = JSON.parse(localStorage.getItem('teacherInfo')).status;
             if (status.name === 'PASS') {
-                this.step1 = this.getStep||3;
+                this.step1 = this.getStep || 3;
                 this.applyStaus = 'pass'
             } else if (status.name === 'REJECT') {
-                this.step1 = this.getStep||3;
+                this.step1 = this.getStep || 3;
                 this.applyStaus = 'fail'
                 this.rejectReason = JSON.parse(localStorage.getItem('teacherInfo')).rejectReason
             } else if (status.name === 'WAIT') {
-                this.step1 = this.getStep||3;
+                this.step1 = this.getStep || 3;
                 this.applyStaus = ''
-            }else{
-                 this.step1 = this.getStep||1;
+            } else {
+                this.step1 = this.getStep || 1;
             }
             if (this.getTeacherInfo.cerIds) {
                 this.cerIdArr = this.getTeacherInfo.cerIds.split(',')
@@ -142,10 +142,10 @@
             }
         },
         methods: {
-            closePage(){
-                if(this.applyStaus==='pass'){
+            closePage() {
+                if (this.applyStaus === 'pass') {
                     this.$router.replace('/teacher')
-                }else{
+                } else {
                     this.$wechat.closeWindow();
                 }
             },
@@ -175,8 +175,8 @@
                     }
                     submitSmsCode(para).then(res => {
                         if (res.code == 0) {
-                    this.step1 = 2;
-                    this.setStep(this.step1)
+                            this.step1 = 2;
+                            this.setStep(this.step1)
                             // this.step1++
                             // this.setStep(this.step1)
                         }
@@ -234,15 +234,14 @@
                 }
             },
             getCode() {
-                if (this.value.length == 11) {
+                if (this.value.length === 11 && this.countTime === 60) {
                     let para = {
                         mobile: this.value
                     }
                     getSmsCode(para).then(res => {
-                        console.log(res)
-                    })
-                    this.count = true;
-                    if (this.countTime == 60) {
+                        // console.log(res)
+                    }).then(() => {
+                        this.count = true;
                         this.countStart = setInterval(() => {
                             if (this.countTime == 1) {
                                 clearInterval(this.countStart)
@@ -252,7 +251,7 @@
                                 this.countTime--
                             }
                         }, 1000)
-                    }
+                    })
                 } else if (this.value.length < 11) {
                     this.$vux.toast.show({
                         text: '请填写正确的手机号',
@@ -433,7 +432,7 @@
             background: transparent;
             color: #00a6e7;
         }
-       .getCode.weui-btn_primary:not(.weui-btn_disabled):active {
+        .getCode.weui-btn_primary:not(.weui-btn_disabled):active {
             border: none;
             border-left: 1px solid gainsboro;
             background: transparent;
@@ -489,7 +488,8 @@
             width: 90%;
             margin: 1rem auto 0;
             text-align: center;
-            .weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
+            .weui-btn_primary,
+            .weui-btn_primary:not(.weui-btn_disabled):active {
                 background-color: #00a6e7;
             }
         }
