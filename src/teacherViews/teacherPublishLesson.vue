@@ -259,7 +259,7 @@
         },
         computed: {
             valid() {
-                let a = this.valueTitle && this.value && this.value1 && this.value2 && this.value3 && this.value4&&this.pics;
+                let a = this.valueTitle && this.value && this.value1 && this.value2 && this.value3 && this.value4&&this.pics.length!==0;
                 if (a) {
                     return false
                 } else {
