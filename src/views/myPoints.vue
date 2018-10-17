@@ -14,13 +14,13 @@
                 <cell v-for="(item,index) in pointDetail" :key="index">
                     <div class="coinBg" slot="title">
                         <div class="coinTitle">
-                            <div>{{item.changeTime}}</div>
-                            <div :style="item.type.name==='ADD'?'color:#04be02':'color:#f76260'">{{item.type.name==='ADD'?'+'+item.changeNum:'-'+item.changeNum}}积分</div>
+                            <div style="flex:0 0 60%">{{item.changeTime}}</div>
+                            <div :style="item.type.name==='ADD'?'color:#04be02;text-align:right;flex:1':'color:#f76260;text-align:right;flex:1'">{{item.type.name==='ADD'?'+'+item.changeNum:'-'+item.changeNum}}积分</div>
                         </div>
                         <div class="coinContent">
                             <div style="flex:0 0 60%">{{item.content}}
                             </div>
-                            <div style="color:#999999;text-align:right">剩余{{item.remainNum}}分
+                            <div style="color:#999999;text-align:right;flex:1">剩余{{item.remainNum}}分
                             </div>
                         </div>
                     </div>
