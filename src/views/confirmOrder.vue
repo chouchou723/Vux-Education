@@ -15,7 +15,7 @@
             </x-switch>
         </group>
         <div class="confirmFooter">
-            <span class="footerSpan">还需支付:<span style="color:#fb6804;margin-left:.2rem">{{detail.price*value}}元</span></span>
+            <span class="footerSpan">还需支付:<span style="color:#fb6804;margin-left:.2rem">{{remainPrice}}元</span></span>
             <span class="footerSpanC" @click="gotoPay">提交订单</span>
         </div>
         <loading :show="show1" :text="text1"></loading>
@@ -66,7 +66,7 @@
         methods: {
             gotoPay() {
                 let para = {
-                    cost: this.detail.price * this.value,
+                    cost: this.remainPrice,
                     courseId: this.detail.id,
                     point: this.value2 ? this.scoreC : 0
                 }
@@ -114,6 +114,9 @@
                 } else {
                     return this.detail.price * this.value * 10;
                 }
+            },
+            remainPrice(){
+                return (this.detail.price * this.value)- (this.scoreC/10)
             }
         },
     }
