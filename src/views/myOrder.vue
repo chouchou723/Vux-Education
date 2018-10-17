@@ -33,7 +33,7 @@
                             </div>
                         </div>
                         <div class="lessonFoot">
-                            <div v-if="item.status.label=='待付款'" class="pay" @click="goToPay(item.price)">付款</div>
+                            <div v-if="item.status.label=='待付款'" class="pay" @click="goToPay(item.price,item.id)">付款</div>
                             <div v-if="item.status.label=='待付款'" class="notPay" @click="cancelOrder(item.id)">取消</div>
                             <div v-if="item.status.label=='已付款'" class="notPay" @click="doRefund(item.id)">申请退款</div>
                             <div v-if="item.status.label=='已退款'||item.status.label=='已取消'" class="notPay" @click="deleteOrder(item.id)">删除</div>
@@ -137,9 +137,9 @@
                     }
                 })
             },
-            goToPay(m) {
-                let payment = m;
-                localStorage.setItem('payment', m)
+            goToPay(m,id) {
+                 let payment = {price:m,id:id}
+                localStorage.setItem('payment',JSON.stringify(payment))
                 this.$router.push(`/paying`)
             },
             loadMore() {

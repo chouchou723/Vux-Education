@@ -11,7 +11,7 @@
             <cell title="数量">
                 <inline-x-number v-model="value" style="display:block;" :min="1" width="50px" button-style="round"></inline-x-number>
             </cell>
-            <x-switch :title="getT()" prevent-default v-model="value2" @on-click="onClick">
+            <x-switch :title="getT()" prevent-default :disabled="scoreC==0" v-model="value2" @on-click="onClick">
             </x-switch>
         </group>
         <div class="confirmFooter">
@@ -72,7 +72,7 @@
                 }
                 this.show1 = true;
                 payMyOrder(para).then(res => {
-                    console.log(res)
+                    // console.log(res)
                     if (res.code == 0) {
                         this.show1 = false;
                         let id = res.data.id;
