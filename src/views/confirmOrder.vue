@@ -76,7 +76,7 @@
                     if (res.code == 0) {
                         this.show1 = false;
                         let id = res.data.id;
-                        let payment = {price:this.detail.price*this.value,id:id}
+                        let payment = {price:this.remainPrice,id:id}
                         localStorage.setItem('payment',JSON.stringify(payment))
                         this.$router.replace(`/paying`)
                     }

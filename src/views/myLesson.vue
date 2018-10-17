@@ -9,7 +9,7 @@
                         <div class="lessonTitleC">
                             <div class="lessonTitleNo">课程号:{{item.id}}</div>
                             <div class="lessonTitleStatus" :style="item.classStatus&&item.classStatus.label=='待上课'?'color:#f76967':
-                            item.classStatus&&item.classStatus.label=='已上课'?'color:#04be02':'color:#8a8e93'">{{item.classStatus?item.classStatus.label:''}}</div>
+                            item.classStatus&&item.classStatus.label=='上课中'?'color:#04be02':'color:#8a8e93'">{{item.classStatus?item.classStatus.label:''}}</div>
                         </div>
                         <div class="lessonTitle">
                             <x-img :default-src="dsrc" :src="`${apiUrl}/attach/img/${item.picId}/SQUARE`" width="75" height="75" alt="" :offset="2000*page" container="#vux_view_box_body"></x-img>
