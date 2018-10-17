@@ -294,6 +294,7 @@
                 this.page = page;
                 let para = {
                     applyAge: this.chooseListSelectBackUp[1].join(','),
+                    status:'PASS',
                     date: this.value7,
                     kinds: this.chooseListSelectBackUp[0].join(','),
                     name: this.searchValue,
