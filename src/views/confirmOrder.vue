@@ -116,7 +116,11 @@
                 }
             },
             remainPrice(){
-                return (this.detail.price * this.value)- (this.scoreC/10)
+                if(this.value2){
+                    return (this.detail.price * this.value)- (this.scoreC/10)
+                }else{
+                   this.detail.price * this.value 
+                }
             }
         },
     }
