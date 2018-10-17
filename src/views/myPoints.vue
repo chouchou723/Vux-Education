@@ -15,12 +15,12 @@
                     <div class="coinBg" slot="title">
                         <div class="coinTitle">
                             <div>{{item.changeTime}}</div>
-                            <div :style="item.type.name==='ADD'?'color:#04be02':'color:#f76260'">{{item.type.name==='ADD'?'+'+item.changeNum:item.changeNum}}积分</div>
+                            <div :style="item.type.name==='ADD'?'color:#04be02':'color:#f76260'">{{item.type.name==='ADD'?'+'+item.changeNum:'-'+item.changeNum}}积分</div>
                         </div>
                         <div class="coinContent">
                             <div>{{item.content}}
                             </div>
-                            <div style="color:#999999">剩余{{item.remainNum}}分
+                            <div style="color:#999999;flex:1">剩余{{item.remainNum}}分
                             </div>
                         </div>
                     </div>
