@@ -85,7 +85,7 @@
                 // its initial state.
                 page: 0,
                 totalPages: 0,
-                pageW: 'tc',
+                pageW: '',
                 dsrc: require('../assets/picload.png'),
                 asrc: require("../assets/0e3a716cf47f1eb695e5b62597dec807.jpg"),
                 value: '',
@@ -228,7 +228,7 @@
             padding: 0 .2rem 0 0;
         }
         .lessonContent {
-            font-size: .16rem;
+            font-size: .3rem;
             color: #b6b6b6;
             padding: .1rem 0;
         }
