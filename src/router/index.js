@@ -56,6 +56,7 @@ router.beforeEach(function (to, from, next) {
         }
       })
     }else{
+      localStorage.removeItem('teacherInfo')
         getAT({
           login_role: to.meta.type,
           code:setUuid(),

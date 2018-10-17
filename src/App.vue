@@ -59,9 +59,6 @@
     },
     created() {
     },
-    beforeDestroy(){
-      localStorage.removeItem('teacherInfo')
-    },
     methods: {
       touchstart($event) {
         this.clientX = $event.touches[0].clientX;
