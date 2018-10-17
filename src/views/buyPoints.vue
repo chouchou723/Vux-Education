@@ -17,6 +17,7 @@
         <div class="payButton">
             <x-button :type="value==0?'':'primary'" action-type="button" @click.native="payOrder" :disabled="value==0">立即充值</x-button>
         </div>
+         <loading :show="show1" :text="text1"></loading>
     </div>
 </template>
 
@@ -25,10 +26,11 @@
         Group,
         Cell,
         XButton,
-        XInput
+        XInput,
+        Loading
     } from 'vux'
     import {
-        pushHimOnWall
+        getPointPay
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     export default {
@@ -36,7 +38,8 @@
             Group,
             Cell,
             XButton,
-            XInput
+            XInput,
+            Loading
         },
         data() {
             return {
@@ -46,13 +49,30 @@
                 // its initial state.
                 value: '',
                 false: false,
-                maxV: 12
+                maxV: 12,
+                text1: '订单创建中',
+                show1: false,
             }
         },
         methods: {
             payOrder() {
-                console.log(1);
-                this.$router.push('/payResult')
+                let para = {
+                    price: this.value
+                }
+                this.show1 = true;
+                getPointPay(para).then(res => {
+                    let p = {
+                        orderId: res.data.id
+                    }
+                    this.show1 = false;
+                    getWxPay(p).then(res => {
+                        console.log(res)
+                        //     // this.wechatPay(res.data.data)
+                        this.$router.replace('/payResult')
+                    })
+                }).catch(()=>{
+                    this.show1 = false;
+                })
                 //  this.$wechat.chooseWXPay({
                 //                             timestamp: 0, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
                 //                             nonceStr: '', // 支付签名随机串，不长于 32 位
@@ -99,13 +119,13 @@
                     package: config.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
                     signType: config.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
                     paySign: config.paySign, // 支付签名
-                    success: function (response) {
+                    success: function(response) {
                         // 支付成功后的回调函数
                         // window.localStorageclear()
                         this.$vux.toast.show('支付成功!')
                         // window.location.href = "/mobile/my-order"
                     },
-                    cancel: function (re) {
+                    cancel: function(re) {
                         $this.$vux.toast.show({
                             text: '支付已取消',
                             type: 'cancel'

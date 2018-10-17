@@ -229,6 +229,11 @@ export const getWxPay = (params) => {
   // axios.defaults.headers.common['Authorization'] = token.Authorization;
   return AjaxPlugin.$http.post(`${base}/api/orders/pay`, params).then(res => res.data);
 };
+//学生个人中心 充值积分
+export const getPointPay = (params) => {
+  // axios.defaults.headers.common['Authorization'] = token.Authorization;
+  return AjaxPlugin.$http.post(`${base}/api/orders/point`, params).then(res => res.data);
+};
 //学生个人中心 取消订单 
 export const cancelMyOrder = (id, token) => {
   // axios.defaults.headers.common['Authorization'] = token.Authorization;

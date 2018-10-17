@@ -51,19 +51,14 @@
         methods: {
             payOrder() {//调接口获取sign
                 // console.log(1);
-                // let para = {
-                //     orderId:this.$route.query.id
-                // }
-                // getWxPay(para).then(res=>{
-                //     console.log(res)
+                let para = {
+                    orderId:this.$route.query.id
+                }
+                getWxPay(para).then(res=>{
+                    console.log(res)
                 //     // this.wechatPay(res.data.data)
                     this.$router.replace('/payResult')
-                // }).catch((error) => {
-                //     this.$vux.toast.show({
-                //         text: '网络错误',
-                //         type: 'cancel'
-                //     })
-                // })
+                })
             },
             wechatPay(config) {
                 let $this = this
