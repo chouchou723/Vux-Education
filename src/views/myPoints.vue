@@ -130,8 +130,10 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: .2rem;
+            width: 100%;
         }
         .coinContent {
+            width: 100%;
             font-size: 16px;
             display: flex;
             justify-content: space-between;
