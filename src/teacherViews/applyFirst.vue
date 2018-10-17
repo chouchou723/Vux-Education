@@ -25,7 +25,7 @@
                 <x-input placeholder="请输入手机号" type='tel' v-model="value" :max="11">
                     <img slot="label" style="padding-right:10px;display:block;" src="../assets/inputCell.png" width="20" height="20">
                 </x-input>
-                <x-input placeholder="请输入短信验证码" class="weui-vcode" v-model="value1" :max="6">
+                <x-input placeholder="请输入短信验证码" class="weui-vcode" v-model="value1" :max="4">
                     <img slot="label" style="padding-right:10px;display:block;" src="../assets/key.png" width="20" height="20">
                     <x-button slot="right" type="primary" :class="['getCode',count?'colorg':'']" @click.native="getCode">{{getCodeContent}}</x-button>
                 </x-input>

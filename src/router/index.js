@@ -58,7 +58,7 @@ router.beforeEach(function (to, from, next) {
     }else{
       localStorage.removeItem('teacherInfo')
         getAT({
-          login_role: to.meta.type,
+          login_role: to.meta.type==='student'?'student':'teacher',
           code:setUuid(),
           url:to.fullPath.slice(1)
         })
