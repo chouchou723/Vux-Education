@@ -29,7 +29,7 @@ const state = {
     cell: '',
     id:''
   },
-  step:'',
+  step:1,
   teacherInfo: {
     id:'',
     img: require('@/assets/bi3.png'),

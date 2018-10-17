@@ -120,14 +120,14 @@
             document.title = '申请成为老师'
             let status = JSON.parse(localStorage.getItem('teacherInfo')).status;
             if (status.name === 'PASS') {
-                this.step1 = this.getStep || 3;
+                this.step1 = 3;
                 this.applyStaus = 'pass'
             } else if (status.name === 'REJECT') {
-                this.step1 = this.getStep || 3;
+                this.step1 = 3;
                 this.applyStaus = 'fail'
                 this.rejectReason = JSON.parse(localStorage.getItem('teacherInfo')).rejectReason
             } else if (status.name === 'WAIT') {
-                this.step1 = this.getStep || 3;
+                this.step1 = 3;
                 this.applyStaus = ''
             } else {
                 this.step1 = this.getStep || 1;
@@ -234,36 +234,39 @@
                 }
             },
             getCode() {
-                if (this.value.length === 11 && this.countTime === 60) {
-                    let para = {
-                        mobile: this.value
+                if(this.countTime === 60){
+                    if (this.value.length === 11) {
+                        let para = {
+                            mobile: this.value
+                        }
+                        getSmsCode(para).then(res => {
+                            // console.log(res)
+                        }).then(() => {
+                            this.count = true;
+                            this.countStart = setInterval(() => {
+                                if (this.countTime == 1) {
+                                    clearInterval(this.countStart)
+                                    this.countTime = 60;
+                                    this.count = false;
+                                } else {
+                                    this.countTime--
+                                }
+                            }, 1000)
+                        })
+                    } else if (this.value.length < 11) {
+                        this.$vux.toast.show({
+                            text: '请填写正确的手机号',
+                            type: 'text',
+                            width: 'auto'
+                        })
+                    } else {
+                        this.$vux.toast.show({
+                            text: '请先填写手机号',
+                            type: 'text',
+                            width: 'auto'
+                        })
                     }
-                    getSmsCode(para).then(res => {
-                        // console.log(res)
-                    }).then(() => {
-                        this.count = true;
-                        this.countStart = setInterval(() => {
-                            if (this.countTime == 1) {
-                                clearInterval(this.countStart)
-                                this.countTime = 60;
-                                this.count = false;
-                            } else {
-                                this.countTime--
-                            }
-                        }, 1000)
-                    })
-                } else if (this.value.length < 11) {
-                    this.$vux.toast.show({
-                        text: '请填写正确的手机号',
-                        type: 'text',
-                        width: 'auto'
-                    })
-                } else {
-                    this.$vux.toast.show({
-                        text: '请先填写手机号',
-                        type: 'text',
-                        width: 'auto'
-                    })
+
                 }
             },
             ...mapActions([

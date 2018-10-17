@@ -7,7 +7,7 @@
             <popup-picker title="学历" :data="list2" v-model="item.degreeV" show-name value-text-align="right" @on-change="changeDegree(item)"></popup-picker>
             <datetime v-model="item.beginDateStr" :end-date="item.endDateStr?item.endDateStr:endDate" title="起始日期">
             </datetime>
-            <datetime v-model="item.endDateStr"  title="结束日期" >
+            <datetime v-model="item.endDateStr"  title="结束日期" :start-date="item.beginDateStr">
             </datetime>
         </group>
         <div class="addNewBtn">

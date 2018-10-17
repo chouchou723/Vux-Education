@@ -30,7 +30,7 @@
         </group>
         <group title=" " label-width="4.5em" label-margin-right="2em">
             <cell title="个人介绍" is-link link="/myIntro">
-                <div class="mr10">{{this.getTeacherInfo.description}}</div>
+                <div class="mr10">{{this.getTeacherInfo.description?'已填写':''}}</div>
             </cell>
             <cell title="教育经历" is-link link="/myEdu">
                 <div class="mr10">{{this.getTeacherInfo.edus.length!==0?'已填写':''}}</div>

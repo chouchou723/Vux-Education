@@ -32,10 +32,8 @@
         store.commit('changeTeacherInfo', { ...inf})
         if (inf.status.name !== 'PASS' && to.path !== '/applyFirst') {
           next(`/applyFirst?code=${code}`)
-        } else  if (inf.status.name === 'PASS' && to.path === '/applyFirst') {
-          next(`/teacher?code=${code}`)
-        } else {
-          next(to.path+`?code=${code}`)
+        }else {
+          next({path:to.path,query:{...to.query,code:code}})
         }
       })
     }
