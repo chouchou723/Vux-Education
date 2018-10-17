@@ -119,7 +119,7 @@
             display: none;
         }
         .coinBg {
-            width: 9rem; // height: 2rem;
+            width: 100%; // height: 2rem;
             padding: 0 .2rem;
             position: relative;
             box-sizing: border-box;
