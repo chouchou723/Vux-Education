@@ -117,9 +117,9 @@
                         venueId: stepTwo.venueId,
                         beginTime: stepTwo.beginTime,
                         beginDate: stepTwo.beginDate,
-                        endDate: stepTwo.endDate,
+                        endDate: stepTwo.beginDate,
                         classroomId: stepTwo.classroomId,
-                        step: stepTwo.step,
+                        step: stepTwo.step?stepTwo.step:1,
                         contentId: stepTwo.contentId
                     }
                     getTeacherschedules(para).then(res => {
