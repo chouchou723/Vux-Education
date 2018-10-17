@@ -52,7 +52,7 @@
             payOrder() {//调接口获取sign
                 // console.log(1);
                 let para = {
-                    orderId:this.$route.query.id
+                    orderId:JSON.parse(localStorage.getItem('payment')).id
                 }
                 getWxPay(para).then(res=>{
                     console.log(res)

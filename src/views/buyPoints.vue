@@ -30,7 +30,7 @@
         Loading
     } from 'vux'
     import {
-        getPointPay
+        getPointPay,getWxPay
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     export default {
