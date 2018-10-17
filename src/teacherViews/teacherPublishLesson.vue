@@ -43,6 +43,8 @@
                 <x-button type="primary" action-type="button" @click.native="saveInfo" :disabled="valid">下一步</x-button>
             </div>
         </view-box>
+         <loading :show="show2" :text="text1"></loading>
+
     </div>
 </template>
 
@@ -57,6 +59,7 @@
         Tab,
         PopupPicker,
         TabItem,
+        Loading
     } from 'vux'
     import {
         getCourseKind,
@@ -70,6 +73,7 @@
     } from 'vuex';
     export default {
         components: {
+            Loading,
             Group,
             XButton,
             Cell,
@@ -123,6 +127,8 @@
                 index01: 0,
                 type: 'SINGLE',
                 isloading: false,
+                show2:false,
+                text1:'课程创建中',
             }
         },
         methods: {
@@ -138,11 +144,11 @@
             },
             changeLesson(type) {
                 this.type = type;
-                // if (type === 'SUIT') {
-                //     this.value = ;
-                // } else {
-                //     this.value = '';
-                // }
+                if (type === 'SUIT') {
+                    this.value = '';
+                } else {
+                    this.value = '';
+                }
             },
             onSuccess(id, data) {
                 this.pics.push(id);
@@ -213,8 +219,10 @@
                         description: this.value4
                     }
                 }
+                this.show2 =true;
                 createNewContent(para).then(res => {
                     if (res.code == 0) {
+                this.show2 =false;
                         this.$router.push({
                             path: `/teacherPublishHome?id=${res.data.id}`,
                             query: {
@@ -251,7 +259,8 @@
         },
         computed: {
             valid() {
-                if (this.valueTitle && this.value && this.value1 && this.value2 && this.value3 && this.pics) {
+                let a = this.valueTitle && this.value && this.value1 && this.value2 && this.value3 && this.value4&&this.pics;
+                if (a) {
                     return false
                 } else {
                     return true
