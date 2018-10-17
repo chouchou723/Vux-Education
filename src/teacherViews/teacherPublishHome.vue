@@ -23,9 +23,9 @@
                 <!-- <popup-picker title="上课时间段" show-name :data="list3" v-model="value2"  @on-change="onChange" :columns="1"></popup-picker> -->
                 <datetime v-model="value2" format="HH:mm" title="上课开始时间"></datetime>
                 <datetime v-model="value3" title="上课起始日期" :start-date="value4?value4:endDate"></datetime>
-                <datetime v-model="value4" title="上课结束日期" :start-date="value3"></datetime>
+                <datetime v-model="value4" v-if="classtype!='SINGLE'" title="上课结束日期" :start-date="value3"></datetime>
                 <popup-picker title="上课教室" show-name :data="list4" v-model="value5" @on-change="onChange" :columns="1"></popup-picker>
-                <x-input v-model="value6" type="number" title="每隔几天上一次课" text-align='right'></x-input>
+                <x-input v-model="value6" v-if="classtype!='SINGLE'" type="tel" mask="9999999999999"  title="每隔几天上一次课" text-align='right'></x-input>
                 <!-- <popup-picker title="每个几天上一次课" show-name :data="list5" v-model="value6"  @on-change="onChange" :columns="1"></popup-picker> -->
             </group>
             <div class="footerBtn">
@@ -113,6 +113,7 @@
                 classTitle: '',
                 isloading: false,
                 classid: '',
+                classtype:'SINGLE',
             }
         },
         methods: {
@@ -194,8 +195,13 @@
                 return date.getFullYear() + '-' + month + '-' + day
             },
             valid(){
+                var a ;
+                if(this.classtype=='SINGLE'){
+                    a = this.classTitle&& this.classid&&this.value1&&this.value2&&this.value3&&this.value5
+                }else{
+                    a = this.classTitle&& this.classid&&this.value1&&this.value2&&this.value3&&this.value4&&this.value5&&this.value6
+                }
                 // console.log(this.classid)
-                let a = this.classTitle&& this.classid&&this.value1&&this.value2&&this.value3&&this.value4&&this.value5&&this.value6
                 if(a){
                     return false
                 }else{
@@ -212,6 +218,7 @@
                localStorage.removeItem('stepTwo')
             }
             this.classid = this.$route.query.id || ''
+            this.classtype = this.$route.query.type ||'';
             if (localStorage.getItem('stepTwo')&&this.classTitle) {
                 let data = JSON.parse(localStorage.getItem('stepTwo'))
                 this.value1 = [data.venueId];

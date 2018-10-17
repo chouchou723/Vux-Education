@@ -97,10 +97,12 @@
                 if (this.chooseIndex !== '') {
                     let id = this.lessonList1[this.chooseIndex].id
                     let name = this.lessonList1[this.chooseIndex].name
+                    let type = this.lessonList1[this.chooseIndex].type.name
                     this.$router.push({
                         path: `/teacherPublishHome?id=${id}`,
                         query: {
-                            title: name
+                            title: name,
+                            type : type
                         }
                     })
                 }

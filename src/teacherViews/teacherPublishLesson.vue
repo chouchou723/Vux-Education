@@ -3,24 +3,6 @@
         <view-box ref="viewBox">
             <group title="课程名称" label-width="4.5em" label-margin-right="2em" :class="isBorder?'borderL':''">
                 <x-input :max="20" :is-type='nickname' v-model="valueTitle" placeholder="请填写您的课程名称" @on-blur="changeBorder(1)" @on-focus="changeBorder(2)"></x-input>
-                <!-- <cell v-for="(item,index) in studentList" :key="'ss'+index" :title="item.name"  is-link link="/myName?type=nickname">
-                                          <div class="mr10 colorRed">{{item.sign?item.sign:'请签到'}}</div>
-                                      </cell> -->
-                <!-- <selector v-for="(item,index) in studentList" :key="'ss'+index" :title="item.name" :value-map="['idValue', 'idLabel']" :options="optionsL" placeholder="请签到"
-                                      v-model="item.sign"  direction="rtl" @on-change="onChange" :class="['mr10',item.sign?'':'colorRed']"></selector> -->
-                <!-- <cell title="姓名"  is-link link="/myName">
-                                          <div class="mr10">{{this.getMyInfo.name}}</div>
-                                      </cell>
-                                      <selector title="性别" :options="['男', '女']" v-model="value2"  direction="rtl" @on-change="onChange"></selector>
-                                       <cell title="生日"  is-link link="/myBir">
-                                          <div class="mr10">{{this.getMyInfo.birthday}}</div>
-                                      </cell>
-                                       <cell title="地址"  is-link link="/myAdd">
-                                          <div class="mr10">{{this.getMyInfo.address}}</div>
-                                      </cell>
-                                       <cell title="手机"  is-link link="/myCell">
-                                          <div class="mr10">{{this.getMyInfo.cell}}</div>
-                                      </cell> -->
             </group>
             <group title="课程类型" label-width="4.5em" label-margin-right="2em" id="noborderBottom">
                 <tab custom-bar-width="60px" v-model="index01" active-color="#31a2cf">
@@ -38,7 +20,8 @@
                     </tab-item>
                 </tab>
                 <!-- <popup-picker title="时长" :data="list1" v-model="value" @on-change="onChange" show-name :columns="1"></popup-picker> -->
-                <x-input v-model="value" title="时长" text-align='right' @on-blur="checkTime" type="number" :readonly="type=='SUIT'"></x-input>
+                <x-input v-model="value" title="时长" text-align='right' @on-blur="checkTime" type="number" v-if="type!=='SUIT'"></x-input>
+                <x-input v-model="value" title="节数" text-align='right' type="tel" mask="9999999999999" v-if="type=='SUIT'"></x-input>
                 <!-- <selector title="时长" :value-map="['idValue', 'idLabel']" :options="optionsL" v-model="value"  direction="rtl" @on-change="onChange"></selector> -->
             </group>
             <group title="课程详情" label-width="4.5em" label-margin-right="2em">
@@ -155,11 +138,11 @@
             },
             changeLesson(type) {
                 this.type = type;
-                if (type === 'SUIT') {
-                    this.value = 2;
-                } else {
-                    this.value = '';
-                }
+                // if (type === 'SUIT') {
+                //     this.value = ;
+                // } else {
+                //     this.value = '';
+                // }
             },
             onSuccess(id, data) {
                 this.pics.push(id);
@@ -205,22 +188,38 @@
                 localStorage.setItem('createC', JSON.stringify(para))
             },
             saveInfo() {
-                let para = {
-                    name: this.valueTitle,
-                    type: this.type,
-                    hours: this.value,
-                    maxPerson: this.value1,
-                    kinds: this.value2[0],
-                    applyAge: this.value3[0],
-                    picId: this.pics.join(','),
-                    description: this.value4
+                let para = {}
+                if (this.type == 'SUIT') {
+                    para = {
+                        name: this.valueTitle,
+                        type: this.type,
+                        hours: 2,
+                        courseNum: this.value,
+                        maxPerson: this.value1,
+                        kinds: this.value2[0],
+                        applyAge: this.value3[0],
+                        picId: this.pics.join(','),
+                        description: this.value4
+                    }
+                } else {
+                    para = {
+                        name: this.valueTitle,
+                        type: this.type,
+                        hours: this.value,
+                        maxPerson: this.value1,
+                        kinds: this.value2[0],
+                        applyAge: this.value3[0],
+                        picId: this.pics.join(','),
+                        description: this.value4
+                    }
                 }
                 createNewContent(para).then(res => {
                     if (res.code == 0) {
                         this.$router.push({
                             path: `/teacherPublishHome?id=${res.data.id}`,
                             query: {
-                                title: res.data.name
+                                title: res.data.name,
+                                type:para.type
                             }
                         })
                     }
@@ -322,7 +321,8 @@
             background-color: #e1e1e1;
             color: black;
         }
-        .weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
+        .weui-btn_primary,
+        .weui-btn_primary:not(.weui-btn_disabled):active {
             background-color: #00a6e7;
         }
         .weui-cells__title {

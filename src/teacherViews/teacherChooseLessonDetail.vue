@@ -84,7 +84,10 @@
 					status:{
 						name:'',
 						label:''
-					},
+                    },
+                    type:{
+                        name:'',
+                    }
                 },
                 oh:'',
 				isOh:false,                
@@ -101,7 +104,8 @@
                 this.$router.push({
                     path:`/teacherPublishHome?id=${this.$route.query.id}`,
                     query:{
-                        title:this.detail.name
+                        title:this.detail.name,
+                        type:thid.detail.type.name
                     }
                 })
             },
@@ -139,7 +143,8 @@
 						minStuNum: data.minStuNum,
 						age: data.applyAge.label,
 						description: data.description,
-						videoId: data.video ? data.video.filePath : '',
+                        videoId: data.video ? data.video.filePath : '',
+                        type:data.type?data.type:{name:''}
 					}
 				})
 			}
