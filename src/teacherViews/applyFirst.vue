@@ -325,7 +325,7 @@
             align-items: center;
             position: relative;
             img {
-                width: 90%;
+                width: 80%;
             }
             div {
                 font-size: 15px;
@@ -334,7 +334,7 @@
             &::after {
                 content: '';
                 position: absolute;
-                width: .6rem;
+                width: .7rem;
                 top: 27%;
                 right: -.6rem;
                 border-bottom: .07rem solid #00a6e7
@@ -349,7 +349,7 @@
             align-items: center;
             position: relative;
             img {
-                width: 90%;
+                width: 80%;
             }
             div {
                 padding-top: .3rem;
@@ -360,13 +360,13 @@
                 position: absolute;
                 width: .6rem;
                 top: 27%;
-                left: -.6rem;
+                left: -.5rem;
                 border-bottom: .07rem solid gainsboro;
             }
             &::after {
                 content: '';
                 position: absolute;
-                width: .6rem;
+                width: .7rem;
                 top: 27%;
                 right: -.6rem;
                 border-bottom: .07rem solid gainsboro;
@@ -378,13 +378,13 @@
                 position: absolute;
                 width: .6rem;
                 top: 27%;
-                left: -.6rem;
+                left: -.5rem;
                 border-bottom: .07rem solid #00a6e7;
             }
             &::after {
                 content: '';
                 position: absolute;
-                width: .6rem;
+                width: .7rem;
                 top: 27%;
                 right: -.6rem;
                 border-bottom: .07rem solid #00a6e7;
@@ -399,7 +399,7 @@
             align-items: center;
             position: relative;
             img {
-                width: 90%;
+                width: 80%;
             }
             div {
                 padding-top: .3rem;
@@ -408,9 +408,9 @@
             &::before {
                 content: '';
                 position: absolute;
-                width: .6rem;
+                width: .5rem;
                 top: 27%;
-                left: -.6rem;
+                left: -.5rem;
                 border-bottom: .07rem solid gainsboro;
             }
         }
@@ -418,9 +418,9 @@
             &::before {
                 content: '';
                 position: absolute;
-                width: .6rem;
+                width: .5rem;
                 top: 27%;
-                left: -.6rem;
+                left: -.5rem;
                 border-bottom: .07rem solid #00a6e7;
             }
         }

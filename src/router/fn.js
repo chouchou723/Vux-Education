@@ -1,38 +1,50 @@
 
   export const  getInfoTeacherF = (next,to,getInfoTeacher,store,code)=> {
-    getInfoTeacher().then(res => {
-      let data = res.data;
-      let inf = {
-        id: data.id,
-        img: data.picId?data.picId:'',
-        experience: data.experience ? data.experience : {
-          label: '',
-          name: ''
-        },
-        skill: data.skill ? data.skill.split(',') : [],
-        realName: data.realName?data.realName:'',
-        gender: data.gender ? data.gender.name : '',
-        // birthday: data.birthday ? data.birthday : '',
-        // address: data.address ? data.address : '',
-        // mobilePhone: data.mobilePhone ? data.mobilePhone : '',
-        description: data.description ? data.description : '',
-        edus: data.edus?data.edus:[],
-        exps: data.exps?data.exps:[],
-        cerIds: data.cerIds?data.cerIds:'',
-        status: data.status,
-        rejectReason: data.rejectReason?data.rejectReason: '资料审核未通过'
-      }
-      localStorage.setItem('teacherInfo', JSON.stringify(inf))
-      store.commit('changeTeacherInfo', { ...inf
-      })
-      if (inf.status.name !== 'PASS' && to.path !== '/applyFirst') {
-        next('/applyFirst')
-      } else  if (inf.status.name === 'PASS' && to.path === '/applyFirst') {
-        next('/teacher')
+    let tInfo = localStorage.getItem('teacherInfo');
+    if(tInfo){
+      let tData = JSON.parse(tInfo);
+      store.commit('changeTeacherInfo', {...tData})
+      if (tData.status.name !== 'PASS' && to.path !== '/applyFirst') {
+        next(`/applyFirst?code=${code}`)
+      } else if (tData.status.name === 'PASS' && to.path === '/applyFirst') {
+        next(`/teacher?code=${code}`)
       } else {
-        next()
+        next(to.path+`?code=${code}`)
       }
-    })
+    }else{
+      getInfoTeacher().then(res => {
+        let data = res.data;
+        let inf = {
+          id: data.id,
+          img: data.picId?data.picId:'',
+          experience: data.experience ? data.experience : {
+            label: '',
+            name: ''
+          },
+          skill: data.skill ? data.skill.split(',') : [],
+          realName: data.realName?data.realName:'',
+          gender: data.gender ? data.gender.name : '',
+          // birthday: data.birthday ? data.birthday : '',
+          // address: data.address ? data.address : '',
+          // mobilePhone: data.mobilePhone ? data.mobilePhone : '',
+          description: data.description ? data.description : '',
+          edus: data.edus?data.edus:[],
+          exps: data.exps?data.exps:[],
+          cerIds: data.cerIds?data.cerIds:'',
+          status: data.status,
+          rejectReason: data.rejectReason?data.rejectReason: '资料审核未通过'
+        }
+        localStorage.setItem('teacherInfo', JSON.stringify(inf))
+        store.commit('changeTeacherInfo', { ...inf})
+        if (inf.status.name !== 'PASS' && to.path !== '/applyFirst') {
+          next(`/applyFirst?code=${code}`)
+        } else  if (inf.status.name === 'PASS' && to.path === '/applyFirst') {
+          next(`/teacher?code=${code}`)
+        } else {
+          next(to.path+`?code=${code}`)
+        }
+      })
+    }
   }
   
   export const getStudentInfoF = (next,getStudentInfo,store)=> {

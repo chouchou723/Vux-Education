@@ -46,9 +46,9 @@ router.beforeEach(function (to, from, next) {
   })
   if (from.path === '/') {
     if(to.query.code){
-      getTokenInfo(to.meta.type,{code:to.query.code}).then(()=>{
+      getTokenInfo(to.meta.type,{code:7}).then(()=>{
         if (to.meta.type == 'teacher') {
-          getInfoTeacherF(next,to,getInfoTeacher,store,to.query.code)
+          getInfoTeacherF(next,to,getInfoTeacher,store,7)
         } else if (to.meta.type == 'student') {
           getStudentInfoF(next,getStudentInfo,store)
         }else{
