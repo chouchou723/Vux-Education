@@ -100,7 +100,7 @@
                 lessonList1: [{
                     id: '',
                     hot: true,
-                    name: '创意绘画单课',
+                    name: '',
                     courseNum: 0,
                     totalTime: 0,
                     applyAge: {

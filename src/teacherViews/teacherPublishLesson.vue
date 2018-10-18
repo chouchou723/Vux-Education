@@ -204,7 +204,7 @@
                         maxPerson: this.value1,
                         kinds: this.value2[0],
                         applyAge: this.value3[0],
-                        picId: this.pics.join(','),
+                        coursePicIds: this.pics.join(','),
                         description: this.value4
                     }
                 } else {
@@ -215,7 +215,7 @@
                         maxPerson: this.value1,
                         kinds: this.value2[0],
                         applyAge: this.value3[0],
-                        picId: this.pics.join(','),
+                        coursePicIds: this.pics.join(','),
                         description: this.value4
                     }
                 }
