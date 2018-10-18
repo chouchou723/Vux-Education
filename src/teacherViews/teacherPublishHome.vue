@@ -152,7 +152,7 @@
                     getClassrooms(this.value1[0]).then(res => {
                         this.list4 = res.data.map(item => {
                             return {
-                                name: '教室' + item.id,
+                                name: '教室' + item.code,
                                 value: item.id + '',
                             }
                         })
@@ -176,7 +176,7 @@
                     endDate: this.value4,
                     classroomId: this.value5[0],
                     step: this.value6,
-                    contentId: this.classid
+                    contentId: this.classid,
                 }
                 localStorage.setItem('stepTwo', JSON.stringify(stepTwo))
             },

@@ -79,7 +79,7 @@
                 getClassrooms(vid).then(res => {
                     this.list4 = res.data.map(item => {
                         return {
-                            name: '教室' + item.id,
+                            name: '教室' + item.code,
                             value: item.id + '',
                         }
                     })

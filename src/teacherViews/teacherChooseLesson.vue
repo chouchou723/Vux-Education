@@ -167,7 +167,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: flex-start;
-            padding-left: .4rem;
+            padding-left: .3rem;
             font-size: 16px;
         }
         .lessonName {
