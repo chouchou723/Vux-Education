@@ -30,7 +30,7 @@
                 <cell class="tit" title="适用对象"></cell>
                 <CellBox>{{detail.age}}{{detail.age=='成人'?'':'儿童'}}</CellBox>
             </group>
-            <group class="courseBox">
+            <group class="courseBox mb2">
                 <cell class="tit" title="课程介绍"></cell>
                 <CellBox>
 					<div :class="['introduce',isMoreContent?'':'lite']">
@@ -47,12 +47,12 @@
 					<div class="more" @click="changeMoreContent"><span>{{isMoreContent?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMoreContent?'rotate90':'']"></i></div>
 				</CellBox>
             </group>
-            <div style="height:2.4rem;background:#f4f4f4"></div>
+            <!-- <div style="height:2.4rem;background:#f4f4f4"></div> -->
             <!-- </scroller> -->
+        </view-box>
             <div class="footB hasChoosen" @click="goToEdit">
                 编辑
             </div>
-        </view-box>
     </div>
 </template>
 
@@ -234,8 +234,10 @@
                 }
             }
         }
-        .courseBox {
+        .mb2{
             margin-bottom:2rem;
+        }
+        .courseBox {
             .vux-no-group-title {
                 .tit {
                     color: #7F8389;
