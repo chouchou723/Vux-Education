@@ -113,14 +113,27 @@
                     })
                 } else {
                     let stepTwo = JSON.parse(localStorage.getItem('stepTwo'))
-                    let para = {
-                        venueId: stepTwo.venueId,
-                        beginTime: stepTwo.beginTime,
-                        beginDate: stepTwo.beginDate,
-                        endDate: stepTwo.beginDate,
-                        classroomId: stepTwo.classroomId,
-                        step: stepTwo.step?stepTwo.step:1,
-                        contentId: stepTwo.contentId
+                    let para = {}
+                    if (stepTwo.type === 'SUIT') {
+                        para = {
+                            venueId: stepTwo.venueId,
+                            beginTime: stepTwo.beginTime,
+                            beginDate: stepTwo.beginDate,
+                            endDate: stepTwo.endDate,
+                            classroomId: stepTwo.classroomId,
+                            step: stepTwo.step ,
+                            contentId: stepTwo.contentId
+                        }
+                    } else {
+                        para = {
+                            venueId: stepTwo.venueId,
+                            beginTime: stepTwo.beginTime,
+                            beginDate: stepTwo.beginDate,
+                            endDate: stepTwo.beginDate,
+                            classroomId: stepTwo.classroomId,
+                            step: 1,
+                            contentId: stepTwo.contentId
+                        }
                     }
                     getTeacherschedules(para).then(res => {
                         this.detail = res.data

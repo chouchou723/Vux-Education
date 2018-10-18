@@ -177,6 +177,7 @@
                     classroomId: this.value5[0],
                     step: this.value6,
                     contentId: this.classid,
+                    type:this.classtype
                 }
                 localStorage.setItem('stepTwo', JSON.stringify(stepTwo))
             },
