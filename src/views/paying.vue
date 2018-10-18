@@ -60,7 +60,8 @@
                 })
             },
             wechatPay(config) {
-                this.$wechat.chooseWXPay({
+                let self = this;
+                self.$wechat.chooseWXPay({
                     timestamp: config.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
                     nonceStr: config.nonceStr, // 支付签名随机串，不长于 32 位
                     package: config.packageValue, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
@@ -68,19 +69,19 @@
                     paySign: config.paySign, // 支付签名
                     success: function(response) {
                         // 支付成功后的回调函数
-                        this.$vux.toast.show('支付成功!')
+                        self.$vux.toast.show('支付成功!')
                         setTimeout(() => {
-                            this.$router.replace('/payResult')
+                            self.$router.replace('/payResult')
                         }, 1000)
                     },
                     cancel: function(re) {
-                        this.$vux.toast.show({
+                        self.$vux.toast.show({
                             text: '支付已取消',
                             type: 'cancel'
                         })
-                        setTimeout(() => {
-                            this.$router.replace('/myOrder')
-                        }, 1000)
+                        // setTimeout(() => {
+                        //     self.$router.replace('/myOrder')
+                        // }, 1000)
                     }
                 });
             },
