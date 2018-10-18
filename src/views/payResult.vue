@@ -76,7 +76,7 @@
                 // its initial state.
                 value: '',
                 buyStatus: true,
-                id:'',
+                id: '',
                 type: 'coin', //coin
                 item: {
                     id: 1,
@@ -92,24 +92,32 @@
         },
         methods: {
             goTo() {
-                console.log(1);
                 if (this.buyStatus) {
-                    this.$router.push('/myLesson')
+                    if (this.type === 'coin') {
+                        this.$router.push('/myPoints')
+                    } else {
+                        this.$router.push('/myLesson')
+                    }
                 } else {
-                    this.$router.push('/paying')
+                    if (this.type === 'coin') {
+                        this.$router.push('/buyPoints')
+                    } else {
+                        this.$router.push('/paying')
+                    }
                 }
             },
-            fetchData(){
-                getPayResult(this.id).then(res=>{
+            fetchData() {
+                getPayResult(this.id).then(res => {
                     console.log(res)
                 })
             }
         },
         created() {
             this.setTitle('支付结果')
-            this.buyStatus = this.$route.query.buyStatus==='pass'?true:false;
+            this.buyStatus = this.$route.query.buyStatus === 'pass' ? true : false;
             this.type = this.$route.query.type
-            this.id = this.$route.query.id
+            this.id = this.$route.query.id;
+            this.fetchData()
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},
