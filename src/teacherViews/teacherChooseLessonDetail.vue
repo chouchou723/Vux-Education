@@ -13,7 +13,7 @@
                 <cell class="tit" title="课程信息"></cell>
                 <CellBox>
                     <div class="info_lf">
-                        {{detail.courseNum}}节课 - {{detail.totalTime}}课时 | 满{{detail.minStuNum}}人开课
+                        {{detail.courseNum}}节课, 共{{detail.totalTime}}课时, 满{{detail.minStuNum}}人开课
                     </div>
                 </CellBox>
             </group>
@@ -143,7 +143,7 @@
                         picId:data.picId,
 						name: data.name,
 						courseNum: data.courseNum,
-						totalTime: data.totalTime||0,
+						totalTime: data.hours||0,
 						minStuNum: data.minStuNum||0,
 						age: data.applyAge.label,
 						description: data.description,
@@ -175,7 +175,7 @@
 					this.isOh = true
                     
 				}
-			}, 500);
+			}, 1000);
         },
         computed: {
             showM() {
@@ -334,7 +334,6 @@
                 }
                 .desImg{
                     width: 100%;
-                    padding: 0 10px;
                 }
             }
         }

@@ -333,7 +333,7 @@
 					this.isMoreContent = false;
 					this.isOh = true
 				}
-			}, 500);
+			}, 1000);
 		},
 		computed: {
 			showM() {
@@ -535,7 +535,6 @@
 				}
 				.desImg{
                     width: 100%;
-                    padding: 0 10px;
                 }
 			}
 			.assess {
