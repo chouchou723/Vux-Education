@@ -340,7 +340,7 @@
             height: 1.3rem;
             line-height: 1.3rem;
             text-align: center;
-            position: absolute;
+            position: fixed;
             left: 0;
             bottom: 0;
             font-size: 17px;
