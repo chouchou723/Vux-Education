@@ -56,28 +56,27 @@
                     orderId:JSON.parse(localStorage.getItem('payment')).id
                 }
                 getNewWxPay(para).then(res=>{
-                    console.log(res)
-                //     // this.wechatPay(res.data.data)
-                    // this.$router.replace('/payResult')
+                    this.wechatPay(res.data)
                 })
             },
             wechatPay(config) {
-                let $this = this
                 this.$wechat.chooseWXPay({
-                    timestamp: config.timestamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+                    timestamp: config.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
                     nonceStr: config.nonceStr, // 支付签名随机串，不长于 32 位
-                    package: config.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+                    package: config.packageValue, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
                     signType: config.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
                     paySign: config.paySign, // 支付签名
                     success: function(response) {
                         // 支付成功后的回调函数
-                        $this.$vux.toast.show('支付成功!')
+                        this.$vux.toast.show('支付成功!')
+                    // this.$router.replace('/payResult')
                     },
                     cancel: function(re) {
-                        $this.$vux.toast.show({
+                        this.$vux.toast.show({
                             text: '支付已取消',
                             type: 'cancel'
                         })
+                    this.$router.replace('/myOrder')
                     }
                 });
             },
