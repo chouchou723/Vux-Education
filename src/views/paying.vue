@@ -59,7 +59,7 @@
                     getZeroPay(para,this.id).then(res=>{
                         this.$vux.toast.show('支付成功!')
                         setTimeout(() => {
-                            self.$router.replace(`/payResult?type=buy&buyStatus=pass&id=${this.id}`)
+                            this.$router.replace(`/payResult?type=buy&buyStatus=pass&id=${this.id}`)
                         }, 1000)
                         localStorage.removeItem('payment')
                     })
