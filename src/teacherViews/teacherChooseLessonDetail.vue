@@ -143,7 +143,7 @@
                         picId:data.picId,
 						name: data.name,
 						courseNum: data.courseNum,
-						totalTime: data.totalHours||0,
+						totalTime: data.totalTime||0,
 						minStuNum: data.minStuNum||0,
 						age: data.applyAge.label,
 						description: data.description,
