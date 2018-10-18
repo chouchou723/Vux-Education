@@ -39,7 +39,7 @@
 						<div class="playModal" v-if="showM&&detail.videoId"></div>
 						<div v-html="detail.description"></div>
                         <div class="desImg" v-if="detail.attachments.length!==0">
-                            <img v-for="(item,index) in detail.attachments" :key="'i'+index" :src="`${apiUrl}/attach/img/${item.picId}`" alt="" style="max-width:100%">
+                            <img v-for="(item,index) in detail.attachments" :key="'i'+index" :src="`${apiUrl}/attach/img/${item.id}`" alt="" style="max-width:100%">
                         </div>
 					</div>
 				</CellBox>
@@ -47,7 +47,7 @@
 					<div class="more" @click="changeMoreContent"><span>{{isMoreContent?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMoreContent?'rotate90':'']"></i></div>
 				</CellBox>
             </group>
-            <div style="height:1.4rem;background:#f4f4f4"></div>
+            <div style="height:2.4rem;background:#f4f4f4"></div>
             <!-- </scroller> -->
             <div class="footB hasChoosen" @click="goToEdit">
                 编辑
@@ -109,7 +109,7 @@
                     path:`/teacherPublishHome?id=${this.$route.query.id}`,
                     query:{
                         title:this.detail.name,
-                        type:thid.detail.type.name
+                        type:this.detail.type.name
                     }
                 })
             },
@@ -143,8 +143,8 @@
                         picId:data.picId,
 						name: data.name,
 						courseNum: data.courseNum,
-						totalTime: data.totalTime,
-						minStuNum: data.minStuNum,
+						totalTime: data.totalTime||0,
+						minStuNum: data.minStuNum||0,
 						age: data.applyAge.label,
 						description: data.description,
                         videoId: data.video ? data.video.filePath : '',
@@ -340,7 +340,7 @@
             height: 1.3rem;
             line-height: 1.3rem;
             text-align: center;
-            position: fixed;
+            position: absolute;
             left: 0;
             bottom: 0;
             font-size: 17px;
