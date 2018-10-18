@@ -224,6 +224,15 @@ export const payMyOrder = (params) => {
   // axios.defaults.headers.common['Authorization'] = token.Authorization;
   return AjaxPlugin.$http.post(`${base}/api/orders/course`, params).then(res => res.data);
 };
+//学生个人中心 wx支付测试获取config
+export const getNewWxConfig = (params) => {
+  return AjaxPlugin.$http.get(`${base}/api/notify/jsapi`,{params:params}).then(res => res.data);
+};
+//学生个人中心 wx支付测试
+export const getNewWxPay = (params) => {
+  // axios.defaults.headers.common['Authorization'] = token.Authorization;
+  return AjaxPlugin.$http.post(`${base}/api/orders/newpay`, params).then(res => res.data);
+};
 //学生个人中心 付款获取wx jdk
 export const getWxPay = (params) => {
   // axios.defaults.headers.common['Authorization'] = token.Authorization;

@@ -29,7 +29,8 @@
         XButton
     } from 'vux'
     import {
-        getWxPay
+        getNewWxPay,
+        getNewWxConfig
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     export default {
@@ -54,10 +55,10 @@
                 let para = {
                     orderId:JSON.parse(localStorage.getItem('payment')).id
                 }
-                getWxPay(para).then(res=>{
+                getNewWxPay(para).then(res=>{
                     console.log(res)
                 //     // this.wechatPay(res.data.data)
-                    this.$router.replace('/payResult')
+                    // this.$router.replace('/payResult')
                 })
             },
             wechatPay(config) {
@@ -82,11 +83,9 @@
             },
             wechatConfig() {//create获取config
                 let url = location.href.split('#')[0]
-                Client.post(url + 'js-sdk-config', {
-                    url
-                }).then((response) => {
-                    if (response.status === 200 && response.data.status === 1) {
-                        this.$wechat.config(JSON.parse(response.data.data))
+                getNewWxConfig({url:url}).then((response) => {
+                    console.log(response)
+                        // this.$wechat.config(JSON.parse(response.data.data))
                         //api调接口之后配置
                         //    this.$wechat.config({
                         //   debug: true,
@@ -98,12 +97,7 @@
                         //     'chooseWXPay'
                         //   ] // 必填，需要使用的JS接口列表
                         // });
-                    } else {
-                        this.$vux.toast.show({
-                            text: '微信参数错误',
-                            type: 'cancel'
-                        })
-                    }
+                   
                 }).catch(() => {
                     // this.$vux.loading.hide()
                 })
@@ -113,7 +107,7 @@
             let payment = JSON.parse(localStorage.getItem('payment'))
             this.value = payment.price;
             this.id = payment.id;
-            // this.wechatConfig();
+            this.wechatConfig();
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},
