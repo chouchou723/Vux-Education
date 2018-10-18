@@ -64,6 +64,9 @@
 						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM&&detail.videoId">
 						<div class="playModal" v-if="showM&&detail.videoId"></div>
 						<div v-html="detail.description"></div>
+						<div class="desImg" v-if="detail.attachments.length!==0">
+                            <img v-for="(item,index) in detail.attachments" :key="'i'+index" :src="`${apiUrl}/attach/img/${item.id}`" alt="" style="max-width:100%">
+                        </div>
 					</div>
 				</CellBox>
 				<CellBox v-if="isOh">
@@ -171,7 +174,8 @@
 					edu: '',
 					beginTimeStr: '',
 					endTimeStr: '',
-					teacherId: ''
+					teacherId: '',
+					attachments:[]
 				},
 				comment: {
 					content: '',
@@ -248,8 +252,8 @@
 				let id = this.$route.query.id
 				lessonDetail(id).then(res => {
 					let data = res.data;
-					this.banner = data.picId;
-					this.isFav = data.hasCollection;
+					// this.banner = data.picId;
+					// this.isFav = data.hasCollection;
 					this.lessonList = data.schedules
 					this.detail = {
 						name: data.name,
@@ -268,7 +272,8 @@
 						videoId: data.video ? data.video.filePath : '',
 						beginTimeStr: data.schedules[0].beginTimeStr,
 						endTimeStr: data.schedules[0].endTimeStr,
-						teacherId: data.teacher.id
+						teacherId: data.teacher.id,
+                        attachments:data.attachments?data.attachments:[]
 					}
 					let commentData = data.comment;
 					if (commentData) {
@@ -528,6 +533,10 @@
 					margin: auto;
 					z-index: 1;
 				}
+				.desImg{
+                    width: 100%;
+                    padding: 0 10px;
+                }
 			}
 			.assess {
 				width: 100%;

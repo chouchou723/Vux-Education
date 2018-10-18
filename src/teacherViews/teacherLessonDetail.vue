@@ -74,6 +74,9 @@
 						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM&&detail.videoId">
 						<div class="playModal" v-if="showM&&detail.videoId"></div>
 						<div v-html="detail.description"></div>
+						<div class="desImg" v-if="detail.attachments.length!==0">
+                            <img v-for="(item,index) in detail.attachments" :key="'i'+index" :src="`${apiUrl}/attach/img/${item.id}`" alt="" style="max-width:100%">
+                        </div>
 					</div>
 				</CellBox>
 				<CellBox v-if="isOh">
@@ -156,7 +159,8 @@
 						name: '',
 						label: ''
 					},
-					reason: ''
+					reason: '',
+					attachments:[]
 				},
 				oh: '',
 				lessonL: 0,
@@ -222,7 +226,8 @@
 						age: data.applyAge.label,
 						description: data.description,
 						videoId: data.video ? data.video.filePath : '',
-						reason: data.reason
+						reason: data.reason,
+                        attachments:data.attachments?data.attachments:[]
 					}
 					if (this.detail.status.name == 'PROCESS') {
 						this.getList()
@@ -425,6 +430,10 @@
 					margin: auto;
 					z-index: 1;
 				}
+				.desImg{
+                    width: 100%;
+                    padding: 0 10px;
+                }
 			}
 		}
 	}
