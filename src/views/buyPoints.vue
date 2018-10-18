@@ -107,7 +107,7 @@
                         // 支付成功后的回调函数
                         self.$vux.toast.show('支付成功!')
                         setTimeout(() => {
-                            self.$router.replace('/payResult')
+                            self.$router.replace('/payResult?type=coin&buyStatus=pass')
                         }, 1000)
                     },
                     cancel: function(re) {
@@ -125,7 +125,7 @@
                             type: 'cancel'
                         })
                         setTimeout(() => {
-                            self.$router.replace('/payResult')
+                            self.$router.replace('/payResult?type=coin&buyStatus=fail')
                         }, 1000)
                     }
                 });

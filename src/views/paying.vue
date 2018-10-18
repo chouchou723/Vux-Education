@@ -30,7 +30,7 @@
     } from 'vux'
     import {
         getNewWxPay,
-        getNewWxConfig
+        getNewWxConfig,getZeroPay
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     export default {
@@ -52,12 +52,26 @@
         methods: {
             payOrder() { //调接口获取sign
                 // console.log(1);
-                let para = {
-                    orderId: JSON.parse(localStorage.getItem('payment')).id
+                if(this.value===0){
+                     let para = {
+                        orderId: this.id
+                    }
+                    getZeroPay(para,this.id).then(res=>{
+                        this.$vux.toast.show('支付成功!')
+                        setTimeout(() => {
+                            self.$router.replace(`/payResult?type=buy&buyStatus=pass&id=${this.id}`)
+                        }, 1000)
+                        localStorage.removeItem('payment')
+                    })
+                }else{
+                    let para = {
+                        orderId: this.id
+                    }
+                    getNewWxPay(para).then(res => {
+                        this.wechatPay(res.data)
+                    })
+
                 }
-                getNewWxPay(para).then(res => {
-                    this.wechatPay(res.data)
-                })
             },
             wechatPay(config) {
                 let self = this;
@@ -71,8 +85,9 @@
                         // 支付成功后的回调函数
                         self.$vux.toast.show('支付成功!')
                         setTimeout(() => {
-                            self.$router.replace('/payResult')
+                            self.$router.replace(`/payResult?type=buy&buyStatus=pass&id=${this.id}`)
                         }, 1000)
+                        localStorage.removeItem('payment')
                     },
                     cancel: function(re) {
                         self.$vux.toast.show({
@@ -89,7 +104,7 @@
                             type: 'cancel'
                         })
                         setTimeout(() => {
-                            self.$router.replace('/payResult')
+                            self.$router.replace(`/payResult?type=buy&buyStatus=fail&id=${this.id}`)
                         }, 1000)
                     }
                 });
@@ -120,7 +135,7 @@
         created() {
             this.setTitle('确认付款')
             let payment = JSON.parse(localStorage.getItem('payment'))
-            this.value = payment.price;
+            this.value = payment.price-0;
             this.id = payment.id;
             this.wechatConfig();
             // console.log(this.getMyF,apiHost.API_ROOT)
