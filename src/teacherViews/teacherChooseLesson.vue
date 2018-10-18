@@ -22,8 +22,8 @@
                 <!-- anything -->
             </cell-box>
         </group>
-        <div style="height:1.4rem;background:#f4f4f4"></div>
         </scroller>
+        <!-- <div style="height:1.4rem;background:#f4f4f4;"></div> -->
          <div v-if="lessonList1.length===0" style="width:100%;height:80%;display:flex;justify-content:center;align-items:center;color:#999999;font-size:0.4rem;">
                     暂无课程
                 </div>
