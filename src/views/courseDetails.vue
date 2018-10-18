@@ -218,7 +218,7 @@
 					id:this.$route.query.id
 				}
 				localStorage.setItem('order',JSON.stringify(order))
-				this.$router.push('/confirmOrder')
+				this.$router.replace('/confirmOrder')
 			},
 			show(index) {
 				this.$refs.previewer.show(index)

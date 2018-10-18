@@ -82,6 +82,15 @@
                         // setTimeout(() => {
                         //     self.$router.replace('/myOrder')
                         // }, 1000)
+                    },
+                    fail:function(r){
+                        self.$vux.toast.show({
+                            text: '支付失败',
+                            type: 'cancel'
+                        })
+                        setTimeout(() => {
+                            self.$router.replace('/payResult')
+                        }, 1000)
                     }
                 });
             },
@@ -109,6 +118,7 @@
             },
         },
         created() {
+            this.setTitle('确认付款')
             let payment = JSON.parse(localStorage.getItem('payment'))
             this.value = payment.price;
             this.id = payment.id;
