@@ -46,8 +46,8 @@
 				<CellBox v-if="isOh">
 					<div class="more" @click="changeMoreContent"><span>{{isMoreContent?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMoreContent?'rotate90':'']"></i></div>
 				</CellBox>
-            <!-- <div style="height:2.4rem;background:#f4f4f4"></div> -->
             </group>
+            <div style="height:2.4rem;background:#f4f4f4"></div>
             <!-- </scroller> -->
             <div class="footB hasChoosen" @click="goToEdit">
                 编辑
@@ -235,6 +235,7 @@
             }
         }
         .courseBox {
+            margin-bottom:2rem;
             .vux-no-group-title {
                 .tit {
                     color: #7F8389;
@@ -345,7 +346,6 @@
             bottom: 0;
             font-size: 17px;
             z-index: 10;
-            margin-top:2rem;
         }
         .hasChoosen {
             background: #00a6e7;
