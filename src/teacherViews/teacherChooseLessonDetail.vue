@@ -143,7 +143,7 @@
                         picId:data.picId,
 						name: data.name,
 						courseNum: data.courseNum,
-						totalTime: data.hours||0,
+						totalTime: data.totalHours||0,
 						minStuNum: data.minStuNum||0,
 						age: data.applyAge.label,
 						description: data.description,
@@ -223,7 +223,7 @@
             display: flex; // height: 1.733333rem;
             background: #fff;
             border-left: 7px solid #00a6e7;
-            padding-left: 0.493333rem;
+            padding-left: 8px;
             align-items: center;
             .course {
                 flex: 0 0 80%;

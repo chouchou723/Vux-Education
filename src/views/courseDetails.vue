@@ -397,8 +397,8 @@
 			display: flex;
 			height: 1.733333rem;
 			background: #fff;
-			border-left: 5px solid #1AAD19;
-			padding-left: 0.493333rem;
+			border-left: 8px solid #1AAD19;
+			padding-left: 7px;
 			align-items: center;
 			.course {
 				flex: 1;
