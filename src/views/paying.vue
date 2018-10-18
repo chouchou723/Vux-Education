@@ -84,19 +84,19 @@
             wechatConfig() {//create获取config
                 let url = location.href.split('#')[0]
                 getNewWxConfig({url:url}).then((response) => {
-                    console.log(response)
                         // this.$wechat.config(JSON.parse(response.data.data))
                         //api调接口之后配置
-                        //    this.$wechat.config({
-                        //   debug: true,
-                        //   appId: '', // 必填，公众号的唯一标识
-                        //   timestamp: '', // 必填，生成签名的时间戳
-                        //   nonceStr: '', // 必填，生成签名的随机串
-                        //   signature: '', // 必填，微信签名
-                        //   jsApiList: [
-                        //     'chooseWXPay'
-                        //   ] // 必填，需要使用的JS接口列表
-                        // });
+                        let data = response.data;
+                           this.$wechat.config({
+                          debug: true,
+                          appId: data.appId, // 必填，公众号的唯一标识
+                          timestamp: data.timestamp, // 必填，生成签名的时间戳
+                          nonceStr: data.nonceStr, // 必填，生成签名的随机串
+                          signature: data.signature, // 必填，微信签名
+                          jsApiList: [
+                            'chooseWXPay'
+                          ] // 必填，需要使用的JS接口列表
+                        });
                    
                 }).catch(() => {
                     // this.$vux.loading.hide()
