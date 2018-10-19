@@ -190,7 +190,7 @@
             padding: 0 .2rem 0 0;
         }
         .lessonContent {
-            font-size: .16rem;
+            font-size: 12px;
             color: #b6b6b6;
             padding: .15rem 0;
         }

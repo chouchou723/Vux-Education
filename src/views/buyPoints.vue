@@ -113,7 +113,7 @@
                         self.$vux.toast.show('支付成功!')
                         localStorage.removeItem('point')
                         setTimeout(() => {
-                            self.$router.replace(`/payResult?type=coin&buyStatus=pass&id=${this.id}`)
+                            self.$router.replace(`/payResult?type=coin&buyStatus=pass&id=${self.id}`)
                         }, 1000)
                     },
                     cancel: function(re) {
@@ -131,7 +131,7 @@
                             type: 'cancel'
                         })
                         setTimeout(() => {
-                            self.$router.replace(`/payResult?type=coin&buyStatus=fail&id=${this.id}`)
+                            self.$router.replace(`/payResult?type=coin&buyStatus=fail&id=${self.id}`)
                         }, 1000)
                     }
                 });
