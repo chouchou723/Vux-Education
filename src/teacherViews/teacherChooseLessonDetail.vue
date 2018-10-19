@@ -130,15 +130,15 @@
             //         // this.lessonList = [...this.lessonListAll]
             //     }
             // },
-            changeMoreContent() {
-                if (this.isMoreContent) {
-                    this.isMoreContent = false;
-                    // this.lessonList = this.lessonListAll.slice(0,3);
-                } else {
-                    this.isMoreContent = true;
-                    // this.lessonList = this.lessonListAll
-                }
-            },
+            // changeMoreContent() {
+            //     if (this.isMoreContent) {
+            //         this.isMoreContent = false;
+            //         // this.lessonList = this.lessonListAll.slice(0,3);
+            //     } else {
+            //         this.isMoreContent = true;
+            //         // this.lessonList = this.lessonListAll
+            //     }
+            // },
             fetchData(){
 				let id = this.$route.query.id;
 				getTeacherLessonDetail(id).then(res=>{
@@ -168,18 +168,18 @@
                 this.$refs.video.style.width = window.innerWidth + "px";
                 this.$refs.video.style.height = window.innerHeight + "px";
             }
-            setTimeout(() => {
-				this.oh = document.getElementsByClassName('introduce')[0].offsetHeight;
-				if (this.oh <= 390) {
-                    this.isMoreContent = true;
-					this.isOh = false
+            // setTimeout(() => {
+			// 	this.oh = document.getElementsByClassName('introduce')[0].offsetHeight;
+			// 	if (this.oh <= 390) {
+            //         this.isMoreContent = true;
+			// 		this.isOh = false
                     
-				} else {
-                    this.isMoreContent = false;
-					this.isOh = true
+			// 	} else {
+            //         this.isMoreContent = false;
+			// 		this.isOh = true
                     
-				}
-			}, 3000);
+			// 	}
+			// }, 3000);
         },
         computed: {
             showM() {
@@ -191,18 +191,18 @@
             }
         },
         watch: {
-			isMoreContent(curVal, oldVal) {
-				if (curVal) {
-					if (this.oh > 390) {
-						document.getElementsByClassName('introduce')[0].style.cssText += 'height:auto'
-					}
-				} else {
-					console.log(458)
-					if (this.oh > 390) {
-						document.getElementsByClassName('introduce')[0].style.cssText += 'height:390px'
-					}
-				}
-            },
+			// isMoreContent(curVal, oldVal) {
+			// 	if (curVal) {
+			// 		if (this.oh > 390) {
+			// 			document.getElementsByClassName('introduce')[0].style.cssText += 'height:auto'
+			// 		}
+			// 	} else {
+			// 		console.log(458)
+			// 		if (this.oh > 390) {
+			// 			document.getElementsByClassName('introduce')[0].style.cssText += 'height:390px'
+			// 		}
+			// 	}
+            // },
 		}
     }
 </script>

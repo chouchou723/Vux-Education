@@ -178,7 +178,7 @@
         .vue-foldable-view-more {
             width: 100%;
             text-align: center;
-            height: 35px;
+            height: 25px;
             line-height: 35px;
             cursor: pointer; //   color: #4dba87;
             .fzb {

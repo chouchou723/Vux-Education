@@ -69,7 +69,9 @@
             <group class="courseBox" v-if="detail.status.name!=='PROCESS'">
                 <cell class="tit" title="课程介绍"></cell>
                 <CellBox>
-                    <div :class="['introduce',isMoreContent?'h390':'lite']">
+                    <foldable height="290" :async='true' type="teacher">
+
+                    <div class="introduce">
                         <video v-if="detail.videoId" preload='auto' ref="video" width="100%" height="200px" x5-video-player-type="h5" x5-video-player-fullscreen="true" :src="`${apiUrl}/attach/video/${detail.videoId}`"></video>
                         <img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM&&detail.videoId">
                         <div class="playModal" v-if="showM&&detail.videoId"></div>
@@ -79,9 +81,9 @@
                         </div>
                     </div>
                 </CellBox>
-                <CellBox v-if="isOh">
+                <!-- <CellBox v-if="isOh">
                     <div class="more" @click="changeMoreContent"><span>{{isMoreContent?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMoreContent?'rotate90':'']"></i></div>
-                </CellBox>
+                </CellBox> -->
             <div style="height:1.4rem;background:#f4f4f4" ></div>
             </group>
             <div class="footB" v-if="detail.status.name=='WAIT'" >
@@ -103,13 +105,16 @@
         lessonDetail,
         getMyLessonSituation
     } from '../api/api'
-    import apiHost from '../../config/prod.env'
+    // import apiHost from '../../config/prod.env'
+    import foldable from '../components/foldable'
+
     export default {
         components: {
             ViewBox,
             Group,
             Cell,
             CellBox,
+            foldable
         },
         data() {
             return {
@@ -166,15 +171,15 @@
                     // this.lessonList = [...this.lessonListAll]
                 }
             },
-            changeMoreContent() {
-                if (this.isMoreContent) {
-                    this.isMoreContent = false;
-                    // this.lessonList = this.lessonListAll.slice(0,3);
-                } else {
-                    this.isMoreContent = true;
-                    // this.lessonList = this.lessonListAll
-                }
-            },
+            // changeMoreContent() {
+            //     if (this.isMoreContent) {
+            //         this.isMoreContent = false;
+            //         // this.lessonList = this.lessonListAll.slice(0,3);
+            //     } else {
+            //         this.isMoreContent = true;
+            //         // this.lessonList = this.lessonListAll
+            //     }
+            // },
             getList() {
                 let para = {
                     id: this.$route.query.id
@@ -226,18 +231,18 @@
                     this.$refs.video.style.height = window.innerHeight + "px";
                 }
             }
-            setTimeout(() => {
-                if (this.detail.status.name !== 'PROCESS') {
-                    this.oh = document.getElementsByClassName('introduce')[0].offsetHeight;
-                    if (this.oh <= 390) {
-                        this.isMoreContent = true;
-                        this.isOh = false
-                    } else {
-                        this.isMoreContent = false;
-                        this.isOh = true
-                    }
-                }
-            }, 1000);
+            // setTimeout(() => {
+            //     if (this.detail.status.name !== 'PROCESS') {
+            //         this.oh = document.getElementsByClassName('introduce')[0].offsetHeight;
+            //         if (this.oh <= 390) {
+            //             this.isMoreContent = true;
+            //             this.isOh = false
+            //         } else {
+            //             this.isMoreContent = false;
+            //             this.isOh = true
+            //         }
+            //     }
+            // }, 1000);
         },
         computed: {
             showM() {
@@ -249,17 +254,17 @@
             }
         },
         watch: {
-            isMoreContent(curVal, oldVal) {
-                if (curVal) {
-                    if (this.oh > 390) {
-                        document.getElementsByClassName('introduce')[0].style.cssText += 'height:auto'
-                    }
-                } else {
-                    if (this.oh > 390) {
-                        document.getElementsByClassName('introduce')[0].style.cssText += 'height:390px'
-                    }
-                }
-            }
+            // isMoreContent(curVal, oldVal) {
+            //     if (curVal) {
+            //         if (this.oh > 390) {
+            //             document.getElementsByClassName('introduce')[0].style.cssText += 'height:auto'
+            //         }
+            //     } else {
+            //         if (this.oh > 390) {
+            //             document.getElementsByClassName('introduce')[0].style.cssText += 'height:390px'
+            //         }
+            //     }
+            // }
         }
     }
 </script>

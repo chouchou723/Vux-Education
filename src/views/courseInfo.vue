@@ -59,7 +59,8 @@
 			<group class="courseBox">
 				<cell class="tit" title="课程介绍"></cell>
 				<CellBox>
-					<div :class="['introduce',isMoreContent?'h390':'lite']">
+                    <foldable height="290" :async='true' type="student">
+					<div class="introduce" >
 						<video v-if="detail.videoId" preload='auto' ref="video" width="100%" height="200px" x5-video-player-type="h5" x5-video-player-fullscreen="true" :src="`${apiUrl}/attach/video/${detail.videoId}`"></video>
 						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM&&detail.videoId">
 						<div class="playModal" v-if="showM&&detail.videoId"></div>
@@ -141,7 +142,8 @@
 		lessonDateStatus
 	} from '../api/api'
 	import Calendar from '../components/calendar';
-	import apiHost from '../../config/prod.env'
+	// import apiHost from '../../config/prod.env'
+    import foldable from '../components/foldable'
 	export default {
 		directives: {
 			TransferDom
@@ -155,7 +157,7 @@
 			Group,
 			Cell,
 			CellBox,
-			Previewer
+			Previewer,foldable
 		},
 		data() {
 			return {
@@ -211,15 +213,15 @@
 					this.$router.push(`/commentDetail?id=${this.comment.id}`)
 				}
 			},
-			changeMoreContent() {
-				if (this.isMoreContent) {
-					this.isMoreContent = false;
-					// this.lessonList = this.lessonListAll.slice(0, 3);
-				} else {
-					this.isMoreContent = true;
-					// this.lessonList = this.lessonListAll
-				}
-			},
+			// changeMoreContent() {
+			// 	if (this.isMoreContent) {
+			// 		this.isMoreContent = false;
+			// 		// this.lessonList = this.lessonListAll.slice(0, 3);
+			// 	} else {
+			// 		this.isMoreContent = true;
+			// 		// this.lessonList = this.lessonListAll
+			// 	}
+			// },
 			gotoMoveComment() {
 				this.$router.push(`/totalComment?id=${this.$route.query.id}`)
 			},
@@ -323,17 +325,17 @@
 					this.$refs.video.style.height = window.innerHeight + "px";
 				}
 			}
-			setTimeout(() => {
-				this.oh = document.getElementsByClassName('introduce')[0].offsetHeight;
-				if (this.oh <= 390) {
-					console.log(oh, 123)
-					this.isMoreContent = true;
-					this.isOh = false
-				} else {
-					this.isMoreContent = false;
-					this.isOh = true
-				}
-			}, 1000);
+			// setTimeout(() => {
+			// 	this.oh = document.getElementsByClassName('introduce')[0].offsetHeight;
+			// 	if (this.oh <= 390) {
+			// 		console.log(oh, 123)
+			// 		this.isMoreContent = true;
+			// 		this.isOh = false
+			// 	} else {
+			// 		this.isMoreContent = false;
+			// 		this.isOh = true
+			// 	}
+			// }, 1000);
 		},
 		computed: {
 			showM() {
@@ -352,17 +354,17 @@
 			this.lessonDateStatus(new Date())
 		},
 		watch: {
-			isMoreContent(curVal, oldVal) {
-				if (curVal) {
-					if (this.oh > 390) {
-						document.getElementsByClassName('introduce')[0].style.cssText += 'height:auto'
-					}
-				} else {
-					if (this.oh > 390) {
-						document.getElementsByClassName('introduce')[0].style.cssText += 'height:390px'
-					}
-				}
-			}
+			// isMoreContent(curVal, oldVal) {
+			// 	if (curVal) {
+			// 		if (this.oh > 390) {
+			// 			document.getElementsByClassName('introduce')[0].style.cssText += 'height:auto'
+			// 		}
+			// 	} else {
+			// 		if (this.oh > 390) {
+			// 			document.getElementsByClassName('introduce')[0].style.cssText += 'height:390px'
+			// 		}
+			// 	}
+			// }
 		}
 	}
 </script>
