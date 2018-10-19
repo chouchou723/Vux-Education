@@ -160,7 +160,7 @@
             background-color: #e1e1e1;
             color: black;
         }
-        .weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
+        .weui-btn_primary,.weui-btn_loading.weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
             background-color: #00a6e7;
         }
         .plusIcon .vux-flexbox-item .vux-upload-bg .weui-uploader__input-box::before {
