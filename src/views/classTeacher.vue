@@ -14,7 +14,7 @@
                             <span class="op5">授课时长</span>
                             <span class="mgr4">{{teacher.classNum}}节课</span>
                             <span class="op5">老师教龄</span>
-                            <span>{{teacher.experience}}年</span>
+                            <span>{{teacher.experience.label}}</span>
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                 </cell>
                 <cell class="fz15" primary="content" value-align="left" v-for="(edu,index) in teacher.edus" :key="'e'+index">
                     <div style="color:#999999;margin-bottom:.2rem">{{edu.beginDate.split(' ')[0].replace(/\-/g,'/')}}-{{edu.endDate.split(' ')[0].replace(/\-/g,'/')}}</div>
-                    <div style="color:black;">{{edu.school}}, {{edu.degree}}, {{edu.subject}}专业</div>
+                    <div style="color:black;">{{edu.school}}, {{edu.degree.label}}, {{edu.subject}}专业</div>
                 </cell>
             </group>
             <group>
@@ -104,7 +104,7 @@
                 teacher: {
                     realName: '',
                     classNum: '',
-                    experience: '',
+                    experience: {label:''},
                     picId: '',
                     description: '',
                     edus: [],
@@ -142,7 +142,7 @@
                     this.teacher = {
                         realName: data.realName,
                         classNum: data.classNum,
-                        experience: data.experience?data.experience:'1',
+                        experience: data.experience?data.experience:{label:'1年'},
                         picId: data.picId,
                         description: data.description,
                         edus: data.edus,

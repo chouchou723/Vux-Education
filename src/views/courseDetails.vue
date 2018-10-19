@@ -51,7 +51,7 @@
 						<div class="pho"><img :src="`${apiUrl}/attach/img/${detail.teacherPid}`" alt=""></div>
 						<div class="info">
 							<div class="name">{{detail.teacher}}</div>
-							<div class="schoolAge">{{detail.experience}}年教齡</div>
+							<div class="schoolAge">{{detail.experience.label}}年教齡</div>
 							<p>{{detail.edu}}</p>
 						</div>
 					</div>
@@ -178,7 +178,7 @@
 					age: '',
 					teacher: '',
 					teacherPid: '',
-					experience: '',
+					experience: {label:''},
 					edu: '',
 					teacherId: '',
 					attachments:[]
