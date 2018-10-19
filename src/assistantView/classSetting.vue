@@ -2,11 +2,10 @@
     <div class="classSetting">
         <view-box ref="viewBox">
             <group title="课程金额" label-width="4.5em" label-margin-right="2em">
-                <x-input :max="10" type="number" title="金额"  v-model="valueTitle" placeholder="请设置该课程的金额" @on-blur="checkMoney" text-align="right" ></x-input>
+                <x-input :max="10" type="number" title="金额" v-model="valueTitle" placeholder="请设置该课程的金额" @on-blur="checkMoney" text-align="right"></x-input>
             </group>
             <group title="满几人开课" label-width="4.5em" label-margin-right="2em">
-                <x-input  type="tel" mask="9999999" title="人数"  v-model="value1"  :placeholder="`最多${$route.query.maxStuNum}人`" @on-blur="onBlur" text-align="right" ></x-input>
-
+                <x-input type="tel" mask="9999999" title="人数" v-model="value1" :placeholder="`最多${$route.query.maxStuNum}人`" @on-blur="onBlur" text-align="right"></x-input>
                 <!-- <popup-picker title="人数" show-name :data="list2" v-model="value1" @on-show="onShow" @on-hide="onHide" @on-change="onChange" :columns="1"></popup-picker> -->
             </group>
             <div class="footerBtn">
@@ -24,7 +23,9 @@
         XInput,
         PopupPicker,
     } from 'vux'
-    import {passTheClass} from '../api/api'
+    import {
+        passTheClass
+    } from '../api/api'
     export default {
         components: {
             Group,
@@ -51,43 +52,43 @@
             }
         },
         methods: {
-            checkMoney(v){
-                if(v){
+            checkMoney(v) {
+                if (v) {
                     let a = (this.valueTitle + '').match(/(\d)+(\.\d)?(\d)?/)[0]
-                    this.valueTitle = a-0;
-                }else{
-                    this.valueTitle =1;
+                    this.valueTitle = a - 0;
+                } else {
+                    this.valueTitle = 1;
                 }
             },
-            onBlur(v){
+            onBlur(v) {
                 let max = this.$route.query.maxStuNum
-                if(v-max>0){
-                    this.value1 = max-0
+                if (v - max > 0) {
+                    this.value1 = max - 0
                 }
             },
             saveInfo() {
-                if(!this.isloading){
+                if (!this.isloading) {
                     this.isloading = true;
                     let para = {
                         courseId: this.$route.query.id,
-                        price:this.valueTitle,
-                        minPerson:this.value1
+                        price: this.valueTitle,
+                        minPerson: this.value1
                     }
                     let id = this.$route.query.id
-                    passTheClass(para,id).then(res=>{
-                        if(res.code==0){
-                             this.$vux.toast.show({
-                    text: '提交成功'
-                })
+                    passTheClass(para, id).then(res => {
+                        if (res.code == 0) {
+                            this.$vux.toast.show({
+                                text: '提交成功'
+                            })
+                            setTimeout(()=>{
+                                this.$router.go(-1)
+                            },500)
                         }
-                    }).then(()=>{
-                        this.$router.go(-1)
                     })
                 }
             },
         },
-        computed: {
-        },
+        computed: {},
         created() {
             this.setTitle("审核通过")
         },

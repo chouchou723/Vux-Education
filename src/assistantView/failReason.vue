@@ -27,7 +27,7 @@
     data() {
       return {
         value: '',
-        isloading:false,
+        isloading: false,
         nickname: function(value) {
           return {
             valid: (/^[\u4e00-\u9fa5a-zA-Z0-9]+$/).test(value),
@@ -41,32 +41,32 @@
     },
     methods: {
       saveInfo() {
-                if(!this.isloading){
-                    this.isloading = true;
-                    let para = {
-                        courseId: this.$route.query.id,
-                        reason:this.value,
-                    }
-                    let id = this.$route.query.id
-                    rejectTheClass(para,id).then(res=>{
-                       if(res.code==0){
-                             this.$vux.toast.show({
-                    text: '提交成功'
-                })
-                        }
-                    }).then(()=>{
-                        this.$router.go(-1)
-                    })
-                }
-                // console.log(this.getMyInfo)
-                // this.$vux.toast.show({
-                //     text: '保存成功'
-                // })
-                // localStorage.setItem('info', JSON.stringify(this.getMyInfo))
-            },
+        if (!this.isloading) {
+          this.isloading = true;
+          let para = {
+            courseId: this.$route.query.id,
+            reason: this.value,
+          }
+          let id = this.$route.query.id
+          rejectTheClass(para, id).then(res => {
+            if (res.code == 0) {
+              this.$vux.toast.show({
+                text: '提交成功'
+              })
+              setTimeout(() => {
+                this.$router.go(-1)
+              }, 500)
+            }
+          })
+        }
+        // console.log(this.getMyInfo)
+        // this.$vux.toast.show({
+        //     text: '保存成功'
+        // })
+        // localStorage.setItem('info', JSON.stringify(this.getMyInfo))
+      },
     },
-    computed: {
-    },
+    computed: {},
   }
 </script>
 <style lang="less">
