@@ -33,7 +33,7 @@
             <group class="courseBox mb2">
                 <cell class="tit" title="课程介绍"></cell>
                 <CellBox>
-                    <foldable>
+                    <foldable height="290" :async='true'>
 					<div :class="['introduce',isMoreContent?'':'']" >
 						<video v-if="detail.videoId" preload='auto' ref="video" width="100%" height="200px" x5-video-player-type="h5" x5-video-player-fullscreen="true" :src="`${apiUrl}/attach/video/${detail.videoId}`"></video>
 						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM&&detail.videoId">
