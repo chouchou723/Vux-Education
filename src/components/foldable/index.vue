@@ -76,7 +76,7 @@
             }
         },
         mounted() {
-            console.log(2)
+            // console.log(2)
             this.handleMount()
             // Temporary hack since this.$nextTick still cannot ensure all the sub components rendered.
             // See: https://vuejs.org/v2/api/#mounted
@@ -95,7 +95,7 @@
         methods: {
             handleMount() {
                 const contentHeight = this.$refs.container.scrollHeight
-                console.log(3, contentHeight)
+                // console.log(3, contentHeight)
                 this.calculateThreshold(contentHeight)
                 this.checkReachThresfold(contentHeight)
             },
@@ -137,7 +137,7 @@
         let interval = 100
         let count = 0
         let maxCount = timeout / interval
-        console.log(4, oldHeight, newHeight)
+        // console.log(4, oldHeight, newHeight)
         function unit() {
             count++
             newHeight = el.scrollHeight
@@ -147,7 +147,7 @@
                     clearTimeout(poller)
                 }
             }
-            console.log(5, count, newHeight)
+            // console.log(5, count, newHeight)
             oldHeight = newHeight
             if (count <= maxCount) {
                 poller = setTimeout(unit, interval)
@@ -165,7 +165,7 @@
         }
         .vue-foldable-mask {
             position: absolute;
-            bottom: 38px;
+            bottom: 30px;
             left: 0;
             /* view-more's height */
             height: 80px;
