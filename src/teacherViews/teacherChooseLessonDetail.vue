@@ -33,7 +33,8 @@
             <group class="courseBox mb2">
                 <cell class="tit" title="课程介绍"></cell>
                 <CellBox>
-					<div :class="['introduce',isMoreContent?'h390':'lite']" ref="intro">
+                    <foldable>
+					<div :class="['introduce',isMoreContent?'':'']" >
 						<video v-if="detail.videoId" preload='auto' ref="video" width="100%" height="200px" x5-video-player-type="h5" x5-video-player-fullscreen="true" :src="`${apiUrl}/attach/video/${detail.videoId}`"></video>
 						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM&&detail.videoId">
 						<div class="playModal" v-if="showM&&detail.videoId"></div>
@@ -42,6 +43,7 @@
                             <img v-for="(item,index) in detail.attachments" :key="'i'+index" :src="`${apiUrl}/attach/img/${item.id}`" alt="" style="max-width:100%">
                         </div>
 					</div>
+                    </foldable>
 				</CellBox>
 				<CellBox v-if="isOh">
 					<div class="more" @click="changeMoreContent"><span>{{isMoreContent?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMoreContent?'rotate90':'']"></i></div>
@@ -66,12 +68,14 @@
     import {
         getTeacherLessonDetail
     } from '../api/api'
+    import foldable from '../components/foldable'
     export default {
         components: {
             ViewBox,
             Group,
             Cell,
             CellBox,
+            foldable
         },
         data() {
             return {
