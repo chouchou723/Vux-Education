@@ -467,9 +467,9 @@
 					width: 1.84rem;
 					height: 1.84rem;
 					margin-right: 0.48rem;
-					border-radius: 50%;
-					border: 1px solid gainsboro;
+					// border: 1px solid gainsboro;
 					img {
+					border-radius: 50%;
 						display: block;
 						width: 100%;
 					}
