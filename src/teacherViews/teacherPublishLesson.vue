@@ -137,7 +137,7 @@
                 this.value1 = a[0] - 0
             },
             checkTime(value) {
-                let a = (value + '').match(/(\d)+(\.\d)?/)[0]
+                let a = (this.value + '').match(/(\d)+(\.\d)?/)[0]
                 this.value = a-0;
             },
             changeLesson(type) {
