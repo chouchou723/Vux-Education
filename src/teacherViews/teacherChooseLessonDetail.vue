@@ -175,7 +175,7 @@
 					this.isOh = true
                     
 				}
-			}, 3000);
+			}, 1000);
         },
         computed: {
             showM() {

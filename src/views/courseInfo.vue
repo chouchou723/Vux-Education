@@ -59,7 +59,7 @@
 			<group class="courseBox">
 				<cell class="tit" title="课程介绍"></cell>
 				<CellBox>
-					<div :class="['introduce',isMoreContent?'':'lite']">
+					<div :class="['introduce',isMoreContent?'h390':'lite']">
 						<video v-if="detail.videoId" preload='auto' ref="video" width="100%" height="200px" x5-video-player-type="h5" x5-video-player-fullscreen="true" :src="`${apiUrl}/attach/video/${detail.videoId}`"></video>
 						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM&&detail.videoId">
 						<div class="playModal" v-if="showM&&detail.videoId"></div>
@@ -193,7 +193,7 @@
 					id: ''
 				}],
 				data42: 3,
-				isMoreContent: true,
+				isMoreContent: false,
 				isOh:false,
 				videoPoster: require('../assets/0e3a716cf47f1eb695e5b62597dec807.jpg'),
 				arr2: [],
@@ -490,8 +490,11 @@
 			}
 			.introduce {
 				position: relative;
+				&.h390{
+                    height: auto;
+                    }
 				&.lite {
-					// height: 11rem;
+                    height: 390px;
 					position: relative;
 					overflow: hidden;
 					&::after {

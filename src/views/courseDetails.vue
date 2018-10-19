@@ -60,7 +60,7 @@
 			<group class="courseBox">
 				<cell class="tit" title="课程介绍"></cell>
 				<CellBox>
-					<div :class="['introduce',isMoreContent?'':'lite']">
+					<div :class="['introduce',isMoreContent?'h390':'lite']">
 						<video v-if="detail.videoId" preload='auto' ref="video" width="100%" height="200px" x5-video-player-type="h5" x5-video-player-fullscreen="true" :src="`${apiUrl}/attach/video/${detail.videoId}`"></video>
 						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM&&detail.videoId">
 						<div class="playModal" v-if="showM&&detail.videoId"></div>
@@ -204,7 +204,7 @@
 				toastWord: '',
 				lessonList: [],
 				isMore: false,
-				isMoreContent: true,
+				isMoreContent: false,
 				oh:'',
 				// showM:true,
 			}
@@ -527,7 +527,11 @@
 			}
 			.introduce {
 				position: relative;
+				&.h390{
+                    height: auto;
+                    }
 				&.lite {
+                    height: 390px;
 					// height: 11rem;
 					position: relative;
 					overflow: hidden;
