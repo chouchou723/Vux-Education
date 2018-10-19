@@ -205,7 +205,7 @@
                     margin: 0 3px;
                     width: 0.213333rem;
                     height: 0.133333rem;
-                    background: url(../assets/triB.png) no-repeat;
+                    background: url(../../assets/triB.png) no-repeat;
                     background-size: 100% 100%;
                     transform-origin: center center; // transform: rotate(360deg);
                 }
@@ -214,7 +214,7 @@
                     margin: 0 3px;
                     width: 0.213333rem;
                     height: 0.133333rem;
-                    background: url(../assets/triS.png) no-repeat;
+                    background: url(../../assets/triS.png) no-repeat;
                     background-size: 100% 100%;
                     transform-origin: center center; // transform: rotate(360deg);
                 }
