@@ -25,7 +25,7 @@
                 <!-- <selector title="时长" :value-map="['idValue', 'idLabel']" :options="optionsL" v-model="value"  direction="rtl" @on-change="onChange"></selector> -->
             </group>
             <group title="课程详情" label-width="4.5em" label-margin-right="2em">
-                <x-input type="number" v-model="value1" title="课程人数" text-align='right' @on-blur="checkNum"></x-input>
+                <x-input type="tel" mask="9999999999999" v-model="value1" title="课程人数" text-align='right'></x-input>
                 <!-- <popup-picker title="课程人数" show-name :data="list2" v-model="value1" @on-show="onShow" @on-hide="onHide" @on-change="onChange" :columns="1"></popup-picker> -->
                 <popup-picker title="课程种类" show-name :data="list3" v-model="value2" @on-change="onChange" :columns="1"></popup-picker>
                 <popup-picker title="适用对象" show-name :data="list4" v-model="value3" @on-change="onChange" :columns="1"></popup-picker>
@@ -137,10 +137,8 @@
                 this.value1 = a[0] - 0
             },
             checkTime(value) {
-                let a = (this.value + '').split('.')
-                if (a.length > 1) {
-                    this.value = (a[0] + '.' + a[1].slice(0, 1)) - 0
-                }
+                let a = (value + '').match(/(\d)+\.?(\d){1}/)[0]
+                this.value = a;
             },
             changeLesson(type) {
                 this.type = type;
