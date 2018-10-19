@@ -25,13 +25,13 @@
         @click="toggle"
         v-if="reachThreshold"
       >
-        <VueIcon
+        <!-- <VueIcon
           class="vue-foldable-icon"
           :class="{ 'collapsed': collapsed }"
-        />
+        /> -->
 
         <span class="vue-foldable-text">
-          {{ collapsed ? 'View more' : 'Collapse' }}
+          {{ collapsed ? '点击查看更多' : '点击隐藏' }}
         </span>
       </div>
     </slot>
@@ -39,11 +39,11 @@
 </template>
 
 <script>
-  import VueIcon from './VueIcon.vue'
+//   import VueIcon from './VueIcon.vue'
   const DEFAULT_VISUAL_HEIGHT = 290;
   export default {
     name: 'vue-foldable',
-    components: { VueIcon },
+    // components: { VueIcon },
     props: {
       minHeight: {
         type: Number,
@@ -172,8 +172,7 @@
   .vue-foldable{
       position:relative
       .vue-foldable-container{
-
-          overflow :hidden
+          overflow :hidden;
       }
       .vue-foldable-mask{
           position :absolute;
