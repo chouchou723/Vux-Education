@@ -325,7 +325,7 @@
 			}
 			setTimeout(() => {
 				this.oh = document.getElementsByClassName('introduce')[0].offsetHeight;
-				if (this.oh < 390) {
+				if (this.oh <= 390) {
 					console.log(oh, 123)
 					this.isMoreContent = true;
 					this.isOh = false
