@@ -142,6 +142,7 @@
             count++
             newHeight = el.scrollHeight
             if (oldHeight !== newHeight) {
+                console.log(oldHeight,newHeight)
                 callback(newHeight)
                 if (poller) {
                     clearTimeout(poller)
