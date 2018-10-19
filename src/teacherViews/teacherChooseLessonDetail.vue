@@ -34,7 +34,7 @@
                 <cell class="tit" title="课程介绍"></cell>
                 <CellBox>
                     <foldable height="290" :async='true'>
-					<div :class="['introduce',isMoreContent?'':'']" >
+					<div class="introduce" >
 						<video v-if="detail.videoId" preload='auto' ref="video" width="100%" height="200px" x5-video-player-type="h5" x5-video-player-fullscreen="true" :src="`${apiUrl}/attach/video/${detail.videoId}`"></video>
 						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM&&detail.videoId">
 						<div class="playModal" v-if="showM&&detail.videoId"></div>
@@ -45,9 +45,9 @@
 					</div>
                     </foldable>
 				</CellBox>
-				<CellBox v-if="isOh">
+				<!-- <CellBox v-if="isOh">
 					<div class="more" @click="changeMoreContent"><span>{{isMoreContent?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMoreContent?'rotate90':'']"></i></div>
-				</CellBox>
+				</CellBox> -->
             </group>
             <!-- <div style="height:2.4rem;background:#f4f4f4"></div> -->
             <!-- </scroller> -->

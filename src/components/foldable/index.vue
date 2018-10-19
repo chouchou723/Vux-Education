@@ -40,7 +40,7 @@
 
 <script>
   import VueIcon from './VueIcon.vue'
-  const DEFAULT_VISUAL_HEIGHT = 100;
+  const DEFAULT_VISUAL_HEIGHT = 290;
   export default {
     name: 'vue-foldable',
     components: { VueIcon },
