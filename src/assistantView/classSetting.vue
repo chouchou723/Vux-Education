@@ -84,6 +84,10 @@
                                 this.$router.go(-1)
                             },500)
                         }
+                    }).catch(()=>{
+                        setTimeout(()=>{
+                                this.$router.go(-1)
+                            },500)
                     })
                 }
             },

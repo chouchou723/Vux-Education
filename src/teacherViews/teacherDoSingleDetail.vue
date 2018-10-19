@@ -121,10 +121,12 @@
                     this.signList = data.signs
                     this.evaluatesList = data.evaluates;
                     this.studentList = data.workUploads
-                    this.images = data.picIds.map(item=>{
-                        return {src:`${this.apiUrl}/attach/img/${item.id}`}
-                    })
-                    this.evaluate = data.evaluate;
+                    if(data.picIds.length!==0){
+                        this.images = data.picIds.map(item=>{
+                            return {src:`${this.apiUrl}/attach/img/${item.id}`}
+                        })
+                    }
+                    this.evaluate = data.evaluate?data.evaluate:'';
                 })
             }
         },
