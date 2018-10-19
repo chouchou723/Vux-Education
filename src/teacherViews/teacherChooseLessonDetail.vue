@@ -163,6 +163,7 @@
             this.fetchData();
         },
         mounted() {
+            console.log(1)
             //  document.querySelector(".tabBar2 .call").setAttribute('href','tel:4001720748');
             window.onresize = function() {
                 this.$refs.video.style.width = window.innerWidth + "px";
