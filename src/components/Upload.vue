@@ -111,12 +111,23 @@ export default {
     onChange (event) {
       // multi
       let ff = [...event.target.files]
-      ff.map(item=>{
-        if(item){
-          this.uploadFile(item)
+      if(this.images.length + ff.length >= this.max){
+        let dd = ff.slice(0,this.max-this.images.length)
+        dd.map(item=>{
+          if(item){
+            this.uploadFile(item)
+  
+          }
+        })
+      }else{
+        ff.map(item=>{
+          if(item){
+            this.uploadFile(item)
+  
+          }
+        })
 
-        }
-      })
+      }
       // 移动端仅支持单文件上传
       // const file = event.target.files[0]
       // if (!file) return
@@ -124,9 +135,9 @@ export default {
       // this.uploadFile(file)
     },
     uploadFile (file) {
-      if (this.images.length >= this.max) {
-        return
-      }
+      // if (this.images.length >= this.max) {
+      //   return
+      // }
       if (this.beforeUpload && typeof this.beforeUpload === 'function') {
         const before = this.beforeUpload(file)
         if (before && before.then) {
