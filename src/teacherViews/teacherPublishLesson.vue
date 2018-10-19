@@ -137,8 +137,12 @@
                 this.value1 = a[0] - 0
             },
             checkTime(value) {
-                let a = (this.value + '').match(/(\d)+(\.\d)?/)[0]
-                this.value = a-0;
+                if(value){
+                    let a = (this.value + '').match(/(\d)+(\.\d)?/)[0]
+                    this.value = a-0;
+                }else{
+                    this.value =1;
+                }
             },
             changeLesson(type) {
                 this.type = type;
