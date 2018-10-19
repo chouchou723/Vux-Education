@@ -1,19 +1,19 @@
 <template>
     <div class="vue-foldable">
-        <div class="vue-foldable-container" :style="{ maxHeight: currentMaxHeight + 'px',overflow:'hidden' }" ref="container">
+        <div class="vue-foldable-container" :style="{ maxHeight: currentMaxHeight + 'px'}" ref="container">
             <slot/>
         </div>
         <div :class="{ 'collapsed': collapsed }" class="vue-foldable-mask" v-if="reachThreshold"></div>
         <slot name="view-more" :toggle="toggle" :collapsed="collapsed">
             <div class="vue-foldable-view-more" :class="{ 'collapsed': collapsed }" @click="toggle" v-if="reachThreshold">
                 <!-- <VueIcon
-                  class="vue-foldable-icon"
-                  :class="{ 'collapsed': collapsed }"
-                /> -->
+                      class="vue-foldable-icon"
+                      :class="{ 'collapsed': collapsed }"
+                    /> -->
                 <span :class="['vue-foldable-text',type==='teacher'?'fzb':'fzg']">
-                  {{ collapsed ? '点击查看更多' : '点击隐藏' }}
-                  <i :class="[type==='teacher'?'teacherI':'studentI', collapsed?'rotate90':'']"></i>
-                </span>
+                      {{ collapsed ? '点击查看更多' : '点击隐藏' }}
+                      <i :class="[type==='teacher'?'teacherI':'studentI', collapsed?'rotate90':'']"></i>
+                    </span>
             </div>
         </slot>
     </div>
@@ -94,9 +94,8 @@
         },
         methods: {
             handleMount() {
-                
                 const contentHeight = this.$refs.container.scrollHeight
-                console.log(3,contentHeight)
+                console.log(3, contentHeight)
                 this.calculateThreshold(contentHeight)
                 this.checkReachThresfold(contentHeight)
             },
@@ -138,8 +137,7 @@
         let interval = 100
         let count = 0
         let maxCount = timeout / interval
-                console.log(4,oldHeight,newHeight)
-        
+        console.log(4, oldHeight, newHeight)
         function unit() {
             count++
             newHeight = el.scrollHeight
@@ -149,8 +147,7 @@
                     clearTimeout(poller)
                 }
             }
-                console.log(5,count,newHeight)
-
+            console.log(5, count, newHeight)
             oldHeight = newHeight
             if (count <= maxCount) {
                 poller = setTimeout(unit, interval)
@@ -162,7 +159,8 @@
 
 <style lang="less">
     .vue-foldable {
-        position:relative .vue-foldable-container {
+        position: relative;
+        .vue-foldable-container {
             overflow: hidden;
         }
         .vue-foldable-mask {
