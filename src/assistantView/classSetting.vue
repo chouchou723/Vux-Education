@@ -5,7 +5,7 @@
                 <x-input :max="10" type="number" title="金额"  v-model="valueTitle" placeholder="请设置该课程的金额" @on-blur="checkMoney" text-align="right" ></x-input>
             </group>
             <group title="满几人开课" label-width="4.5em" label-margin-right="2em">
-                <x-input  type="number" title="人数"  v-model="value1"  :placeholder="`最多${$route.query.maxStuNum}人`" @on-blur="onBlur" text-align="right" ></x-input>
+                <x-input  type="tel" mask="9999999" title="人数"  v-model="value1"  :placeholder="`最多${$route.query.maxStuNum}人`" @on-blur="onBlur" text-align="right" ></x-input>
 
                 <!-- <popup-picker title="人数" show-name :data="list2" v-model="value1" @on-show="onShow" @on-hide="onHide" @on-change="onChange" :columns="1"></popup-picker> -->
             </group>
@@ -52,11 +52,11 @@
         },
         methods: {
             checkMoney(v){
-                let arr = (v+'').split('.');
-                if(arr.length===1){
-                    return
+                if(v){
+                    let a = (this.valueTitle + '').match(/(\d)+(\.\d)?(\d)?/)[0]
+                    this.valueTitle = a-0;
                 }else{
-                    this.valueTitle = `${arr[0]}.${arr[1].slice(0,2)}`-0
+                    this.valueTitle =1;
                 }
             },
             onBlur(v){
