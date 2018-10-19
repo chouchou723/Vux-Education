@@ -7,13 +7,13 @@
         <slot name="view-more" :toggle="toggle" :collapsed="collapsed">
             <div class="vue-foldable-view-more" :class="{ 'collapsed': collapsed }" @click="toggle" v-if="reachThreshold">
                 <!-- <VueIcon
-              class="vue-foldable-icon"
-              :class="{ 'collapsed': collapsed }"
-            /> -->
+                  class="vue-foldable-icon"
+                  :class="{ 'collapsed': collapsed }"
+                /> -->
                 <span :class="['vue-foldable-text',type==='teacher'?'fzb':'fzg']">
-              {{ collapsed ? '点击查看更多' : '点击隐藏' }}
-              <i :class="[type==='teacher'?'teacherI':'studentI', collapsed?'rotate90':'']"></i>
-            </span>
+                  {{ collapsed ? '点击查看更多' : '点击隐藏' }}
+                  <i :class="[type==='teacher'?'teacherI':'studentI', collapsed?'rotate90':'']"></i>
+                </span>
             </div>
         </slot>
     </div>
@@ -161,7 +161,7 @@
         .vue-foldable-mask {
             position: absolute;
             bottom: 38px;
-            left:0;
+            left: 0;
             /* view-more's height */
             height: 80px;
             width: 100%;
@@ -197,27 +197,29 @@
                 vertical-align: middle;
                 border-top: 1px solid #D9D9D9;
                 width: 100%;
-                display: inline-block;
+                display: flex;
                 margin-top: 10px;
+                justify-content: center;
+                align-items: center;
             }
-            .teacherI{
-                    display: inline-block;
-                    margin: 0 3px;
-                    width: 0.213333rem;
-                    height: 0.133333rem;
-                    background: url(../../assets/triB.png) no-repeat;
-                    background-size: 100% 100%;
-                    transform-origin: center center; // transform: rotate(360deg);
-                }
-            .studentI{
-                    display: inline-block;
-                    margin: 0 3px;
-                    width: 0.213333rem;
-                    height: 0.133333rem;
-                    background: url(../../assets/triS.png) no-repeat;
-                    background-size: 100% 100%;
-                    transform-origin: center center; // transform: rotate(360deg);
-                }
+            .teacherI {
+                display: inline-block;
+                margin: 0 3px;
+                width: 0.213333rem;
+                height: 0.133333rem;
+                background: url(../../assets/triB.png) no-repeat;
+                background-size: 100% 100%;
+                transform-origin: center center; // transform: rotate(360deg);
+            }
+            .studentI {
+                display: inline-block;
+                margin: 0 3px;
+                width: 0.213333rem;
+                height: 0.133333rem;
+                background: url(../../assets/triS.png) no-repeat;
+                background-size: 100% 100%;
+                transform-origin: center center; // transform: rotate(360deg);
+            }
             .rotate90 {
                 transform: rotate(180deg);
             }
