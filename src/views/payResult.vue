@@ -12,10 +12,10 @@
             <cell-box is-link>
                 <div class="lessonListAll">
                     <div class="lessonTitleC">
-                        <div class="lessonTitleNo">订单号:K283</div>
+                        <div class="lessonTitleNo">订单号:{{item.order}}</div>
                     </div>
                     <div class="lessonTitle">
-                        <img src="../assets/0e3a716cf47f1eb695e5b62597dec807.jpg" width="75" height="75" alt="">
+                        <img :src="`${apiUrl}/attach/img/${item.picId}`" width="75" height="75" alt="">
                         <div class="lessonDetail">
                             <div class="lessonList">
                                 <div class="lessonName">{{item.name}}</div>
@@ -79,14 +79,12 @@
                 id: '',
                 type: 'coin', //coin
                 item: {
-                    id: 1,
-                    ishot: true,
-                    name: '创意绘画单课',
-                    total: 8,
-                    hasJoin: 5,
-                    content: '1节课-2课时|4-8岁儿童|满5人开课',
-                    price: 120,
-                    status: '待上课'
+                    id: '',
+                    order:'',
+                    picId:'',
+                    name: '',
+                    content: '',
+                    price: '',
                 }
             }
         },
@@ -94,21 +92,34 @@
             goTo() {
                 if (this.buyStatus) {
                     if (this.type === 'coin') {
-                        this.$router.push('/myPoints')
+                        this.$router.replace('/myPoints')
                     } else {
-                        this.$router.push('/myLesson')
+                        this.$router.replace('/myLesson')
                     }
                 } else {
                     if (this.type === 'coin') {
-                        this.$router.push('/buyPoints')
+                        this.$router.replace('/buyPoints')
                     } else {
-                        this.$router.push('/paying')
+                        this.$router.replace('/paying')
                     }
                 }
             },
             fetchData() {
                 getPayResult(this.id).then(res => {
-                    console.log(res)
+                    let data = res.data
+                   if(this.type==='coin'){
+
+                   }else{
+                       this.item = {
+                           id:data.id,
+                            order:data.code,
+                            name:data.title,
+                            price:data.price,
+                            picId:data.course.picId,
+                            content:`${data.course.courseNum}节课-${data.course.totalTime}课时`
+
+                       }
+                   }
                 })
             }
         },

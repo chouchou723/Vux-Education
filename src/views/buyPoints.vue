@@ -15,9 +15,9 @@
             </cell>
         </group>
         <div class="payButton">
-            <x-button :type="value==0?'':'primary'" action-type="button" @click.native="payOrder" :disabled="value==0">立即充值</x-button>
+            <x-button :type="value==0?'':'primary'" action-type="button" ref="buyp" @click.native="payOrder" :disabled="value==0">立即充值</x-button>
         </div>
-         <loading :show="show1" :text="text1"></loading>
+        <loading :show="show1" :text="text1"></loading>
     </div>
 </template>
 
@@ -30,7 +30,9 @@
         Loading
     } from 'vux'
     import {
-        getPointPay,getNewWxPay,getNewWxConfig
+        getPointPay,
+        getNewWxPay,
+        getNewWxConfig
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     export default {
@@ -52,6 +54,7 @@
                 maxV: 12,
                 text1: '订单创建中',
                 show1: false,
+                id: ''
             }
         },
         methods: {
@@ -61,15 +64,17 @@
                 }
                 this.show1 = true;
                 getPointPay(para).then(res => {
+                    this.id = res.data.id
                     let p = {
                         orderId: res.data.id
                     }
+                    // localStorage.setItem('point', this.value)
                     this.show1 = false;
                     getNewWxPay(p).then(res => {
-                         this.wechatPay(res.data)
+                        this.wechatPay(res.data)
                         //     // this.wechatPay(res.data.data)
                     })
-                }).catch(()=>{
+                }).catch(() => {
                     this.show1 = false;
                 })
             },
@@ -95,7 +100,7 @@
                     // this.$vux.loading.hide()
                 })
             },
-           wechatPay(config) {
+            wechatPay(config) {
                 let self = this;
                 self.$wechat.chooseWXPay({
                     timestamp: config.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
@@ -106,8 +111,9 @@
                     success: function(response) {
                         // 支付成功后的回调函数
                         self.$vux.toast.show('支付成功!')
+                        localStorage.removeItem('point')
                         setTimeout(() => {
-                            self.$router.replace('/payResult?type=coin&buyStatus=pass')
+                            self.$router.replace(`/payResult?type=coin&buyStatus=pass&id=${this.id}`)
                         }, 1000)
                     },
                     cancel: function(re) {
@@ -119,13 +125,13 @@
                         //     self.$router.replace('/myOrder')
                         // }, 1000)
                     },
-                    fail:function(r){
+                    fail: function(r) {
                         self.$vux.toast.show({
                             text: '支付失败',
                             type: 'cancel'
                         })
                         setTimeout(() => {
-                            self.$router.replace('/payResult?type=coin&buyStatus=fail')
+                            self.$router.replace(`/payResult?type=coin&buyStatus=fail&id=${this.id}`)
                         }, 1000)
                     }
                 });
@@ -134,6 +140,11 @@
         created() {
             this.setTitle('积分充值')
             this.wechatConfig();
+            // let point = localStorage.getItem('point')
+            // if(point){
+            //     this.value = point-0;
+            //     this.$refs.buyp.click();
+            // }
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},
