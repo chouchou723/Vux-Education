@@ -99,7 +99,7 @@
                 show7: false,
                 content: '已开课',
                 isMore: false,
-                isMoreContent: true,
+                isMoreContent: false,
                 // showM:true,
             }
         },
@@ -290,9 +290,10 @@
             .introduce {
                 position: relative;
                 &.h390{
-                    height: 390px;
-                }
+                    height: auto;
+                    }
                 &.lite {
+                    height: 390px;
                     position: relative;
                     overflow: hidden;
                     &::after {
