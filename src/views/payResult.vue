@@ -31,18 +31,18 @@
         <div :class="buyStatus?'coinBgS':'coinBg'" v-if="type=='coin'">
             <div class="coinTitle">
                 <div>
-                    2018-03-11 10:52:01
+                    {{detail.orderTime}}
                 </div>
                 <div style="color:#04be02" v-if="buyStatus">
-                    +20000积分
+                    +{{detail.changeNum}}积分
                 </div>
             </div>
             <div class="coinContent">
                 <div>
-                    充值20000积分
+                    {{detail.title}}
                 </div>
                 <div style="color:#999999" v-if="buyStatus">
-                    剩余20000分
+                    剩余{{detail.remainNum}}分
                 </div>
             </div>
         </div>
@@ -80,11 +80,17 @@
                 type: 'coin', //coin
                 item: {
                     id: '',
-                    order:'',
-                    picId:'',
+                    order: '',
+                    picId: '',
                     name: '',
                     content: '',
                     price: '',
+                },
+                detail: {
+                    orderTime: '',
+                    title: '',
+                    changeNum: '',
+                    remainNum: ''
                 }
             }
         },
@@ -107,19 +113,23 @@
             fetchData() {
                 getPayResult(this.id).then(res => {
                     let data = res.data
-                   if(this.type==='coin'){
-
-                   }else{
-                       this.item = {
-                           id:data.id,
-                            order:data.code,
-                            name:data.title,
-                            price:data.price,
-                            picId:data.course.picId,
-                            content:`${data.course.courseNum}节课-${data.course.totalTime}课时`
-
-                       }
-                   }
+                    if (this.type === 'coin') {
+                        this.detail = {
+                            orderTime: data.orderTime,
+                            title: data.title,
+                            changeNum: data.point.changeNum,
+                            remainNum: data.point.remainNum
+                        }
+                    } else {
+                        this.item = {
+                            id: data.id,
+                            order: data.code,
+                            name: data.title,
+                            price: data.price,
+                            picId: data.course.picId,
+                            content: `${data.course.courseNum}节课-${data.course.totalTime}课时`
+                        }
+                    }
                 })
             }
         },
