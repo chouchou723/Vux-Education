@@ -289,7 +289,7 @@
             }
             .introduce {
                 position: relative;
-                .h390{
+                &.h390{
                     height: 390px;
                 }
                 &.lite {
