@@ -86,7 +86,7 @@
                         self.$vux.toast.show('支付成功!')
                         setTimeout(() => {
                             self.$router.replace(`/payResult?type=buy&buyStatus=pass&id=${self.id}`)
-                        }, 1000)
+                        }, 500)
                         localStorage.removeItem('payment')
                     },
                     cancel: function(re) {
@@ -105,7 +105,7 @@
                         })
                         setTimeout(() => {
                             self.$router.replace(`/payResult?type=buy&buyStatus=fail&id=${self.id}`)
-                        }, 1000)
+                        }, 500)
                     }
                 });
             },

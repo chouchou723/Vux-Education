@@ -114,7 +114,7 @@
                         localStorage.removeItem('point')
                         setTimeout(() => {
                             self.$router.replace(`/payResult?type=coin&buyStatus=pass&id=${self.id}`)
-                        }, 1000)
+                        }, 500)
                     },
                     cancel: function(re) {
                         self.$vux.toast.show({
@@ -132,7 +132,7 @@
                         })
                         setTimeout(() => {
                             self.$router.replace(`/payResult?type=coin&buyStatus=fail&id=${self.id}`)
-                        }, 1000)
+                        }, 500)
                     }
                 });
             },
