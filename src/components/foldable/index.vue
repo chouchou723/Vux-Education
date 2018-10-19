@@ -3,7 +3,7 @@
         <div class="vue-foldable-container" :style="{ maxHeight: currentMaxHeight + 'px',overflow:'hidden' }" ref="container">
             <slot/>
         </div>
-        <div :class="{ 'collapsed': collapsed }" class="vue-foldable-mask" v-if="!noMask"></div>
+        <div :class="{ 'collapsed': collapsed }" class="vue-foldable-mask" v-if="reachThreshold"></div>
         <slot name="view-more" :toggle="toggle" :collapsed="collapsed">
             <div class="vue-foldable-view-more" :class="{ 'collapsed': collapsed }" @click="toggle" v-if="reachThreshold">
                 <!-- <VueIcon
