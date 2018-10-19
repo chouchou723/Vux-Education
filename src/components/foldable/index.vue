@@ -12,7 +12,7 @@
             /> -->
                 <span :class="['vue-foldable-text',type==='teacher'?'fzb':'fzg']">
               {{ collapsed ? '点击查看更多' : '点击隐藏' }}
-              <i :class="['ico_arr', collapsed?'rotate90':'']"></i>
+              <i :class="[type==='teacher'?'teacherI':'studentI', collapsed?'rotate90':'']"></i>
             </span>
             </div>
         </slot>
@@ -178,8 +178,8 @@
         .vue-foldable-view-more {
             width: 100%;
             text-align: center;
-            height: 30px;
-            line-height: 30px;
+            height: 35px;
+            line-height: 35px;
             cursor: pointer; //   color: #4dba87;
             .fzb {
                 color: #00a6e7
@@ -198,7 +198,26 @@
                 border-top: 1px solid #D9D9D9;
                 width: 100%;
                 display: inline-block;
+                margin-top: 10px;
             }
+            .teacherI{
+                    display: inline-block;
+                    margin: 0 3px;
+                    width: 0.213333rem;
+                    height: 0.133333rem;
+                    background: url(../assets/triB.png) no-repeat;
+                    background-size: 100% 100%;
+                    transform-origin: center center; // transform: rotate(360deg);
+                }
+            .studentI{
+                    display: inline-block;
+                    margin: 0 3px;
+                    width: 0.213333rem;
+                    height: 0.133333rem;
+                    background: url(../assets/triS.png) no-repeat;
+                    background-size: 100% 100%;
+                    transform-origin: center center; // transform: rotate(360deg);
+                }
             .rotate90 {
                 transform: rotate(180deg);
             }
