@@ -80,8 +80,8 @@
                 <div class="footerBtn" @click="sendComment">发送
                 </div>
             </div>
-            <div class="footerFixed" v-if="showM" @touchmove="touchmove">
-            </div>
+            <!-- <div class="footerFixed" v-if="showM" @touchmove="touchmove">
+            </div> -->
             <div class="modal" v-if="showM" @touchmove="touchmove"></div>
         </view-box>
     </div>
@@ -154,10 +154,10 @@
             },
             onChange() {},
             onFocus() { 
+                this.showM = true;
                 this.timer = setInterval(function() {      
                     document.body.scrollTop = document.body.scrollHeight    
                 }, 100)
-                // this.showM = true;
                 // document.querySelector(".footer").style.cssText += "bottom:1rem"
                 // setTimeout(() => {
                 //     this.$refs.xinput.scrollIntoView(true);
@@ -165,7 +165,7 @@
             },
             onBlur() {
                 clearInterval(this.timer)
-                // this.showM = false
+                this.showM = false
                 // document.querySelector(".footer").style.cssText += "bottom:0"
             },
             //         upload () {
