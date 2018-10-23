@@ -338,7 +338,7 @@
                 position: absolute;
                 width: .7rem;
                 top: 27%;
-                right: -.6rem;
+                right: -.4rem;
                 border-bottom: .07rem solid #00a6e7
             }
         }
@@ -362,7 +362,7 @@
                 position: absolute;
                 width: .6rem;
                 top: 27%;
-                left: -.5rem;
+                left: -.3rem;
                 border-bottom: .07rem solid gainsboro;
             }
             &::after {
@@ -370,7 +370,7 @@
                 position: absolute;
                 width: .7rem;
                 top: 27%;
-                right: -.6rem;
+                right: -.4rem;
                 border-bottom: .07rem solid gainsboro;
             }
         }
@@ -380,7 +380,7 @@
                 position: absolute;
                 width: .6rem;
                 top: 27%;
-                left: -.5rem;
+                left: -.3rem;
                 border-bottom: .07rem solid #00a6e7;
             }
             &::after {
@@ -388,7 +388,7 @@
                 position: absolute;
                 width: .7rem;
                 top: 27%;
-                right: -.6rem;
+                right: -.4rem;
                 border-bottom: .07rem solid #00a6e7;
             }
         }
@@ -412,7 +412,7 @@
                 position: absolute;
                 width: .5rem;
                 top: 27%;
-                left: -.5rem;
+                left: -.2rem;
                 border-bottom: .07rem solid gainsboro;
             }
         }
@@ -422,7 +422,7 @@
                 position: absolute;
                 width: .5rem;
                 top: 27%;
-                left: -.5rem;
+                left: -.2rem;
                 border-bottom: .07rem solid #00a6e7;
             }
         }
