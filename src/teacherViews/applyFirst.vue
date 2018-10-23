@@ -174,14 +174,46 @@
                         mobile: this.value
                     }
                     submitSmsCode(para).then(res => {
-                        if (res.code == 0) {
+                        let data = res.data;
+                        if (data.status.name === 'PASS') {
+                            this.$vux.toast({
+                                text:'您已是老师',
+                                type:'text',
+                                position:'middle'
+                            })
+                            this.getTeacher(data);
+                        } else {
                             this.step1 = 2;
                             this.setStep(this.step1)
-                            // this.step1++
-                            // this.setStep(this.step1)
                         }
                     })
                 }
+            },
+            getTeacher(data) {
+                let inf = {
+                    id: data.id,
+                    img: data.picId ? data.picId : '',
+                    experience: data.experience ? data.experience : {
+                        label: '',
+                        name: ''
+                    },
+                    skill: data.skill ? data.skill.split(',') : [],
+                    realName: data.realName ? data.realName : '',
+                    gender: data.gender ? data.gender.name : '',
+                    // birthday: data.birthday ? data.birthday : '',
+                    // address: data.address ? data.address : '',
+                    // mobilePhone: data.mobilePhone ? data.mobilePhone : '',
+                    description: data.description ? data.description : '',
+                    edus: data.edus ? data.edus : [],
+                    exps: data.exps ? data.exps : [],
+                    cerIds: data.cerIds ? data.cerIds : '',
+                    status: data.status,
+                    rejectReason: data.rejectReason ? data.rejectReason : '资料审核未通过'
+                }
+                localStorage.setItem('teacherInfo', JSON.stringify(inf))
+                this.setTeacherInfo('changeTeacherInfo', { ...inf
+                })
+                this.$router.replace('/teacher')
             },
             submitInfo() {
                 if (!this.isLoading) {
@@ -234,7 +266,7 @@
                 }
             },
             getCode() {
-                if(this.countTime === 60){
+                if (this.countTime === 60) {
                     if (this.value.length === 11) {
                         let para = {
                             mobile: this.value
@@ -266,7 +298,6 @@
                             width: 'auto'
                         })
                     }
-
                 }
             },
             ...mapActions([
