@@ -8,10 +8,10 @@
                         <div class="commentContent">
                             <div class="commentName">
                                 <span>{{detail.nickname}}
-                                                </span>
+                                                    </span>
                                 <span style="color:#7F8389;font-size:12px">
-                                                    {{detail.date.substring(5,7)}}月{{detail.date.substring(8,10)}}日 {{detail.date.substring(11,16)}} 
-                                                </span>
+                                                        {{detail.date.substring(5,7)}}月{{detail.date.substring(8,10)}}日 {{detail.date.substring(11,16)}} 
+                                                    </span>
                             </div>
                             <div>
                                 <span style="margin-right:3px;font-size:12px;color:#7F8389">总体</span>
@@ -39,11 +39,11 @@
                             </vux-upload>
                             <div class="commentName">
                                 <span style="color:#7F8389;font-size:12px">
-                                                    浏览 {{detail.browseNum}}
-                                                </span>
+                                                        浏览 {{detail.browseNum}}
+                                                    </span>
                                 <span @click="doLike(detail)">
-                                            <img :src="detail.hasLiked?require('../assets/good.png'):require('../assets/goodn.png')" alt="" width="12">
-                                                    <span :style="detail.hasLiked?'color:#1aad19':'color:#7F8389'">{{detail.likeNum}}</span>
+                                                <img :src="detail.hasLiked?require('../assets/good.png'):require('../assets/goodn.png')" alt="" width="12">
+                                                        <span :style="detail.hasLiked?'color:#1aad19':'color:#7F8389'">{{detail.likeNum}}</span>
                                 </span>
                             </div>
                         </div>
@@ -134,7 +134,6 @@
                     content: '',
                     replyTime: ''
                 }],
-                commentWord: '我参加了周六上午的国画课，小朋友年纪小，希望从小培养，上课过程很开心！我参加了周六上午的国画课，小朋友年纪小，希望从小培养，上课过程很开心！',
                 rank: 3,
                 images: [],
                 uploadUrl: '',
@@ -145,24 +144,29 @@
                 clientHeight: 0,
                 focusElem: '',
                 showM: false,
-                comm: ''
+                comm: '',
+                timer:''
             }
         },
         methods: {
             touchmove($event) {
-                    $event.preventDefault()
+                $event.preventDefault()
             },
             onChange() {},
-            onFocus() {
-                this.showM = true;
-                document.querySelector(".footer").style.cssText += "bottom:1rem"
-                setTimeout(()=>{
-                     this.$refs.xinput.scrollIntoView(true);
-                },200)
+            onFocus() { 
+                this.timer = setInterval(function() {      
+                    document.body.scrollTop = document.body.scrollHeight    
+                }, 100)
+                // this.showM = true;
+                // document.querySelector(".footer").style.cssText += "bottom:1rem"
+                // setTimeout(() => {
+                //     this.$refs.xinput.scrollIntoView(true);
+                // }, 200)
             },
             onBlur() {
-                this.showM = false
-                document.querySelector(".footer").style.cssText += "bottom:0"
+                clearInterval(this.timer)
+                // this.showM = false
+                // document.querySelector(".footer").style.cssText += "bottom:0"
             },
             //         upload () {
             //   this.$refs['cropper'].upload() 
