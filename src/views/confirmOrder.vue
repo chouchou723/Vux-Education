@@ -81,6 +81,7 @@
                         this.$router.replace(`/paying`)
                     }
                 }).catch(()=>{
+                        this.show1 = false;
                     this.$router.go(-1)
                 })
             },

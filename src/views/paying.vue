@@ -19,6 +19,7 @@
         <div class="payButton">
             <x-button type="primary" action-type="button" @click.native="payOrder">立即付款</x-button>
         </div>
+        <loading :show="show1" :text="text1"></loading>
     </div>
 </template>
 
@@ -26,18 +27,21 @@
     import {
         Group,
         Cell,
-        XButton
+        XButton,
+        Loading
     } from 'vux'
     import {
         getNewWxPay,
-        getNewWxConfig,getZeroPay
+        getNewWxConfig,
+        getZeroPay
     } from '../api/api'
     import apiHost from '../../config/prod.env'
     export default {
         components: {
             Group,
             Cell,
-            XButton
+            XButton,
+            Loading
         },
         data() {
             return {
@@ -46,31 +50,42 @@
                 // preserves its current state and we are modifying
                 // its initial state.
                 value: '',
-                id: ''
+                id: '',
+                show1: false,
+                text1: '付款中'
             }
         },
         methods: {
             payOrder() { //调接口获取sign
                 // console.log(1);
-                if(this.value===0){
-                     let para = {
+                if (this.value === 0) {
+                    let para = {
                         orderId: this.id
                     }
-                    getZeroPay(para,this.id).then(res=>{
+                    this.show1 = true;
+                    getZeroPay(para, this.id).then(res => {
+                        this.show1 = false;
                         this.$vux.toast.show('支付成功!')
                         setTimeout(() => {
                             this.$router.replace(`/payResult?type=buy&buyStatus=pass&id=${this.id}`)
                         }, 1000)
                         localStorage.removeItem('payment')
+                    }).catch(() => {
+                        this.show1 = false;
+                        this.$router.go(-1)
                     })
-                }else{
+                } else {
                     let para = {
                         orderId: this.id
                     }
+                    this.show1 = true;
                     getNewWxPay(para).then(res => {
+                        this.show1 = false;
                         this.wechatPay(res.data)
+                    }).catch(() => {
+                        this.show1 = false;
+                        this.$router.go(-1)
                     })
-
                 }
             },
             wechatPay(config) {
@@ -98,7 +113,7 @@
                         //     self.$router.replace('/myOrder')
                         // }, 1000)
                     },
-                    fail:function(r){
+                    fail: function(r) {
                         self.$vux.toast.show({
                             text: '支付失败',
                             type: 'cancel'
@@ -135,7 +150,7 @@
         created() {
             this.setTitle('确认付款')
             let payment = JSON.parse(localStorage.getItem('payment'))
-            this.value = payment.price-0;
+            this.value = payment.price - 0;
             this.id = payment.id;
             this.wechatConfig();
             // console.log(this.getMyF,apiHost.API_ROOT)
