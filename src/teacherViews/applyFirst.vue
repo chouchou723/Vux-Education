@@ -319,7 +319,7 @@
             justify-content: space-between
         }
         .stepOne {
-            width: 2.2rem;
+            width: 2.5rem;
             height: 2rem;
             display: flex;
             flex-direction: column;
@@ -327,7 +327,7 @@
             align-items: center;
             position: relative;
             img {
-                width: 80%;
+                width: 70%;
             }
             div {
                 font-size: 15px;
@@ -343,7 +343,7 @@
             }
         }
         .stepTwo {
-            width: 2.2rem;
+            width: 2.5rem;
             height: 2rem;
             display: flex;
             flex-direction: column;
@@ -351,7 +351,7 @@
             align-items: center;
             position: relative;
             img {
-                width: 80%;
+                width: 70%;
             }
             div {
                 padding-top: .3rem;
@@ -393,7 +393,7 @@
             }
         }
         .stepThree {
-            width: 2.2rem;
+            width: 2.5rem;
             height: 2rem;
             display: flex;
             flex-direction: column;
@@ -401,7 +401,7 @@
             align-items: center;
             position: relative;
             img {
-                width: 80%;
+                width: 70%;
             }
             div {
                 padding-top: .3rem;
