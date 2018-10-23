@@ -339,7 +339,7 @@
             flex: auto;
             .weui-cell {
                 margin: 7px auto;
-                padding: 3px 15px;
+                padding: 3px 10px;
             }
         }
         .footerBtn {
