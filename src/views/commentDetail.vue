@@ -153,7 +153,7 @@
                 $event.preventDefault()
             },
             onChange() {
-                clearInterval(this.timer)
+                // clearInterval(this.timer)
             },
             onFocus() { 
                 this.showM = true;
