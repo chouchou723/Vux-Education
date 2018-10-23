@@ -80,6 +80,8 @@
                         localStorage.setItem('payment',JSON.stringify(payment))
                         this.$router.replace(`/paying`)
                     }
+                }).catch(()=>{
+                    this.$router.go(-1)
                 })
             },
             getT() {
