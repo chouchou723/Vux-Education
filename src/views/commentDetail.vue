@@ -75,7 +75,7 @@
             </group>
             <div class="footer" slot="bottom" @touchmove="touchmove">
                 <div class="footTexa">
-                    <x-textarea placeholder="评论" v-model="comm" :show-counter="false" :rows="1" autosize @on-focus='onFocus' @on-blur="onBlur" @on-change="onChange"></x-textarea>
+                    <x-textarea ref="xinput" placeholder="评论" v-model="comm" :show-counter="false" :rows="1" autosize @on-focus='onFocus' @on-blur="onBlur" @on-change="onChange"></x-textarea>
                 </div>
                 <div class="footerBtn" @click="sendComment">发送
                 </div>
@@ -156,9 +156,9 @@
             onFocus() {
                 this.showM = true;
                 document.querySelector(".footer").style.cssText += "bottom:1rem"
-                // setTimeout(()=>{
-                //      this.$refs.xinput.scrollIntoView(false);
-                // },1000)
+                setTimeout(()=>{
+                     this.$refs.xinput.scrollIntoView(true);
+                },200)
             },
             onBlur() {
                 this.showM = false
