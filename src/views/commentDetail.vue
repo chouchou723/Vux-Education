@@ -152,10 +152,12 @@
             touchmove($event) {
                 $event.preventDefault()
             },
-            onChange() {},
+            onChange() {
+                clearInterval(this.timer)
+            },
             onFocus() { 
                 this.showM = true;
-                this.timer = setInterval(function() {      
+                this.timer = setInterval( ()=> {      
                     document.body.scrollTop = document.body.scrollHeight    
                 }, 100)
                 // document.querySelector(".footer").style.cssText += "bottom:1rem"
