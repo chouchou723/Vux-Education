@@ -81,8 +81,8 @@ AjaxPlugin.$http.interceptors.response.use(function (response) {
   }
   return Promise.reject(err);
 });
-// let base ='';
-let base = 'http://eduweixin.test.artreedu.com';
+let base ='';
+// let base = 'http://eduweixin.test.artreedu.com';
 // let base = 'http://panda.dfth.com';
 // access_token  : 24680
 // login_role  :  student

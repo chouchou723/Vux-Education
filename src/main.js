@@ -15,7 +15,8 @@ Vue.use(ToastPlugin)
 Vue.mixin({
   data(){
     return {
-      apiUrl:'http://eduweixin.test.artreedu.com'
+      // apiUrl:'http://eduweixin.test.artreedu.com',
+      apiUrl:''
     }
   },
   methods:{
