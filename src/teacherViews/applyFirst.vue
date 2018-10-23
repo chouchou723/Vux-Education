@@ -176,8 +176,8 @@
                     submitSmsCode(para).then(res => {
                         let data = res.data;
                         if (data.status.name === 'PASS') {
-                            console.log(1)
-                            this.$vux.toast({
+                            // console.log(1)
+                            this.$vux.toast.show({
                                 text:'恭喜,您已是老师',
                                 type:'text',
                                 position:'middle'
@@ -191,7 +191,7 @@
                 }
             },
             getTeacher(data) {
-                            console.log(data)
+                            // console.log(data)
                 let inf = {
                     id: data.id,
                     img: data.picId ? data.picId : '',
