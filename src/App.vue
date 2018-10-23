@@ -63,7 +63,7 @@
         iframe.style.display = 'none';
         iframe.setAttribute('src', 'data:text/plain,');
         document.documentElement.appendChild(iframe);
-        window.frames[0].window.alert(name);
+        window.frames[0].window.confirm(name);
         iframe.parentNode.removeChild(iframe);
       }
     },
