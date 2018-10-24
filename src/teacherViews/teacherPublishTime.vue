@@ -19,7 +19,7 @@
             <group style="margin-top:1em">
                 <cell v-for="(item,index) in classList" :key="'c'+index" is-link :link="`/teacherChangeClassTime?tempId=${detail.tempId}&classNum=${item.classNum}&contentId=${detail.contentId}&venueId=${item.venueId}&roomId=${item.roomId}&date=${item.date.slice(0,10)}&beginTimeStr=${item.beginTimeStr}`">
                     <div slot="title" style="font-size:15px">
-                        <div v-if="item.roomId">第{{index+1}}节课: {{item.roomCode}}教室, {{item.date.slice(0,10)}}, {{item.beginTimeStr.slice(0,2)-12>0?'下午':'下午'}}{{item.beginTimeStr}}-{{item.endTimeStr}}
+                        <div v-if="item.roomId">第{{index+1}}节课: {{item.roomCode}}教室, {{item.date.slice(0,10)}}, {{item.beginTimeStr.slice(0,2)-12>0?'下午':'上午'}}{{item.beginTimeStr}}-{{item.endTimeStr}}
                         </div>
                         <div v-else style="color:#f72121">
                             第{{index+1}}节课: 请选择教室, 日期和时间段
