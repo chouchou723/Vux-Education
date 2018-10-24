@@ -52,7 +52,7 @@
                 </div>
             </group>
             <div class="footerBtn">
-                <x-button type="primary" action-type="button" @click.native="nextStep" :disabled="!(value&&value1.length===4)" v-if="step1===1">
+                <x-button type="primary" action-type="button" @click.native="nextStep" :disabled="!(value.length===11&&value1.length===4)" v-if="step1===1">
                     下一步</x-button>
                 <x-button type="primary" action-type="button" @click.native="submitInfo" :disabled="valid" :show-loading='isLoading' v-if="step1===2">
                     提交审核</x-button>
@@ -168,7 +168,7 @@
                 // console.log(data)
             },
             nextStep() {
-                if (this.value.length == 11) {
+                // if (this.value.length == 11) {
                     let para = {
                         captcha: this.value1,
                         mobile: this.value
@@ -188,7 +188,7 @@
                             this.setStep(this.step1)
                         }
                     })
-                }
+                // }
             },
             getTeacher(data) {
                 // console.log(data)

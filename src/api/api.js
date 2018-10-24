@@ -89,9 +89,9 @@ let base = 'http://eduweixin.test.artreedu.com';
 // unionId  :  ohzciv91EysSA6kUFOQ24LBsZBDw
 //微信获取token
 //   if (role === 'student') {
-//     AjaxPlugin.$http.defaults.headers.common['login_role'] = role;
-//     //     AjaxPlugin.$http.defaults.headers.common['access_token'] = '24680';
-//     //    AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv91EysSA6kUFOQ24LBsZBDw';
+    // AjaxPlugin.$http.defaults.headers.common['login_role'] = 'student';
+    //     AjaxPlugin.$http.defaults.headers.common['access_token'] = '24680';
+    //    AjaxPlugin.$http.defaults.headers.common['unionId'] = 'ohzciv91EysSA6kUFOQ24LBsZBDw';
 
 //   } else {
 //     AjaxPlugin.$http.defaults.headers.common['login_role'] = 'teacher';
@@ -126,7 +126,6 @@ export const getTokenInfo = (role, params) => {
   return AjaxPlugin.$http.get(`${base}/api/auth/getInfo`, {
     params: params
   }).then(res => {
-    //  res.data
     AjaxPlugin.$http.defaults.headers.common['access_token'] = res.data.data.accessToken;
     AjaxPlugin.$http.defaults.headers.common['unionId'] = res.data.data.unionId;
     return res.data

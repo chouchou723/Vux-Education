@@ -70,6 +70,7 @@
                             <img v-for="(item,index) in detail.attachments" :key="'i'+index" :src="`${apiUrl}/attach/img/${item.id}`" alt="" style="max-width:100%">
                         </div>
 					</div>
+                    </foldable>
 				</CellBox>
 				<!-- <CellBox v-if="isOh">
 					<div class="more" @click="changeMoreContent"><span>{{isMoreContent?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMoreContent?'rotate90':'']"></i></div>
@@ -208,19 +209,25 @@
 				isMore: false,
 				isMoreContent: false,
 				oh:'',
+				canbuy:true,
 				// showM:true,
 			}
 		},
 		methods: {
 			gotoBuy(){
-				let order = {
-					name:this.detail.name,
-					price:this.detail.price,
-					courseNum:this.detail.courseNum,
-					id:this.$route.query.id
+				if(this.canbuy){
+					let order = {
+						name:this.detail.name,
+						price:this.detail.price,
+						courseNum:this.detail.courseNum,
+						id:this.$route.query.id
+					}
+					localStorage.setItem('order',JSON.stringify(order))
+					this.$router.replace('/confirmOrder')
+				}else{
+//绑定手机
+//this.$router.go('/myCell')
 				}
-				localStorage.setItem('order',JSON.stringify(order))
-				this.$router.replace('/confirmOrder')
 			},
 			show(index) {
 				this.$refs.previewer.show(index)

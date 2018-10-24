@@ -69,6 +69,7 @@
                             <img v-for="(item,index) in detail.attachments" :key="'i'+index" :src="`${apiUrl}/attach/img/${item.id}`" alt="" style="max-width:100%">
                         </div>
 					</div>
+                    </foldable>
 				</CellBox>
 				<CellBox v-if="isOh">
 					<div class="more" @click="changeMoreContent">

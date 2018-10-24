@@ -1,7 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from '../vuex/store'
-import {getInfoTeacherF,getStudentInfoF,setUuid} from './fn'
+import {
+  getInfoTeacherF,
+  getStudentInfoF,
+  setUuid
+} from './fn'
 import {
   TeacherRoutes
 } from './teacher'
@@ -45,25 +49,27 @@ router.beforeEach(function (to, from, next) {
     isLoading: true
   })
   if (from.path === '/') {
-    if(to.query.code){
-      getTokenInfo(to.meta.type,{code:to.query.code}).then(()=>{
+    if (to.query.code) {
+      getTokenInfo(to.meta.type, {
+        code: to.query.code
+      }).then(() => {
         if (to.meta.type == 'teacher') {
-          getInfoTeacherF(next,to,getInfoTeacher,store,to.query.code)
+          getInfoTeacherF(next, to, getInfoTeacher, store, to.query.code)
         } else if (to.meta.type == 'student') {
-          getStudentInfoF(next,getStudentInfo,store)
-        }else{
+          getStudentInfoF(next, getStudentInfo, store)
+        } else {
           next()
         }
       })
-    }else{
+    } else {
       localStorage.removeItem('teacherInfo')
-        getAT({
-          login_role: to.meta.type==='student'?'student':'teacher',
-          code:setUuid(),
-          url:to.fullPath.slice(1)
-        })
+      getAT({
+        login_role: to.meta.type === 'student' ? 'student' : 'teacher',
+        code: setUuid(),
+        url: to.fullPath.slice(1)
+      })
     }
-  }else{
+  } else {
     next()
   }
 })

@@ -79,6 +79,7 @@
                             <img v-for="(item,index) in detail.attachments" :key="'i'+index" :src="`${apiUrl}/attach/img/${item.id}`" alt="" style="max-width:100%">
                         </div>
 					</div>
+                    </foldable>
 				</CellBox>
 				<!-- <CellBox v-if="isOh">
 					<div class="more" @click="changeMoreContent"><span>{{isMoreContent?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMoreContent?'rotate90':'']"></i></div>
