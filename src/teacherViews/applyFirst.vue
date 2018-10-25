@@ -169,28 +169,36 @@
             },
             nextStep() {
                 // if (this.value.length == 11) {
-                    let para = {
-                        captcha: this.value1,
-                        mobile: this.value
+                let para = {
+                    captcha: this.value1,
+                    mobile: this.value
+                }
+                submitSmsCode(para).then(res => {
+                    let data = res.data;
+                    if (data.status.name === 'PASS') {
+                        // console.log(1)
+                        this.$vux.toast.show({
+                            text: '恭喜,您已是老师',
+                            type: 'text',
+                            position: 'middle'
+                        })
+                        this.getTeacher(data, data.status.name);
+                    } else if (data.status.name === 'REJECT' || data.status.name === 'WAIT') {
+                        // console.log(1)
+                        this.$vux.toast.show({
+                            text: '您已提交过申请',
+                            type: 'text',
+                            position: 'middle'
+                        })
+                        this.getTeacher(data, data.status.name);
+                    } else {
+                        this.step1 = 2;
+                        this.setStep(this.step1)
                     }
-                    submitSmsCode(para).then(res => {
-                        let data = res.data;
-                        if (data.status.name === 'PASS') {
-                            // console.log(1)
-                            this.$vux.toast.show({
-                                text: '恭喜,您已是老师',
-                                type: 'text',
-                                position: 'middle'
-                            })
-                            this.getTeacher(data);
-                        } else {
-                            this.step1 = 2;
-                            this.setStep(this.step1)
-                        }
-                    })
+                })
                 // }
             },
-            getTeacher(data) {
+            getTeacher(data, type) {
                 // console.log(data)
                 let inf = {
                     id: data.id,
@@ -215,9 +223,18 @@
                 localStorage.setItem('teacherInfo', JSON.stringify(inf))
                 this.setTeacherInfo('changeTeacherInfo', { ...inf
                 })
-                setTimeout(() => {
-                    this.$router.replace('/teacher')
-                }, 500)
+                if (type === 'PASS') {
+                    setTimeout(() => {
+                        this.$router.replace('/teacher')
+                    }, 500)
+                } else if (type === 'REJECT') {
+                    this.step1 = 3;
+                    this.applyStaus = 'fail'
+                    this.rejectReason = inf.rejectReason
+                } else if (type === 'WAIT') {
+                    this.step1 = 3;
+                    this.applyStaus = ''
+                }
             },
             submitInfo() {
                 if (!this.isLoading) {
