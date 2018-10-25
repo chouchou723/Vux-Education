@@ -230,14 +230,14 @@
 				} else {
 					//绑定手机
 					this.$vux.toast.show({
-						text: '请先绑定手机',
+						text: '请先绑定手机号',
 						width: 'auto',
 						type: 'text',
 						position: 'middle'
 					})
 					setTimeout(() => {
 						this.$router.push('/bindCell')
-					}, 500)
+					}, 1000)
 				}
 			},
 			show(index) {

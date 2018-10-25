@@ -78,7 +78,7 @@
             })
              setTimeout(()=>{
               this.$router.go(-1)
-            },500)
+            },1000)
           }).catch(()=>{
           this.isloading = false;
           })

@@ -82,7 +82,9 @@
                     }
                 }).catch(()=>{
                         this.show1 = false;
-                    this.$router.go(-1)
+                        setTimeout(()=>{
+                            this.$router.go(-1)
+                            },1000)
                 })
             },
             getT() {
