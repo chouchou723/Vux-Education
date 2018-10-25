@@ -26,6 +26,10 @@
     getSmsCode,
     submitStudentSmsCode
   } from '../api/api'
+  import {
+    mapActions,
+    // mapGetters
+  } from 'vuex';
   export default {
     components: {
       Group,
@@ -117,10 +121,10 @@
       },
     },
     computed: {
-      ...mapGetters([
-        'getMyInfo'
-        // ...
-      ]),
+    //   ...mapGetters([
+    //     'getMyInfo'
+    //     // ...
+    //   ]),
       getCodeContent() {
         if (this.count) {
           return `重新获取(${this.countTime}s)`
