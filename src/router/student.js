@@ -38,6 +38,8 @@ const feedback = () =>
   import('@/views/feedback')
 const myCell = () =>
   import('@/views/myCell')
+  const bindCell = () =>
+  import('@/views/bindCell')
 const commentDetail = () =>
   import('@/views/commentDetail')
 const classSituation = () =>
@@ -167,6 +169,13 @@ export const StudentRoutes = [{
       type: 'student'
     },
     component: myCell
+  },{
+    path: '/bindCell',
+    name: 'bindCell',
+    meta: {
+      type: 'student'
+    },
+    component: bindCell
   }, {
     path: '/myPic',
     name: 'myPic',

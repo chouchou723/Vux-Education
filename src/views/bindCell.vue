@@ -5,10 +5,10 @@
       <x-input placeholder="请输入手机号" type='tel' v-model="value" :max="11">
         <img slot="label" style="padding-right:10px;display:block;" src="../assets/inputCell.png" width="20" height="20">
       </x-input>
-      <!-- <x-input placeholder="请输入短信验证码" class="weui-vcode" v-model="value1" :max="4">
+      <x-input placeholder="请输入短信验证码" class="weui-vcode" v-model="value1" :max="4">
                       <img slot="label" style="padding-right:10px;display:block;" src="../assets/key.png" width="20" height="20">
                       <x-button slot="right" type="primary" :class="['getCode',count?'colorg':'']" @click.native="getCode">{{getCodeContent}}</x-button>
-                  </x-input> -->
+                  </x-input>
     </group>
     <div class="footerBtn">
       <x-button type="primary" action-type="button" :show-loading="isloading" :disabled="!(value.length===11&&value1.length===4)" @click.native="confirm">确定</x-button>

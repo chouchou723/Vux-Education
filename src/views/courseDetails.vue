@@ -226,7 +226,7 @@
 					this.$router.replace('/confirmOrder')
 				}else{
 //绑定手机
-//this.$router.go('/myCell')
+this.$router.go('/bindCell')
 				}
 			},
 			show(index) {
