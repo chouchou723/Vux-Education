@@ -75,6 +75,9 @@
                         }
                     }).then(() => {
                         this.$router.go(-1)
+                    }).catch(()=>{
+                        this.isloading = false;
+                        this.$router.go(-1)
                     })
                 }
             },

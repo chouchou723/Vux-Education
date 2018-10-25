@@ -179,6 +179,7 @@
                         // console.log(1)
                         this.$vux.toast.show({
                             text: '恭喜,您已是老师',
+                            width:'auto',
                             type: 'text',
                             position: 'middle'
                         })
@@ -187,6 +188,7 @@
                         // console.log(1)
                         this.$vux.toast.show({
                             text: '您已提交过申请',
+                            width:'auto',
                             type: 'text',
                             position: 'middle'
                         })

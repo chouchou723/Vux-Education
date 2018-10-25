@@ -1,6 +1,6 @@
 <template>
   <div class="teacherCommentStudent">
-    <group title="张明霞" label-width="4.5em" label-margin-right="2em">
+    <group :title="studentName" label-width="4.5em" label-margin-right="2em">
       <x-textarea :max="300" v-model="value" :rows="5" placeholder="学生上课情况怎么样,画的好不好,表现满意吗?" :show-counter="true"></x-textarea>
     </group>
     <div class="footerBtn">
@@ -28,6 +28,7 @@
     data() {
       return {
         value: '',
+        studentName:'',
         nickname: function(value) {
           return {
             valid: (/^[\u4e00-\u9fa5a-zA-Z0-9]+$/).test(value),
@@ -55,7 +56,9 @@
           }
         }).then(() => {
           this.$router.go(-1)
-        })
+        }).catch(()=>{
+                        this.$router.go(-1)
+                    })
       },
       fetchData() {
         let id = this.$route.query.id;
@@ -65,6 +68,7 @@
           let arr = data.evaluates.filter(item => {
             return item.stuId == this.$route.query.sid
           })
+          this.studentName = arr[0].stuName
           this.value = arr[0].evaluate
         })
       }
