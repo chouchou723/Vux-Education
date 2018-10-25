@@ -352,7 +352,7 @@
 		created() {
 			this.setTitle('课程详情')
 			this.fetchData()
-			this.canbuy = JSON.parse(localStorage.getItem(info)).cell ? true : false;
+			this.canbuy = JSON.parse(localStorage.getItem('info')).cell ? true : false;
 			// this.lessonListT = this.lessonListAll.slice(0,3);
 			// this.lessonList = [...this.lessonListAll]
 		},
