@@ -60,6 +60,7 @@
           this.isloading = false;
             this.$vux.toast.show({
               text: data,
+              width:'auto',
               type: 'text',
               position: 'middle'
             })
@@ -71,7 +72,9 @@
             this.setMyInfo({
               cell: this.value
             })
-            this.$router.go(-1)
+             setTimeout(()=>{
+              this.$router.go(-1)
+            },500)
           }).catch(()=>{
           this.isloading = false;
           })
@@ -156,6 +159,12 @@
     .getCode.weui-btn:after {
       border: none;
     }
+    .weui-vcode {
+            .weui-cell__ft {
+                display: flex;
+                align-items: center;
+            }
+        }
     .footerBtn {
       width: 90%;
       margin: 1rem auto 0;

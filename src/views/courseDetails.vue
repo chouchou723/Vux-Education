@@ -60,21 +60,21 @@
 			<group class="courseBox">
 				<cell class="tit" title="课程介绍"></cell>
 				<CellBox>
-                    <foldable height="290" :async='true' type="student">
-					<div class="introduce">
-						<video v-if="detail.videoId" preload='auto' ref="video" width="100%" height="200px" x5-video-player-type="h5" x5-video-player-fullscreen="true" :src="`${apiUrl}/attach/video/${detail.videoId}`"></video>
-						<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM&&detail.videoId">
-						<div class="playModal" v-if="showM&&detail.videoId"></div>
-						<div v-html="detail.description"></div>
-						<div class="desImg" v-if="detail.attachments.length!==0">
-                            <img v-for="(item,index) in detail.attachments" :key="'i'+index" :src="`${apiUrl}/attach/img/${item.id}`" alt="" style="max-width:100%">
-                        </div>
-					</div>
-                    </foldable>
+					<foldable height="290" :async='true' type="student">
+						<div class="introduce">
+							<video v-if="detail.videoId" preload='auto' ref="video" width="100%" height="200px" x5-video-player-type="h5" x5-video-player-fullscreen="true" :src="`${apiUrl}/attach/video/${detail.videoId}`"></video>
+							<img src="../assets/play.png" alt="" class="playIcon" @click="playVideo" v-if="showM&&detail.videoId">
+							<div class="playModal" v-if="showM&&detail.videoId"></div>
+							<div v-html="detail.description"></div>
+							<div class="desImg" v-if="detail.attachments.length!==0">
+								<img v-for="(item,index) in detail.attachments" :key="'i'+index" :src="`${apiUrl}/attach/img/${item.id}`" alt="" style="max-width:100%">
+							</div>
+						</div>
+					</foldable>
 				</CellBox>
 				<!-- <CellBox v-if="isOh">
-					<div class="more" @click="changeMoreContent"><span>{{isMoreContent?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMoreContent?'rotate90':'']"></i></div>
-				</CellBox> -->
+								<div class="more" @click="changeMoreContent"><span>{{isMoreContent?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMoreContent?'rotate90':'']"></i></div>
+							</CellBox> -->
 			</group>
 			<group class="courseBox">
 				<cell class="tit" title="课程评价">
@@ -151,7 +151,7 @@
 		doCollect
 	} from '../api/api'
 	// import apiHost from '../../config/prod.env'
-    import foldable from '../components/foldable'
+	import foldable from '../components/foldable'
 	export default {
 		directives: {
 			TransferDom
@@ -163,11 +163,12 @@
 			CellBox,
 			Tabbar,
 			TabbarItem,
-			Previewer,foldable
+			Previewer,
+			foldable
 		},
 		data() {
 			return {
-				isOh:false,
+				isOh: false,
 				detail: {
 					name: '',
 					price: '',
@@ -179,10 +180,12 @@
 					age: '',
 					teacher: '',
 					teacherPid: '',
-					experience: {label:''},
+					experience: {
+						label: ''
+					},
 					edu: '',
 					teacherId: '',
-					attachments:[]
+					attachments: []
 				},
 				comment: {
 					content: '',
@@ -208,25 +211,33 @@
 				lessonList: [],
 				isMore: false,
 				isMoreContent: false,
-				oh:'',
-				canbuy:true,
+				oh: '',
+				canbuy: false,
 				// showM:true,
 			}
 		},
 		methods: {
-			gotoBuy(){
-				if(this.canbuy){
+			gotoBuy() {
+				if (this.canbuy) {
 					let order = {
-						name:this.detail.name,
-						price:this.detail.price,
-						courseNum:this.detail.courseNum,
-						id:this.$route.query.id
+						name: this.detail.name,
+						price: this.detail.price,
+						courseNum: this.detail.courseNum,
+						id: this.$route.query.id
 					}
-					localStorage.setItem('order',JSON.stringify(order))
+					localStorage.setItem('order', JSON.stringify(order))
 					this.$router.replace('/confirmOrder')
-				}else{
-//绑定手机
-this.$router.go('/bindCell')
+				} else {
+					//绑定手机
+					this.$vux.toast.show({
+						text: '请先绑定手机',
+						width: 'auto',
+						type: 'text',
+						position: 'middle'
+					})
+					setTimeout(() => {
+						this.$router.push('/bindCell')
+					}, 500)
 				}
 			},
 			show(index) {
@@ -308,7 +319,7 @@ this.$router.go('/bindCell')
 						description: data.description,
 						videoId: data.video ? data.video.filePath : '',
 						teacherId: data.teacher.id,
-                        attachments:data.attachments?data.attachments:[]
+						attachments: data.attachments ? data.attachments : []
 					}
 					let commentData = data.comment;
 					if (commentData) {
@@ -341,6 +352,7 @@ this.$router.go('/bindCell')
 		created() {
 			this.setTitle('课程详情')
 			this.fetchData()
+			this.canbuy = JSON.parse(localStorage.getItem(info)).cell ? true : false;
 			// this.lessonListT = this.lessonListAll.slice(0,3);
 			// this.lessonList = [...this.lessonListAll]
 		},
@@ -510,10 +522,9 @@ this.$router.go('/bindCell')
 				.pho {
 					width: 1.84rem;
 					height: 1.84rem;
-					margin-right: 0.48rem;
-					// border: 1px solid gainsboro;
+					margin-right: 0.48rem; // border: 1px solid gainsboro;
 					img {
-					border-radius: 50%;
+						border-radius: 50%;
 						display: block;
 						width: 100%;
 					}
@@ -536,12 +547,11 @@ this.$router.go('/bindCell')
 			}
 			.introduce {
 				position: relative;
-				&.h390{
-                    height: auto;
-                    }
+				&.h390 {
+					height: auto;
+				}
 				&.lite {
-                    height: 390px;
-					// height: 11rem;
+					height: 390px; // height: 11rem;
 					position: relative;
 					overflow: hidden;
 					&::after {
@@ -584,9 +594,9 @@ this.$router.go('/bindCell')
 					margin: auto;
 					z-index: 1;
 				}
-				.desImg{
-                    width: 100%;
-                }
+				.desImg {
+					width: 100%;
+				}
 			}
 			.assess {
 				display: flex;
@@ -594,7 +604,7 @@ this.$router.go('/bindCell')
 				.pho {
 					width: 1.84rem;
 					height: 1.84rem;
-					flex:0 0 1.84rem;
+					flex: 0 0 1.84rem;
 					margin-right: 0.266666rem;
 					img {
 						display: block;
