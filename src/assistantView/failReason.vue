@@ -37,7 +37,7 @@
       }
     },
     created() {
-      document.title = '审核不通过'
+      this.setTitle('审核不通过')
     },
     methods: {
       saveInfo() {

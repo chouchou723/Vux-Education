@@ -104,7 +104,7 @@
             },
         },
         created() {
-            document.title = "我的课程";
+            this.setTitle("我的课程");
             this.fetchData()
             // console.log(this.getMyF,apiHost.API_ROOT)
         },

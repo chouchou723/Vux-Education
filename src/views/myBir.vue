@@ -18,11 +18,11 @@
 <script>
   import {
     XButton,
-    XInput,
+    // XInput,
     Group,
     Datetime,
-    Popup,
-    TransferDom
+    // Popup,
+    // TransferDom
   } from 'vux'
   import {
     mapActions,
@@ -33,13 +33,13 @@
       Group,
       XButton,
       Datetime,
-      Popup,
-      XInput,
-      TransferDom
+      // Popup,
+      // XInput,
+      // TransferDom
     },
-    directives: {
-      TransferDom
-    },
+    // directives: {
+    //   TransferDom
+    // },
     data() {
       return {
         value: '',
@@ -54,7 +54,7 @@
       }
     },
     created() {
-      document.title = '生日';
+      this.setTitle('生日');
       this.value = this.getMyInfo.birthday
       let date = new Date();
       let month = ('0' + (date.getMonth() + 1)).slice(-2);

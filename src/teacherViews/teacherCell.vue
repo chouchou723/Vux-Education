@@ -37,7 +37,7 @@
       }
     },
     created() {
-      document.title = '手机'
+      this.setTitle('手机')
       this.value = this.getTeacherInfo.mobilePhone
     },
     methods: {

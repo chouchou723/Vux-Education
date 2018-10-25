@@ -40,6 +40,7 @@ export default {
   methods:{
   },
   created(){
+            this.setTitle('消息通知')
     // console.log(this.getMyF,apiHost.API_ROOT)
   },
   mounted(){

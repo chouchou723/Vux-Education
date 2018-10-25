@@ -108,6 +108,7 @@
             }
         },
         created() {
+            this.setTitle('提现结果')
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},

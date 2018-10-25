@@ -40,10 +40,10 @@
     created() {
       this.type = this.$route.query.type;
       if (this.type) {
-        document.title = '昵称'
+        this.setTitle('昵称')
         this.value = this.getMyInfo.nickname
       } else {
-        document.title = '姓名'
+        this.setTitle('姓名')
         this.value = this.getMyInfo.name
       }
     },

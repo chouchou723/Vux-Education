@@ -18,11 +18,11 @@
 <script>
   import {
     XButton,
-    XInput,
+    // XInput,
     Group,
     Datetime,
-    Popup,
-    TransferDom
+    // Popup,
+    // TransferDom
   } from 'vux'
   import {
     mapActions,
@@ -33,13 +33,13 @@
       Group,
       XButton,
       Datetime,
-      Popup,
-      XInput,
-      TransferDom
+      // Popup,
+      // XInput,
+      // TransferDom
     },
-    directives: {
-      TransferDom
-    },
+    // directives: {
+    //   TransferDom
+    // },
     data() {
       return {
         value: '',

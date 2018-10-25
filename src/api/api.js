@@ -357,7 +357,11 @@ export const submitSmsCode = (params) => {
   // axios.defaults.headers.common['Authorization'] = token.Authorization;
   return AjaxPlugin.$http.post(`${base}/api/sms/bind`, params).then(res => res.data);
 };
-
+//学生验证验证码
+export const submitStudentSmsCode = (params) => {
+  // axios.defaults.headers.common['Authorization'] = token.Authorization;
+  return AjaxPlugin.$http.post(`${base}/api/sms/bind/stu`, params).then(res => res.data);
+};
 
 //教师获取自己信息 
 export const getInfoTeacher = (id) => {

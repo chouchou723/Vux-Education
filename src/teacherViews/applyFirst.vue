@@ -117,7 +117,7 @@
             }
         },
         created() {
-            document.title = '申请成为老师'
+            this.setTitle('申请成为老师')
             let status = JSON.parse(localStorage.getItem('teacherInfo')).status;
             if (status.name === 'PASS') {
                 this.step1 = 3;

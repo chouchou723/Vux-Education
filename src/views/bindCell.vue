@@ -1,5 +1,5 @@
 <template>
-  <div class="myCell">
+  <div class="bindCell">
     <group title=" " label-width="4.5em" label-margin-right="2em">
       <!-- <x-input placeholder="请输入手机号码" type='tel' v-model="value" :max="11"></x-input> -->
       <x-input placeholder="请输入手机号" type='tel' v-model="value" :max="11">
@@ -23,10 +23,6 @@
     XInput
   } from 'vux'
   import {
-    mapActions,
-    mapGetters
-  } from 'vuex';
-  import {
     getSmsCode,
     submitStudentSmsCode
   } from '../api/api'
@@ -43,17 +39,10 @@
         count: false,
         countTime: 60,
         isloading:false,
-        nickname: function(value) {
-          return {
-            valid: (/^[\u4e00-\u9fa5a-zA-Z0-9]+$/).test(value),
-            msg: '不能输入符号'
-          }
-        },
       }
     },
     created() {
-      this.setTitle('手机')
-      this.value = this.getMyInfo.cell
+      this.setTitle('绑定手机')
     },
     methods: {
       ...mapActions([
@@ -75,6 +64,10 @@
               position: 'middle'
             })
           }).then(() => {
+            let data = JSON.parse(localStorage.getItem('info'));
+            data.cell = this.value;
+            let newData = JSON.stringify(data);
+            localStorage.setItem('info',newData)
             this.setMyInfo({
               cell: this.value
             })
@@ -136,7 +129,7 @@
   }
 </script>
 <style lang="less">
-  .myCell {
+  .bindCell {
     .weui-cells__title {
       margin-top: 0;
       padding-top: .2rem;
