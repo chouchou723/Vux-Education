@@ -76,30 +76,30 @@
             }
         },
         mounted() {
-            // console.log(2)
-            this.handleMount()
-            // Temporary hack since this.$nextTick still cannot ensure all the sub components rendered.
-            // See: https://vuejs.org/v2/api/#mounted
-            setTimeout(this.handleMount, 50)
-            // this.$nextTick(function () {
-            //     this.handleMount()
-            // })
-            if (this.async) {
-                onElementHeightChange({
-                    el: this.$refs.container,
-                    callback: this.handleMount,
-                    timeout: this.timeout
-                })
+            if(this.$refs.container){
+                // console.log(2)
+                this.handleMount()
+                // Temporary hack since this.$nextTick still cannot ensure all the sub components rendered.
+                // See: https://vuejs.org/v2/api/#mounted
+                setTimeout(this.handleMount, 50)
+                // this.$nextTick(function () {
+                //     this.handleMount()
+                // })
+                if (this.async) {
+                    onElementHeightChange({
+                        el: this.$refs.container,
+                        callback: this.handleMount,
+                        timeout: this.timeout
+                    })
+                }
             }
         },
         methods: {
             handleMount() {
-                if(this.$refs.container){
-                    const contentHeight = this.$refs.container.scrollHeight
-                    // console.log(3, contentHeight)
-                    this.calculateThreshold(contentHeight)
-                    this.checkReachThresfold(contentHeight)
-                }
+                const contentHeight = this.$refs.container.scrollHeight
+                // console.log(3, contentHeight)
+                this.calculateThreshold(contentHeight)
+                this.checkReachThresfold(contentHeight)
             },
             checkReachThresfold(contentHeight) {
                 this.reachThreshold = contentHeight > this.threshold
