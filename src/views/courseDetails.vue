@@ -226,7 +226,7 @@
 						id: this.$route.query.id
 					}
 					localStorage.setItem('order', JSON.stringify(order))
-					this.$router.replace('/confirmOrder')
+					this.$router.push('/confirmOrder')
 				} else {
 					//绑定手机
 					this.$vux.toast.show({
