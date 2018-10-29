@@ -94,10 +94,12 @@
         },
         methods: {
             handleMount() {
-                const contentHeight = this.$refs.container.scrollHeight
-                // console.log(3, contentHeight)
-                this.calculateThreshold(contentHeight)
-                this.checkReachThresfold(contentHeight)
+                if(this.$refs.container){
+                    const contentHeight = this.$refs.container.scrollHeight
+                    // console.log(3, contentHeight)
+                    this.calculateThreshold(contentHeight)
+                    this.checkReachThresfold(contentHeight)
+                }
             },
             checkReachThresfold(contentHeight) {
                 this.reachThreshold = contentHeight > this.threshold
