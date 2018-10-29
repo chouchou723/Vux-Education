@@ -76,6 +76,10 @@
               position: 'middle'
             })
           }).then(() => {
+            let data = JSON.parse(localStorage.getItem('info'));
+            data.cell = this.value;
+            let newData = JSON.stringify(data);
+            localStorage.setItem('info',newData)
             this.setMyInfo({
               cell: this.value
             })
