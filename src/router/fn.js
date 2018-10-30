@@ -2,6 +2,7 @@
   export const  getInfoTeacherF = (next,to,getInfoTeacher,store,code)=> {
     let tInfo = localStorage.getItem('teacherInfo');
     if(tInfo){
+      console.log(1)
       let tData = JSON.parse(tInfo);
       store.commit('changeTeacherInfo', {...tData})
       next()
@@ -31,11 +32,14 @@
         localStorage.setItem('teacherInfo', JSON.stringify(inf))
         store.commit('changeTeacherInfo', { ...inf})
         if (inf.status.name !== 'PASS' && to.path !== '/applyFirst') {
+      console.log(2)
+
           next({
             path:`/applyFirst?code=${code}`,
             replace: true
           })
         }else {
+      console.log(3)
           next({path:to.path,replace: true,query:{...to.query,code:code}})
         }
       })
