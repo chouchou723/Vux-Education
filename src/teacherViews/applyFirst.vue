@@ -143,7 +143,7 @@
         },
         mounted(){
             window.addEventListener("popstate", ()=> {
-              this.$router.push('/applyFist')
+              this.$router.push('/applyFirst')
 }, false);
         },
         methods: {
