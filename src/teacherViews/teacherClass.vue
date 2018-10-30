@@ -159,12 +159,15 @@
             }
         },
         beforeRouteEnter (to, from, next) {
+            console.log(to,from)
        let inf = JSON.parse(localStorage.getItem('teacherInfo'))
           if (inf.status.name !== 'PASS') {
          next({
             path:'/applyFirst',
             replace:true
           })
+        }else{
+            next()
         }
   },
         beforeCreate () {
