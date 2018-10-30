@@ -70,7 +70,16 @@ router.beforeEach(function (to, from, next) {
       })
     }
   } else {
-    next()
+    console.log(3)
+    let inf = JSON.parse(localStorage.getItem('teacherInfo'))
+    if(to.meta.type == 'teacher'&&inf&&inf.status.name !== 'PASS'){
+    console.log(4)
+
+    next(false)
+    }else{
+      next()
+
+    }
   }
 })
 
