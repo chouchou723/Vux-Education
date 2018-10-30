@@ -28,15 +28,14 @@ Vue.mixin({
     }
   },
   beforeCreate () {
-    let inf = JSON.parse(localStorage.getItem('teacherInfo'))
-    let route = this.$route.meta;
-    if(route.type==='teacher'){
-      if (inf&&inf.status.name !== 'PASS') {
-      this.$router.replace({
-        path:`/applyFirst`,
-      })
-    }
-
+    let infIndex = JSON.parse(localStorage.getItem('teacherInfo'))
+    let routeIndex = this.$route.meta;
+    if(routeIndex.type==='teacher'){
+      if (infIndex&&infIndex.status.name !== 'PASS') {
+        this.$router.replace({
+          path:`/applyFirst`,
+        })
+      }
     }
   }
   })
