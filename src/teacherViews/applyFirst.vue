@@ -120,18 +120,18 @@
             this.setTitle('申请成为老师')
             history.pushState(null, null, location.href);
             let status = JSON.parse(localStorage.getItem('teacherInfo')).status;
-            if (status.name === 'PASS') {
-                this.step1 = 3;
-                this.applyStaus = 'pass'
-            } else if (status.name === 'REJECT') {
-                this.step1 = 3;
-                this.applyStaus = 'fail'
-                this.rejectReason = JSON.parse(localStorage.getItem('teacherInfo')).rejectReason
+            if(status.name ==='PRE'){
+                this.step1 = this.getStep || 1;
             } else if (status.name === 'WAIT') {
                 this.step1 = 3;
                 this.applyStaus = ''
-            } else {
-                this.step1 = this.getStep || 1;
+            } else if (status.name === 'REJECT') {
+                    this.step1 = 3;
+                this.applyStaus = 'fail'
+                this.rejectReason = JSON.parse(localStorage.getItem('teacherInfo')).rejectReason
+            }else if (status.name === 'PASS'){
+                this.step1 = 3;
+                this.applyStaus = 'pass'
             }
             if (this.getTeacherInfo.cerIds) {
                 this.cerIdArr = this.getTeacherInfo.cerIds.split(',')
