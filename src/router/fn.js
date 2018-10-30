@@ -36,7 +36,7 @@
             replace: true
           })
         }else {
-          next({path:to.path,query:{...to.query,code:code}})
+          next({path:to.path,replace: true,query:{...to.query,code:code}})
         }
       })
     }
