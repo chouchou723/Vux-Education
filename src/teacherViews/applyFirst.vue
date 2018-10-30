@@ -118,6 +118,7 @@
         },
         created() {
             this.setTitle('申请成为老师')
+            this.pushHistory()
             let status = JSON.parse(localStorage.getItem('teacherInfo')).status;
             if (status.name === 'PASS') {
                 this.step1 = 3;
@@ -141,7 +142,14 @@
                 })
             }
         },
+        mounted(){
+            window.addEventListener("popstate", function(e) {
+}, false);
+        },
         methods: {
+            pushHistory(){
+                this.$router.push('/applyFist')
+            },
             closePage() {
                 if (this.applyStaus === 'pass') {
                     this.$router.replace('/teacher')
