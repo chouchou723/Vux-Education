@@ -73,12 +73,9 @@
             },
             fetchData(){
                 let para = {
-
                 }
                 getMyPicture(para).then(res=>{
-                    let a = [{time:'2018-1-1',data:[{picId:'0c495cb2-f2d9-49d2-9fd4-39cd268588a1'},{picId:'0c495cb2-f2d9-49d2-9fd4-39cd268588a1'},{picId:'0c495cb2-f2d9-49d2-9fd4-39cd268588a1'},
-                    {picId:'0c495cb2-f2d9-49d2-9fd4-39cd268588a1'},{picId:'0c495cb2-f2d9-49d2-9fd4-39cd268588a1'}]}]
-                    this.lessonList = a//res.data
+                    this.lessonList = res.data
                 })
             }
         },

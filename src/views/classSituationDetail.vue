@@ -132,7 +132,7 @@
             display: flex;
             width: 9rem;
             flex-wrap: wrap;
-            justify-content: space-between;
+            justify-content: flex-start;
             margin: 0 auto;
         }
         .detailImg {
@@ -143,6 +143,10 @@
             margin-bottom: .3rem;
             position: relative;
         }
+        .detailImg:nth-child(3n+2){
+            margin-left:.15rem;
+            margin-right:.15rem;
+        }
         .img6 {
             width: 2.9rem;
             height: 2.9rem;
@@ -150,7 +154,6 @@
         }
         .detailNo {
             position: absolute;
-            ;
             top: .09rem;
             left: .12rem;
             color: white;
