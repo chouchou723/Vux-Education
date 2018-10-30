@@ -77,6 +77,18 @@ export const TeacherRoutes = [{
       type: 'teacher'
     },
     component: teacherHome,
+    beforeEnter: (to, from, next) => {
+      console.log(123)
+      let inf = JSON.parse(localStorage.getItem('teacherInfo'))
+      if (inf.status.name !== 'PASS') {
+      next({
+        path:'/applyFirst',
+        replace:true
+      })
+    }else{
+      next()
+    }
+    },
     children: [{
         path: '/teacherPersonal',
         meta: {
@@ -89,19 +101,8 @@ export const TeacherRoutes = [{
         meta: {
           type: 'teacher'
         },
-        component: teacherClass,
-        beforeEnter: (to, from, next) => {
-          console.log(123)
-          let inf = JSON.parse(localStorage.getItem('teacherInfo'))
-          if (inf.status.name !== 'PASS') {
-          next({
-            path:'/applyFirst',
-            replace:true
-          })
-        }else{
-          next()
-        }
-        }
+        component: teacherClass
+        
       },
       {
         path: '/teacherPublishHome',
