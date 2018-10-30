@@ -83,7 +83,7 @@
         created() {
             this.setTitle('金额提现')
             this.total = localStorage.getItem('withDraw')
-            this.name = JSON.parse(localStorage.getItem(teacherInfo)).realName
+            this.name = JSON.parse(localStorage.getItem('teacherInfo')).realName
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},
