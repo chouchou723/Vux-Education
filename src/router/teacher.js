@@ -91,10 +91,11 @@ export const TeacherRoutes = [{
         },
         component: teacherClass,
         beforeEnter: (to, from, next) => {
+          console.log(123)
           let inf = JSON.parse(localStorage.getItem('teacherInfo'))
           if (inf.status.name !== 'PASS') {
           next({
-            path:`/applyFirst`,
+            path:'/applyFirst',
             replace:true
           })
         }else{
