@@ -113,7 +113,7 @@ export const getAT = (params) => {
   return AjaxPlugin.$http.get(`${base}/api/auth/wechat`, {
     params: params
   }).then(res => {
-    window.location.href = res.data.data
+    window.location.replace(res.data.data)
   });
 };
 //获取token
