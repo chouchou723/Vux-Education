@@ -141,13 +141,15 @@
                 })
             }
         },
-        mounted(){
-            window.addEventListener("popstate", ()=> {
-              this.$router.push('/applyFirst')
-}, false);
+        mounted() {
+            window.addEventListener("popstate", () => {
+                if (this.step1 === 1) {
+                    this.$router.replace('/applyFirst')
+                }
+            }, false);
         },
         methods: {
-            pushHistory(){
+            pushHistory() {
                 this.$router.push('/applyFist')
             },
             closePage() {
@@ -187,7 +189,7 @@
                         // console.log(1)
                         this.$vux.toast.show({
                             text: '恭喜,您已是老师',
-                            width:'auto',
+                            width: 'auto',
                             type: 'text',
                             position: 'middle'
                         })
@@ -196,7 +198,7 @@
                         // console.log(1)
                         this.$vux.toast.show({
                             text: '您已提交过申请',
-                            width:'auto',
+                            width: 'auto',
                             type: 'text',
                             position: 'middle'
                         })
