@@ -143,10 +143,13 @@
         },
         mounted() {
             if (this.step1 === 1) {
-            window.addEventListener("popstate", () => {
+                window.addEventListener("popstate", () => {
                     this.$router.replace('/applyFirst')
-            }, false);
-                }
+                }, false);
+            }else{
+                  window.addEventListener("popstate", () => {
+                }, false);
+            }
         },
         methods: {
             pushHistory() {
