@@ -65,7 +65,7 @@ export default {
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: .8rem;
+        font-size: .4rem;
         color:#999;
     }
 }
