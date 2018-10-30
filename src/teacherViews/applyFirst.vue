@@ -146,6 +146,7 @@
             window.addEventListener("popstate", () => {
                 if(this.step1==2){
                     this.step1 = 1
+                    this.setStep(this.step1)
                 }else{
                     history.go(1)//this.$router.push('/applyFirst')
                 }
