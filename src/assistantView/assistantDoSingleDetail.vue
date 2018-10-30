@@ -7,13 +7,13 @@
        
             </group>
             <group title="学生点评" label-width="4.5em" label-margin-right="2em">
-                <cell v-for="(item,index) in evaluatesList" :key="'ss'+index"  is-link :link="`/teacherCommentStudent?id=${$route.query.id}&sid=${item.stuId}`">
+                <cell v-for="(item,index) in evaluatesList" :key="'ss'+index"  is-link :link="`/assistantCommentStudent?id=${$route.query.id}&sid=${item.stuId}`">
                     <div class="mr10" slot="title">{{item.stuName}}</div>
                     <div class="mr10">{{item.status.label}}</div>
                 </cell>
             </group>
             <group title="作品上传" label-width="4.5em" label-margin-right="2em">
-                <cell v-for="(item,index) in studentList" :key="'ss'+index" is-link :link="`/teacherUploadPic?id=${$route.query.id}&sid=${item.stuId}`">
+                <cell v-for="(item,index) in studentList" :key="'ss'+index" is-link :link="`/assistantUploadPic?id=${$route.query.id}&sid=${item.stuId}`">
                     <div class="mr10" slot="title">{{item.stuName}}</div>
                     <div class="mr10">{{item.status.label}}</div>
                 </cell>
@@ -23,7 +23,7 @@
                 </vux-upload>
             </group>
             <group title="作品点评" label-margin-right="2em">
-                <cell is-link :link="`/teacherPicComment?id=${$route.query.id}`">
+                <cell is-link :link="`/assistantPicComment?id=${$route.query.id}`">
                     <div slot="title" style="color:#cacaca;font-size:15px;padding-bottom:60px">{{evaluate?evaluate:'请点评作品'}}</div>
                 </cell>
             </group>

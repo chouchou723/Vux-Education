@@ -166,7 +166,6 @@
         }
         .detailNo {
             position: absolute;
-            ;
             top: .09rem;
             left: 0;
             color: white;
@@ -184,7 +183,6 @@
             border-style: solid;
             border-color: transparent transparent transparent #00a6e7;
             position: absolute;
-            ;
             top: 0;
             left: 0;
         }

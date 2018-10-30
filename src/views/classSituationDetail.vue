@@ -155,10 +155,13 @@
         .detailNo {
             position: absolute;
             top: .09rem;
-            left: .12rem;
+            left: 0;
             color: white;
             z-index: 1;
             font-size: 12px;
+            width: 0.9rem;
+            text-align: left;
+            padding-left: .1rem;
         }
         .detailImg::after {
             content: '';
@@ -168,7 +171,6 @@
             border-style: solid;
             border-color: transparent transparent transparent #04be02;
             position: absolute;
-            ;
             top: 0;
             left: 0;
         }
