@@ -169,7 +169,8 @@
             onError() {},
             onRemove(d) {
                 this.images.splice(d, 1)
-                console.log(d)
+                this.pics.splice(d, 1)
+                // console.log(d)
             },
         }
     }

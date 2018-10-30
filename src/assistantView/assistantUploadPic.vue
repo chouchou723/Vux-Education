@@ -56,7 +56,8 @@
             },
             onError() {},
             onRemove(d) {
-                this.images.splice(d, 1)
+                this.images.splice(d, 1);
+                this.pics.splice(d, 1)
             },
             saveInfo() {
                 if (!this.isloading && this.images.length !== 0) {
