@@ -143,7 +143,7 @@
         },
         mounted(){
             window.addEventListener("popstate", ()=> {
-               history.go(1)
+              this.$router.push('/applyFist')
 }, false);
         },
         methods: {
