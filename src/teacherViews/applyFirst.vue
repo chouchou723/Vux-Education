@@ -144,6 +144,7 @@
         },
         mounted() {
             window.addEventListener("popstate", () => {
+                history.go(1) //this.$router.push('/applyFirst')
                 if (this.step1 == 2) {
                     clearInterval(this.countStart)
                     this.countTime = 60;
@@ -152,8 +153,6 @@
                     this.value1 = '';
                     this.step1 = 1;
                     this.setStep(this.step1)
-                } else {
-                    history.go(1) //this.$router.push('/applyFirst')
                 }
             }, false);
         },
