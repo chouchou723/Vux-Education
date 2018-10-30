@@ -128,7 +128,7 @@
                      this.totalPages = res.data.totalElements;
                 }).then(res => {
                     if (this.totalPages <= 15*(this.page + 1)) {
-                        this.$refs.my_scroller.finishInfinite(2)
+                        this.$refs.my_scroller&&this.$refs.my_scroller.finishInfinite(2)
                         this.page =Math.floor(this.totalPages/15)
 
                     }

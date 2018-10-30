@@ -76,8 +76,10 @@
 
                 }
                 getMyPicture(para).then(res=>{
-                    this.lessonList = res.data
-                    console.log(res)
+                    let a = [{data:{picId:'0c495cb2-f2d9-49d2-9fd4-39cd268588a1'}},{data:{picId:'0c495cb2-f2d9-49d2-9fd4-39cd268588a1'}},
+                    {data:{picId:'0c495cb2-f2d9-49d2-9fd4-39cd268588a1'}},{data:{picId:'0c495cb2-f2d9-49d2-9fd4-39cd268588a1'}},
+                    {data:{picId:'0c495cb2-f2d9-49d2-9fd4-39cd268588a1'}}]
+                    this.lessonList = a//res.data
                 })
             }
         },
