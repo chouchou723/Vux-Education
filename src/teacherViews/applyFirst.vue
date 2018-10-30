@@ -144,7 +144,11 @@
         },
         mounted() {
             window.addEventListener("popstate", () => {
+                if(this.step1==2){
+                    this.step1 = 1
+                }else{
                     history.go(1)//this.$router.push('/applyFirst')
+                }
             }, false);
         },
         methods: {
