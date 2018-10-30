@@ -23,7 +23,7 @@
             </div>
         </sticky>
         <!-- 列表 -->
-        <scroller delegate-id="myScroller" :pageW="pageW" :on-refresh="refresh" :on-infinite="loadMore" ref='my_scroller'>
+        <scroller delegate-id="myScroller" :pageW="pageW" :on-refresh="refresh" :on-infinite="loadMore" ref='my_scroller' v-if="lessonList.length!==0">
             <group id="picContent">
                 <!-- <div> -->
                 <cell-box is-link v-for="(item,index) in lessonList" :key="index" :link="`/courseDetails?id=${item.id}`">
@@ -44,6 +44,9 @@
                 <!-- </div> -->
             </group>
         </scroller>
+        <div v-if="lessonList.length===0" style="width:100%;height:80%;display:flex;justify-content:center;align-items:center;color:#999999;font-size:0.4rem;">
+                    暂无课程
+                </div>
         <group class="modalG" v-if="chooseIndex===1">
             <datetime v-model="value7" clear-text="重置" @on-confirm="changeDate" @on-clear="clearDate" :show="chooseIndex===1" @on-cancel="cancelSelect">
             </datetime>
