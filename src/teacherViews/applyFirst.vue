@@ -144,11 +144,16 @@
         },
         mounted() {
             window.addEventListener("popstate", () => {
-                if(this.step1==2){
-                    this.step1 = 1
+                if (this.step1 == 2) {
+                    clearInterval(this.countStart)
+                    this.countTime = 60;
+                    this.count = false;
+                    this.value = '';
+                    this.value1 = '';
+                    this.step1 = 1;
                     this.setStep(this.step1)
-                }else{
-                    history.go(1)//this.$router.push('/applyFirst')
+                } else {
+                    history.go(1) //this.$router.push('/applyFirst')
                 }
             }, false);
         },
