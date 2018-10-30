@@ -142,14 +142,11 @@
             }
         },
         mounted(){
-            window.addEventListener("popstate", function(e) {
-                this.pushHistory()
+            window.addEventListener("popstate", ()=> {
+               this.$router.push('/applyFist')
 }, false);
         },
         methods: {
-            pushHistory(){
-                this.$router.push('/applyFist')
-            },
             closePage() {
                 if (this.applyStaus === 'pass') {
                     this.$router.replace('/teacher')
