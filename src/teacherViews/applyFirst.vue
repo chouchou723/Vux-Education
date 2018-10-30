@@ -142,19 +142,13 @@
             }
         },
         mounted() {
-            if (this.step1 === 1) {
-                window.addEventListener("popstate", () => {
+            window.addEventListener("popstate", () => {
+                if (this.step1 == 1) {
                     this.$router.replace('/applyFirst')
-                }, false);
-            }else{
-                  window.addEventListener("popstate", () => {
-                }, false);
-            }
+                }
+            }, false);
         },
         methods: {
-            pushHistory() {
-                this.$router.push('/applyFist')
-            },
             closePage() {
                 if (this.applyStaus === 'pass') {
                     this.$router.replace('/teacher')
