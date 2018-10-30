@@ -307,11 +307,11 @@
                     venueId: this.chooseItemListBackup.join(',')
                 }
                 getLessonList(para).then(res => {
-                    console.log(res)
+                    // console.log(res)
                     this.totalPages = res.data.totalElements;
                     this.lessonList = res.data.content;
                     if (page == 0) {
-                        this.$refs.my_scroller.scrollTo(0, 0)
+                        this.$refs.my_scroller&&this.$refs.my_scroller.scrollTo(0, 0)
                     }
                 }).then(res => {
                     if (this.totalPages <= 15 * (this.page + 1)) {
