@@ -143,7 +143,7 @@
         },
         mounted(){
             window.addEventListener("popstate", ()=> {
-               this.$router.go()
+               history.go(1)
 }, false);
         },
         methods: {
