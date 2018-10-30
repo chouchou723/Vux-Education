@@ -158,6 +158,14 @@
                 })
             }
         },
+        beforeCreate () {
+          let inf = JSON.parse(localStorage.getItem('teacherInfo'))
+          if (inf.status.name !== 'PASS') {
+          this.$router.replace({
+            path:`/applyFirst`,
+          })
+        }
+        },
         created() {
             // console.log(4)
             this.setTitle('我的课程')
