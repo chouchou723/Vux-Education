@@ -71,17 +71,17 @@ router.beforeEach(function (to, from, next) {
     }
   } else {
     console.log(3)
-    let inf = JSON.parse(localStorage.getItem('teacherInfo'))
-    if(to.meta.type == 'teacher'&&inf&&inf.status.name !== 'PASS'&& to.path !== '/applyFirst'){
-    console.log(4)
-    next({
-      path:'/applyFirst',
-      replace: true
-    })
-    }else{
+    // let inf = JSON.parse(localStorage.getItem('teacherInfo'))
+    // if(to.meta.type == 'teacher'&&inf&&inf.status.name !== 'PASS'&& to.path !== '/applyFirst'){
+    // console.log(4)
+    // next({
+      // path:'/applyFirst',
+      // replace: true
+    // })
+    // }else{
       next()
 
-    }
+    // }
   }
 })
 
