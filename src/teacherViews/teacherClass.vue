@@ -158,6 +158,15 @@
                 })
             }
         },
+        beforeRouteEnter (to, from, next) {
+       let inf = JSON.parse(localStorage.getItem('teacherInfo'))
+          if (inf.status.name !== 'PASS') {
+         next({
+            path:'/applyFirst',
+            replace:true
+          })
+        }
+  },
         beforeCreate () {
         //   let inf = JSON.parse(localStorage.getItem('teacherInfo'))
         //   if (inf.status.name !== 'PASS') {
