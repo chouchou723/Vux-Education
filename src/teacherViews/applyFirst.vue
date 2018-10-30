@@ -141,11 +141,6 @@
                 })
             }
         },
-        mounted(){
-            window.addEventListener("popstate", ()=> {
-               this.$router.go()
-}, false);
-        },
         methods: {
             closePage() {
                 if (this.applyStaus === 'pass') {

@@ -27,17 +27,17 @@ Vue.mixin({
       document.title = title
     }
   },
-  // beforeCreate () {
-  //   let infIndex = JSON.parse(localStorage.getItem('teacherInfo'))
-  //   let routeIndex = this.$route.meta;
-  //   if(routeIndex.type==='teacher'){
-  //     if (infIndex&&infIndex.status.name !== 'PASS') {
-  //       this.$router.replace({
-  //         path:`/applyFirst`,
-  //       })
-  //     }
-  //   }
-  // }
+  beforeCreate () {
+    let infIndex = JSON.parse(localStorage.getItem('teacherInfo'))
+    let routeIndex = this.$route.meta;
+    if(routeIndex.type==='teacher'){
+      if (infIndex&&infIndex.status.name !== 'PASS') {
+        this.$router.replace({
+          path:`/applyFirst`,
+        })
+      }
+    }
+  }
   })
 
 FastClick.attach(document.body)
