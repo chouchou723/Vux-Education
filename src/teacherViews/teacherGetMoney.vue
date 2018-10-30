@@ -1,6 +1,6 @@
 <template>
     <div class="teacherGetMoney">
-        <group title="充值金额">
+        <group title="提现金额">
             <x-input title="￥" type="number" mask="9999999999999" v-model="value" :show-clear='false' :max="13" @on-blur="checkMoney"></x-input>
             <cell>
                 <div slot="title" style="color:#999999;font-size:14px">可提现金额:{{total}}元</div>
@@ -12,7 +12,7 @@
             <cell>
                 <img slot="icon" src="../assets/wechatPay.png" alt="" class="payImg">
                 <div slot="title" class="payTitle">
-                    <div style="margin-bottom:.1rem">代芳芳</div>
+                    <div style="margin-bottom:.1rem">{{name}}</div>
                     <div style="color:#999999;font-size:.3rem;">5个工作日到账</div>
                 </div>
                 <!-- <img src="../assets/payCheck.png" alt="" class="paycheck"> -->
@@ -51,7 +51,8 @@
                 value: '',
                 total: '',
                 false: false,
-                maxV: 12
+                maxV: 12,
+                name:'',
             }
         },
         methods: {
@@ -82,6 +83,7 @@
         created() {
             this.setTitle('金额提现')
             this.total = localStorage.getItem('withDraw')
+            this.name = JSON.parse(localStorage.getItem(teacherInfo)).realName
             // console.log(this.getMyF,apiHost.API_ROOT)
         },
         mounted() {},
