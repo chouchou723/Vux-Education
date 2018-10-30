@@ -77,17 +77,16 @@ export const TeacherRoutes = [{
       type: 'teacher'
     },
     component: teacherHome,
-    beforeEnter: (to, from, next) => {
-      console.log(123)
+    redirect: to => {
+      console.log(1)
       let inf = JSON.parse(localStorage.getItem('teacherInfo'))
       if (inf.status.name !== 'PASS') {
-      next({
-        path:'/applyFirst',
-        replace:true
-      })
-    }else{
-      next()
-    }
+        // Redirect to xx instead
+        return '/applyFirst'
+      } else {
+        // Redirect to login instead
+        return  to.path
+      }
     },
     children: [{
         path: '/teacherPersonal',
