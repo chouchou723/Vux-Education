@@ -89,8 +89,19 @@ export const TeacherRoutes = [{
         meta: {
           type: 'teacher'
         },
-        component: teacherClass
+        component: teacherClass,
+        beforeEnter: (to, from, next) => {
+          console.log(1)
+          let inf = JSON.parse(localStorage.getItem('teacherInfo'))
+          if (inf.status.name !== 'PASS') {
+          next({
+            path:'/applyFirst',
+            replace:true
+          })
+        }
+          next()
         
+        }
       },
       {
         path: '/teacherPublishHome',
