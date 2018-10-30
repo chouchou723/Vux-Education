@@ -48,6 +48,7 @@ router.beforeEach(function (to, from, next) {
   store.commit('updateLoadingStatus', {
     isLoading: true
   })
+  console.log(from,to)
   if (from.path === '/') {
     if (to.query.code) {
       getTokenInfo(to.meta.type, {
@@ -70,7 +71,15 @@ router.beforeEach(function (to, from, next) {
       })
     }
   } else {
-    next()
+    let inf = JSON.parse(localStorage.getItem('teacherInfo'))
+    if (to.meta.type == 'teacher'&&inf.status.name !== 'PASS' && to.path !== '/applyFirst') {
+      next({
+        path:`/applyFirst`,
+        replace: true
+      })
+    } else{
+      next()
+    }
   }
 })
 
