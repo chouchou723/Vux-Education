@@ -5,12 +5,6 @@
 
 <script>
     export default {
-        data() {
-            return {
-            }
-        },
-        methods: {
-        },
         beforeCreate () {
           let inf = JSON.parse(localStorage.getItem('teacherInfo'))
           if (inf.status.name !== 'PASS') {
@@ -22,9 +16,7 @@
             path:`/teacherHome`,
           })
         }
-        },
-        created() {
-        },
+        }
     }
 </script>
 

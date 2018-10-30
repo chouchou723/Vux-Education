@@ -27,6 +27,18 @@ Vue.mixin({
       document.title = title
     }
   },
+  beforeCreate () {
+    let inf = JSON.parse(localStorage.getItem('teacherInfo'))
+    let route = this.$route.meta;
+    if(route.type==='teacher'){
+      if (inf&&inf.status.name !== 'PASS') {
+      this.$router.replace({
+        path:`/applyFirst`,
+      })
+    }
+
+    }
+  }
   })
 
 FastClick.attach(document.body)

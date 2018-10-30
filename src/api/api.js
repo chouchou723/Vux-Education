@@ -119,7 +119,7 @@ export const getAT = (params) => {
 //获取token
 export const getTokenInfo = (role, params) => {
   if (role === 'student') {
-    AjaxPlugin.$http.defaults.headers.common['login_role'] = role;
+    AjaxPlugin.$http.defaults.headers.common['login_role'] = 'student';
   } else {
     AjaxPlugin.$http.defaults.headers.common['login_role'] = 'teacher';
   }

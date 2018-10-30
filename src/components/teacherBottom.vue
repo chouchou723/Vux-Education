@@ -1,7 +1,7 @@
 <template>
   <div class="teacherBottom">
      <tabbar @on-index-change='indexChange' v-model="index">
-      <tabbar-item  @on-item-click="saveIndex"  link="/teacherHome">
+      <tabbar-item  @on-item-click="saveIndex"  link="/teacher">
         <img slot="icon" src="../assets/bi2.png">
         <img slot="icon-active" src="../assets/bi2B.png">
         <span slot="label">我的课程</span>
@@ -92,7 +92,7 @@ export default {
     },
     tabIndex(){
  let path = this.$route.path;
-      if(path=='/teacherHome'){
+      if(path=='/teacher'){
           this.index = 0
       }else if(path=='/teacherPublishHome'){
           this.index = 1

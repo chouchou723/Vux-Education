@@ -67,19 +67,12 @@ const teacherChooseLesson = () =>
   import('@/teacherViews/teacherChooseLesson')
 const teacherChooseLessonDetail = () =>
   import('@/teacherViews/teacherChooseLessonDetail')
-  const teacherIndex = () =>
-  import('@/teacherViews/teacherIndex')
+
 
 
 
 export const TeacherRoutes = [{
-  path: '/teacher',
-  meta: {
-    type: 'teacher'
-  },
-  component: teacherIndex,
-},{
-    path: '/teacherHome',
+    path: '/teacher',
     meta: {
       type: 'teacher'
     },
@@ -96,7 +89,7 @@ export const TeacherRoutes = [{
         meta: {
           type: 'teacher'
         },
-        component: teacherClass,
+        component: teacherClass
       },
       {
         path: '/teacherPublishHome',
