@@ -48,7 +48,12 @@
         this.setTeacherInfo({
           description: this.value
         })
-        this.$router.go(-1)
+        let backTwo = localStorage.getItem('backTwo');
+          if(backTwo=='true'){
+            this.$router.push('/applyFirst')
+          }else{
+            this.$router.back()//go(-1)
+          }
         // this.$router.push('/applyFirst?step=2')
       }
     },

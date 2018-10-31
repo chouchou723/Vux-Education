@@ -155,14 +155,8 @@
                     //     this.step1 = 1;
                     //     this.setStep(this.step1)
                     // }
-                }else{
-
                 }
             }, false);
-        },
-        beforeDestroy() {
-            // window.addEventListener("popstate", () => {
-            // }, false);
         },
         methods: {
             closePage() {
@@ -218,7 +212,8 @@
                         this.getTeacher(data, data.status.name);
                     } else {
                         this.step1 = 2;
-                        this.setStep(this.step1)
+                        this.setStep(this.step1);
+                        localStorage.setItem('backTwo','true')
                     }
                 })
                 // }
@@ -300,6 +295,7 @@
                         })
                         if (isSuccess) {
                             this.isLoading = false;
+                            localStorage.removeItem('backTwo')
                             this.$vux.toast.show({
                                 text: '提交成功'
                             })
