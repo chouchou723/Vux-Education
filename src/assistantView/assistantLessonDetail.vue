@@ -66,7 +66,7 @@
     					        	</div>
     					      	</cell-box>
     						</group> -->
-            <group class="courseBox" v-if="detail.status.name!=='PROCESS'">
+            <group class="courseBox" v-if="detail.status.name!=='PROCESS'" style="margin-bottom:1.4rem">
                 <cell class="tit" title="课程介绍"></cell>
                 <CellBox>
                     <foldable height="290" :async='true' type="teacher">
@@ -87,7 +87,7 @@
                 </CellBox> -->
             </group>
         </view-box>
-            <div style="height:1.4rem;background:#f4f4f4" ></div>
+            <!-- <div style="height:1.4rem;background:#f4f4f4" ></div> -->
             <div class="footB" v-if="detail.status.name=='WAIT'" >
                 <div class="hasChoosen" @click="goToNext(1)">通过</div>
                 <div class="notChoosen" @click="goToNext(2)">不通过</div>
