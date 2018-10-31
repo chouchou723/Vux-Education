@@ -65,8 +65,8 @@
 
 <script>
     import {
-        Step,
-        StepItem,
+        // Step,
+        // StepItem,
         XButton,
         Group,
         XInput,
@@ -89,8 +89,8 @@
             Group,
             XButton,
             XInput,
-            Step,
-            StepItem,
+            // Step,
+            // StepItem,
             teacherInfo,
             ViewBox
         },
@@ -106,12 +106,6 @@
                 count: false,
                 rejectReason: '',
                 images: [],
-                nickname: function(value) {
-                    return {
-                        valid: (/^[\u4e00-\u9fa5a-zA-Z0-9]+$/).test(value),
-                        msg: '不能输入符号'
-                    }
-                },
                 type: '',
                 countStart: {},
                 cerIdArr: []
