@@ -22,7 +22,7 @@
                 <popup-picker title="上课场馆" show-name :data="list2" v-model="value1" @on-change="onChangeAdd" :columns="1"></popup-picker>
                 <!-- <popup-picker title="上课时间段" show-name :data="list3" v-model="value2"  @on-change="onChange" :columns="1"></popup-picker> -->
                 <datetime v-model="value2" format="HH:mm" title="上课开始时间"></datetime>
-                <datetime v-model="value3" title="上课起始日期" :end-date="value4"></datetime>
+                <datetime v-model="value3" title="上课起始日期" :start-date="endDate" :end-date="value4"></datetime>
                 <datetime v-model="value4" v-if="classtype!='SINGLE'" title="上课结束日期" :start-date="value3"></datetime>
                 <popup-picker title="上课教室" show-name :data="list4" v-model="value5" @on-change="onChange" :columns="1"></popup-picker>
                 <x-input v-model="value6" v-if="classtype!='SINGLE'" type="tel" mask="9999999999999"  title="每隔几天上一次课" text-align='right'></x-input>
