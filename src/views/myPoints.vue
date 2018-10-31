@@ -59,13 +59,27 @@
                 // its initial state.
                 value: '',
                 total:0,
+                canbuy:false,
                 pointDetail: [
                 ],
             }
         },
         methods: {
             gotoBuyP() {
-                this.$router.push('/buyPoints')
+                if (this.canbuy) {
+                    this.$router.push('/buyPoints')
+				} else {
+					//绑定手机
+					this.$vux.toast.show({
+						text: '请先绑定手机号',
+						width: 'auto',
+						type: 'text',
+						position: 'middle'
+					})
+					setTimeout(() => {
+						this.$router.push('/bindCell')
+					}, 1000)
+				}
             },
             fetchData(){
                 let para = {
@@ -79,6 +93,7 @@
         },
         created() {
             this.setTitle('我的积分')
+			this.canbuy = JSON.parse(localStorage.getItem('info')).cell ? true : false;
             this.fetchData()
             localStorage.removeItem('point')
             // console.log(this.getMyF,apiHost.API_ROOT)
