@@ -198,6 +198,7 @@
                         if (data.status.name === 'PRE') {
                             this.step1 = 2;
                             this.setStep(this.step1);
+                            localStorage.setItem('backTwo', 'true')
                         } else if (data.status.name === 'PASS') {
                             // console.log(1)
                             this.$vux.toast.show({
@@ -299,7 +300,7 @@
                         })
                         if (isSuccess) {
                             this.isLoading = false;
-                            // localStorage.removeItem('backTwo')
+                            localStorage.removeItem('backTwo')
                             this.$vux.toast.show({
                                 text: '提交成功'
                             })
@@ -374,17 +375,6 @@
                 }
             }
         },
-        watch: {
-            step1(newV, oldV) {
-                if (newV == 2) {
-                    console.log(1)
-                    localStorage.setItem('backTwo', 'true')
-                }else{
-                    console.log(2)
-                    localStorage.removeItem('backTwo')
-                }
-            }
-        }
     }
 </script>
 <style lang="less">

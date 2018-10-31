@@ -38,11 +38,12 @@
             return {
                 images: [],
                 cerIdArr: [],
-                isLoading:false,
+                isLoading: false,
             }
         },
         created() {
-            this.setTitle('我的资料')
+            this.setTitle('我的资料');
+            localStorage.removeItem('backTwo')
             if (this.getTeacherInfo.cerIds) {
                 this.cerIdArr = this.getTeacherInfo.cerIds.split(',')
                 this.images = this.cerIdArr.map(item => {
@@ -78,52 +79,51 @@
                 'setTeacherInfo'
             ]),
             confireName() {
-                if(!this.isLoading){
-                this.isLoading = true;
-                let para = {
-                    realName: this.getTeacherInfo.realName,
-                    skill: this.getTeacherInfo.skill.join(','),
-                    experience: this.getTeacherInfo.experience.name,
-                    cerIds: this.getTeacherInfo.cerIds,
-                    description: this.getTeacherInfo.description,
-                    gender: this.getTeacherInfo.gender,
-                    id: this.getTeacherInfo.id,
-                    picId: this.getTeacherInfo.img,
-                };
-                let edus = this.getTeacherInfo.edus
-                let edu = edus.map(item => {
-                    return {
-                        id:item.id?item.id:'',
-                        school: item.school,
-                        subject: item.subject,
-                        beginDate: item.beginDateStr,
-                        endDate: item.endDateStr,
-                        degree: item.degree.name,
-                    }
-                })
-                let exps = this.getTeacherInfo.exps
-                let exp = exps.map(item => {
-                    return {
-                        id:item.id?item.id:'',
-                        beginDate: item.beginDateStr,
-                        endDate: item.endDateStr,
-                        description: item.description,
-                    }
-                })
-                Promise.all([editTeacherInfo(para), editTeacherEdu(edu), editTeacherExp(exp)]).then((values)=> {
-                    let isSuccess = values.every(item=>{
-                        return item.code ==0
+                if (!this.isLoading) {
+                    this.isLoading = true;
+                    let para = {
+                        realName: this.getTeacherInfo.realName,
+                        skill: this.getTeacherInfo.skill.join(','),
+                        experience: this.getTeacherInfo.experience.name,
+                        cerIds: this.getTeacherInfo.cerIds,
+                        description: this.getTeacherInfo.description,
+                        gender: this.getTeacherInfo.gender,
+                        id: this.getTeacherInfo.id,
+                        picId: this.getTeacherInfo.img,
+                    };
+                    let edus = this.getTeacherInfo.edus
+                    let edu = edus.map(item => {
+                        return {
+                            id: item.id ? item.id : '',
+                            school: item.school,
+                            subject: item.subject,
+                            beginDate: item.beginDateStr,
+                            endDate: item.endDateStr,
+                            degree: item.degree.name,
+                        }
                     })
-                    if(isSuccess){
-                        this.isLoading = false;
-                        this.$vux.toast.show({
-                            text: '提交成功'
+                    let exps = this.getTeacherInfo.exps
+                    let exp = exps.map(item => {
+                        return {
+                            id: item.id ? item.id : '',
+                            beginDate: item.beginDateStr,
+                            endDate: item.endDateStr,
+                            description: item.description,
+                        }
+                    })
+                    Promise.all([editTeacherInfo(para), editTeacherEdu(edu), editTeacherExp(exp)]).then((values) => {
+                        let isSuccess = values.every(item => {
+                            return item.code == 0
                         })
-                        console.log(this.getTeacherInfo)
-                        localStorage.setItem('teacherInfo', JSON.stringify(this.getTeacherInfo))
-                    }
-                });
-
+                        if (isSuccess) {
+                            this.isLoading = false;
+                            this.$vux.toast.show({
+                                text: '提交成功'
+                            })
+                            console.log(this.getTeacherInfo)
+                            localStorage.setItem('teacherInfo', JSON.stringify(this.getTeacherInfo))
+                        }
+                    });
                 }
             },
         },
@@ -165,7 +165,9 @@
             background-color: #e1e1e1;
             color: black;
         }
-        .weui-btn_primary,.weui-btn_loading.weui-btn_primary,.weui-btn_primary:not(.weui-btn_disabled):active {
+        .weui-btn_primary,
+        .weui-btn_loading.weui-btn_primary,
+        .weui-btn_primary:not(.weui-btn_disabled):active {
             background-color: #00a6e7;
         }
         .footerBtn {
