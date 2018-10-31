@@ -85,9 +85,9 @@
                 <!-- <CellBox v-if="isOh">
                     <div class="more" @click="changeMoreContent"><span>{{isMoreContent?'点击隐藏':'点击查看更多'}}</span><i :class="['ico_arr', isMoreContent?'rotate90':'']"></i></div>
                 </CellBox> -->
-            <div style="height:1.4rem;background:#f4f4f4" ></div>
             </group>
         </view-box>
+            <div style="height:1.4rem;background:#f4f4f4" ></div>
             <div class="footB" v-if="detail.status.name=='WAIT'" >
                 <div class="hasChoosen" @click="goToNext(1)">通过</div>
                 <div class="notChoosen" @click="goToNext(2)">不通过</div>
