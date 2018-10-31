@@ -145,7 +145,7 @@
         mounted() {
             history.pushState(null, null, location.href);
             window.addEventListener("popstate", () => {
-                if (this.$route.path == '/applyFirst') {
+                // if (this.$route.path == '/applyFirst') {
                     history.go(1) //this.$router.push('/applyFirst')
                     // if (this.step1 == 2) {
                     //     clearInterval(this.countStart)
@@ -156,7 +156,7 @@
                     //     this.step1 = 1;
                     //     this.setStep(this.step1)
                     // }
-                }
+                // }
             }, false);
         },
         methods: {
