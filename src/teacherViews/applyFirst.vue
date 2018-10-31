@@ -118,7 +118,6 @@
         },
         created() {
             this.setTitle('申请成为老师')
-            history.pushState(null, null, location.href);
             let status = JSON.parse(localStorage.getItem('teacherInfo')).status;
             if (status.name === 'PRE') {
                 this.step1 = this.getStep || 1;
@@ -143,22 +142,25 @@
             }
         },
         mounted() {
+            history.pushState(null, null, location.href);
             window.addEventListener("popstate", () => {
-                history.go(1) //this.$router.push('/applyFirst')
-                // if (this.step1 == 2) {
-                //     clearInterval(this.countStart)
-                //     this.countTime = 60;
-                //     this.count = false;
-                //     this.value = '';
-                //     this.value1 = '';
-                //     this.step1 = 1;
-                //     this.setStep(this.step1)
-                // }
+                if (this.step1 != 2) {
+                    history.go(1) //this.$router.push('/applyFirst')
+                    // if (this.step1 == 2) {
+                    //     clearInterval(this.countStart)
+                    //     this.countTime = 60;
+                    //     this.count = false;
+                    //     this.value = '';
+                    //     this.value1 = '';
+                    //     this.step1 = 1;
+                    //     this.setStep(this.step1)
+                    // }
+                }
             }, false);
         },
-        beforeDestroy(){
-            window.addEventListener("popstate", () => {
-            }, false);
+        beforeDestroy() {
+            // window.addEventListener("popstate", () => {
+            // }, false);
         },
         methods: {
             closePage() {
