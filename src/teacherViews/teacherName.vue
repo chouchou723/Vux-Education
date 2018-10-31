@@ -50,7 +50,7 @@
             realName: this.value
           })
         // this.$router.push('/applyFirst?step=2')
-        this.$router.go(-1)
+        this.$router.back()//go(-1)
       },
     },
     computed: {
