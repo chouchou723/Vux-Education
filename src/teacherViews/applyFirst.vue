@@ -120,16 +120,16 @@
             this.setTitle('申请成为老师')
             history.pushState(null, null, location.href);
             let status = JSON.parse(localStorage.getItem('teacherInfo')).status;
-            if(status.name ==='PRE'){
+            if (status.name === 'PRE') {
                 this.step1 = this.getStep || 1;
             } else if (status.name === 'WAIT') {
                 this.step1 = 3;
                 this.applyStaus = ''
             } else if (status.name === 'REJECT') {
-                    this.step1 = 3;
+                this.step1 = 3;
                 this.applyStaus = 'fail'
                 this.rejectReason = JSON.parse(localStorage.getItem('teacherInfo')).rejectReason
-            }else if (status.name === 'PASS'){
+            } else if (status.name === 'PASS') {
                 this.step1 = 3;
                 this.applyStaus = 'pass'
             }
@@ -145,15 +145,15 @@
         mounted() {
             window.addEventListener("popstate", () => {
                 history.go(1) //this.$router.push('/applyFirst')
-                if (this.step1 == 2) {
-                    clearInterval(this.countStart)
-                    this.countTime = 60;
-                    this.count = false;
-                    this.value = '';
-                    this.value1 = '';
-                    this.step1 = 1;
-                    this.setStep(this.step1)
-                }
+                // if (this.step1 == 2) {
+                //     clearInterval(this.countStart)
+                //     this.countTime = 60;
+                //     this.count = false;
+                //     this.value = '';
+                //     this.value1 = '';
+                //     this.step1 = 1;
+                //     this.setStep(this.step1)
+                // }
             }, false);
         },
         methods: {
@@ -356,7 +356,7 @@
             },
             valid() {
                 let arr = Object.values(this.getTeacherInfo);
-                console.log(arr)
+                // console.log(arr)  
                 if (arr.every(item => {
                         return item != ''
                     })) {
