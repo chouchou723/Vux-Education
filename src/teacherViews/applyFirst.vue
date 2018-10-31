@@ -156,6 +156,10 @@
                 // }
             }, false);
         },
+        beforeDestroy(){
+            window.addEventListener("popstate", () => {
+            }, false);
+        },
         methods: {
             closePage() {
                 if (this.applyStaus === 'pass') {
