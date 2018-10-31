@@ -5,7 +5,7 @@
             <group>
                 <datetime v-model="item.beginDateStr" title="起始日期" :end-date="item.endDateStr?item.endDateStr:endDate">
                 </datetime>
-                <datetime v-model="item.endDateStr" title="结束日期" :start-date="item.beginDateStr" :end-date="endDate">
+                <datetime v-model="item.endDateStr" title="结束日期" :start-date="item.beginDateStr">
                 </datetime>
                 <div style="background:#f4f4f4;width:100%;height:10px"></div>
                 <cell title="经验介绍"></cell>

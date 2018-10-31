@@ -87,11 +87,11 @@
                 </CellBox> -->
             <div style="height:1.4rem;background:#f4f4f4" ></div>
             </group>
+        </view-box>
             <div class="footB" v-if="detail.status.name=='WAIT'" >
                 <div class="hasChoosen" @click="goToNext(1)">通过</div>
                 <div class="notChoosen" @click="goToNext(2)">不通过</div>
             </div>
-        </view-box>
     </div>
 </template>
 
