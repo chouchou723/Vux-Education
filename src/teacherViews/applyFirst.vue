@@ -96,6 +96,7 @@
         },
         data() {
             return {
+                canClick: false,
                 isLoading: false,
                 applyStaus: '',
                 countTime: 60,
@@ -185,38 +186,41 @@
                 // console.log(data)
             },
             nextStep() {
-                // if (this.value.length == 11) {
-                let para = {
-                    captcha: this.value1,
-                    mobile: this.value
-                }
-                submitSmsCode(para).then(res => {
-                    let data = res.data;
-                    if (data.status.name === 'PASS') {
-                        // console.log(1)
-                        this.$vux.toast.show({
-                            text: '恭喜,您已是老师',
-                            width: 'auto',
-                            type: 'text',
-                            position: 'middle'
-                        })
-                        this.getTeacher(data, data.status.name);
-                    } else if (data.status.name === 'REJECT' || data.status.name === 'WAIT') {
-                        // console.log(1)
-                        this.$vux.toast.show({
-                            text: '您已提交过申请',
-                            width: 'auto',
-                            type: 'text',
-                            position: 'middle'
-                        })
-                        this.getTeacher(data, data.status.name);
-                    } else {
-                        this.step1 = 2;
-                        this.setStep(this.step1);
-                        localStorage.setItem('backTwo','true')
+                if (!this.canClick) {
+                    let para = {
+                        captcha: this.value1,
+                        mobile: this.value
                     }
-                })
-                // }
+                    this.canClick = true;
+                    submitSmsCode(para).then(res => {
+                        let data = res.data;
+                        this.canClick = false;
+                        if (data.status.name === 'PRE') {
+                            this.step1 = 2;
+                            this.setStep(this.step1);
+                        } else if (data.status.name === 'PASS') {
+                            // console.log(1)
+                            this.$vux.toast.show({
+                                text: '恭喜,您已是老师',
+                                width: 'auto',
+                                type: 'text',
+                                position: 'middle'
+                            })
+                            this.getTeacher(data, data.status.name);
+                        } else if (data.status.name === 'REJECT' || data.status.name === 'WAIT') {
+                            // console.log(1)
+                            this.$vux.toast.show({
+                                text: '您已提交过申请',
+                                width: 'auto',
+                                type: 'text',
+                                position: 'middle'
+                            })
+                            this.getTeacher(data, data.status.name);
+                        }
+                    }).catch(() => {
+                        this.canClick = false
+                    })
+                }
             },
             getTeacher(data, type) {
                 // console.log(data)
@@ -295,7 +299,7 @@
                         })
                         if (isSuccess) {
                             this.isLoading = false;
-                            localStorage.removeItem('backTwo')
+                            // localStorage.removeItem('backTwo')
                             this.$vux.toast.show({
                                 text: '提交成功'
                             })
@@ -370,6 +374,17 @@
                 }
             }
         },
+        watch: {
+            step1(newV, oldV) {
+                if (newV == 2) {
+                    console.log(1)
+                    localStorage.setItem('backTwo', 'true')
+                }else{
+                    console.log(2)
+                    localStorage.removeItem('backTwo')
+                }
+            }
+        }
     }
 </script>
 <style lang="less">
