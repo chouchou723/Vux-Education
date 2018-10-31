@@ -358,7 +358,9 @@
                 }
             },
             valid() {
-                let arr = Object.values(this.getTeacherInfo);
+                let info = {...this.getTeacherInfo};
+                info.cerIds = 'notrequired';
+                let arr = Object.values(info);
                 // console.log(arr)  
                 if (arr.every(item => {
                         return item != ''

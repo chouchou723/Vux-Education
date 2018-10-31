@@ -25,7 +25,7 @@
                 <datetime v-model="value3" title="上课起始日期" :start-date="endDate" :end-date="value4"></datetime>
                 <datetime v-model="value4" v-if="classtype!='SINGLE'" title="上课结束日期" :start-date="value3"></datetime>
                 <popup-picker title="上课教室" show-name :data="list4" v-model="value5" @on-change="onChange" :columns="1"></popup-picker>
-                <x-input v-model="value6" v-if="classtype!='SINGLE'" type="tel" mask="9999999999999"  title="每隔几天上一次课" text-align='right'></x-input>
+                <x-input v-model="value6" v-if="classtype!='SINGLE'" type="tel" mask="9999999999999"  placeholder="请输入间隔天数" title="每隔几天上一次课" text-align='right'></x-input>
                 <!-- <popup-picker title="每个几天上一次课" show-name :data="list5" v-model="value6"  @on-change="onChange" :columns="1"></popup-picker> -->
             </group>
             <div class="footerBtn">
