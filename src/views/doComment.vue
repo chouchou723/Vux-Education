@@ -101,10 +101,10 @@
                 pics:[],
                 uploadUrl: '',
                 params: {},
-                data1: 5,
-                data2: 5,
-                data3: 5,
-                data4: 5,
+                data1: 0,
+                data2: 0,
+                data3: 0,
+                data4: 0,
                 value: '',
                 nickname: function(value) {
                     return {
