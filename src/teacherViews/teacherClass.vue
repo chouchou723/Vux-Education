@@ -96,23 +96,23 @@
                 chooseS: false,
                 typeKind: 0,
                 chooseItemList: [],
-                lessonList1:[],
-                // lessonList1: [{
-                //     id: '',
-                //     hot: true,
-                //     name: '',
-                //     courseNum: 0,
-                //     totalTime: 0,
-                //     applyAge: {
-                //         label: ''
-                //     },
-                //     minStuNum: 0,
-                //     price: 0,
-                //     status: {
-                //         label: ''
-                //     },
-                //     picId: "",
-                // } ]
+                // lessonList1:[],
+                lessonList1: [{
+                    id: '',
+                    // hot: true,
+                    name: '',
+                    courseNum: 0,
+                    totalTime: 0,
+                    applyAge: {
+                        label: ''
+                    },
+                    minStuNum: 0,
+                    price: 0,
+                    status: {
+                        label: ''
+                    },
+                    picId: "",
+                } ]
             }
         },
         methods: {
