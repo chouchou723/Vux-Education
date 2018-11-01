@@ -63,9 +63,9 @@
                         <div class="swiper-pagination" slot="pagination"></div>
                     </swiper>
                 </cell>
-                <div v-if="pics.length===0" style="width:100%;height:80px;display:flex;justify-content:center;align-items:center;color:rgb(153, 153, 153);font-size:15px;">
-                    暂无证书
-                </div>
+                 <cell class="fz15" v-if="pics.length===0">
+                    <div slot="title" style="width:100%;height:80px;display:flex;justify-content:center;align-items:center;color:rgb(153, 153, 153);">暂无证书</div>
+                </cell>
             </group>
         </view-box>
     </div>
