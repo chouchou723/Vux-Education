@@ -63,7 +63,7 @@
                         <div class="swiper-pagination" slot="pagination"></div>
                     </swiper>
                 </cell>
-                 <cell class="fz15" v-if="pics.length===0">
+                 <cell class="fz15 fcenter" v-if="pics.length===0">
                     <div slot="title" style="width:100%;height:80px;display:flex;justify-content:center;align-items:center;color:rgb(153, 153, 153);">暂无证书</div>
                 </cell>
             </group>
@@ -140,7 +140,7 @@
             fetchData() {
                 let id = this.$route.query.id;
                 getTeacherInfo(id).then(res => {
-                    console.log(res)
+                    // console.log(res)
                     let data = res.data
                     this.teacher = {
                         realName: data.realName,
@@ -154,9 +154,11 @@
                         level:data.level.label
                     }
                     this.goodAt = data.skill.split(',')
-                    this.pics = data.cerIds.split(',').map(item=>{
-                        return {src:`${this.apiUrl}/attach/img/${item}`}
-                    })
+                    if(data.cerIds){
+                        this.pics = data.cerIds.split(',').map(item=>{
+                            return {src:`${this.apiUrl}/attach/img/${item}`}
+                        })
+                    }
                 })
             }
         },
@@ -276,6 +278,11 @@
         }
         .fz15 {
             font-size: 15px;
+        }
+        .fcenter{
+            p{
+                text-align: center;
+            }
         }
     }
 </style>
