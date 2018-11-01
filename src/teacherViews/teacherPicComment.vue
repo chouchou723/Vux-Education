@@ -115,6 +115,9 @@
 <style lang="less">
     .teacherPicComment {
         height: 100%;
+        textarea{
+            color: black;
+        }
         .coinBgS {
             width: 100%;
             height: 1.8rem;
