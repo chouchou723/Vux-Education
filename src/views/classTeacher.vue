@@ -55,7 +55,7 @@
                 <cell class="fz15">
                     <div slot="title" style="color:#999999">证书展示</div>
                 </cell>
-                <cell class="fz15" primary="content" value-align="left">
+                <cell class="fz15" primary="content" value-align="left" v-if="pics.length!==0">
                     <swiper :options="swiperOption" class="swiperOption">
                         <swiper-slide class="slide-1" v-for="(item,index) in pics" :key="index">
                             <img :src="item.src" alt="" class="slideImg">
@@ -63,6 +63,9 @@
                         <div class="swiper-pagination" slot="pagination"></div>
                     </swiper>
                 </cell>
+                <div v-if="pics.length===0" style="width:100%;height:80px;display:flex;justify-content:center;align-items:center;color:rgb(153, 153, 153);font-size:15px;">
+                    暂无证书
+                </div>
             </group>
         </view-box>
     </div>

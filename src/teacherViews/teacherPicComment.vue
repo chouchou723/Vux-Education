@@ -118,31 +118,6 @@
         textarea{
             color: black;
         }
-        .coinBgS {
-            width: 100%;
-            height: 1.8rem;
-            background-color: #fff;
-            padding: 0.2rem 0.5rem;
-            position: relative;
-            box-sizing: border-box;
-        }
-        .coinBgS::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: .15rem;
-            height: 100%;
-            background-color: #04be02;
-        }
-        .coinTitle {
-            font-size: 13px;
-            color: #999999;
-        }
-        .coinContent {
-            font-size: 16px;
-            margin-bottom: .1rem;
-        }
         .detailImg6 {
             display: flex;
             width: 9rem;
