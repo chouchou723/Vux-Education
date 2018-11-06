@@ -45,11 +45,11 @@ const router = new Router({
 
 
 router.beforeEach(function (to, from, next) {
-  store.commit('updateLoadingStatus', {
-    isLoading: true
-  })
   if (from.path === '/') {
     if (to.query.code) {
+      store.commit('updateLoadingStatus', {
+        isLoading: true
+      })
       getTokenInfo(to.meta.type, {
         code: to.query.code
       }).then(() => {
@@ -70,6 +70,9 @@ router.beforeEach(function (to, from, next) {
       })
     }
   } else {
+    store.commit('updateLoadingStatus', {
+      isLoading: true
+    })
       next()
   }
 })

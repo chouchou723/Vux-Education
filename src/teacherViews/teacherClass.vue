@@ -135,9 +135,6 @@
                     this.fetchData()
                 // }
             },
-            goToPay() {
-                this.$router.push('/paying')
-            },
             fetchData(page = this.page, cb) {
                 let para = {
                     // page: page,
