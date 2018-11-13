@@ -93,7 +93,7 @@
         XDialog,
         TransferDomDirective as TransferDom
     } from 'vux';
-    var alphaTable = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'e', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+    var alphaTable = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'I', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'e', 'x', 'y', 'z', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S'];
     import teacherInfo from './teacherInfo'
     import {
         getSmsCode,
@@ -187,60 +187,60 @@
         },
         methods: {
             doShowToast() {
-        let a = this.valueM.toLowerCase();
-        let b = this.correct.toLowerCase();
-        if (a == b) {
-          this.getCode();
-          this.showHideOnBlur = false;
-        } else {
-          this.$vux.toast.show({
-            text: '请填写正确的验证码',
-            type: 'text',
-            width: 'auto'
-          })
-        }
-      },
-      changeAlpha() {
-        this.codeNumber1 = alphaTable[Math.floor(Math.random() * 26) + 1];
-        this.codeNumber2 = alphaTable[Math.floor(Math.random() * 26) + 1];
-        this.codeNumber3 = alphaTable[Math.floor(Math.random() * 26) + 1];
-        this.codeNumber4 = alphaTable[Math.floor(Math.random() * 26) + 1];
-        this.randomNumber();
-      },
-      randomNumber() {
-        let color = "";
-        let str = "0123456789abcdef";
-        let span = document.getElementsByClassName("codeColor");
-        let length = str.length + 1;
-        for (let i = 0; i < 4; i++) { //生成四位数
-          for (let j = 0; j < 6; j++) { //随机改变每个数字的颜色
-            color += str.substr(parseInt(Math.random() * length), 1); //取颜色(循环，每次提取一位，进行拼接组成6为颜色的值)
-          }
-          span[i].style.color = ("#" + color); //随机改变每个span的颜色
-          color = "";
-        }
-      },
-      validMoto() {
-          this.valueM = ''
-        if (this.countTime === 60) {
-          if (this.value.length === 11) {
-            this.randomNumber();
-            this.showHideOnBlur = true;
-          } else if (this.value&&this.value.length < 11) {
-            this.$vux.toast.show({
-              text: '请填写正确的手机号',
-              type: 'text',
-              width: 'auto'
-            })
-          } else {
-            this.$vux.toast.show({
-              text: '请先填写手机号',
-              type: 'text',
-              width: 'auto'
-            })
-          }
-        }
-      },
+                let a = this.valueM.toLowerCase();
+                let b = this.correct.toLowerCase();
+                if (a == b) {
+                    this.getCode();
+                    this.showHideOnBlur = false;
+                } else {
+                    this.$vux.toast.show({
+                        text: '请填写正确的验证码',
+                        type: 'text',
+                        width: 'auto'
+                    })
+                }
+            },
+            changeAlpha() {
+                this.codeNumber1 = alphaTable[Math.floor(Math.random() * 26) + 1];
+                this.codeNumber2 = alphaTable[Math.floor(Math.random() * 26) + 1];
+                this.codeNumber3 = alphaTable[Math.floor(Math.random() * 26) + 1];
+                this.codeNumber4 = alphaTable[Math.floor(Math.random() * 26) + 1];
+                this.randomNumber();
+            },
+            randomNumber() {
+                let color = "";
+                let str = "0123456789abcdef";
+                let span = document.getElementsByClassName("codeColor");
+                let length = str.length + 1;
+                for (let i = 0; i < 4; i++) { //生成四位数
+                    for (let j = 0; j < 6; j++) { //随机改变每个数字的颜色
+                        color += str.substr(parseInt(Math.random() * length), 1); //取颜色(循环，每次提取一位，进行拼接组成6为颜色的值)
+                    }
+                    span[i].style.color = ("#" + color); //随机改变每个span的颜色
+                    color = "";
+                }
+            },
+            validMoto() {
+                this.valueM = ''
+                if (this.countTime === 60) {
+                    if (this.value.length === 11) {
+                        this.randomNumber();
+                        this.showHideOnBlur = true;
+                    } else if (this.value && this.value.length < 11) {
+                        this.$vux.toast.show({
+                            text: '请填写正确的手机号',
+                            type: 'text',
+                            width: 'auto'
+                        })
+                    } else {
+                        this.$vux.toast.show({
+                            text: '请先填写手机号',
+                            type: 'text',
+                            width: 'auto'
+                        })
+                    }
+                }
+            },
             closePage() {
                 if (this.applyStaus === 'pass') {
                     this.$router.replace('/teacher')
@@ -395,26 +395,26 @@
             },
             getCode() {
                 let para = {
-          mobile: this.value
-        }
-        getSmsCode(para).then(res => {
-         this.$vux.toast.show({
-              text: '验证码已发送',
-              type: 'text',
-              width: 'auto'
-            })
-        }).then(() => {
-          this.count = true;
-          this.countStart = setInterval(() => {
-            if (this.countTime == 1) {
-              clearInterval(this.countStart)
-              this.countTime = 60;
-              this.count = false;
-            } else {
-              this.countTime--
-            }
-          }, 1000)
-        })
+                    mobile: this.value
+                }
+                getSmsCode(para).then(res => {
+                    this.$vux.toast.show({
+                        text: '验证码已发送',
+                        type: 'text',
+                        width: 'auto'
+                    })
+                }).then(() => {
+                    this.count = true;
+                    this.countStart = setInterval(() => {
+                        if (this.countTime == 1) {
+                            clearInterval(this.countStart)
+                            this.countTime = 60;
+                            this.count = false;
+                        } else {
+                            this.countTime--
+                        }
+                    }, 1000)
+                })
                 // if (this.countTime === 60) {
                 //     if (this.value.length === 11) {
                 //         let para = {
@@ -480,8 +480,8 @@
                 }
             },
             correct: function() {
-        return this.codeNumber1 + this.codeNumber2 + this.codeNumber3 + this.codeNumber4;
-      }
+                return this.codeNumber1 + this.codeNumber2 + this.codeNumber3 + this.codeNumber4;
+            }
         },
     }
 </script>
@@ -684,37 +684,37 @@
         }
     }
     .motoTitle {
-    height: 1rem;
-    line-height: 1rem;
-    font-size: 14px;
-    text-align: left;
-    padding-left: 17px
-  }
-  .randomMoto {
-    // height: 100%;
-    width: 2rem;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    font-size: 17px;
-    margin: 10px 5px 10px 0;
-    border: 1px solid gainsboro;
-    border-radius: 5px;
-    background: #F9F9F9;
-  }
-  .randomN {
-    input {
-      font-size: 17px;
+        height: 1rem;
+        line-height: 1rem;
+        font-size: 17px;
+        text-align: left;
+        padding-left: 17px
     }
-  }
-  .img-boxT{
-      .weui-btn_primary,
-            .weui-btn_primary:not(.weui-btn_disabled):active {
-                background-color: #00a6e7;
-            }
-            .weui-btn_disabled.weui-btn_primary {
+    .randomMoto {
+        // height: 100%;
+        width: 2rem;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        font-size: 17px;
+        margin: 10px 5px 10px 0;
+        border: 1px solid gainsboro;
+        border-radius: 5px;
+        background: #F9F9F9;
+    }
+    .randomN {
+        input {
+            font-size: 17px;
+        }
+    }
+    .img-boxT {
+        .weui-btn_primary,
+        .weui-btn_primary:not(.weui-btn_disabled):active {
+            background-color: #00a6e7;
+        }
+        .weui-btn_disabled.weui-btn_primary {
             background-color: #e1e1e1;
             color: black;
         }
-  }
+    }
 </style>

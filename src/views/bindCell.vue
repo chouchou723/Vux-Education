@@ -51,7 +51,7 @@
     mapActions,
     // mapGetters
   } from 'vuex';
-  var alphaTable = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'e', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+  var alphaTable = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'I', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'e', 'x', 'y', 'z', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S'];
   export default {
     directives: {
       TransferDom
@@ -119,12 +119,12 @@
         }
       },
       validMoto() {
-          this.valueM = ''
+        this.valueM = ''
         if (this.countTime === 60) {
           if (this.value.length === 11) {
             this.randomNumber();
             this.showHideOnBlur = true;
-          } else if (this.value&&this.value.length < 11) {
+          } else if (this.value && this.value.length < 11) {
             this.$vux.toast.show({
               text: '请填写正确的手机号',
               type: 'text',
@@ -179,11 +179,11 @@
           mobile: this.value
         }
         getSmsCode(para).then(res => {
-         this.$vux.toast.show({
-              text: '验证码已发送',
-              type: 'text',
-              width: 'auto'
-            })
+          this.$vux.toast.show({
+            text: '验证码已发送',
+            type: 'text',
+            width: 'auto'
+          })
         }).then(() => {
           this.count = true;
           this.countStart = setInterval(() => {
@@ -275,7 +275,7 @@
   .motoTitle {
     height: 1rem;
     line-height: 1rem;
-    font-size: 14px;
+    font-size: 17px;
     text-align: left;
     padding-left: 17px
   }

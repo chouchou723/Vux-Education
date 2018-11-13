@@ -6,9 +6,9 @@
         <img slot="label" style="padding-right:10px;display:block;" src="../assets/inputCell.png" width="20" height="20">
       </x-input>
       <x-input placeholder="请输入短信验证码" class="weui-vcode" v-model="value1" :max="4">
-                      <img slot="label" style="padding-right:10px;display:block;" src="../assets/key.png" width="20" height="20">
-                      <x-button slot="right" type="primary" :class="['getCode',count?'colorg':'']" @click.native="validMoto">{{getCodeContent}}</x-button>
-                  </x-input>
+        <img slot="label" style="padding-right:10px;display:block;" src="../assets/key.png" width="20" height="20">
+        <x-button slot="right" type="primary" :class="['getCode',count?'colorg':'']" @click.native="validMoto">{{getCodeContent}}</x-button>
+      </x-input>
     </group>
     <div v-transfer-dom>
       <x-dialog v-model="showHideOnBlur" class="dialog-demo" hide-on-blur>
@@ -47,7 +47,7 @@
     mapActions,
     mapGetters
   } from 'vuex';
-  var alphaTable = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'e', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+  var alphaTable = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'I', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'e', 'x', 'y', 'z', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S'];
   import {
     getSmsCode,
     submitStudentSmsCode
@@ -68,7 +68,7 @@
         value1: '',
         count: false,
         countTime: 60,
-        isloading:false,
+        isloading: false,
         valueM: '',
         showHideOnBlur: false,
         codeNumber1: alphaTable[Math.floor(Math.random() * 26) + 1],
@@ -120,12 +120,12 @@
         }
       },
       validMoto() {
-          this.valueM = ''
+        this.valueM = ''
         if (this.countTime === 60) {
           if (this.value.length === 11) {
             this.randomNumber();
             this.showHideOnBlur = true;
-          } else if (this.value&&this.value.length < 11) {
+          } else if (this.value && this.value.length < 11) {
             this.$vux.toast.show({
               text: '请填写正确的手机号',
               type: 'text',
@@ -144,7 +144,7 @@
         'setMyInfo'
       ]),
       confirm() {
-        if(!this.isloading){
+        if (!this.isloading) {
           this.isloading = true;
           let para = {
             captcha: this.value1,
@@ -152,10 +152,10 @@
           }
           submitStudentSmsCode(para).then(res => {
             let data = res.data;
-          this.isloading = false;
+            this.isloading = false;
             this.$vux.toast.show({
               text: data,
-              width:'auto',
+              width: 'auto',
               type: 'text',
               position: 'middle'
             })
@@ -163,15 +163,15 @@
             let data = JSON.parse(localStorage.getItem('info'));
             data.cell = this.value;
             let newData = JSON.stringify(data);
-            localStorage.setItem('info',newData)
+            localStorage.setItem('info', newData)
             this.setMyInfo({
               cell: this.value
             })
-            setTimeout(()=>{
+            setTimeout(() => {
               this.$router.go(-1)
-            },1000)
-          }).catch(()=>{
-          this.isloading = false;
+            }, 1000)
+          }).catch(() => {
+            this.isloading = false;
           })
         }
       },
@@ -180,11 +180,11 @@
           mobile: this.value
         }
         getSmsCode(para).then(res => {
-         this.$vux.toast.show({
-              text: '验证码已发送',
-              type: 'text',
-              width: 'auto'
-            })
+          this.$vux.toast.show({
+            text: '验证码已发送',
+            type: 'text',
+            width: 'auto'
+          })
         }).then(() => {
           this.count = true;
           this.countStart = setInterval(() => {
@@ -279,11 +279,11 @@
       border: none;
     }
     .weui-vcode {
-            .weui-cell__ft {
-                display: flex;
-                align-items: center;
-            }
-        }
+      .weui-cell__ft {
+        display: flex;
+        align-items: center;
+      }
+    }
     .footerBtn {
       width: 90%;
       margin: 1rem auto 0;
@@ -293,7 +293,7 @@
   .motoTitle {
     height: 1rem;
     line-height: 1rem;
-    font-size: 14px;
+    font-size: 17px;
     text-align: left;
     padding-left: 17px
   }
