@@ -224,7 +224,7 @@
                 this.valueM = ''
                 if (this.countTime === 60) {
                     if (this.value.length === 11) {
-                        this.randomNumber();
+                        this.changeAlpha();
                         this.showHideOnBlur = true;
                     } else if (this.value && this.value.length < 11) {
                         this.$vux.toast.show({
