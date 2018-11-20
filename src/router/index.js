@@ -33,7 +33,7 @@ const router = new Router({
     {
       path: '/index',
     },
-    ...StudentRoutes,
+    ...StudentRoutes,//学生路由
     ...TeacherRoutes,
     ...AssistantRoutes
   ],
