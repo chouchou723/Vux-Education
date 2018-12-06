@@ -1,7 +1,7 @@
 <template>
     <div class="teacherGetMoney">
         <group title="提现金额">
-            <x-input title="￥"  mask="9999999999999" v-model="value" :show-clear='false' :max="13" @on-blur="checkMoney"></x-input>
+            <x-input title="￥" v-model="value" :show-clear='false' :max="13" @on-blur="checkMoney"></x-input>
             <cell>
                 <div slot="title" style="color:#999999;font-size:14px">可提现金额:{{total}}元</div>
                 <div style="color:#00a6e7;font-size:14px" @click="getAll">全部提现</div>
