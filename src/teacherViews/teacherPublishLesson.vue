@@ -21,7 +21,7 @@
                 </tab>
                 <!-- <popup-picker title="时长" :data="list1" v-model="value" @on-change="onChange" show-name :columns="1"></popup-picker> -->
                 <x-input v-model="valueT" title="时长" placeholder="请输入时长" placeholder-align="right" text-align='right' @on-blur="checkTime" v-if="type!=='SUIT'"></x-input>
-                <x-input v-model="valueNumber" title="节数" placeholder="请输入节数" placeholder-align="right" text-align='right' type="tel" mask="9999999999999" v-if="type=='SUIT'"></x-input>
+                <x-input v-model="valueT" title="节数" placeholder="请输入节数" placeholder-align="right" text-align='right' type="tel" mask="9999999999999" v-if="type=='SUIT'"></x-input>
                 <!-- <selector title="时长" :value-map="['idValue', 'idLabel']" :options="optionsL" v-model="value"  direction="rtl" @on-change="onChange"></selector> -->
             </group>
             <group title="课程详情" label-width="4.5em" label-margin-right="2em">
@@ -138,7 +138,7 @@
                 this.value1 = a[0] - 0
             },
             checkTime(value) {
-                if(typeof value === 'number'){
+                if(typeof value-0 === 'number'){
                     let a = (this.valueT + '').match(/(\d)+(\.\d)?/)[0]
                     this.valueT = a-0;
                 }else{
@@ -153,7 +153,7 @@
                 // this.value = data.time;
                 // }
                 // if (type === 'SUIT') {
-                //     this.value = '';
+                    this.valueT = '';
                 // } else {
                 //     this.value = '';
                 // }
@@ -193,7 +193,7 @@
                     name: this.valueTitle,
                     type: this.type,
                     time: this.valueT,
-                    classNum:this.valueNumber,
+                    // classNum:this.valueNumber,
                     num: this.value1,
                     kind: this.value2[0],
                     person: this.value3[0],
@@ -209,7 +209,7 @@
                         name: this.valueTitle,
                         type: this.type,
                         hours: 2,
-                        courseNum: this.valueNumber,
+                        courseNum: this.valueT,
                         maxPerson: this.value1,
                         kinds: this.value2[0],
                         applyAge: this.value3[0],
@@ -268,28 +268,26 @@
         },
         computed: {
             valid() {
-                if(this.type==='SUIT'){
-                    if( this.valueTitle && this.valueNumber && this.value1 && this.value2[0] && this.value3[0] && this.value4 &&this.pics.length!==0){
-                        return false;
-                    }else{
-                        return true;
-                    }
-                    // return this.valueTitle&& this.valueNumber&& this.value1 && this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
-                }else{
-                    if( this.valueTitle && this.valueT && this.value1 && this.value2[0] && this.value3[0] && this.value4 &&this.pics.length!==0){
-                        return false;
-                    }else{
-                        return true;
-                    }
-                    // return this.valueTitle //&& this.value && this.value1&& this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
-                }
-                // return false;
-                // let a = this.valueTitle && this.value && this.value1 && this.value2 && this.value3 && this.value4&&this.pics.length!==0;
-                // if (a) {
-                //     return false
-                // } else {
-                //     return true
+                // if(this.type==='SUIT'){
+                //     if( this.valueTitle && this.valueNumber && this.value1 && this.value2[0] && this.value3[0] && this.value4 &&this.pics.length!==0){
+                //         return false;
+                //     }else{
+                //         return true;
+                //     }
+                // }else{
+                //     if( this.valueTitle && this.valueT && this.value1 && this.value2[0] && this.value3[0] && this.value4 &&this.pics.length!==0){
+                //         return false;
+                //     }else{
+                //         return true;
+                //     }
                 // }
+                // return false;
+                let a = this.valueTitle && this.valueT && this.value1 && this.value2 && this.value3 && this.value4&&this.pics.length!==0;
+                if (a) {
+                    return false
+                } else {
+                    return true
+                }
             },
         },
         created() {
