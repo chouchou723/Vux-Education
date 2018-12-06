@@ -29,7 +29,7 @@
                 <!-- <popup-picker title="课程人数" show-name :data="list2" v-model="value1" @on-show="onShow" @on-hide="onHide" @on-change="onChange" :columns="1"></popup-picker> -->
                 <popup-picker title="课程种类" show-name :data="list3" v-model="value2" @on-change="onChange" :columns="1"></popup-picker>
                 <popup-picker title="适用对象" show-name :data="list4" v-model="value3" @on-change="onChange" :columns="1"></popup-picker>
-                <cell title="课程介绍" is-link link="/teacherAddClassIntro">
+                <cell title="课程介绍" is-link :link="`/teacherAddClassIntro?valueT=${valueT}`">
                     <div class="mr10">{{value4?'已填写':''}}</div>
                 </cell>
             </group>
@@ -269,7 +269,7 @@
         computed: {
             valid() {
                 // if(this.type==='SUIT'){
-                    return this.valueTitle //&& this.valueNumber && this.value1 && this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
+                    return this.valueTitle&& this.valueNumber// && this.value1 && this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
                 // }else{
                     // return this.valueTitle //&& this.value && this.value1&& this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
                 // }
@@ -286,6 +286,8 @@
             this.setTitle("创建新的课程内容")
             this.getCourseKind()
             this.getApplyAge()
+                this.valueT = this.$route.query.valueT||'';
+
             if (localStorage.getItem('newCreate')) {
                 localStorage.removeItem('createC')
                 localStorage.removeItem('newCreate')
@@ -297,7 +299,7 @@
             if (localStorage.getItem('createC')) {
                 let data = JSON.parse(localStorage.getItem('createC'))
                 this.valueTitle = data.name;
-                this.valueT = data.time;
+                // this.valueT = data.time;
                 this.valueNumber = data.classNum;
                 this.index01 = data.type === 'SUIT' ? 1 : 0;
                 this.type = data.type;
