@@ -268,11 +268,12 @@
         },
         computed: {
             valid() {
-                if(this.type==='SUIT'){
-                    return this.valueTitle && this.valueNumber && this.value1 //&& this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
-                }else{
-                    return this.valueTitle && this.value && this.value1 //&& this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
-                }
+                // if(this.type==='SUIT'){
+                //     return this.valueTitle && this.valueNumber && this.value1 && this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
+                // }else{
+                //     return this.valueTitle && this.value && this.value1&& this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
+                // }
+                return false;
                 // let a = this.valueTitle && this.value && this.value1 && this.value2 && this.value3 && this.value4&&this.pics.length!==0;
                 // if (a) {
                 //     return false
@@ -311,6 +312,7 @@
                         }
                     });
                 }
+                console.log(this.value,this.type)
             }
             // this.value2 = this.getMyInfo.sex
         },
