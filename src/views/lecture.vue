@@ -28,7 +28,7 @@
                 <!-- <div> -->
                 <cell-box is-link v-for="(item,index) in lessonList" :key="index" :link="`/courseDetails?id=${item.id}`">
                     <div class="lessonList">
-                        <x-img :default-src="dsrc" :src="`${apiUrl}/attach/img/${item.picId}/SQUARE`" width="65" height="65" alt="" container="#vux_view_box_body" :offset="1500*(page+1)" :delay="50"></x-img>
+                        <x-img :default-src="dsrc" :src="`${apiUrl}/attach/img/${item.picId}/SQUARE`" style="margin-top:.5rem" width="65" height="65" alt="" container="#vux_view_box_body" :offset="1500*(page+1)" :delay="50"></x-img>
                         <div class="lessonDetail">
                             <div class="lessonList">
                                 <div class="hot" v-if="item.hot">热门</div>
@@ -389,8 +389,8 @@
         .lessonList {
             width: 100%;
             display: flex;
-            align-items: center;
-            padding: .1rem 0;
+            align-items: flex-start;
+            padding: 0 0 .1rem;
         }
         .lessonDetail {
             display: flex;
@@ -398,6 +398,7 @@
             justify-content: center;
             align-items: flex-start;
             padding-left: .4rem;
+            width: 100%;
         }
         .hot {
             font-size: 12px;
@@ -409,6 +410,7 @@
         }
         .lessonName {
             padding: 0 .2rem 0 0;
+            flex: 1;
         }
         .lessonStatus {
             font-size: 12px;
@@ -416,6 +418,7 @@
             border: 1px solid #fa9b9a;
             border-radius: .3rem;
             padding: 0 .2rem;
+            margin-top:.05rem;
         }
         .lessonContent {
             font-size: 12px;

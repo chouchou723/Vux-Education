@@ -18,7 +18,7 @@
             <group style="margin-top:-0.2rem" id="picContent">
                 <cell-box is-link v-for="(item,index) in lessonList1" :key="index" :link="`/assistantLessonDetail?id=${item.id}`">
                     <div class="lessonList">
-                        <x-img :default-src="dsrc" :src="`${apiUrl}/attach/img/${item.picId}/SQUARE`" width="65" height="65" alt="" container="#vux_view_box_body" :offset="1500*(page+1)"></x-img>
+                        <x-img :default-src="dsrc" :src="`${apiUrl}/attach/img/${item.picId}/SQUARE`" style="margin-top:.5rem" width="65" height="65" alt="" container="#vux_view_box_body" :offset="1500*(page+1)"></x-img>
                         <div class="lessonDetail">
                             <div class="lessonList">
                                 <!-- <div class="hot" v-if="item.ishot">热门</div> -->
@@ -254,6 +254,7 @@
             align-items: flex-start;
             padding-left: .4rem;
             font-size: 16px;
+            width: 100%;
         }
         .hot {
             font-size: 12px;
@@ -265,11 +266,14 @@
         }
         .lessonName {
             padding: 0 .2rem 0 0;
+            flex: 1;
         }
         .lessonStatus {
             font-size: 12px;
             border-radius: .3rem;
             padding: 0 .2rem;
+            margin-top:.05rem;
+
         }
         .lessonContent {
             font-size: 12px;
