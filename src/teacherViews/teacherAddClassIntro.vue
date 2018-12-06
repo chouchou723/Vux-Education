@@ -44,7 +44,7 @@
       confirm() {
         localStorage.setItem('createDes',this.value)
         setTimeout(()=>{
-          this.$router.push(`/teacherPublishLesson?valueT=${this.$route.query.valueT}`)
+          this.$router.push(`/teacherPublishLesson`)
         },50)
       }
     },
