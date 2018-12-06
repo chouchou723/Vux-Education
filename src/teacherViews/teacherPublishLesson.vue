@@ -269,7 +269,7 @@
         computed: {
             valid() {
                 if(this.type==='SUIT'){
-                    return this.valueTitle && this.valueNumber && this.value1 && this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
+                    return this.valueTitle && this.valueNumber && this.value1 && this.value2[0] && this.value3[0] && this.value4//&&this.pics.length!==0;
                 }else{
                     return this.valueTitle && this.value && this.value1 && this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
                 }
