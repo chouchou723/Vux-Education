@@ -44,10 +44,10 @@
             </cell>
         </group>
         <group>
-            <cell is-link>
+            <!-- <cell is-link>
                 <span slot="title" class="fz15">常见问题</span>
                 <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/que.png">
-            </cell>
+            </cell> -->
             <cell is-link link="/feedback">
                 <span slot="title" class="fz15">意见反馈</span>
                 <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/feedback.png">

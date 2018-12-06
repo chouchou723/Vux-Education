@@ -1,5 +1,5 @@
 <template>
-  <div id="app" @touchstart="touchstart" @touchmove="touchmove">
+  <div id="app">
     <transition>
       <router-view></router-view>
     </transition>
@@ -69,17 +69,17 @@
       }
     },
     methods: {
-      touchstart($event) {
-        this.clientX = $event.touches[0].clientX;
-      },
-      touchmove($event) {
-        if (this.clientX < 20) {
-          let r = confirm('是否要关闭当前页面')
-          if (r == true) {
-            this.$wechat.closeWindow();
-          } else {}
-        }
-      }
+      // touchstart($event) {
+      //   this.clientX = $event.touches[0].clientX;
+      // },
+      // touchmove($event) {
+      //   if (this.clientX < 20) {
+      //     let r = confirm('是否要关闭当前页面')
+      //     if (r == true) {
+      //       this.$wechat.closeWindow();
+      //     } else {}
+      //   }
+      // }
     },
     computed: {
       ...mapState({
