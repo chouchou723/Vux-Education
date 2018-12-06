@@ -269,9 +269,9 @@
         computed: {
             valid() {
                 if(this.type==='SUIT'){
-                    return this.valueTitle && this.valueNumber && this.value1 && this.value2[0] && this.value3[0] && this.value4//&&this.pics.length!==0;
+                    return this.valueTitle && this.valueNumber && this.value1 //&& this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
                 }else{
-                    return this.valueTitle && this.value && this.value1 && this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
+                    return this.valueTitle && this.value && this.value1 //&& this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
                 }
                 // let a = this.valueTitle && this.value && this.value1 && this.value2 && this.value3 && this.value4&&this.pics.length!==0;
                 // if (a) {
@@ -296,10 +296,10 @@
             if (localStorage.getItem('createC')) {
                 let data = JSON.parse(localStorage.getItem('createC'))
                 this.valueTitle = data.name;
-                this.type = data.type;
                 this.value = data.time;
                 this.valueNumber = data.classNum;
                 this.index01 = data.type === 'SUIT' ? 1 : 0;
+                this.type = data.type;
                 this.value1 = data.num;
                 this.value2 = [data.kind];
                 this.value3 = [data.person];

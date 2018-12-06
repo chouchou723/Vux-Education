@@ -42,7 +42,7 @@
     methods: {
       confirm() {
         localStorage.setItem('createDes',this.value)
-        this.$router.go(-1)
+        this.$router.push('/teacherPublishLesson')
       }
     },
     computed: {
