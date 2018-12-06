@@ -31,8 +31,7 @@
                         <x-img :default-src="dsrc" :src="`${apiUrl}/attach/img/${item.picId}/SQUARE`" style="margin-top:.05rem" width="65" height="65" alt="" container="#vux_view_box_body" :offset="1500*(page+1)" :delay="50"></x-img>
                         <div class="lessonDetail">
                             <div class="lessonList">
-                                <div class="hot" v-if="item.hot">热门</div>
-                                <div class="lessonName">{{item.name}}</div>
+                                <div class="lessonName"><div class="hot" v-if="item.hot">热门</div>{{item.name}}</div>
                                 <div class="lessonStatus">{{item.maxStuNum}}人-已报{{item.stuNum||0}}人</div>
                             </div>
                             <div class="lessonContent">{{item.courseNum}}节课-{{item.hours}}课时 | {{item.applyAge.label}}{{item.applyAge.label=='成人'?'':'儿童'}} | 满{{item.minStuNum||0}}人开课</div>
@@ -391,6 +390,7 @@
             display: flex;
             align-items: flex-start;
             padding: 0 0 .1rem;
+            justify-content: space-between;
         }
         .lessonDetail {
             display: flex;
@@ -399,6 +399,8 @@
             align-items: flex-start;
             padding-left: .4rem;
             width: 100%;
+            min-height: 2rem;
+    justify-content: flex-start;
         }
         .hot {
             font-size: 12px;
@@ -410,7 +412,7 @@
         }
         .lessonName {
             padding: 0 .2rem 0 0;
-            flex: 0 0 65%;
+            flex: 0 0 60%;
         }
         .lessonStatus {
             font-size: 12px;
@@ -419,6 +421,7 @@
             border-radius: .3rem;
             padding: 0 .2rem;
             margin-top:.05rem;
+            margin-right:.4rem;
         }
         .lessonContent {
             font-size: 12px;
