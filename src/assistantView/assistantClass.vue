@@ -266,7 +266,7 @@
         }
         .lessonName {
             padding: 0 .2rem 0 0;
-            flex: 1;
+            flex: 0 0 65%;           
         }
         .lessonStatus {
             font-size: 12px;
