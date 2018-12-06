@@ -259,17 +259,19 @@
         .lessonList {
             width: 100%;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             padding: .1rem 0;
+            justify-content: space-between;
         }
         .lessonDetail {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: flex-start;
             padding-left: .4rem;
             font-size: 16px;
             width: 100%;
+            min-height: 2rem;
+    justify-content: flex-start;
 
         }
         .hot {
@@ -282,14 +284,14 @@
         }
         .lessonName {
             padding: 0 .2rem 0 0;
-            flex: 0 0 65%;            
+            flex: 0 0 60%;            
         }
         .lessonStatus {
             font-size: 12px;
             border-radius: .3rem;
             padding: 0 .2rem;
             margin-top:.05rem;
-
+            margin-right:.4rem;
         }
         .lessonContent {
             font-size: 12px;
