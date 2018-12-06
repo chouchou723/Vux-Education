@@ -18,7 +18,7 @@
             <group style="margin-top:-0.2rem" id="picContent">
                 <cell-box is-link v-for="(item,index) in lessonList1" :key="index" :link="`/teacherLessonDetail?id=${item.id}`">
                     <div class="lessonList">
-                        <x-img :default-src="dsrc" :src="`${apiUrl}/attach/img/${item.picId}/SQUARE`" style="margin-top:.5rem" width="65" height="65" alt="" container="#vux_view_box_body" :offset="1500*(page+1)"></x-img>
+                        <x-img :default-src="dsrc" :src="`${apiUrl}/attach/img/${item.picId}/SQUARE`" style="margin-top:.05rem" width="65" height="65" alt="" container="#vux_view_box_body" :offset="1500*(page+1)"></x-img>
                         <div class="lessonDetail">
                             <div class="lessonList">
                                 <!-- <div class="hot" v-if="item.ishot">热门</div> -->
