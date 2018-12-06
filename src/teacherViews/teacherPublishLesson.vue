@@ -269,10 +269,18 @@
         computed: {
             valid() {
                 if(this.type==='SUIT'){
-                    return true;
+                    if( this.valueTitle && this.valueNumber && this.value1 && this.value2[0] && this.value3[0] && this.value4 &&this.pics.length!==0){
+                        return false;
+                    }else{
+                        return true;
+                    }
                     // return this.valueTitle&& this.valueNumber&& this.value1 && this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
                 }else{
-                    return false;
+                    if( this.valueTitle && this.valueT && this.value1 && this.value2[0] && this.value3[0] && this.value4 &&this.pics.length!==0){
+                        return false;
+                    }else{
+                        return true;
+                    }
                     // return this.valueTitle //&& this.value && this.value1&& this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
                 }
                 // return false;
