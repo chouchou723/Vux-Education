@@ -2,7 +2,7 @@
     <div class="teacherClass">
         <tab custom-bar-width="60px" active-color="#00a6e7">
             <tab-item selected @on-item-click='changeItem("")'>
-                <span style="padding:0 32px;border-right:1px solid gainsboro">全部</span>
+                <span style="padding:0 26px;border-right:1px solid gainsboro;text-align:center;">全部</span>
             </tab-item>
             <tab-item @on-item-click='changeItem("PROCESS")'>
                 <span style="padding:0 .6rem;border-right:1px solid gainsboro">已开课</span>

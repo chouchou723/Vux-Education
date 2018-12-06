@@ -21,7 +21,7 @@
                 </tab>
                 <!-- <popup-picker title="时长" :data="list1" v-model="value" @on-change="onChange" show-name :columns="1"></popup-picker> -->
                 <x-input v-model="value" title="时长" placeholder="请输入时长" placeholder-align="right" text-align='right' @on-blur="checkTime" type="number" v-if="type!=='SUIT'"></x-input>
-                <x-input v-model="value" title="节数" placeholder="请输入节数" placeholder-align="right" text-align='right' type="tel" mask="9999999999999" v-if="type=='SUIT'"></x-input>
+                <x-input v-model="valueNumber" title="节数" placeholder="请输入节数" placeholder-align="right" text-align='right' type="tel" mask="9999999999999" v-if="type=='SUIT'"></x-input>
                 <!-- <selector title="时长" :value-map="['idValue', 'idLabel']" :options="optionsL" v-model="value"  direction="rtl" @on-change="onChange"></selector> -->
             </group>
             <group title="课程详情" label-width="4.5em" label-margin-right="2em">
@@ -67,10 +67,10 @@
         createNewContent
     } from '../api/api'
     import VuxUpload from '../components/Upload'
-    import {
-        mapActions,
-        mapGetters
-    } from 'vuex';
+    // import {
+    //     mapActions,
+    //     mapGetters
+    // } from 'vuex';
     export default {
         components: {
             Loading,
@@ -119,6 +119,7 @@
                 images: [],
                 isBorder: false,
                 value: '',
+                valueNumber:'',
                 value1: '',
                 value2: [],
                 value3: [],
@@ -146,11 +147,16 @@
             },
             changeLesson(type) {
                 this.type = type;
-                if (type === 'SUIT') {
-                    this.value = '';
-                } else {
-                    this.value = '';
-                }
+                // if (localStorage.getItem('createC')) {
+                // let data = JSON.parse(localStorage.getItem('createC'));
+                // this.type = data.type;
+                // this.value = data.time;
+                // }
+                // if (type === 'SUIT') {
+                //     this.value = '';
+                // } else {
+                //     this.value = '';
+                // }
             },
             onSuccess(id, data) {
                 this.pics.push(id);
@@ -174,19 +180,20 @@
                     this.isBorder = false;
                 }
             },
-            ...mapActions([
-                'setMyInfo'
-            ]),
+            // ...mapActions([
+            //     'setMyInfo'
+            // ]),
             onChange() {
-                this.setMyInfo({
-                    sex: this.value2
-                })
+                // this.setMyInfo({
+                //     sex: this.value2
+                // })
             },
             setInfo() {
                 let para = {
                     name: this.valueTitle,
                     type: this.type,
                     time: this.value,
+                    classNum:this.valueNumber,
                     num: this.value1,
                     kind: this.value2[0],
                     person: this.value3[0],
@@ -202,7 +209,7 @@
                         name: this.valueTitle,
                         type: this.type,
                         hours: 2,
-                        courseNum: this.value,
+                        courseNum: this.valueNumber,
                         maxPerson: this.value1,
                         kinds: this.value2[0],
                         applyAge: this.value3[0],
@@ -261,12 +268,17 @@
         },
         computed: {
             valid() {
-                let a = this.valueTitle && this.value && this.value1 && this.value2 && this.value3 && this.value4&&this.pics.length!==0;
-                if (a) {
-                    return false
-                } else {
-                    return true
+                if(this.type==='SUIT'){
+                    return this.valueTitle && this.valueNumber && this.value1 && this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
+                }else{
+                    return this.valueTitle && this.value && this.value1 && this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
                 }
+                // let a = this.valueTitle && this.value && this.value1 && this.value2 && this.value3 && this.value4&&this.pics.length!==0;
+                // if (a) {
+                //     return false
+                // } else {
+                //     return true
+                // }
             },
         },
         created() {
@@ -286,6 +298,7 @@
                 this.valueTitle = data.name;
                 this.type = data.type;
                 this.value = data.time;
+                this.valueNumber = data.classNum;
                 this.index01 = data.type === 'SUIT' ? 1 : 0;
                 this.value1 = data.num;
                 this.value2 = [data.kind];
