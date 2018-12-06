@@ -20,7 +20,7 @@
                     </tab-item>
                 </tab>
                 <!-- <popup-picker title="时长" :data="list1" v-model="value" @on-change="onChange" show-name :columns="1"></popup-picker> -->
-                <x-input v-model="valueT" title="时长" placeholder="请输入时长" placeholder-align="right" text-align='right' @on-blur="checkTime" type="number" v-if="type!=='SUIT'"></x-input>
+                <x-input v-model="valueT" title="时长" placeholder="请输入时长" placeholder-align="right" text-align='right' type="number" v-if="type!=='SUIT'"></x-input>
                 <x-input v-model="valueNumber" title="节数" placeholder="请输入节数" placeholder-align="right" text-align='right' type="tel" mask="9999999999999" v-if="type=='SUIT'"></x-input>
                 <!-- <selector title="时长" :value-map="['idValue', 'idLabel']" :options="optionsL" v-model="value"  direction="rtl" @on-change="onChange"></selector> -->
             </group>
