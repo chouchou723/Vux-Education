@@ -24,6 +24,7 @@
     data() {
       return {
         value: '',
+        valueT:'',
         nickname: function(value) {
           return {
             valid: (/^[\u4e00-\u9fa5a-zA-Z0-9]+$/).test(value),

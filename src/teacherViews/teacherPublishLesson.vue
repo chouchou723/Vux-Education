@@ -20,7 +20,7 @@
                     </tab-item>
                 </tab>
                 <!-- <popup-picker title="时长" :data="list1" v-model="value" @on-change="onChange" show-name :columns="1"></popup-picker> -->
-                <x-input v-model="value" title="时长" placeholder="请输入时长" placeholder-align="right" text-align='right' @on-blur="checkTime" type="number" v-if="type!=='SUIT'"></x-input>
+                <x-input v-model="valueT" title="时长" placeholder="请输入时长" placeholder-align="right" text-align='right' @on-blur="checkTime" type="number" v-if="type!=='SUIT'"></x-input>
                 <x-input v-model="valueNumber" title="节数" placeholder="请输入节数" placeholder-align="right" text-align='right' type="tel" mask="9999999999999" v-if="type=='SUIT'"></x-input>
                 <!-- <selector title="时长" :value-map="['idValue', 'idLabel']" :options="optionsL" v-model="value"  direction="rtl" @on-change="onChange"></selector> -->
             </group>
@@ -118,7 +118,7 @@
                 list4: [],
                 images: [],
                 isBorder: false,
-                value: '',
+                valueT: '',
                 valueNumber:'',
                 value1: '',
                 value2: [],
@@ -139,10 +139,10 @@
             },
             checkTime(value) {
                 if(value){
-                    // let a = (this.value + '').match(/(\d)+(\.\d)?/)[0]
-                    this.value = a-0;
+                    let a = (this.valueT + '').match(/(\d)+(\.\d)?/)[0]
+                    this.valueT = a-0;
                 }else{
-                    this.value =1;
+                    this.valueT =1;
                 }
             },
             changeLesson(type) {
@@ -192,7 +192,7 @@
                 let para = {
                     name: this.valueTitle,
                     type: this.type,
-                    time: this.value,
+                    time: this.valueT,
                     classNum:this.valueNumber,
                     num: this.value1,
                     kind: this.value2[0],
@@ -220,7 +220,7 @@
                     para = {
                         name: this.valueTitle,
                         type: this.type,
-                        hours: this.value,
+                        hours: this.valueT,
                         maxPerson: this.value1,
                         kinds: this.value2[0],
                         applyAge: this.value3[0],
@@ -268,11 +268,11 @@
         },
         computed: {
             valid() {
-                if(this.type==='SUIT'){
+                // if(this.type==='SUIT'){
                     return this.valueTitle //&& this.valueNumber && this.value1 && this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
-                }else{
-                    return this.valueTitle //&& this.value && this.value1&& this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
-                }
+                // }else{
+                    // return this.valueTitle //&& this.value && this.value1&& this.value2[0] && this.value3[0] && this.value4&&this.pics.length!==0;
+                // }
                 // return false;
                 // let a = this.valueTitle && this.value && this.value1 && this.value2 && this.value3 && this.value4&&this.pics.length!==0;
                 // if (a) {
@@ -297,7 +297,7 @@
             if (localStorage.getItem('createC')) {
                 let data = JSON.parse(localStorage.getItem('createC'))
                 this.valueTitle = data.name;
-                this.value = data.time;
+                this.valueT = data.time;
                 this.valueNumber = data.classNum;
                 this.index01 = data.type === 'SUIT' ? 1 : 0;
                 this.type = data.type;
@@ -312,7 +312,6 @@
                         }
                     });
                 }
-                console.log(this.value,this.type)
             }
             // this.value2 = this.getMyInfo.sex
         },
