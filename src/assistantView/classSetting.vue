@@ -54,7 +54,7 @@
         methods: {
             checkMoney(v) {
                 if (typeof (v-0) === 'number') {
-                    let a = (this.valueTitle + '').match(/(\d)+(\.\d)?(\d)?/)[0]
+                    let a = val.match(/(\d)+(\.\d{1,2})?/)[0]
                     this.valueTitle = a - 0;
                 } else {
                     this.valueTitle = 1;

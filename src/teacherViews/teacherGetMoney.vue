@@ -57,9 +57,12 @@
         },
         methods: {
             checkMoney(val, $event) {
-                if(typeof (value-0) === 'number'){
+                if(typeof (val-0) === 'number'){
                    if (val - 0 > this.total) {
                     this.value = this.total;
+                }else{
+                     let a = val.match(/(\d)+(\.\d{1,2})?/)[0]
+                    this.value = a-0;
                 }
                 }else{
                     this.value = '';
