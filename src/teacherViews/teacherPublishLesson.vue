@@ -138,7 +138,7 @@
                 this.value1 = a[0] - 0
             },
             checkTime(value) {
-                if(typeof value-0 === 'number'){
+                if(typeof (value-0) === 'number'){
                     let a = (this.valueT + '').match(/(\d)+(\.\d)?/)[0]
                     this.valueT = a-0;
                 }else{

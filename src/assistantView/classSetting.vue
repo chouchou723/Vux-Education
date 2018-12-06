@@ -2,7 +2,7 @@
     <div class="classSetting">
         <view-box ref="viewBox">
             <group title="课程金额" label-width="4.5em" label-margin-right="2em">
-                <x-input :max="10" type="number" title="金额" v-model="valueTitle" placeholder="请设置该课程的金额" @on-blur="checkMoney" text-align="right"></x-input>
+                <x-input :max="10" title="金额" v-model="valueTitle" placeholder="请设置该课程的金额" @on-blur="checkMoney" text-align="right"></x-input>
             </group>
             <group title="满几人开课" label-width="4.5em" label-margin-right="2em">
                 <x-input type="tel" mask="9999999" title="人数" v-model="value1" :placeholder="`最多${$route.query.maxStuNum}人`" @on-blur="onBlur" text-align="right"></x-input>
@@ -53,7 +53,7 @@
         },
         methods: {
             checkMoney(v) {
-                if (v) {
+                if (typeof (v-0) === 'number') {
                     let a = (this.valueTitle + '').match(/(\d)+(\.\d)?(\d)?/)[0]
                     this.valueTitle = a - 0;
                 } else {
