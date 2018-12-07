@@ -48,7 +48,7 @@ const router = new Router({
 router.beforeEach(function (to, from, next) {
   // let code =getParameter('code')
   if (from.path === '/') {
-    if (code) {
+    if (to.query.code) {
       store.commit('updateLoadingStatus', {
         isLoading: true
       })
