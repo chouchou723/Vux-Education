@@ -53,7 +53,8 @@ router.beforeEach(function (to, from, next) {
         isLoading: true
       })
       getTokenInfo(to.meta.type, {
-        code: to.query.code
+        code: to.query.code,
+        state:to.query.state
       }).then(() => {
         if (to.meta.type == 'teacher') {
           getInfoTeacherF(next, to, getInfoTeacher, store, to.query.code)
