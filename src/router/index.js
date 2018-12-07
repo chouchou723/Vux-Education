@@ -4,7 +4,8 @@ import store from '../vuex/store'
 import {
   getInfoTeacherF,
   getStudentInfoF,
-  setUuid
+  setUuid,
+  getParameter
 } from './fn'
 import {
   TeacherRoutes
@@ -45,16 +46,17 @@ const router = new Router({
 
 
 router.beforeEach(function (to, from, next) {
+  let code = location.search.getParameter('code')
   if (from.path === '/') {
-    if (to.query.code) {
+    if (code) {
       store.commit('updateLoadingStatus', {
         isLoading: true
       })
       getTokenInfo(to.meta.type, {
-        code: to.query.code
+        code: code//to.query.code
       }).then(() => {
         if (to.meta.type == 'teacher') {
-          getInfoTeacherF(next, to, getInfoTeacher, store, to.query.code)
+          getInfoTeacherF(next, to, getInfoTeacher, store, code)
         } else if (to.meta.type == 'student') {
           getStudentInfoF(next, getStudentInfo, store)
         } else {

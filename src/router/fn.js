@@ -70,4 +70,11 @@
             return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
         });
   }
+  export const getParameter = (sProp) => {
+    var re = new RegExp(sProp + "=([^\&]*)", "i");
+    var a = re.exec(document.location.search);
+    if (a == null)
+        return null;
+    return a[1];
+},
  
