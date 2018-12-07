@@ -65,14 +65,14 @@ router.beforeEach(function (to, from, next) {
           code: to.query.code,
           state:to.query.state
         }).then(() => {
-            getInfoTeacherF(next, to, getInfoTeacher, store, to.query.code,to.query.state)
+            getInfoTeacherF(next, to, getInfoTeacher, store, to.query.code)
         })
       }else{
         next()
       }
       
     } else {
-      localStorage.removeItem('teacherInfo')
+      localStorage.removeItem('teacherInfo');
       getAT({
         login_role: to.meta.type === 'student' ? 'student' : 'teacher',
         code: setUuid(),
