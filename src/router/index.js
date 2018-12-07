@@ -46,7 +46,7 @@ const router = new Router({
 
 
 router.beforeEach(function (to, from, next) {
-  let code = location.search.getParameter('code')
+  let code =getParameter('code')
   if (from.path === '/') {
     if (code) {
       store.commit('updateLoadingStatus', {
