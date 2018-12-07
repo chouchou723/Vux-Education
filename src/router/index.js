@@ -57,7 +57,7 @@ router.beforeEach(function (to, from, next) {
         state:to.query.state
       }).then(() => {
         if (to.meta.type == 'teacher') {
-          getInfoTeacherF(next, to, getInfoTeacher, store, to.query.code)
+          getInfoTeacherF(next, to, getInfoTeacher, store, to.query.code,to.query.state)
         } else if (to.meta.type == 'student') {
           getStudentInfoF(next, getStudentInfo, store)
         } else {
