@@ -47,23 +47,30 @@ const router = new Router({
 
 router.beforeEach(function (to, from, next) {
   // let code =getParameter('code')
+  let tInfo = localStorage.getItem('teacherInfo');
   if (from.path === '/') {
     if (to.query.code) {
       store.commit('updateLoadingStatus', {
         isLoading: true
       })
-      getTokenInfo(to.meta.type, {
-        code: to.query.code,
-        state:to.query.state
-      }).then(() => {
-        if (to.meta.type == 'teacher') {
-          getInfoTeacherF(next, to, getInfoTeacher, store, to.query.code,to.query.state)
-        } else if (to.meta.type == 'student') {
-          getStudentInfoF(next, getStudentInfo, store)
-        } else {
-          next()
-        }
-      })
+      if(to.meta.type == 'student'){
+        getTokenInfo(to.meta.type, {
+          code: to.query.code,
+          state:to.query.state
+        }).then(() => {
+            getStudentInfoF(next, getStudentInfo, store)
+        })
+      }else if(to.meta.type == 'teacher' && !tInfo){
+        getTokenInfo(to.meta.type, {
+          code: to.query.code,
+          state:to.query.state
+        }).then(() => {
+            getInfoTeacherF(next, to, getInfoTeacher, store, to.query.code,to.query.state)
+        })
+      }else{
+        next()
+      }
+      
     } else {
       localStorage.removeItem('teacherInfo')
       getAT({

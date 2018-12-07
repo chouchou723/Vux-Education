@@ -1,11 +1,11 @@
 
   export const  getInfoTeacherF = (next,to,getInfoTeacher,store,code,state)=> {
-    let tInfo = localStorage.getItem('teacherInfo');
-    if(tInfo){
-      let tData = JSON.parse(tInfo);
-      store.commit('changeTeacherInfo', {...tData})
-      next()
-    }else{
+    // let tInfo = localStorage.getItem('teacherInfo');
+    // if(tInfo){
+    //   let tData = JSON.parse(tInfo);
+    //   store.commit('changeTeacherInfo', {...tData})
+    //   next()
+    // }else{
       getInfoTeacher().then(res => {
         let data = res.data;
         let inf = {
@@ -39,7 +39,7 @@
           next({path:to.path,replace: true,query:{...to.query,code:code,state:state}})
         }
       })
-    }
+    // }
   }
   
   export const getStudentInfoF = (next,getStudentInfo,store)=> {
