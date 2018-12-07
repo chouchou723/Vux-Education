@@ -4,8 +4,7 @@ import store from '../vuex/store'
 import {
   getInfoTeacherF,
   getStudentInfoF,
-  setUuid,
-  getParameter
+  setUuid
 } from './fn'
 import {
   TeacherRoutes
@@ -26,6 +25,7 @@ Vue.use(Router)
 const index = () =>
   import('@/views/index')
 const router = new Router({
+  mode: 'history',
   routes: [{
       path: '/',
       component: index
@@ -46,17 +46,17 @@ const router = new Router({
 
 
 router.beforeEach(function (to, from, next) {
-  let code =getParameter('code')
+  // let code =getParameter('code')
   if (from.path === '/') {
     if (code) {
       store.commit('updateLoadingStatus', {
         isLoading: true
       })
       getTokenInfo(to.meta.type, {
-        code: code//to.query.code
+        code: to.query.code
       }).then(() => {
         if (to.meta.type == 'teacher') {
-          getInfoTeacherF(next, to, getInfoTeacher, store, code)
+          getInfoTeacherF(next, to, getInfoTeacher, store, to.query.code)
         } else if (to.meta.type == 'student') {
           getStudentInfoF(next, getStudentInfo, store)
         } else {
