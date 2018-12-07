@@ -18,8 +18,8 @@
                     <img src="../assets/tri.png" alt="" style="width:.25rem;margin-left:.1rem" v-if="chooseIndex!==3">
                     <img src="../assets/triS.png" alt="" style="width:.25rem;margin-left:.1rem" v-else></div>
                 <!-- <div class="modalTime" v-if="chooseIndex===1">
-                    {{nowTime}}
-                </div> -->
+                        {{nowTime}}
+                    </div> -->
             </div>
         </sticky>
         <!-- 列表 -->
@@ -31,7 +31,8 @@
                         <x-img :default-src="dsrc" :src="`${apiUrl}/attach/img/${item.picId}/SQUARE`" style="margin-top:.05rem" width="65" height="65" alt="" container="#vux_view_box_body" :offset="1500*(page+1)" :delay="50"></x-img>
                         <div class="lessonDetail">
                             <div class="lessonList">
-                                <div class="lessonName"><div class="hot" v-if="item.hot">热门</div>{{item.name}}</div>
+                                <div class="lessonName">
+                                    <div class="hot" v-if="item.hot">热门</div>{{item.name}}</div>
                                 <div class="lessonStatus">{{item.maxStuNum}}人-已报{{item.stuNum||0}}人</div>
                             </div>
                             <div class="lessonContent">{{item.courseNum}}节课-{{item.hours}}课时 | {{item.applyAge.label}}{{item.applyAge.label=='成人'?'':'儿童'}} | 满{{item.minStuNum||0}}人开课</div>
@@ -44,8 +45,8 @@
             </group>
         </scroller>
         <div v-if="lessonList.length===0" style="width:100%;height:80%;display:flex;justify-content:center;align-items:center;color:#999999;font-size:0.4rem;">
-                    暂无课程
-                </div>
+            暂无课程
+        </div>
         <group class="modalG" v-if="chooseIndex===1">
             <datetime v-model="value7" clear-text="重置" @on-confirm="changeDate" @on-clear="clearDate" :show="chooseIndex===1" @on-cancel="cancelSelect">
             </datetime>
@@ -144,7 +145,7 @@
                 show2: false,
                 chooseIndex: 0,
                 typeKind: 0,
-                pageW:'',
+                pageW: '',
                 typeKindBackup: 0,
                 chooseItemList: [],
                 chooseItemListBackup: [],
@@ -296,7 +297,7 @@
                 this.page = page;
                 let para = {
                     applyAge: this.chooseListSelectBackUp[1].join(','),
-                    status:'PASS',
+                    status: 'PASS',
                     date: this.value7,
                     kinds: this.chooseListSelectBackUp[0].join(','),
                     name: this.searchValue,
@@ -310,12 +311,12 @@
                     this.totalPages = res.data.totalElements;
                     this.lessonList = res.data.content;
                     if (page == 0) {
-                        this.$refs.my_scroller&&this.$refs.my_scroller.scrollTo(0, 0)
+                        this.$refs.my_scroller && this.$refs.my_scroller.scrollTo(0, 0)
                     }
                 }).then(res => {
                     if (this.totalPages <= 15 * (this.page + 1)) {
-                        this.$refs.my_scroller&&this.$refs.my_scroller.finishInfinite(2)
-                        this.page =Math.floor(this.totalPages/15)
+                        this.$refs.my_scroller && this.$refs.my_scroller.finishInfinite(2)
+                        this.page = Math.floor(this.totalPages / 15)
                     }
                     if (cb) cb()
                 })
@@ -400,7 +401,7 @@
             padding-left: .4rem;
             width: 100%;
             min-height: 2rem;
-    justify-content: flex-start;
+            justify-content: flex-start;
         }
         .hot {
             font-size: 12px;
@@ -409,11 +410,17 @@
             color: white;
             border-radius: .07rem;
             margin-right: .2rem;
+            margin-top: .07rem;
+            flex: 0 0 0.7rem;
+            text-align: center;
         }
         .lessonName {
-            padding: 0 .2rem 0 0;
-            // flex: 0 0 60%;
-            max-width: 60%;;
+            padding: 0 .2rem 0 0; // flex: 0 0 60%;
+            max-width: 60%;
+            min-width: 30%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
         }
         .lessonStatus {
             font-size: 12px;
@@ -421,8 +428,7 @@
             border: 1px solid #fa9b9a;
             border-radius: .3rem;
             padding: 0 .2rem;
-            margin-top:.05rem;
-            // margin-right:.4rem;
+            margin-top: .05rem; // margin-right:.4rem;
         }
         .lessonContent {
             font-size: 12px;
