@@ -60,7 +60,7 @@ router.beforeEach(function (to, from, next) {
         }).then(() => {
             getStudentInfoF(next, getStudentInfo, store)
         })
-      }else if(to.meta.type == 'teacher' && !tInfo){
+      }else if(to.meta.type == 'teacher' && !tInfo||to.meta.type == 'assistant' ){
         getTokenInfo(to.meta.type, {
           code: to.query.code,
           state:to.query.state
