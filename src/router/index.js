@@ -4,7 +4,7 @@ import store from '../vuex/store'
 import {
   getInfoTeacherF,
   getStudentInfoF,
-  setUuid
+  // setUuid
 } from './fn'
 import {
   TeacherRoutes
@@ -60,7 +60,7 @@ router.beforeEach(function (to, from, next) {
         }).then(() => {
             getStudentInfoF(next, getStudentInfo, store)
         })
-      }else if(to.meta.type == 'teacher' && !tInfo||to.meta.type == 'assistant'&& !tInfo ){
+      }else if(!tInfo){
         getTokenInfo(to.meta.type, {
           code: to.query.code,
           state:to.query.state
@@ -75,7 +75,7 @@ router.beforeEach(function (to, from, next) {
       localStorage.removeItem('teacherInfo');
       getAT({
         login_role: to.meta.type === 'student' ? 'student' : 'teacher',
-        code: setUuid(),
+        // code: setUuid(),
         url: to.fullPath.slice(1)
       })
     }
