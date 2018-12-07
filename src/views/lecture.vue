@@ -390,7 +390,7 @@
             display: flex;
             align-items: flex-start;
             padding: 0 0 .1rem;
-            justify-content: space-between;
+            justify-content: flex-start;
         }
         .lessonDetail {
             display: flex;
@@ -412,7 +412,8 @@
         }
         .lessonName {
             padding: 0 .2rem 0 0;
-            flex: 0 0 60%;
+            // flex: 0 0 60%;
+            max-width: 60%;;
         }
         .lessonStatus {
             font-size: 12px;
@@ -421,7 +422,7 @@
             border-radius: .3rem;
             padding: 0 .2rem;
             margin-top:.05rem;
-            margin-right:.4rem;
+            // margin-right:.4rem;
         }
         .lessonContent {
             font-size: 12px;
