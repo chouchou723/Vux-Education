@@ -32,11 +32,10 @@
         store.commit('changeTeacherInfo', { ...inf})
         if (inf.status.name !== 'PASS' && to.path !== '/applyFirst') {
           next({
-            path:`/applyFirst?code=${code}&state=${state}`,
-            replace: true
+            path:'/applyFirst'
           })
         }else {
-          next({path:to.path,replace: true,query:{...to.query,code:code,state:state}})
+          next()
         }
       })
     // }
