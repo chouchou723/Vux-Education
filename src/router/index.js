@@ -25,7 +25,7 @@ Vue.use(Router)
 const index = () =>
   import('@/views/index')
 const router = new Router({
-  mode: 'history',
+  // mode: 'history',
   routes: [{
       path: '/',
       component: index
@@ -49,7 +49,7 @@ router.beforeEach(function (to, from, next) {
   // let code =getParameter('code')
   let tInfo = localStorage.getItem('teacherInfo');
   // let sInfo = localStorage.getItem('info');
-  let unionId = sessionStorage.getItem('unionId')
+  // let unionId = sessionStorage.getItem('unionId')
   if (from.path === '/') {
     if (to.query.code) {
       store.commit('updateLoadingStatus', {
@@ -57,20 +57,16 @@ router.beforeEach(function (to, from, next) {
       })
       if(to.meta.type == 'student'){
         getTokenInfo(to.meta.type, {
-          code: to.query.code,
-          state:to.query.state,
-          unionId:unionId
+          code: to.query.code
         }).then(() => {
             getStudentInfoF(next, getStudentInfo, store)
         })
       }else{
         getTokenInfo(to.meta.type, {
-          code: to.query.code,
-          state:to.query.state,
-          unionId:unionId
+          code: to.query.code
         }).then(() => {
           if(!tInfo){
-            getInfoTeacherF(next, to, getInfoTeacher, store, to.query.code,to.query.state)
+            getInfoTeacherF(next, to, getInfoTeacher, store, to.query.code)
           }else{
             next()
           }
