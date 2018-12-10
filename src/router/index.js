@@ -63,17 +63,22 @@ router.beforeEach(function (to, from, next) {
         }).then(() => {
             getStudentInfoF(next, getStudentInfo, store)
         })
-      }else if(!tInfo){
+      }else{
         getTokenInfo(to.meta.type, {
           code: to.query.code,
           state:to.query.state,
           unionId:unionId
         }).then(() => {
+          if(!tInfo){
             getInfoTeacherF(next, to, getInfoTeacher, store, to.query.code,to.query.state)
+          }else{
+            next()
+          }
         })
-      }else{
-        next()
       }
+      // else{
+      //   next()
+      // }
       
     } else {
       localStorage.removeItem('teacherInfo');
