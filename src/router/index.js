@@ -54,19 +54,27 @@ router.beforeEach(function (to, from, next) {
       store.commit('updateLoadingStatus', {
         isLoading: true
       })
-      if(to.meta.type == 'student'&&!sInfo){
+      if(to.meta.type == 'student'){
         getTokenInfo(to.meta.type, {
           code: to.query.code,
           state:to.query.state
         }).then(() => {
+          if(!sInfo){
             getStudentInfoF(next, getStudentInfo, store)
+          }else{
+            next()
+          }
         })
-      }else if(to.meta.type == 'teacher'&&!tInfo){
+      }else if(to.meta.type == 'teacher'){
         getTokenInfo(to.meta.type, {
           code: to.query.code,
           state:to.query.state
         }).then(() => {
+          if(!tInfo){
             getInfoTeacherF(next, to, getInfoTeacher, store, to.query.code,to.query.state)
+          }else{
+            next()
+          }
         })
       }else{
         next()
