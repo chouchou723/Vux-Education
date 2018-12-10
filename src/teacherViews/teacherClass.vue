@@ -274,14 +274,14 @@
     justify-content: flex-start;
 
         }
-        .hot {
-            font-size: 12px;
-            padding: 0 .1rem;
-            background-color: #f76260;
-            color: white;
-            border-radius: .07rem;
-            margin-right: .2rem;
-        }
+        // .hot {
+        //     font-size: 12px;
+        //     padding: 0 .1rem;
+        //     background-color: #f76260;
+        //     color: white;
+        //     border-radius: .07rem;
+        //     margin-right: .2rem;
+        // }
         .lessonName {
             padding: 0 .2rem 0 0;
             // flex: 0 0 60%;  
