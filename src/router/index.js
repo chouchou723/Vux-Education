@@ -48,7 +48,8 @@ const router = new Router({
 router.beforeEach(function (to, from, next) {
   // let code =getParameter('code')
   let tInfo = localStorage.getItem('teacherInfo');
-  let sInfo = localStorage.getItem('info');
+  // let sInfo = localStorage.getItem('info');
+  let unionId = sessionStorage.getItem('unionId')
   if (from.path === '/') {
     if (to.query.code) {
       store.commit('updateLoadingStatus', {
@@ -57,24 +58,18 @@ router.beforeEach(function (to, from, next) {
       if(to.meta.type == 'student'){
         getTokenInfo(to.meta.type, {
           code: to.query.code,
-          state:to.query.state
+          state:to.query.state,
+          unionId:unionId
         }).then(() => {
-          if(!sInfo){
             getStudentInfoF(next, getStudentInfo, store)
-          }else{
-            next()
-          }
         })
-      }else if(to.meta.type == 'teacher'){
+      }else if(!tInfo){
         getTokenInfo(to.meta.type, {
           code: to.query.code,
-          state:to.query.state
+          state:to.query.state,
+          unionId:unionId
         }).then(() => {
-          if(!tInfo){
             getInfoTeacherF(next, to, getInfoTeacher, store, to.query.code,to.query.state)
-          }else{
-            next()
-          }
         })
       }else{
         next()
@@ -82,7 +77,7 @@ router.beforeEach(function (to, from, next) {
       
     } else {
       localStorage.removeItem('teacherInfo');
-      localStorage.removeItem('info');
+      // localStorage.removeItem('info');
       getAT({
         login_role: to.meta.type === 'student' ? 'student' : 'teacher',
         // code: setUuid(),

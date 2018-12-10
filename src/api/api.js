@@ -128,6 +128,7 @@ export const getTokenInfo = (role, params) => {
   }).then(res => {
     AjaxPlugin.$http.defaults.headers.common['access_token'] = res.data.data.accessToken;
     AjaxPlugin.$http.defaults.headers.common['unionId'] = res.data.data.unionId;
+    sessionStorage.setItem('unionId',res.data.data.unionId)
     return res.data
   });
 };
