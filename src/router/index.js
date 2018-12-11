@@ -4,7 +4,7 @@ import store from '../vuex/store'
 import {
   getInfoTeacherF,
   getStudentInfoF,
-  // setUuid
+  setUuid
 } from './fn'
 import {
   TeacherRoutes
