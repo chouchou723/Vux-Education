@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="isApp">
     <transition>
       <router-view></router-view>
     </transition>
@@ -58,7 +58,6 @@
       }
     },
     created() {
-      console.log(123)
       // window.confirm = function(name) {
       //   const iframe = document.createElement("IFRAME");
       //   iframe.style.display = "none";
