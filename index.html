@@ -20,10 +20,10 @@
       }</script> -->
   </head>
   <body>
-    <div id="app-box"></div>
+    <div id="app-box"><div id="isApp"></div></div>
     <script>
       var setReload = setInterval(function(){
-        var el = document.getElementById('isApp').hasChildNodes();
+        var el = document.getElementById('isApp').children.length;
         if(!el){
           window.location.reload();
         }else{
