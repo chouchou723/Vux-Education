@@ -58,15 +58,16 @@
       }
     },
     created() {
-      window.confirm = function(name) {
-        const iframe = document.createElement("IFRAME");
-        iframe.style.display = "none";
-        iframe.setAttribute("src", 'data:text/plain,');
-        document.documentElement.appendChild(iframe);
-        const result = window.frames[0].window.confirm(name);
-        iframe.parentNode.removeChild(iframe);
-        return result;
-      }
+      console.log(123)
+      // window.confirm = function(name) {
+      //   const iframe = document.createElement("IFRAME");
+      //   iframe.style.display = "none";
+      //   iframe.setAttribute("src", 'data:text/plain,');
+      //   document.documentElement.appendChild(iframe);
+      //   const result = window.frames[0].window.confirm(name);
+      //   iframe.parentNode.removeChild(iframe);
+      //   return result;
+      // }
     },
     methods: {
       // touchstart($event) {
