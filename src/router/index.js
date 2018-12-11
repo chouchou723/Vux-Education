@@ -81,7 +81,7 @@ router.beforeEach(function (to, from, next) {
       // localStorage.removeItem('info');
       getAT({
         login_role: to.meta.type === 'student' ? 'student' : 'teacher',
-        // code: setUuid(),
+        code: setUuid(),
         url: to.fullPath.slice(1)
       })
     }
