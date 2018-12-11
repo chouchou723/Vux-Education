@@ -1,47 +1,51 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <title>艺下教育</title>
-    <style>
-    body,html{
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+  <title>艺下教育</title>
+  <style>
+    body,
+    html {
       width: 100%;
       height: 100%;
       overflow-x: hidden;
     }
-    </style>
-    <!-- <script>// 对浏览器的UserAgent进行正则匹配，不含有微信独有标识的则为其他浏览器
+  </style>
+  <!-- <script>// 对浏览器的UserAgent进行正则匹配，不含有微信独有标识的则为其他浏览器
       var useragent = navigator.userAgent;
       if (useragent.match(/MicroMessenger/i) != 'MicroMessenger') {
       // 这里警告框会阻塞当前页面继续加载
       window.location.href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9e1bd78f2b780670&redirect_uri=http%253A%252F%252Feduweixin.test.artreedu.com%252F%252Fapi%252Fauth%252Fwechat_openid&response_type=code&scope=snsapi_userinfo&state=S%2526af73e8a7-442c-4e4b-964b-71cdb8c98e7f%2526student&connect_redirect=1#wechat_redirect"
 
       }</script> -->
-  </head>
-  <body>
-    <div id="app-box"></div>
-    <script>
-      window.alert = function(name){
-    var iframe = document.createElement("IFRAME");
-    iframe.style.display="none";
-    iframe.setAttribute("src", 'data:text/plain,');
-    document.documentElement.appendChild(iframe);
-    window.frames[0].window.alert(name);
-    iframe.parentNode.removeChild(iframe);
-}
-var count = sessionStorage.getItem('count')||0;
-      var setReload = setInterval(function(){
+</head>
+<body>
+  <div id="app-box"></div>
+  <script>
+    window.alert = function (name) {
+      var iframe = document.createElement("IFRAME");
+      iframe.style.display = "none";
+      iframe.setAttribute("src", 'data:text/plain,');
+      document.documentElement.appendChild(iframe);
+      window.frames[0].window.alert(name);
+      iframe.parentNode.removeChild(iframe);
+    }
+    var count = sessionStorage.getItem('count') || 0;
+    var setReload = setInterval(function () {
+      var isA = document.getElementById('isApp');
+      if(isA){
         var el = document.getElementById('isApp').children.length;
-        if(!el&&count===0){
+        if (!el && count === 0) {
           window.alert('页面重新加载')
           window.location.reload();
-          sessionStorage.setItem('count',1)
-        }else{
+          sessionStorage.setItem('count', 1)
+        } else {
           clearInterval(setReload)
         }
-      },2000)
-    </script>
-    <!-- built files will be auto injected -->
-  </body>
+      }
+    }, 2000)
+  </script>
+  <!-- built files will be auto injected -->
+</body>
 </html>
