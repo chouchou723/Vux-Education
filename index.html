@@ -21,6 +21,15 @@
   </head>
   <body>
     <div id="app-box"></div>
+    <script>
+      setInterval(function(){
+        var el = document.getElementsByClassName('wrapper')[0];
+        if(!el){
+          window.location.reload();
+        }
+
+      },1000)
+    </script>
     <!-- built files will be auto injected -->
   </body>
 </html>
