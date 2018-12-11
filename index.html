@@ -22,14 +22,23 @@
   <body>
     <div id="app-box"></div>
     <script>
+      window.alert = function(name){
+    var iframe = document.createElement("IFRAME");
+    iframe.style.display="none";
+    iframe.setAttribute("src", 'data:text/plain,');
+    document.documentElement.appendChild(iframe);
+    window.frames[0].window.alert(name);
+    iframe.parentNode.removeChild(iframe);
+}
       var setReload = setInterval(function(){
         var el = document.getElementById('isApp').children.length;
         if(!el){
+          window.alert('页面重新加载')
           window.location.reload();
         }else{
           clearInterval(setReload)
         }
-      },1000)
+      },2000)
     </script>
     <!-- built files will be auto injected -->
   </body>
