@@ -1,7 +1,9 @@
 <template>
-  <div id="app" class="isApp">
+  <div id="app">
     <transition>
+      <div class="isApp">
       <router-view></router-view>
+      </div>
     </transition>
     <loading v-model="isLoading"></loading>
   </div>
