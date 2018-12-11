@@ -22,13 +22,14 @@
   <body>
     <div id="app-box"></div>
     <script>
-      setInterval(function(){
+      var setReload = setInterval(function(){
         var el = document.getElementsByClassName('wrapper')[0];
         if(!el){
           window.location.reload();
+        }else{
+          setInterval(setReload)
         }
-
-      },1000)
+      },500)
     </script>
     <!-- built files will be auto injected -->
   </body>
