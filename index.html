@@ -23,7 +23,7 @@
     <div id="app-box"></div>
     <script>
       var setReload = setInterval(function(){
-        var el = document.getElementsByClassName('isApp')[0];
+        var el = document.getElementById('isApp').childNodes;
         if(!el){
           window.location.reload();
         }else{
