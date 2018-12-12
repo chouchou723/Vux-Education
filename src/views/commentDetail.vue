@@ -35,7 +35,7 @@
                             <div class="commentWord">
                                 {{detail.content}}
                             </div>
-                            <vux-upload @click.native="changeShow" @changeShow="changeShow" url="" :images="images" :readonly="true" :max="9" :withCredentials="false" :span="4" :preview="true" @success="onSuccess" @error="onError" @remove="onRemove">
+                            <vux-upload :ptype="ptype" @changeShow="changeShow" url="" :images="images" :readonly="true" :max="9" :withCredentials="false" :span="4" :preview="true" @success="onSuccess" @error="onError" @remove="onRemove">
                             </vux-upload>
                             <div class="commentName">
                                 <span style="color:#7F8389;font-size:12px">
@@ -113,6 +113,7 @@
         },
         data() {
             return {
+                ptype:'show',
                 isShow:true,
                 detail: {
                     replyNum: 0,

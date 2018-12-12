@@ -19,7 +19,7 @@
         </div>
       </flexbox-item>
     </flexbox>
-    <previewer :list="images" ref="previewer" @on-close="onClose"></previewer>
+    <previewer :list="images" ref="previewer" @click.native="onClose"></previewer>
   </div>
 </template>
 
@@ -41,6 +41,10 @@ export default {
     event: 'change'
   },
   props: {
+    ptype:{
+      type:String,
+      default:''
+    },
     images: {
       type: Array,
       default: () => []
@@ -109,7 +113,9 @@ export default {
   },
   methods: {
     onClose(){
-       this.$emit("changeShow")
+      if(this.ptype==='show'){
+        this.$emit("changeShow")
+      }
     },
     onChange (event) {
       // multi
