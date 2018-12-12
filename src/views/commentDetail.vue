@@ -35,7 +35,7 @@
                             <div class="commentWord">
                                 {{detail.content}}
                             </div>
-                            <vux-upload url="" :images="images" :readonly="true" :max="9" :withCredentials="false" :span="4" :preview="true" @success="onSuccess" @error="onError" @remove="onRemove">
+                            <vux-upload @click.native="changeShow" url="" :images="images" :readonly="true" :max="9" :withCredentials="false" :span="4" :preview="true" @success="onSuccess" @error="onError" @remove="onRemove">
                             </vux-upload>
                             <div class="commentName">
                                 <span style="color:#7F8389;font-size:12px">
@@ -73,7 +73,7 @@
                     <div style="font-size:14px;text-align:center;height:2rem;padding-top:.2rem">暂无评论</div>
                 </cell>
             </group>
-            <div class="footer" slot="bottom" @touchmove="touchmove">
+            <div class="footer" slot="bottom" @touchmove="touchmove" v-if="isShow">
                 <div class="footTexa">
                     <x-textarea ref="xinput" placeholder="评论" v-model="comm" :show-counter="false" :rows="1" autosize @on-focus='onFocus' @on-blur="onBlur" @on-change="onChange"></x-textarea>
                 </div>
@@ -113,6 +113,7 @@
         },
         data() {
             return {
+                isShow:true,
                 detail: {
                     replyNum: 0,
                     browseNum: 0,
@@ -149,6 +150,13 @@
             }
         },
         methods: {
+            changeShow(){
+                if(this.isShow){
+                    this.isShow = false;
+                }else{
+                    this.isShow = true;
+                }
+            },
             touchmove($event) {
                 $event.preventDefault()
             },

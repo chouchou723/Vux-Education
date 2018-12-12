@@ -19,7 +19,7 @@
         </div>
       </flexbox-item>
     </flexbox>
-    <previewer :list="images" ref="previewer"></previewer>
+    <previewer :list="images" ref="previewer" @on-close="changeShow"></previewer>
   </div>
 </template>
 
@@ -41,6 +41,10 @@ export default {
     event: 'change'
   },
   props: {
+    changeShow:{
+      type:Function,
+      default:function(){}
+    },
     images: {
       type: Array,
       default: () => []
