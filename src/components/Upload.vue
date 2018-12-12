@@ -19,7 +19,7 @@
         </div>
       </flexbox-item>
     </flexbox>
-    <previewer :list="images" ref="previewer" @on-close="changeShow"></previewer>
+    <previewer :list="images" ref="previewer" @on-close="onClose"></previewer>
   </div>
 </template>
 
@@ -41,10 +41,6 @@ export default {
     event: 'change'
   },
   props: {
-    changeShow:{
-      type:Function,
-      default:function(){}
-    },
     images: {
       type: Array,
       default: () => []
@@ -112,6 +108,9 @@ export default {
     }
   },
   methods: {
+    onClose(){
+       this.$emit("changeShow")
+    },
     onChange (event) {
       // multi
       let ff = [...event.target.files]
