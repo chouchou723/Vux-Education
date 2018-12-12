@@ -19,7 +19,7 @@
         </div>
       </flexbox-item>
     </flexbox>
-    <previewer :list="images" ref="previewer" @on-close="changeShow"></previewer>
+    <previewer :list="images" ref="previewer" @on-close="onClose"></previewer>
   </div>
 </template>
 
