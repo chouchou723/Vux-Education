@@ -31,9 +31,6 @@ const router = new Router({
       component: index
       // redirect: '/student'
     },
-    {
-      path: '/index',
-    },
     ...StudentRoutes,//学生路由
     ...TeacherRoutes,
     ...AssistantRoutes

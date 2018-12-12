@@ -85,7 +85,7 @@
       if(isA){
         var el = document.getElementById('isApp').children.length;
         if (!el && count === 0) {
-          window.alert('页面重新加载')
+          // window.alert('页面重新加载')
           window.location.reload();
           sessionStorage.setItem('count', 1)
         } else {
