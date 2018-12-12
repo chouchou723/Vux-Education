@@ -19,7 +19,7 @@
         </div>
       </flexbox-item>
     </flexbox>
-    <previewer :list="images" ref="previewer" @click.native="onClose"></previewer>
+    <previewer :list="images" ref="previewer" @on-close="onClose"></previewer>
   </div>
 </template>
 
@@ -210,6 +210,9 @@ export default {
     onPreview (index) {
       if (this.preview) {
         this.$refs.previewer.show(index);
+      }
+       if(this.ptype==='show'){
+        this.$emit("changeShow")
       }
     },
     onSuccess (res, file) {
