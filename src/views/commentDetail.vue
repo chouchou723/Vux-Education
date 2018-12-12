@@ -167,6 +167,7 @@
             },
             onBlur() {
                 clearInterval(this.timer)
+                document.body.scrollTop = document.body.scrollHeight   
                 this.showM = false
                 // document.querySelector(".footer").style.cssText += "bottom:0"
             },
@@ -325,18 +326,18 @@
             bottom: 0;
             background: #F9F9F9;
             display: flex;
-            z-index: 100;
+            z-index: 10;
         }
-        .footerFixed {
-            position: fixed;
-            width: 100%;
-            min-height: 1.306667rem;
-            left: 0;
-            bottom: 0;
-            background: white;
-            display: flex;
-            z-index: 100;
-        }
+        // .footerFixed {
+        //     position: fixed;
+        //     width: 100%;
+        //     min-height: 1.306667rem;
+        //     left: 0;
+        //     bottom: 0;
+        //     background: white;
+        //     display: flex;
+        //     z-index: 100;
+        // }
         .footTexa {
             flex: auto;
             .weui-cell {
