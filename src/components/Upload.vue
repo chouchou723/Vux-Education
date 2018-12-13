@@ -8,7 +8,6 @@
             <x-icon v-if="!readonly" type="ios-close" @click.native="onRemove(index, $event)" style="fill:#00a6e7"></x-icon>
           </div>
         </div>
-        
       </flexbox-item>
       <flexbox-item :span="span" v-show="!readonly && images.length < max">
         <div class="vux-upload-bg">
@@ -19,162 +18,172 @@
         </div>
       </flexbox-item>
     </flexbox>
-    <previewer :list="images" ref="previewer" @on-close="onClose"></previewer>
+    <previewer :list="images" ref="previewer" @on-close="onClose" :options="options"></previewer>
   </div>
 </template>
 
 <script>
-import { Flexbox, FlexboxItem, Previewer, InlineLoading } from 'vux'
-// import AjaxPlugin.$http. from 'AjaxPlugin.$http.'
-import { AjaxPlugin } from 'vux'
-// import lrz from 'lrz'
-import {uploadPic} from '../api/api'
-export default {
-  components: {
+  import {
     Flexbox,
     FlexboxItem,
     Previewer,
     InlineLoading
-  },
-  model: {
-    prop: 'images',
-    event: 'change'
-  },
-  props: {
-    ptype:{
-      type:String,
-      default:''
+  } from 'vux'
+  // import AjaxPlugin.$http. from 'AjaxPlugin.$http.'
+  import {
+    AjaxPlugin
+  } from 'vux'
+  // import lrz from 'lrz'
+  import {
+    uploadPic
+  } from '../api/api'
+  export default {
+    components: {
+      Flexbox,
+      FlexboxItem,
+      Previewer,
+      InlineLoading
     },
-    images: {
-      type: Array,
-      default: () => []
+    model: {
+      prop: 'images',
+      event: 'change'
     },
-    readonly: {
-      type: Boolean,
-      default: false
+    props: {
+      ptype: {
+        type: String,
+        default: ''
+      },
+      images: {
+        type: Array,
+        default: () => []
+      },
+      readonly: {
+        type: Boolean,
+        default: false
+      },
+      max: {
+        type: Number,
+        default: 9
+      },
+      beforeUpload: Function,
+      withCredentials: {
+        type: Boolean,
+        default: false
+      },
+      headers: {
+        type: Object,
+        default: () => {
+          return {}
+        }
+      },
+      data: {
+        type: Object,
+        default: () => {
+          return {}
+        }
+      },
+      url: {
+        type: String,
+        required: true
+      },
+      span: {
+        type: Number,
+        default: 4
+      },
+      accept: {
+        type: String,
+        default: 'image/*'
+      },
+      capture: {
+        type: String,
+        default: '*'
+      },
+      preview: {
+        type: Boolean,
+        default: true
+      },
+      compress: Object
     },
-    max: {
-      type: Number,
-      default: 9
-    },
-    beforeUpload: Function,
-    withCredentials: {
-      type: Boolean,
-      default: false
-    },
-    headers: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    },
-    data: {
-      type: Object,
-      default: () => {
-        return {}
-      }
-    },
-    url: {
-      type: String,
-      required: true
-    },
-    span: {
-      type: Number,
-      default: 4
-    },
-    accept: {
-      type: String,
-      default: 'image/*'
-    },
-    capture: {
-      type: String,
-      default: '*'
-    },
-    preview: {
-      type: Boolean,
-      default: true
-    },
-    compress: Object
-  },
-  data () {
-    return {
-      loading: false
-    }
-  },
-  created(){
-    // console.log(lrz)
-  },
-  watch: {
-    loading: function (newValue) {
-      if (!newValue) {
-        this.$refs['file'].value = ''
-      }
-    }
-  },
-  methods: {
-    onClose(){
-      if(this.ptype==='show'){
-        this.$emit("changeShow")
-      }
-    },
-    onChange (event) {
-      // multi
-      let ff = [...event.target.files]
-      if(this.images.length + ff.length >= this.max){
-        let dd = ff.slice(0,this.max-this.images.length)
-        dd.map(item=>{
-          if(item){
-            this.uploadFile(item)
-  
+    data() {
+      return {
+        loading: false,
+        options: {
+          isClickableElement: function(el) {
+            return true
           }
-        })
-      }else{
-        ff.map(item=>{
-          if(item){
-            this.uploadFile(item)
-  
-          }
-        })
-
+        }
       }
-      // 移动端仅支持单文件上传
-      // const file = event.target.files[0]
-      // if (!file) return
-
-      // this.uploadFile(file)
     },
-    uploadFile (file) {
-      // if (this.images.length >= this.max) {
-      //   return
-      // }
-      if (this.beforeUpload && typeof this.beforeUpload === 'function') {
-        const before = this.beforeUpload(file)
-        if (before && before.then) {
-          before.then(processedFile => {
-            const fileType = Object.prototype.toString.call(processedFile)
-            if (fileType === '[object File]' || fileType === '[object Blob]') {
-              this.post(processedFile);
-            } else {
-              this.post(file)
+    created() {
+      // console.log(lrz)
+    },
+    watch: {
+      loading: function(newValue) {
+        if (!newValue) {
+          this.$refs['file'].value = ''
+        }
+      }
+    },
+    methods: {
+      onClose() {
+        if (this.ptype === 'show') {
+          this.$emit("changeShow")
+        }
+      },
+      onChange(event) {
+        // multi
+        let ff = [...event.target.files]
+        if (this.images.length + ff.length >= this.max) {
+          let dd = ff.slice(0, this.max - this.images.length)
+          dd.map(item => {
+            if (item) {
+              this.uploadFile(item)
             }
           })
-        } else if (before !== false) {
+        } else {
+          ff.map(item => {
+            if (item) {
+              this.uploadFile(item)
+            }
+          })
+        }
+        // 移动端仅支持单文件上传
+        // const file = event.target.files[0]
+        // if (!file) return
+        // this.uploadFile(file)
+      },
+      uploadFile(file) {
+        // if (this.images.length >= this.max) {
+        //   return
+        // }
+        if (this.beforeUpload && typeof this.beforeUpload === 'function') {
+          const before = this.beforeUpload(file)
+          if (before && before.then) {
+            before.then(processedFile => {
+              const fileType = Object.prototype.toString.call(processedFile)
+              if (fileType === '[object File]' || fileType === '[object Blob]') {
+                this.post(processedFile);
+              } else {
+                this.post(file)
+              }
+            })
+          } else if (before !== false) {
+            this.post(file)
+          }
+        } else {
           this.post(file)
         }
-      } else {
-        this.post(file)
-      }
-    },
-    post (file) {
-      // console.log(file)
-      this.loading = true
-  // this.onSuccess(file, file)
-  // this.loading = false
-      // 压缩上传
-      // lrz(file, Object.assign({
-      //   quality: 0.7,
-      //   fieldName: 'file'
-      // }, this.compress)).then((rst) => {
+      },
+      post(file) {
+        // console.log(file)
+        this.loading = true
+        // this.onSuccess(file, file)
+        // this.loading = false
+        // 压缩上传
+        // lrz(file, Object.assign({
+        //   quality: 0.7,
+        //   fieldName: 'file'
+        // }, this.compress)).then((rst) => {
         // const data = rst.formData;
         // for (let key in this.data) {
         //   if (this.data.hasOwnProperty(key)) {
@@ -184,7 +193,7 @@ export default {
         let param = new FormData()
         param.append('Filedata', file, file.name)
         // let data = file
-        uploadPic( param, {
+        uploadPic(param, {
           headers: this.headers,
           // withCredentials: this.withCredentials
         }).then((response) => {
@@ -200,88 +209,88 @@ export default {
           this.onError(err, file)
           this.loading = false
         })
-      // }).catch((err) => {
-      //   this.onError(err, file)
-      // })
-    },
-    onProgress (e) {
-      this.loading = true
-    },
-    onPreview (index) {
-      if (this.preview) {
-        this.$refs.previewer.show(index);
+        // }).catch((err) => {
+        //   this.onError(err, file)
+        // })
+      },
+      onProgress(e) {
+        this.loading = true
+      },
+      onPreview(index) {
+        if (this.preview) {
+          this.$refs.previewer.show(index);
+        }
+        if (this.ptype === 'show') {
+          this.$emit("changeShow")
+        }
+      },
+      onSuccess(res, file) {
+        this.$emit('success', res, file)
+      },
+      onError(e, file) {
+        this.$emit('error', e, file)
+      },
+      onRemove(index, e) {
+        e.stopPropagation()
+        this.$emit('remove', index)
       }
-       if(this.ptype==='show'){
-        this.$emit("changeShow")
-      }
-    },
-    onSuccess (res, file) {
-      this.$emit('success', res, file)
-    },
-    onError (e, file) {
-      this.$emit('error', e, file)
-    },
-    onRemove (index, e) {
-      e.stopPropagation()
-      this.$emit('remove', index)
     }
   }
-}
 </script>
 
 <style lang="less">
-@import '~vux/src/styles/weui/widget/weui-uploader/index.less';
-
-.vux-upload {
-  overflow: initial;
-  width: 100%;
-  .vux-flexbox-item {
-    padding-top: 7px;
-    padding-bottom: 7px;
-    .vux-upload-bg {
-      .loading:before, .loading:after {
-        width: 0;
-        height: 0;
-      }
-      .weui-loading {
-        width: 30px;
-        height: 30px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-top: -15px;
-        margin-left: -15px;
-      }
-      width: 80%;
-      margin-left: 10%;
-      .vux-x-icon {
-        fill: #F70968;
-        position: absolute;
-        top: 0;
-        left: 100%;
-        width: 20px;
-        height: 20px;
-        transform: translate(-50%, -50%);
-      }
-      .vux-upload-content {
-        width: 100%;
-        height: 0;
-        padding-bottom: 100%;
-        margin: 0;
-        background-size: cover;
-        position: relative;
-        .whiteM{
-              position: absolute;
-              top: 0;
-              left: 100%;
-              width: 10px;
-              height: 10px;
-              -webkit-transform: translate(-50%, -50%);
-              transform: translate(-50%, -50%);
-              background: white;
+  @import '~vux/src/styles/weui/widget/weui-uploader/index.less';
+  .vux-upload {
+    overflow: initial;
+    width: 100%;
+    .vux-flexbox-item {
+      padding-top: 7px;
+      padding-bottom: 7px;
+      .vux-upload-bg {
+        .loading:before,
+        .loading:after {
+          width: 0;
+          height: 0;
+        }
+        .weui-loading {
+          width: 30px;
+          height: 30px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          margin-top: -15px;
+          margin-left: -15px;
+        }
+        width: 80%;
+        margin-left: 10%;
+        .vux-x-icon {
+          fill: #F70968;
+          position: absolute;
+          top: 0;
+          left: 100%;
+          width: 20px;
+          height: 20px;
+          transform: translate(-50%, -50%);
+        }
+        .vux-upload-content {
+          width: 100%;
+          height: 0;
+          padding-bottom: 100%;
+          margin: 0;
+          background-size: cover;
+          position: relative;
+          .whiteM {
+            position: absolute;
+            top: 0;
+            left: 100%;
+            width: 10px;
+            height: 10px;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            background: white;
+          }
         }
       }
     }
   }
-}
 </style>

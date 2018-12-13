@@ -42,7 +42,7 @@
                     {{detail.title}}
                 </div>
                 <div style="color:#999999" v-if="buyStatus">
-                    剩余{{detail.remainNum}}分
+                    剩余{{detail.remainNum}}积分
                 </div>
             </div>
         </div>
