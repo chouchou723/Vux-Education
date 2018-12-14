@@ -2,7 +2,8 @@
     <div class="teacherPublishLesson">
         <view-box ref="viewBox">
             <group title="课程名称" label-width="4.5em" label-margin-right="2em" :class="isBorder?'borderL':''">
-                <x-input :max="20" :is-type='nickname' v-model="valueTitle" placeholder="请填写您的课程名称" @on-blur="changeBorder(1)" @on-focus="changeBorder(2)"></x-input>
+                <!-- <x-input :max="20" :is-type='nickname' v-model="valueTitle" placeholder="请填写您的课程名称" @on-blur="changeBorder(1)" @on-focus="changeBorder(2)"></x-input> -->
+                <x-input :max="20"  v-model="valueTitle" placeholder="请填写您的课程名称" @on-blur="changeBorder(1)" @on-focus="changeBorder(2)"></x-input>
             </group>
             <group title="课程类型" label-width="4.5em" label-margin-right="2em" id="noborderBottom">
                 <tab custom-bar-width="60px" v-model="index01" active-color="#31a2cf">
