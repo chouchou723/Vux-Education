@@ -132,7 +132,7 @@
         // }
       },
       changeAlpha() {
-        this.picCap = `${this.apiUrl}/api/v1/captchas/pic_captcha?mobile=${this.value}&id=${this.remoteid}`;
+        this.picCap = `${this.apiUrl}/api/v1/sms/pic_captcha?mobile=${this.value}&id=${this.remoteid}`;
         this.remoteid++;
         // this.codeNumber1 = alphaTable[Math.floor(Math.random() * 26) + 1];
         // this.codeNumber2 = alphaTable[Math.floor(Math.random() * 26) + 1];
