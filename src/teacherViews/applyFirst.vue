@@ -34,7 +34,7 @@
                 <x-dialog v-model="showHideOnBlur" class="dialog-demo" hide-on-blur>
                     <div class="img-boxT">
                         <div class="motoTitle">请输入随机验证码</div>
-                        <x-input title="" placeholder="请输入(不区分大小写)" v-model="valueM" class="randomN" :max='4' @on-blur="onBlur">
+                        <x-input title="" placeholder="请输入(不区分大小写)" v-model="valueM" class="randomN" :max='4' ref="xinput" @on-blur="onBlur">
                             <img slot="right-full-height" :src="picCap" @click="changeAlpha">
                             <!-- <div slot="right-full-height" class="randomMoto" @click="changeAlpha">
                                         <span class="codeColor">{{codeNumber1}}</span>
@@ -247,25 +247,26 @@
                 // this.codeNumber4 = alphaTable[Math.floor(Math.random() * 26) + 1];
                 // this.randomNumber();
             },
-            randomNumber() {
-                let color = "";
-                let str = "0123456789abcdef";
-                let span = document.getElementsByClassName("codeColor");
-                let length = str.length + 1;
-                for (let i = 0; i < 4; i++) { //生成四位数
-                    for (let j = 0; j < 6; j++) { //随机改变每个数字的颜色
-                        color += str.substr(parseInt(Math.random() * length), 1); //取颜色(循环，每次提取一位，进行拼接组成6为颜色的值)
-                    }
-                    span[i].style.color = ("#" + color); //随机改变每个span的颜色
-                    color = "";
-                }
-            },
+            // randomNumber() {
+            //     let color = "";
+            //     let str = "0123456789abcdef";
+            //     let span = document.getElementsByClassName("codeColor");
+            //     let length = str.length + 1;
+            //     for (let i = 0; i < 4; i++) { //生成四位数
+            //         for (let j = 0; j < 6; j++) { //随机改变每个数字的颜色
+            //             color += str.substr(parseInt(Math.random() * length), 1); //取颜色(循环，每次提取一位，进行拼接组成6为颜色的值)
+            //         }
+            //         span[i].style.color = ("#" + color); //随机改变每个span的颜色
+            //         color = "";
+            //     }
+            // },
             validMoto() {
                 this.valueM = ''
                 if (this.countTime === 60) {
                     if (this.value.length === 11) {
                         this.changeAlpha();
                         this.showHideOnBlur = true;
+                        this.$refs.xinput.focus();
                     } else if (this.value && this.value.length < 11) {
                         this.$vux.toast.show({
                             text: '请填写正确的手机号',
