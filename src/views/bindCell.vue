@@ -165,9 +165,6 @@
           if (this.value.length === 11) {
             this.changeAlpha();
             this.showHideOnBlur = true;
-            setTimeout(()=>{
-              document.querySelector('.randomN .weui-input').focus()           
-            },200)
           } else if (this.value && this.value.length < 11) {
             this.$vux.toast.show({
               text: '请填写正确的手机号',
