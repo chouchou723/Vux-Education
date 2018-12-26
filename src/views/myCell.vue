@@ -119,7 +119,7 @@
         })
       },
       changeAlpha() {
-        this.picCap = `${this.base}/api/v1/captchas/pic_captcha?mobile=${this.cellNumber}&id=${this.remoteid}`;
+        this.picCap = `${this.base}/api/v1/captchas/pic_captcha?mobile=${this.value}&id=${this.remoteid}`;
         this.remoteid++;
         // this.codeNumber1 = alphaTable[Math.floor(Math.random() * 26) + 1];
         // this.codeNumber2 = alphaTable[Math.floor(Math.random() * 26) + 1];
