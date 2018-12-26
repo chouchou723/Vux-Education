@@ -358,6 +358,12 @@ export const submitSmsCode = (params) => {
   // axios.defaults.headers.common['Authorization'] = token.Authorization;
   return AjaxPlugin.$http.post(`${base}/api/sms/bind`, params).then(res => res.data);
 };
+
+//获取图片验证码 
+export const getPicCap = (mobile) => {
+  // axios.defaults.headers.common['Authorization'] = token.Authorization;
+  return AjaxPlugin.$http.get(`${base}/api/sms/pic_captcha?mobile=${mobile}`).then(res => res.data);
+};
 //学生验证验证码
 export const submitStudentSmsCode = (params) => {
   // axios.defaults.headers.common['Authorization'] = token.Authorization;
