@@ -34,14 +34,14 @@
                 <x-dialog v-model="showHideOnBlur" class="dialog-demo" hide-on-blur>
                     <div class="img-boxT">
                         <div class="motoTitle">请输入随机验证码</div>
-                        <x-input title="" placeholder="请输入(不区分大小写)" v-model="valueM" class="randomN" :max='4'>
-                            <div slot="right-full-height" class="randomMoto" @click="changeAlpha">
-                                <!-- <span v-for="(r,index) in randomE" :key="'rr'+index">{{r}}</span> -->
-                                <span class="codeColor">{{codeNumber1}}</span>
-                                <span class="codeColor">{{codeNumber2}}</span>
-                                <span class="codeColor">{{codeNumber3}}</span>
-                                <span class="codeColor">{{codeNumber4}}</span>
-                            </div>
+                        <x-input title="" placeholder="请输入(不区分大小写)" v-model="valueM" class="randomN" :max='4' @on-blur="onBlur">
+                            <img slot="right-full-height" :src="picCap" @click="changeAlpha">
+                            <!-- <div slot="right-full-height" class="randomMoto" @click="changeAlpha">
+                                        <span class="codeColor">{{codeNumber1}}</span>
+                                        <span class="codeColor">{{codeNumber2}}</span>
+                                        <span class="codeColor">{{codeNumber3}}</span>
+                                        <span class="codeColor">{{codeNumber4}}</span>
+                                    </div> -->
                         </x-input>
                         <div style="margin:5% 30%">
                             <x-button @click.native="doShowToast" :disabled="valueM.length!==4" type="primary">确定</x-button>
@@ -93,14 +93,15 @@
         XDialog,
         TransferDomDirective as TransferDom
     } from 'vux';
-    var alphaTable = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'I', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'e', 'x', 'y', 'z', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S'];
+    // var alphaTable = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'm', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'I', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'e', 'x', 'y', 'z', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S'];
     import teacherInfo from './teacherInfo'
     import {
         getSmsCode,
         submitSmsCode,
         editTeacherInfo,
         editTeacherEdu,
-        editTeacherExp
+        editTeacherExp,
+        getPicCap
     } from '../api/api'
     import {
         mapActions,
@@ -137,10 +138,12 @@
                 cerIdArr: [],
                 valueM: '',
                 showHideOnBlur: false,
-                codeNumber1: alphaTable[Math.floor(Math.random() * 26) + 1],
-                codeNumber2: alphaTable[Math.floor(Math.random() * 26) + 1],
-                codeNumber3: alphaTable[Math.floor(Math.random() * 26) + 1],
-                codeNumber4: alphaTable[Math.floor(Math.random() * 26) + 1],
+                picCap: '',
+                remoteid: 0
+                // codeNumber1: alphaTable[Math.floor(Math.random() * 26) + 1],
+                // codeNumber2: alphaTable[Math.floor(Math.random() * 26) + 1],
+                // codeNumber3: alphaTable[Math.floor(Math.random() * 26) + 1],
+                // codeNumber4: alphaTable[Math.floor(Math.random() * 26) + 1],
             }
         },
         created() {
@@ -186,26 +189,63 @@
             }, false);
         },
         methods: {
+            onBlur(){
+         document.body.scrollTop = 0
+        document.documentElement.scrollTop = 0
+      },
             doShowToast() {
-                let a = this.valueM.toLowerCase();
-                let b = this.correct.toLowerCase();
-                if (a == b) {
-                    this.getCode();
+                let para = {
+                    mobile: this.value,
+                    picCaptcha: this.valueM
+                }
+                getSmsCode(para).then(res => {
                     this.showHideOnBlur = false;
-                } else {
                     this.$vux.toast.show({
-                        text: '请填写正确的验证码',
+                        text: '验证码已发送',
                         type: 'text',
                         width: 'auto'
                     })
-                }
+                }).then(() => {
+                    this.count = true;
+                    this.countStart = setInterval(() => {
+                        if (this.countTime == 1) {
+                            clearInterval(this.countStart)
+                            this.countTime = 60;
+                            this.count = false;
+                        } else {
+                            this.countTime--
+                        }
+                    }, 1000)
+                }).catch(() => {
+                    this.valueM = '';
+                    this.changeAlpha();
+                    // this.$vux.toast.show({
+                    //   text: '请填写正确的验证码',
+                    //   type: 'text',
+                    //   width: 'auto'
+                    // })
+                })
+                // let a = this.valueM.toLowerCase();
+                // let b = this.correct.toLowerCase();
+                // if (a == b) {
+                //   this.getCode();
+                //   this.showHideOnBlur = false;
+                // } else {
+                //   this.$vux.toast.show({
+                //     text: '请填写正确的验证码',
+                //     type: 'text',
+                //     width: 'auto'
+                //   })
+                // }
             },
             changeAlpha() {
-                this.codeNumber1 = alphaTable[Math.floor(Math.random() * 26) + 1];
-                this.codeNumber2 = alphaTable[Math.floor(Math.random() * 26) + 1];
-                this.codeNumber3 = alphaTable[Math.floor(Math.random() * 26) + 1];
-                this.codeNumber4 = alphaTable[Math.floor(Math.random() * 26) + 1];
-                this.randomNumber();
+                this.picCap = `${this.apiUrl}/api/sms/pic_captcha?mobile=${this.value}&id=${this.remoteid}`;
+                this.remoteid++;
+                // this.codeNumber1 = alphaTable[Math.floor(Math.random() * 26) + 1];
+                // this.codeNumber2 = alphaTable[Math.floor(Math.random() * 26) + 1];
+                // this.codeNumber3 = alphaTable[Math.floor(Math.random() * 26) + 1];
+                // this.codeNumber4 = alphaTable[Math.floor(Math.random() * 26) + 1];
+                // this.randomNumber();
             },
             randomNumber() {
                 let color = "";
@@ -393,62 +433,62 @@
                     });
                 }
             },
-            getCode() {
-                let para = {
-                    mobile: this.value
-                }
-                getSmsCode(para).then(res => {
-                    this.$vux.toast.show({
-                        text: '验证码已发送',
-                        type: 'text',
-                        width: 'auto'
-                    })
-                }).then(() => {
-                    this.count = true;
-                    this.countStart = setInterval(() => {
-                        if (this.countTime == 1) {
-                            clearInterval(this.countStart)
-                            this.countTime = 60;
-                            this.count = false;
-                        } else {
-                            this.countTime--
-                        }
-                    }, 1000)
-                })
-                // if (this.countTime === 60) {
-                //     if (this.value.length === 11) {
-                //         let para = {
-                //             mobile: this.value
-                //         }
-                //         getSmsCode(para).then(res => {
-                //             // console.log(res)
-                //         }).then(() => {
-                //             this.count = true;
-                //             this.countStart = setInterval(() => {
-                //                 if (this.countTime == 1) {
-                //                     clearInterval(this.countStart)
-                //                     this.countTime = 60;
-                //                     this.count = false;
-                //                 } else {
-                //                     this.countTime--
-                //                 }
-                //             }, 1000)
-                //         })
-                //     } else if (this.value.length < 11) {
-                //         this.$vux.toast.show({
-                //             text: '请填写正确的手机号',
-                //             type: 'text',
-                //             width: 'auto'
-                //         })
-                //     } else {
-                //         this.$vux.toast.show({
-                //             text: '请先填写手机号',
-                //             type: 'text',
-                //             width: 'auto'
-                //         })
-                //     }
-                // }
-            },
+            // getCode() {
+            //     let para = {
+            //         mobile: this.value
+            //     }
+            //     getSmsCode(para).then(res => {
+            //         this.$vux.toast.show({
+            //             text: '验证码已发送',
+            //             type: 'text',
+            //             width: 'auto'
+            //         })
+            //     }).then(() => {
+            //         this.count = true;
+            //         this.countStart = setInterval(() => {
+            //             if (this.countTime == 1) {
+            //                 clearInterval(this.countStart)
+            //                 this.countTime = 60;
+            //                 this.count = false;
+            //             } else {
+            //                 this.countTime--
+            //             }
+            //         }, 1000)
+            //     })
+            //     // if (this.countTime === 60) {
+            //     //     if (this.value.length === 11) {
+            //     //         let para = {
+            //     //             mobile: this.value
+            //     //         }
+            //     //         getSmsCode(para).then(res => {
+            //     //             // console.log(res)
+            //     //         }).then(() => {
+            //     //             this.count = true;
+            //     //             this.countStart = setInterval(() => {
+            //     //                 if (this.countTime == 1) {
+            //     //                     clearInterval(this.countStart)
+            //     //                     this.countTime = 60;
+            //     //                     this.count = false;
+            //     //                 } else {
+            //     //                     this.countTime--
+            //     //                 }
+            //     //             }, 1000)
+            //     //         })
+            //     //     } else if (this.value.length < 11) {
+            //     //         this.$vux.toast.show({
+            //     //             text: '请填写正确的手机号',
+            //     //             type: 'text',
+            //     //             width: 'auto'
+            //     //         })
+            //     //     } else {
+            //     //         this.$vux.toast.show({
+            //     //             text: '请先填写手机号',
+            //     //             type: 'text',
+            //     //             width: 'auto'
+            //     //         })
+            //     //     }
+            //     // }
+            // },
             ...mapActions([
                 'setStep', 'setTeacherInfo'
             ]),
