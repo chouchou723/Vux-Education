@@ -14,7 +14,7 @@
       <x-dialog v-model="showHideOnBlur" class="dialog-demo" hide-on-blur>
         <div class="img-box">
           <div class="motoTitle">请输入随机验证码</div>
-          <x-input title="" placeholder="请输入(不区分大小写)" v-model="valueM" class="randomN" :max='4'>
+          <x-input title="" placeholder="请输入(不区分大小写)" v-model="valueM" class="randomN" :max='4' @on-blur="onBlur">
             <img slot="right-full-height" :src="picCap" @click="changeAlpha">
             <!-- <div slot="right-full-height" class="randomMoto" @click="changeAlpha">
                   <span v-for="(r,index) in randomE" :key="'rr'+index">{{r}}</span>
@@ -88,6 +88,10 @@
       // this.randomNumber();
     },
     methods: {
+      onBlur(){
+         document.body.scrollTop = 0
+        document.documentElement.scrollTop = 0
+      },
       doShowToast() {
         let para = {
           mobile: this.value,
