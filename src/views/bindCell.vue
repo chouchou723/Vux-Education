@@ -165,9 +165,8 @@
           if (this.value.length === 11) {
             this.changeAlpha();
             this.showHideOnBlur = true;
-            console.log(this.$refs.xxx)
             setTimeout(()=>{
-            console.log(this.$refs.xxx)
+            this.$refs.xxx.focus()
             },100)
           } else if (this.value && this.value.length < 11) {
             this.$vux.toast.show({
