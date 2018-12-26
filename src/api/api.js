@@ -29,7 +29,7 @@ AjaxPlugin.$http.interceptors.response.use(function (response) {
       text: response.data.msg,
       width: 'auto',
       type: 'text',
-      position: 'middle'
+      // position: 'middle'
     })
   }
 }, function (err) {
