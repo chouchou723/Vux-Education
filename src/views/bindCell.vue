@@ -112,11 +112,11 @@
             }
           }, 1000)
         }).catch(() => {
-          this.$vux.toast.show({
-            text: '请填写正确的验证码',
-            type: 'text',
-            width: 'auto'
-          })
+          // this.$vux.toast.show({
+          //   text: '请填写正确的验证码',
+          //   type: 'text',
+          //   width: 'auto'
+          // })
         })
         // let a = this.valueM.toLowerCase();
         // let b = this.correct.toLowerCase();
