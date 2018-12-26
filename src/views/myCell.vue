@@ -111,6 +111,7 @@
             }
           }, 1000)
         }).catch(() => {
+          this.valueM = '';
           this.changeAlpha()
           // this.$vux.toast.show({
           //   text: '请填写正确的验证码',
