@@ -14,7 +14,7 @@
       <x-dialog v-model="showHideOnBlur" class="dialog-demo" hide-on-blur>
         <div class="img-box">
           <div class="motoTitle">请输入随机验证码</div>
-          <x-input title="" placeholder="请输入(不区分大小写)" v-model="valueM" class="randomN" :max='4' ref="xinput" @on-blur="onBlur">
+          <x-input title="" placeholder="请输入(不区分大小写)" v-model="valueM" class="randomN" :max='4' ref="xxx" @on-blur="onBlur">
             <img slot="right-full-height" :src="picCap" @click="changeAlpha">
             <!-- <div slot="right-full-height" class="randomMoto" @click="changeAlpha">
                 <span class="codeColor">{{codeNumber1}}</span>
@@ -152,6 +152,9 @@
           if (this.value.length === 11) {
             this.changeAlpha();
             this.showHideOnBlur = true;
+             setTimeout(()=>{
+            this.$refs.xxx.focus()
+            },100)
           } else if (this.value && this.value.length < 11) {
             this.$vux.toast.show({
               text: '请填写正确的手机号',

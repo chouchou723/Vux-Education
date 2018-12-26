@@ -34,14 +34,14 @@
                 <x-dialog v-model="showHideOnBlur" class="dialog-demo" hide-on-blur>
                     <div class="img-boxT">
                         <div class="motoTitle">请输入随机验证码</div>
-                        <x-input title="" placeholder="请输入(不区分大小写)" v-model="valueM" class="randomN" :max='4' ref="xinput" @on-blur="onBlur">
+                        <x-input title="" placeholder="请输入(不区分大小写)" v-model="valueM" class="randomN" :max='4' ref="xxx" @on-blur="onBlur">
                             <img slot="right-full-height" :src="picCap" @click="changeAlpha">
                             <!-- <div slot="right-full-height" class="randomMoto" @click="changeAlpha">
-                                        <span class="codeColor">{{codeNumber1}}</span>
-                                        <span class="codeColor">{{codeNumber2}}</span>
-                                        <span class="codeColor">{{codeNumber3}}</span>
-                                        <span class="codeColor">{{codeNumber4}}</span>
-                                    </div> -->
+                                            <span class="codeColor">{{codeNumber1}}</span>
+                                            <span class="codeColor">{{codeNumber2}}</span>
+                                            <span class="codeColor">{{codeNumber3}}</span>
+                                            <span class="codeColor">{{codeNumber4}}</span>
+                                        </div> -->
                         </x-input>
                         <div style="margin:5% 30%">
                             <x-button @click.native="doShowToast" :disabled="valueM.length!==4" type="primary">确定</x-button>
@@ -189,10 +189,10 @@
             }, false);
         },
         methods: {
-            onBlur(){
-         document.body.scrollTop = 0
-        document.documentElement.scrollTop = 0
-      },
+            onBlur() {
+                document.body.scrollTop = 0
+                document.documentElement.scrollTop = 0
+            },
             doShowToast() {
                 let para = {
                     mobile: this.value,
@@ -266,6 +266,9 @@
                     if (this.value.length === 11) {
                         this.changeAlpha();
                         this.showHideOnBlur = true;
+                        setTimeout(() => {
+                            this.$refs.xxx.focus()
+                        }, 100)
                     } else if (this.value && this.value.length < 11) {
                         this.$vux.toast.show({
                             text: '请填写正确的手机号',
