@@ -264,11 +264,12 @@
                 this.valueM = ''
                 if (this.countTime === 60) {
                     if (this.value.length === 11) {
+                        this.onBlur();
                         this.changeAlpha();
                         this.showHideOnBlur = true;
-                        setTimeout(() => {
-                            this.$refs.xxx.focus()
-                        }, 100)
+                        // setTimeout(() => {
+                        //     this.$refs.xxx.focus()
+                        // }, 100)
                     } else if (this.value && this.value.length < 11) {
                         this.$vux.toast.show({
                             text: '请填写正确的手机号',

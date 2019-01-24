@@ -83,7 +83,7 @@ AjaxPlugin.$http.interceptors.response.use(function (response) {
 });
 // let base ='';
 // let base = 'https://api.ysjy.artreedu.com';
-let base = 'https://eduweixin.test.artreedu.com';
+let base = process.env.API_ROOT;//'https://eduweixin.test.artreedu.com';
 // access_token  : 24680
 // login_role  :  student
 // unionId  :  ohzciv91EysSA6kUFOQ24LBsZBDw
